@@ -43,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnLook(InputValue value)
     {
+        IsCameraStuck();
         Vector2 inputVector = value.Get<Vector2>();
 
         float mouseX = inputVector.x * sensivityX;
@@ -53,5 +54,15 @@ public class PlayerMovement : MonoBehaviour
         yRotation = Mathf.Clamp(yRotation, -90, 90);
 
         Camera.main.transform.eulerAngles = new Vector3(yRotation, xRotation);
+    }
+
+    private void IsCameraStuck()
+    {
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        RaycastHit raycastHit; 
+        if (Physics.Raycast(ray, out raycastHit, 1.0f) == true)
+        {
+            //Camera.main.transform.position -= -transform.forward * raycastHit.distance;
+        }
     }
 }
