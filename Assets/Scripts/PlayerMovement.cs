@@ -24,7 +24,6 @@ public class PlayerMovement : MonoBehaviour
         Cursor.visible = false;
     }
 
-    // Update is called once per frame
     private void FixedUpdate()
     {
         moveDirection = new Vector3(moveVal.x, 0f, moveVal.z);
