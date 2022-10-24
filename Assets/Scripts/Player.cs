@@ -4,23 +4,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-        
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag.Equals("Witch"))
         {
             StateManager.Instance.PlayerHealth--;
             
-            // trigger player hit event
+            // Trigger player hit event
             StateManager.Instance.PlayerHit();
         }
     }
@@ -31,7 +21,9 @@ public class Player : MonoBehaviour
                 return;
 
         // Add item pickup
-        Debug.Log("Picked up Item");
+        Item item = other.gameObject.GetComponent<Item>();
+        Debug.Log("Picked up Item: " + item.Name);
+
         Destroy(other.gameObject);
     }
 }

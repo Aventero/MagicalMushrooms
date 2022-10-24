@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
         healthObjects = CreateIcons(HealthSprite, "HealthIcon", StateManager.Instance.PlayerHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f);
     }
 
-    private GameObject[] CreateIcons(Sprite icon, string displayName, int numberOfIcons, Vector2 anchor, Vector2 pivot, float scale)
+    public GameObject[] CreateIcons(Sprite icon, string displayName, int numberOfIcons, Vector2 anchor, Vector2 pivot, float scale)
     {
         GameObject[] iconArray = new GameObject[numberOfIcons];
 
