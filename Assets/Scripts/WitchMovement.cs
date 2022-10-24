@@ -16,6 +16,6 @@ public class WitchMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        agent.destination = Destination.position;
+        //agent.destination = Destination.position;
     }
 }
