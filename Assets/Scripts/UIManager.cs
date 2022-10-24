@@ -28,42 +28,41 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        healthObjects = new GameObject[StateManager.Instance.PlayerHealth];
         CanvasRect = this.GetComponent<RectTransform>();
         
         StateManager.Instance.PlayerHit += OnPlayerHit;
-        CreateHealthIcons();
+        healthObjects = CreateIcons(HealthSprite, "HealthIcon", StateManager.Instance.PlayerHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f);
     }
 
-    void Update()
+    private GameObject[] CreateIcons(Sprite icon, string displayName, int numberOfIcons, Vector2 anchor, Vector2 pivot, float scale)
     {
-        
-    }
+        GameObject[] iconArray = new GameObject[numberOfIcons];
 
-    private void CreateHealthIcons()
-    {
-        float scale = 0.2f;
-        for(int i = 0; i < StateManager.Instance.PlayerHealth; i++)
+        for (int i = 0; i < numberOfIcons; i++)
         {
             // Spawn new health icon
-            GameObject newHealthIcon = new GameObject("HealthIcon");
-            newHealthIcon.transform.parent = this.transform;
+            GameObject newIcon = new GameObject(displayName);
+            newIcon.transform.parent = this.transform;
 
             // position the icon
-            RectTransform rectTransform = newHealthIcon.AddComponent<RectTransform>();
-            rectTransform.anchorMin = new Vector2(0, 1);
-            rectTransform.anchorMax = new Vector2(0, 1);
-            rectTransform.pivot = new Vector2(0, 1);
+            RectTransform rectTransform = newIcon.AddComponent<RectTransform>();
+
+            // Set anchor point and the pivot to the top left corner
+            rectTransform.anchorMin = anchor;
+            rectTransform.anchorMax = anchor;
+            rectTransform.pivot = pivot;
             rectTransform.localScale = new Vector3(scale, scale);
 
             rectTransform.anchoredPosition = new Vector2(i * (rectTransform.rect.width * scale), 0);
 
-            // set the icon sprite
-            Image image = newHealthIcon.AddComponent<Image>();
-            image.sprite = HealthSprite;
+            // Add the sprite
+            Image image = newIcon.AddComponent<Image>();
+            image.sprite = icon;
 
-            healthObjects[i] = newHealthIcon;
+            iconArray[i] = newIcon;
         }
+
+        return iconArray;
     }
 
     public void OnPlayerHit()
