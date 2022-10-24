@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private int playerHealth = 3;
-
     void Start()
     {
+
     }
 
     void Update()
@@ -17,11 +16,13 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collision!");
-        Debug.Log(collision.gameObject.name);
-
         if (collision.gameObject.tag.Equals("Witch"))
-            playerHealth--;
+        {
+            StateManager.Instance.PlayerHealth--;
+            
+            // trigger player hit event
+            StateManager.Instance.PlayerHit();
+        }
     }
 
     private void OnTriggerEnter(Collider other)

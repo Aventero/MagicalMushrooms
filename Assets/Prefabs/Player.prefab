@@ -161,7 +161,7 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 1
+  m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0
@@ -180,6 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9c4798d48a9c4fb28da1c66ab03cf79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHealth: 3
 --- !u!1 &2857605710249577893
 GameObject:
   m_ObjectHideFlags: 0

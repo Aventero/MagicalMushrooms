@@ -40,7 +40,6 @@ public class PlayerMovement : MonoBehaviour
         moveVal = new Vector3(inputVector.x, 0, inputVector.y);
     }
 
-
     public void OnLook(InputValue value)
     {
         IsCameraStuck();
