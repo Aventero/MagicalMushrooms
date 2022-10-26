@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
         Item item = other.gameObject.GetComponent<Item>();
         Debug.Log("Picked up Item: " + item.Name);
 
+        UIManager.Instance.AddIcon(item.Icon, item.Name);
+
         Destroy(other.gameObject);
     }
 }
