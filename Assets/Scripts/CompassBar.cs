@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class CompassBar : MonoBehaviour
 {
     public float SpriteScale = 0.3f;
-    public RectTransform FirstMarker;
-    public GameObject target;
 
     private RectTransform compassTransform;
     private List<(GameObject, GameObject)> itemList;
