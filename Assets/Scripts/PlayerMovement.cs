@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
 
+    private bool isJumpPressed = false;
+
     void Start()
     {
         characterController = this.GetComponent<CharacterController>();
