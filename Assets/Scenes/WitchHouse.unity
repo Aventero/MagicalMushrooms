@@ -749,6 +749,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dach_Raum2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 36a849c4abf2f544794b4ecea3a2e0f1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36a849c4abf2f544794b4ecea3a2e0f1, type: 3}
 --- !u!1001 &1120209139
@@ -1065,10 +1070,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2857605709861750658, guid: a23fa7abc541c4eb6bfb454e46d4efc2,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1b3625b6eeabeff46aa391f49aec8fa2, type: 2}
     - target: {fileID: 2857605709861750716, guid: a23fa7abc541c4eb6bfb454e46d4efc2,
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857605710249577899, guid: a23fa7abc541c4eb6bfb454e46d4efc2,
+        type: 3}
+      propertyPath: orthographic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857605710249577899, guid: a23fa7abc541c4eb6bfb454e46d4efc2,
+        type: 3}
+      propertyPath: field of view
+      value: 60.000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857605710249577899, guid: a23fa7abc541c4eb6bfb454e46d4efc2,
+        type: 3}
+      propertyPath: m_FOVAxisMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857605710249577899, guid: a23fa7abc541c4eb6bfb454e46d4efc2,
+        type: 3}
+      propertyPath: m_FocalLength
+      value: 20.78461
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857605710249577899, guid: a23fa7abc541c4eb6bfb454e46d4efc2,
+        type: 3}
+      propertyPath: m_projectionMatrixMode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
@@ -1089,7 +1124,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1357094734
 Light:
   m_ObjectHideFlags: 0
@@ -1194,6 +1229,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8700617353114198275, guid: aa3fbbc0cb13a09498d6cc375cc2a27c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa3fbbc0cb13a09498d6cc375cc2a27c,
         type: 3}
       propertyPath: m_RootOrder
@@ -1248,6 +1288,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6722085885383957590, guid: aa3fbbc0cb13a09498d6cc375cc2a27c,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 801828538753691642, guid: aa3fbbc0cb13a09498d6cc375cc2a27c,
         type: 3}
@@ -1304,7 +1349,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1718857866
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1701,6 +1746,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexenhaus1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cf7dc791c76063d42a31befe0c32c568,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf7dc791c76063d42a31befe0c32c568, type: 3}
