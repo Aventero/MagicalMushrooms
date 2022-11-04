@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -63,8 +62,7 @@ public class CompassBar : MonoBehaviour
                 }
                 else
                 {
-                    UpdateMarkerPosition(currentTuple.Item1, currentTuple.Item2.GetComponent<RectTransform>());
-                    UpdateItemDistance(distance, currentTuple.Item2);
+                    UpdateMarker(currentTuple.Item1, currentTuple.Item2.GetComponent<RectTransform>());
                 }
             }
             else
@@ -78,20 +76,6 @@ public class CompassBar : MonoBehaviour
         }
     }
 
-    private void UpdateItemDistance(float distance, GameObject iconObject)
-    {
-        TMP_Text distanceText = iconObject.GetComponentInChildren<TMP_Text>();
-        distanceText.text = distance.ToString("F1") + " m";
-    }
-
-    private void UpdateMarkerPosition(GameObject target, RectTransform marker)
-    {
-        Vector3 targetDirection = (target.transform.position - Camera.main.transform.position).normalized;
-        float angle = Vector2.SignedAngle(new Vector2(targetDirection.x, targetDirection.z), new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z));
-        float markerPosition = Mathf.Clamp(angle / Camera.main.fieldOfView, -1, 1);
-
-        marker.anchoredPosition = new Vector2(compassTransform.rect.width / 2 * markerPosition, 0);
-    }
     private GameObject CreateIcon(GameObject itemGameobject)
     {
         // Create new Icon Game Object
@@ -103,5 +87,14 @@ public class CompassBar : MonoBehaviour
         newItemImage.sprite = item.Icon;
 
         return newItemGameObject;
+    }
+
+    private void UpdateMarker(GameObject target, RectTransform marker)
+    {
+        Vector3 targetDirection = (target.transform.position - Camera.main.transform.position).normalized;
+        float angle = Vector2.SignedAngle(new Vector2(targetDirection.x, targetDirection.z), new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z));
+        float markerPosition = Mathf.Clamp(angle / Camera.main.fieldOfView, -1, 1);
+
+        marker.anchoredPosition = new Vector2(compassTransform.rect.width / 2 * markerPosition, 0);
     }
 }
