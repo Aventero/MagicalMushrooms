@@ -9,6 +9,7 @@ public class WitchMovement : MonoBehaviour
     public Transform[] walkPoints;
     public float stoppingDistance = 1.0f;
     public float lookingRadius = 5.0f;
+    public float lookingAngle = 45.0f;   // Angle from the from the forward vector
 
     private NavMeshAgent agent;
     private int walkIndex = 0;
@@ -25,8 +26,12 @@ public class WitchMovement : MonoBehaviour
     void Update()
     {
         float distanceToPlayer = Vector3.Distance(agent.transform.position, Destination.position);
-        if (distanceToPlayer < lookingRadius)
+
+        // Get the angle on the xz plane, from agent to player (from 0 to 180)
+        float angleToPlayer = Vector2.Angle(new Vector2(agent.transform.forward.x, agent.transform.forward.z), new Vector2(Destination.position.x, Destination.position.z) - new Vector2(agent.transform.position.x, agent.transform.position.z)); 
+        if (distanceToPlayer < lookingRadius && angleToPlayer <= lookingAngle)
         {
+            Debug.DrawLine(agent.transform.position, Destination.position, Color.cyan);
             Vector3 stoppingPoint = (Destination.position - agent.transform.position).normalized * stoppingDistance;
             agent.destination = Destination.position - stoppingPoint;
         }
@@ -36,8 +41,12 @@ public class WitchMovement : MonoBehaviour
         }
 
         // If point has be reached, set the next point
-        Debug.DrawLine(agent.transform.position, agent.destination);
-        Debug.DrawLine(agent.transform.position, walkPoints[walkIndex].position);
+       // Debug.DrawLine(agent.transform.position, agent.destination);
+       // Debug.DrawLine(agent.transform.position, walkPoints[walkIndex].position);
+        float posAngle = Mathf.Deg2Rad * (agent.transform.localEulerAngles.y + lookingAngle);   // Angle in Radians
+        float negAngle = Mathf.Deg2Rad * (agent.transform.localEulerAngles.y - lookingAngle);   // -Angle in Radians
+        Debug.DrawLine(agent.transform.position, agent.transform.position + new Vector3(lookingRadius * Mathf.Sin(posAngle), agent.transform.position.y, lookingRadius * Mathf.Cos(posAngle)), Color.green);
+        Debug.DrawLine(agent.transform.position, agent.transform.position + new Vector3(lookingRadius * Mathf.Sin(negAngle), agent.transform.position.y, lookingRadius * Mathf.Cos(negAngle)), Color.yellow);
     }
 
     void OnDrawGizmos()
