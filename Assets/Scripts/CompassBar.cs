@@ -9,6 +9,7 @@ public class CompassBar : MonoBehaviour
 {
     public float SpriteScale = 0.3f;
     public float MinDistance = 2f;
+    public GameObject iconPrefab;
 
     private RectTransform compassTransform;
     private List<(GameObject, GameObject)> itemList;
@@ -27,22 +28,6 @@ public class CompassBar : MonoBehaviour
         UpdateIcons();
     }
 
-    private GameObject CreateIcon(GameObject itemGameobject)
-    {
-        Item item = itemGameobject.GetComponent<Item>();
-        GameObject newItemGameObject = new(item.Name);
-        newItemGameObject.transform.parent = this.transform;
-
-        RectTransform rectTransform = newItemGameObject.AddComponent<RectTransform>();
-        rectTransform.anchoredPosition = compassTransform.anchoredPosition;
-        rectTransform.pivot = new Vector2(0.5f, 0.5f);
-        rectTransform.localScale = new Vector3(SpriteScale, SpriteScale);
-
-        Image newItemImage = newItemGameObject.AddComponent<Image>();
-        newItemImage.sprite = item.Icon;
-
-        return newItemGameObject;
-    }
 
     private void UpdateIcons()
     {
@@ -51,7 +36,7 @@ public class CompassBar : MonoBehaviour
             // Get the tuple with the item object
             (GameObject, GameObject) currentTuple = itemList.Find(tuple => tuple.Item1 == itemObject);
 
-            // Item has been destroyed
+            // Item Object has been destroyed
             if (itemObject == null)
             {
                 // Remove sprite
@@ -89,6 +74,19 @@ public class CompassBar : MonoBehaviour
                 itemList.Remove(currentTuple);
             }
         }
+    }
+
+    private GameObject CreateIcon(GameObject itemGameobject)
+    {
+        // Create new Icon Game Object
+        Item item = itemGameobject.GetComponent<Item>();
+        GameObject newItemGameObject = Instantiate(iconPrefab, this.transform);
+
+        // Set the item sprite
+        Image newItemImage = newItemGameObject.GetComponent<Image>();
+        newItemImage.sprite = item.Icon;
+
+        return newItemGameObject;
     }
 
     private void UpdateMarker(GameObject target, RectTransform marker)
