@@ -94,7 +94,7 @@ public class CompassBar : MonoBehaviour
     private void UpdateMarker(GameObject target, RectTransform marker)
     {
         Vector3 targetDirection = (target.transform.position - Camera.main.transform.position).normalized;
-        float angle = Vector2.SignedAngle(new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z), new Vector2(targetDirection.x, targetDirection.z));
+        float angle = Vector2.SignedAngle(new Vector2(targetDirection.x, targetDirection.z), new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z));
         float markerPosition = Mathf.Clamp(angle / Camera.main.fieldOfView, -1, 1);
 
         marker.anchoredPosition = new Vector2(compassTransform.rect.width / 2 * markerPosition, 0);
