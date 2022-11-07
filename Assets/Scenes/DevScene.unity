@@ -5140,6 +5140,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerHealth: 3
+  isLockedOnWitchHead: 0
+  InMenu: 0
 --- !u!4 &656808028
 Transform:
   m_ObjectHideFlags: 0
@@ -7521,7 +7523,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1566230586}
+      - m_Target: {fileID: 1441546069}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
         m_MethodName: OnButtonClick
         m_Mode: 1
@@ -9090,12 +9092,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1312069698}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1313037363 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2857605709861750656, guid: a23fa7abc541c4eb6bfb454e46d4efc2,
-    type: 3}
-  m_PrefabInstance: {fileID: 2857605709925292130}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1313037371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10238,6 +10234,8 @@ GameObject:
   - component: {fileID: 1441546066}
   - component: {fileID: 1441546065}
   - component: {fileID: 1441546064}
+  - component: {fileID: 1441546069}
+  - component: {fileID: 1441546068}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -10324,6 +10322,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1441546068
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441546063}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1441546069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441546063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 060995663740a35408c95b5ac183d896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerInRange: 0
 --- !u!1 &1449086461
 GameObject:
   m_ObjectHideFlags: 0
@@ -11353,7 +11378,6 @@ GameObject:
   - component: {fileID: 1566230582}
   - component: {fileID: 1566230585}
   - component: {fileID: 1566230583}
-  - component: {fileID: 1566230586}
   m_Layer: 0
   m_Name: MainMenu
   m_TagString: Untagged
@@ -11420,18 +11444,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &1566230586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1566230581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 060995663740a35408c95b5ac183d896, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1570354942
 GameObject:
   m_ObjectHideFlags: 0
@@ -13483,7 +13495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed9ee046fd44214594f24d13240b313, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Destination: {fileID: 1313037363}
+  player: {fileID: 0}
   walkPoints:
   - {fileID: 2001850839}
   - {fileID: 2050004704}
@@ -13504,9 +13516,13 @@ MonoBehaviour:
   - {fileID: 1600525653}
   - {fileID: 471839313}
   - {fileID: 2135589603}
-  stoppingDistance: 3
-  lookingRadius: 5
+  lookingDistance: 5
   lookingAngle: 45
+  alwaysFoundDistance: 10
+  catchingDistance: 5.5
+  secondsTillCaught: 3
+  witchCameraPosition: {fileID: 0}
+  witchCameraTarget: {fileID: 0}
 --- !u!1 &1831332524
 GameObject:
   m_ObjectHideFlags: 0
@@ -16434,6 +16450,11 @@ PrefabInstance:
     - target: {fileID: 2857605709861750716, guid: a23fa7abc541c4eb6bfb454e46d4efc2,
         type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857605709861750716, guid: a23fa7abc541c4eb6bfb454e46d4efc2,
+        type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2857605710249577896, guid: a23fa7abc541c4eb6bfb454e46d4efc2,
