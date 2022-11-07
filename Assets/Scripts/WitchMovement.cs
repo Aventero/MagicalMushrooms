@@ -15,9 +15,13 @@ public class WitchMovement : MonoBehaviour
     private NavMeshAgent agent;
     private int walkIndex = 0;
     private bool isLockedOnPlayer = false;
+    public float secondsTillCaught = 3.0f;
+    private float timeInsideCatchArea = 0.0f;
 
     Animator animator;
     private bool pickingUpIsPlaying = false;
+    public Transform witchCameraPosition;
+    public Transform witchCameraTarget;
 
     // Start is called before the first frame update
     void Start()
@@ -31,10 +35,25 @@ public class WitchMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Once the player was too long in the area, play the animation
+        if (timeInsideCatchArea >= secondsTillCaught)
+        {
+            timeInsideCatchArea = 0;
+            animator.SetTrigger("PickUp");
+            this.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
+            StateManager.Instance.isLockedOnWitchHead = true;
+            return;
+        }
+
         // Don't move, while pickingUp or in transition to another animation
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("PickUpPlayer") || animator.IsInTransition(0))
+        {
+            player.transform.position = witchCameraPosition.position;
+            Camera.main.transform.LookAt(witchCameraTarget, Vector3.up);
             return;
+        }
 
+        StateManager.Instance.isLockedOnWitchHead = false;
         float distanceToPlayer = Vector3.Distance(agent.transform.position, player.position);
 
         // Get the angle on the xz plane, from agent to player (from 0 to 180)
@@ -51,19 +70,23 @@ public class WitchMovement : MonoBehaviour
         {
             Debug.DrawRay(agent.transform.position, (player.position - agent.transform.position), Color.cyan);
             agent.destination = player.position;
-            this.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.red;
+            GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.red;
             isLockedOnPlayer = true;
 
-            // If this point is reached the player got found
+            // Player is inside the catching area
             if (distanceToPlayer <= catchingDistance)
             {
-                this.GetComponent<Animator>().SetTrigger("PickUp");
-                this.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
+                timeInsideCatchArea += Time.deltaTime;
+            }
+            else
+            {
+                // Reset the catching time, cause the player is not inside it
+                timeInsideCatchArea = 0;
             }
         }
         else if (isLockedOnPlayer)
         {
-            // Go to one of the walkpoints if the player was seen previously
+            // Go to one of the walkpoints if the player was seen previously, but with reaching this "if" the player was lost
             GoToNextPoint();
             isLockedOnPlayer = false;
         }
@@ -73,8 +96,6 @@ public class WitchMovement : MonoBehaviour
             this.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.black;
             GoToNextPoint();
         }
-
-
     }
 
     void OnDrawGizmos()

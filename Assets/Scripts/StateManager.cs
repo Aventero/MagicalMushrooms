@@ -22,6 +22,9 @@ public class StateManager : MonoBehaviour
 
     public int PlayerHealth = 3;
 
+    // Camera
+    public bool isLockedOnWitchHead = false;
+
     // Custom Events
     public delegate void PlayerHitCallback();
     public PlayerHitCallback PlayerHit;
