@@ -5,18 +5,29 @@ using UnityEngine.AI;
 
 public class WitchMovement : MonoBehaviour
 {
-    public Transform Destination;
+    public Transform player;
     public Transform[] walkPoints;
-    public float stoppingDistance = 1.0f;
-    public float lookingRadius = 5.0f;
+    public float lookingDistance = 5.0f;
+    public float lookingAngle = 45.0f;   // Angle from the forward vector
+    public float alwaysFoundDistance = 10.0f;
+    public float catchingDistance = 5.5f;
 
     private NavMeshAgent agent;
     private int walkIndex = 0;
+    private bool isLockedOnPlayer = false;
+    public float secondsTillCaught = 3.0f;
+    private float timeInsideCatchArea = 0.0f;
+
+    Animator animator;
+    private bool pickingUpIsPlaying = false;
+    public Transform witchCameraPosition;
+    public Transform witchCameraTarget;
 
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
         agent.autoBraking = true;
         GoToNextPoint();
     }
@@ -24,26 +35,75 @@ public class WitchMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float distanceToPlayer = Vector3.Distance(agent.transform.position, Destination.position);
-        if (distanceToPlayer < lookingRadius)
+        // Once the player was too long in the area, play the animation
+        if (timeInsideCatchArea >= secondsTillCaught)
         {
-            Vector3 stoppingPoint = (Destination.position - agent.transform.position).normalized * stoppingDistance;
-            agent.destination = Destination.position - stoppingPoint;
-        }
-        else if (!agent.pathPending && agent.remainingDistance < 0.5f)
-        {
-            GoToNextPoint();
+            timeInsideCatchArea = 0;
+            animator.SetTrigger("PickUp");
+            this.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
+            StateManager.Instance.isLockedOnWitchHead = true;
+            return;
         }
 
-        // If point has be reached, set the next point
-        Debug.DrawLine(agent.transform.position, agent.destination);
-        Debug.DrawLine(agent.transform.position, walkPoints[walkIndex].position);
+        // Don't move, while pickingUp or in transition to another animation
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("PickUpPlayer") || animator.IsInTransition(0))
+        {
+            player.transform.position = witchCameraPosition.position;
+            Camera.main.transform.LookAt(witchCameraTarget, Vector3.up);
+            return;
+        }
+
+        StateManager.Instance.isLockedOnWitchHead = false;
+        float distanceToPlayer = Vector3.Distance(agent.transform.position, player.position);
+
+        // Get the angle on the xz plane, from agent to player (from 0 to 180)
+        float angleToPlayer = Vector2.Angle(new Vector2(agent.transform.forward.x, agent.transform.forward.z), new Vector2(player.position.x, player.position.z) - new Vector2(agent.transform.position.x, agent.transform.position.z));
+        float posAngle = Mathf.Deg2Rad * (agent.transform.localEulerAngles.y + lookingAngle);   // Angle in Radians
+        float negAngle = Mathf.Deg2Rad * (agent.transform.localEulerAngles.y - lookingAngle);   // -Angle in Radians
+        Debug.DrawLine(agent.transform.position, agent.transform.position + new Vector3(lookingDistance * Mathf.Sin(posAngle), 0, lookingDistance * Mathf.Cos(posAngle)), Color.green);
+        Debug.DrawLine(agent.transform.position, agent.transform.position + new Vector3(lookingDistance * Mathf.Sin(negAngle), 0, lookingDistance * Mathf.Cos(negAngle)), Color.yellow);
+
+        // Raycast will only hit objects (Chair, Table, etc.), if it hits one and the player is behind it, don't move there
+        bool playerIsBehindObject = Physics.Raycast(agent.transform.position, (player.position - agent.transform.position), LayerMask.NameToLayer("Ignore Raycast"));
+
+        if ((distanceToPlayer < lookingDistance && angleToPlayer <= lookingAngle && !playerIsBehindObject) || distanceToPlayer <= alwaysFoundDistance)
+        {
+            Debug.DrawRay(agent.transform.position, (player.position - agent.transform.position), Color.cyan);
+            agent.destination = player.position;
+            GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.red;
+            isLockedOnPlayer = true;
+
+            // Player is inside the catching area
+            if (distanceToPlayer <= catchingDistance)
+            {
+                timeInsideCatchArea += Time.deltaTime;
+            }
+            else
+            {
+                // Reset the catching time, cause the player is not inside it
+                timeInsideCatchArea = 0;
+            }
+        }
+        else if (isLockedOnPlayer)
+        {
+            // Go to one of the walkpoints if the player was seen previously, but with reaching this "if" the player was lost
+            GoToNextPoint();
+            isLockedOnPlayer = false;
+        }
+        else if (!agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1.0f)
+        {
+            // Agent has reached a walking point, 
+            this.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.black;
+            GoToNextPoint();
+        }
     }
 
     void OnDrawGizmos()
     {
         Gizmos.color = new Color(1,0,0,0.5f);
-        Gizmos.DrawWireSphere(this.transform.position, lookingRadius);
+        Gizmos.DrawWireSphere(this.transform.position, lookingDistance);
+        Gizmos.DrawWireSphere(this.transform.position, alwaysFoundDistance);
+        Gizmos.DrawWireSphere(this.transform.position, catchingDistance);
     }
 
     public void GoToNextPoint()

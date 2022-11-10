@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2857605709861750658}
   - component: {fileID: 2857605709861750717}
   - component: {fileID: 2857605709861750662}
-  - component: {fileID: 2857605709861750663}
   - component: {fileID: 8021018127773949984}
   - component: {fileID: -6423400591989991015}
   m_Layer: 0
@@ -131,25 +130,9 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: CharacterControls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 2857605710249577899}
---- !u!114 &2857605709861750663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2857605709861750716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a26a15331f3b449cda0408468458d38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveVal: {x: 0, y: 0, z: 0}
-  moveSpeed: 5
-  sensivityX: 1
-  sensivityY: 1
 --- !u!143 &8021018127773949984
 CharacterController:
   m_ObjectHideFlags: 0
@@ -180,7 +163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9c4798d48a9c4fb28da1c66ab03cf79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: 3
 --- !u!1 &2857605710249577893
 GameObject:
   m_ObjectHideFlags: 0

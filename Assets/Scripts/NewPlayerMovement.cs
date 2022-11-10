@@ -156,6 +156,9 @@ public class NewPlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (StateManager.Instance.isLockedOnWitchHead || StateManager.Instance.InMenu)
+            return;
+
         readMouseInput();
         readMovementInput();
         handleRotation();

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class CompassBar : MonoBehaviour
 {
     public float SpriteScale = 0.3f;
     public float MinDistance = 2f;
+    public GameObject iconPrefab;
 
     private RectTransform compassTransform;
     private List<(GameObject, GameObject)> itemList;
@@ -27,31 +29,14 @@ public class CompassBar : MonoBehaviour
         UpdateIcons();
     }
 
-    private GameObject CreateIcon(GameObject itemGameobject)
-    {
-        Item item = itemGameobject.GetComponent<Item>();
-        GameObject newItemGameObject = new(item.Name);
-        newItemGameObject.transform.parent = this.transform;
-
-        RectTransform rectTransform = newItemGameObject.AddComponent<RectTransform>();
-        rectTransform.anchoredPosition = compassTransform.anchoredPosition;
-        rectTransform.pivot = new Vector2(0.5f, 0.5f);
-        rectTransform.localScale = new Vector3(SpriteScale, SpriteScale);
-
-        Image newItemImage = newItemGameObject.AddComponent<Image>();
-        newItemImage.sprite = item.Icon;
-
-        return newItemGameObject;
-    }
-
     private void UpdateIcons()
     {
-        foreach(GameObject itemObject in itemObjects)
+        foreach (GameObject itemObject in itemObjects)
         {
             // Get the tuple with the item object
             (GameObject, GameObject) currentTuple = itemList.Find(tuple => tuple.Item1 == itemObject);
 
-            // Item has been destroyed
+            // Item Object has been destroyed
             if (itemObject == null)
             {
                 // Remove sprite
@@ -77,13 +62,14 @@ public class CompassBar : MonoBehaviour
                 }
                 else
                 {
-                    UpdateMarker(currentTuple.Item1, currentTuple.Item2.GetComponent<RectTransform>());
+                    UpdateMarkerPosition(currentTuple.Item1, currentTuple.Item2.GetComponent<RectTransform>());
+                    UpdateItemDistance(distance, currentTuple.Item2);
                 }
             }
             else
             {
                 // Sprite is out of range -> Remove Sprite
-                if(currentTuple.Item2 != null)
+                if (currentTuple.Item2 != null)
                     Destroy(currentTuple.Item2);
 
                 itemList.Remove(currentTuple);
@@ -91,12 +77,31 @@ public class CompassBar : MonoBehaviour
         }
     }
 
-    private void UpdateMarker(GameObject target, RectTransform marker)
+    private void UpdateItemDistance(float distance, GameObject iconObject)
+    {
+        TMP_Text distanceText = iconObject.GetComponentInChildren<TMP_Text>();
+        distanceText.text = distance.ToString("F1") + " m";
+    }
+
+    private void UpdateMarkerPosition(GameObject target, RectTransform marker)
     {
         Vector3 targetDirection = (target.transform.position - Camera.main.transform.position).normalized;
         float angle = Vector2.SignedAngle(new Vector2(targetDirection.x, targetDirection.z), new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z));
         float markerPosition = Mathf.Clamp(angle / Camera.main.fieldOfView, -1, 1);
 
         marker.anchoredPosition = new Vector2(compassTransform.rect.width / 2 * markerPosition, 0);
+    }
+
+    private GameObject CreateIcon(GameObject itemGameobject)
+    {
+        // Create new Icon Game Object
+        Item item = itemGameobject.GetComponent<Item>();
+        GameObject newItemGameObject = Instantiate(iconPrefab, this.transform);
+
+        // Set the item sprite
+        Image newItemImage = newItemGameObject.GetComponent<Image>();
+        newItemImage.sprite = item.Icon;
+
+        return newItemGameObject;
     }
 }
