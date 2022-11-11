@@ -6,13 +6,28 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private Sprite HealthSprite;
-    
-    public static UIManager Instance { get; private set; }
+    [SerializeField] private GameObject OverlayParent;
 
     private GameObject[] healthObjects;
     private List<GameObject> pickedUpItems;
 
     private RectTransform CanvasRect;
+    private bool hideOverlay;
+
+    public static UIManager Instance { get; private set; }
+
+    public bool SetOverlayVisibility
+    {
+        get
+        {
+            return hideOverlay;
+        }
+
+        set
+        {
+            OverlayParent.SetActive(value);
+        }
+    }
 
     private void Awake()
     {
@@ -30,10 +45,14 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        SetOverlayVisibility = true;
+
         pickedUpItems = new List<GameObject>();
         CanvasRect = this.GetComponent<RectTransform>();
         
         StateManager.Instance.PlayerHit += OnPlayerHit;
+
+        // Spawn all Health sprites
         healthObjects = CreateIcons(HealthSprite, "HealthIcon", StateManager.Instance.PlayerHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f);
     }
 
@@ -77,7 +96,7 @@ public class UIManager : MonoBehaviour
     {
         // Spawn new health icon
         GameObject newIcon = new GameObject(displayName);
-        newIcon.transform.parent = this.transform;
+        newIcon.transform.parent = OverlayParent.transform;
 
         // position the icon
         RectTransform rectTransform = newIcon.AddComponent<RectTransform>();
