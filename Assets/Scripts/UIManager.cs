@@ -68,9 +68,9 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("Player hit!");
 
-        // Remove a hearth
+        // Remove a hearts
         if(StateManager.Instance.PlayerHealth >= 0)
-            Destroy(healthObjects[StateManager.Instance.PlayerHealth]);
+            Destroy(healthObjects[StateManager.Instance.PlayerHealth - 1]);
     }
 
     private GameObject CreateSpriteOnScreen(Vector2 position, Sprite icon, string displayName, Vector2 anchor, Vector2 pivot, float scale)
@@ -93,6 +93,7 @@ public class UIManager : MonoBehaviour
         // Add the sprite
         Image image = newIcon.AddComponent<Image>();
         image.sprite = icon;
+        image.color = Color.red;
 
         return newIcon;
     }
