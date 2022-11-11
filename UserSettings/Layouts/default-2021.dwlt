@@ -19,9 +19,9 @@ MonoBehaviour:
     width: 1536
     height: 772.8
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Scene
   m_RootView: {fileID: 6}
-  m_MinSize: {x: 875, y: 371}
+  m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
 --- !u!114 &2
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 503, y: 321}
   m_MaxSize: {x: 16192, y: 12117}
   vertical: 0
-  controlID: 340
+  controlID: 67
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -150,7 +150,7 @@ MonoBehaviour:
     y: 0
     width: 1536
     height: 772.8
-  m_MinSize: {x: 875, y: 371}
+  m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
   m_TopViewHeight: 30
@@ -177,7 +177,7 @@ MonoBehaviour:
     height: 30
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
-  m_LastLoadedLayoutName: Default
+  m_LastLoadedLayoutName: 
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 321}
   m_MaxSize: {x: 8096, y: 12117}
   vertical: 1
-  controlID: 284
+  controlID: 68
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 285
+  controlID: 69
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -318,22 +318,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Model
+    - Assets/Model/Furniture
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Model
+  - Assets/Model/Furniture
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Uni\GitHub\MagicalMushrooms
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d46b0000
-    m_LastClickedID: 27604
-    m_ExpandedIDs: 00000000d26b0000d46b0000d66b0000d86b000000ca9a3bffffff7f
+    m_SelectedIDs: 70710000
+    m_LastClickedID: 29040
+    m_ExpandedIDs: 000000007e6f0000806f0000826f0000846f000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -361,7 +361,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000d26b0000d46b0000d66b0000d86b000000ca9a3bffffff7f
+    m_ExpandedIDs: 000000007e6f0000806f0000826f0000846f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -413,7 +413,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
+    m_ScrollPosition: {x: 0, y: 183.80002}
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 207
@@ -490,10 +490,10 @@ MonoBehaviour:
     m_SaveData: []
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 268.4}
-      m_SelectedIDs: 78700000
-      m_LastClickedID: 0
-      m_ExpandedIDs: 98f5feff58bcffff0ce1ffffe2faffff42fbffff206f0000c46f0000
+      scrollPos: {x: 0, y: 284.4}
+      m_SelectedIDs: 546b0000
+      m_LastClickedID: 27476
+      m_ExpandedIDs: 26faffff32fbffff346b0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -743,9 +743,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -13.269648, y: -2.0342271, z: 23.821007}
+    m_Target: {x: 55.778057, y: -0.032289207, z: 28.477468}
     speed: 2
-    m_Value: {x: -13.269648, y: -2.0342271, z: 23.821007}
+    m_Value: {x: 55.778057, y: -0.032289207, z: 28.477468}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -792,13 +792,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.15269625, y: 0.29737726, z: -0.048209954, w: 0.9412922}
+    m_Target: {x: 0.025893537, y: 0.12595081, z: -0.0033472779, w: 0.9917856}
     speed: 2
-    m_Value: {x: 0.15224823, y: 0.30582076, z: -0.049579658, w: 0.9385287}
+    m_Value: {x: 0.021432456, y: 0.12446519, z: -0.0027478633, w: 0.9919887}
   m_Size:
-    m_Target: 1.8458846
+    m_Target: 26.094927
     speed: 2
-    m_Value: 1.9328635
+    m_Value: 27.324532
   m_Ortho:
     m_Target: 0
     speed: 2
