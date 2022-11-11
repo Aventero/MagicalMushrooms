@@ -20,7 +20,8 @@ public class StateManager : MonoBehaviour
         }
     }
 
-    public int PlayerHealth = 3;
+    public const int PlayerMaxHealth = 3;
+    public int PlayerHealth = PlayerMaxHealth;
 
     // Camera
     public bool isLockedOnWitchHead = false;
@@ -29,5 +30,5 @@ public class StateManager : MonoBehaviour
 
     // Custom Events
     public delegate void PlayerHitCallback();
-    public PlayerHitCallback PlayerHit;
+    public PlayerHitCallback PlayerHitEvent;
 }

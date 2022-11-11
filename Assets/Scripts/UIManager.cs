@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
     private GameObject[] healthObjects;
     private List<GameObject> pickedUpItems;
 
-    private RectTransform CanvasRect;
     private bool hideOverlay;
 
     public static UIManager Instance { get; private set; }
@@ -48,9 +47,9 @@ public class UIManager : MonoBehaviour
         SetOverlayVisibility = true;
 
         pickedUpItems = new List<GameObject>();
-        CanvasRect = this.GetComponent<RectTransform>();
         
-        StateManager.Instance.PlayerHit += OnPlayerHit;
+        // RegisterEvent
+        StateManager.Instance.PlayerHitEvent += OnPlayerHit;
 
         // Spawn all Health sprites
         healthObjects = CreateIcons(HealthSprite, "HealthIcon", StateManager.Instance.PlayerHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f);

@@ -43,7 +43,7 @@ public class WitchMovement : MonoBehaviour
             animator.SetTrigger("PickUp");
             this.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
             StateManager.Instance.isLockedOnWitchHead = true;
-            StateManager.Instance.PlayerHit();
+            StateManager.Instance.PlayerHitEvent();
             return;
         }
 

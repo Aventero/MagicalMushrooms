@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     private void Start()
     {
-        StateManager.Instance.PlayerHit += OnPlayerHit;
+        StateManager.Instance.PlayerHitEvent += OnPlayerHit;
     }
 
     private void OnPlayerHit()
