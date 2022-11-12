@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,11 +8,14 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private Sprite HealthSprite;
     [SerializeField] private GameObject OverlayParent;
+    [SerializeField] private TMP_Text itemCounterText;
 
     private GameObject[] healthObjects;
-    private List<GameObject> pickedUpItems;
+    private List<GameObject> pickedUpItems; // List for displaying the item sprites
 
     private bool hideOverlay;
+    private int amountOfItems;
+    private int pickedUpItemsCounter = 0;
 
     public static UIManager Instance { get; private set; }
 
@@ -33,13 +37,9 @@ public class UIManager : MonoBehaviour
         // If there is an instance, and it's not me, delete myself.
 
         if (Instance != null && Instance != this)
-        {
             Destroy(this);
-        }
         else
-        {
             Instance = this;
-        }
     }
 
     void Start()
@@ -47,12 +47,35 @@ public class UIManager : MonoBehaviour
         SetOverlayVisibility = true;
 
         pickedUpItems = new List<GameObject>();
-        
+
+        amountOfItems = GameObject.FindObjectsOfType<Item>().Length;
+        itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
+
         // RegisterEvent
         StateManager.Instance.PlayerHitEvent += OnPlayerHit;
+        StateManager.Instance.ItemPickupEvent += OnItemPickup;
 
         // Spawn all Health sprites
         healthObjects = CreateIcons(HealthSprite, "HealthIcon", StateManager.Instance.PlayerHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f);
+    }
+    public void OnPlayerHit()
+    {
+        Debug.Log("Player hit!");
+
+        // Remove a hearts
+        if (StateManager.Instance.PlayerHealth >= 0)
+            Destroy(healthObjects[StateManager.Instance.PlayerHealth - 1]);
+    }
+
+    public void OnItemPickup(Item item)
+    {
+        Debug.Log("Picked up Item: " + item.Name + " Counter: " + pickedUpItems.Count.ToString());
+        pickedUpItemsCounter++;
+        itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
+
+        if(pickedUpItemsCounter == amountOfItems)
+            itemCounterText.color = Color.green;
+        
     }
 
     public GameObject[] CreateIcons(Sprite icon, string displayName, int numberOfIcons, Vector2 anchor, Vector2 pivot, float scale)
@@ -80,15 +103,6 @@ public class UIManager : MonoBehaviour
 
         GameObject newIcon = CreateSpriteOnScreen(position, icon, displayName, new Vector2(1, 1), new Vector2(1, 1), scale);
         pickedUpItems.Add(newIcon);
-    }
-
-    public void OnPlayerHit()
-    {
-        Debug.Log("Player hit!");
-
-        // Remove a hearts
-        if(StateManager.Instance.PlayerHealth >= 0)
-            Destroy(healthObjects[StateManager.Instance.PlayerHealth - 1]);
     }
 
     private GameObject CreateSpriteOnScreen(Vector2 position, Sprite icon, string displayName, Vector2 anchor, Vector2 pivot, float scale)

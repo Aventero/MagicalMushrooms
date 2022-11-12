@@ -31,4 +31,7 @@ public class StateManager : MonoBehaviour
     // Custom Events
     public delegate void PlayerHitCallback();
     public PlayerHitCallback PlayerHitEvent;
+
+    public delegate void ItemPickupCallBack(Item item);
+    public ItemPickupCallBack ItemPickupEvent;
 }

@@ -21,9 +21,8 @@ public class Player : MonoBehaviour
 
         // Add item pickup
         Item item = other.gameObject.GetComponent<Item>();
-        Debug.Log("Picked up Item: " + item.Name);
 
-        UIManager.Instance.AddIcon(item.Icon, item.Name);
+        StateManager.Instance.ItemPickupEvent(item);
 
         Destroy(other.gameObject);
     }
