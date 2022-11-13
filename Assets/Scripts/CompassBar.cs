@@ -52,7 +52,7 @@ public class CompassBar : MonoBehaviour
             // Calculate Distance from player to item
             float distance = Vector3.Distance(Camera.main.transform.position, itemObject.transform.position);
 
-            if (distance < MinDistance)
+            if (distance > MinDistance)
             {
                 if (currentTuple.Item1 == null)
                 {
