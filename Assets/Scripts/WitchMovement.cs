@@ -38,10 +38,12 @@ public class WitchMovement : MonoBehaviour
         // Once the player was too long in the area, play the animation
         if (timeInsideCatchArea >= secondsTillCaught)
         {
+            Debug.Log("ad");
             timeInsideCatchArea = 0;
             animator.SetTrigger("PickUp");
             this.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
             StateManager.Instance.isLockedOnWitchHead = true;
+            StateManager.Instance.PlayerHitEvent();
             return;
         }
 

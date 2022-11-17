@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    private void Start()
     {
-        if (collision.gameObject.tag.Equals("Witch"))
-        {
-            StateManager.Instance.PlayerHealth--;
-            
-            // Trigger player hit event
-            StateManager.Instance.PlayerHit();
-        }
+        StateManager.Instance.PlayerHitEvent += OnPlayerHit;
+    }
+
+    private void OnPlayerHit()
+    {
+        StateManager.Instance.PlayerHealth--;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,9 +21,8 @@ public class Player : MonoBehaviour
 
         // Add item pickup
         Item item = other.gameObject.GetComponent<Item>();
-        Debug.Log("Picked up Item: " + item.Name);
 
-        UIManager.Instance.AddIcon(item.Icon, item.Name);
+        StateManager.Instance.ItemPickupEvent(item);
 
         Destroy(other.gameObject);
     }
