@@ -1,14 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Interactable : MonoBehaviour
 {
+    [Header("Sprites:")]
+    public Sprite InRangeSprite;
+    public Sprite OutOfRangeSprite;
+
+    public Image Image;
+
+    [Header("Properties:")]
     public float interactionSize = 2f;
 
-    public virtual void Start()
+    private GameObject player;
+
+    protected void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        if(Image)
+            Image.sprite = OutOfRangeSprite;
+
         CreateSphereCollider();
+    }
+
+    protected void Update()
+    {
+        if(Image)
+            Image.transform.LookAt(player.transform);
     }
 
     protected virtual void CreateSphereCollider()
@@ -22,5 +43,21 @@ public abstract class Interactable : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(this.transform.position, interactionSize);
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        if (!other.gameObject.tag.Equals("Player"))
+            return;
+
+        Image.sprite = InRangeSprite;
+    }
+
+    protected virtual void OnTriggerExit(Collider other)
+    {
+        if (!other.gameObject.tag.Equals("Player"))
+            return;
+
+        Image.sprite = OutOfRangeSprite;
     }
 }
