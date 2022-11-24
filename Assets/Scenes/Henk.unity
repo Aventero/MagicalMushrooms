@@ -15,15 +15,15 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.6799998, g: 0, b: 1, a: 1}
+  m_FogColor: {r: 0.57359874, g: 0.10679956, b: 0.9056604, a: 1}
   m_FogMode: 2
-  m_FogDensity: 0.001
+  m_FogDensity: 0.0007
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
-  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
-  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1
+  m_AmbientSkyColor: {r: 2.297397, g: 0.9211261, b: 1.9860613, a: 1}
+  m_AmbientEquatorColor: {r: 0.6726904, g: 0.25872704, b: 0.52262866, a: 1}
+  m_AmbientGroundColor: {r: 2.6907616, g: 2.2561, b: 1.386777, a: 1}
+  m_AmbientIntensity: 0.44
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: fe4e130f9947345a2b213cb5038851a2, type: 2}
@@ -32,7 +32,7 @@ RenderSettings:
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
-  m_DefaultReflectionMode: 0
+  m_DefaultReflectionMode: 1
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
@@ -290,12 +290,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &167694323 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5517584346009637129, guid: 7832c25e26d297e449ecef85cac16328,
-    type: 3}
-  m_PrefabInstance: {fileID: 408054504}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &186547683
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -803,7 +797,7 @@ PrefabInstance:
     - target: {fileID: 5517584346009996587, guid: 7832c25e26d297e449ecef85cac16328,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5517584346357366644, guid: 7832c25e26d297e449ecef85cac16328,
         type: 3}
@@ -1203,6 +1197,12 @@ Transform:
   m_Father: {fileID: 129212751}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &588349865 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5517584346009637151, guid: 7832c25e26d297e449ecef85cac16328,
+    type: 3}
+  m_PrefabInstance: {fileID: 408054504}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &590803553 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4012719288765799499, guid: 265ef508d826d44699c2e81708545843,
@@ -2766,6 +2766,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2857605709861750716, guid: a23fa7abc541c4eb6bfb454e46d4efc2,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 2857605710249577899, guid: a23fa7abc541c4eb6bfb454e46d4efc2,
         type: 3}
       propertyPath: orthographic
@@ -3186,7 +3191,7 @@ GameObject:
   m_Layer: 0
   m_Name: Elevator (1)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -3944,13 +3949,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2117570438}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.02, y: 19.11, z: -0.29}
+  m_LocalRotation: {x: 0.70248276, y: -0.6364055, z: 0.27118534, w: 0.1672261}
+  m_LocalPosition: {x: 0.08, y: 0.1, z: -0.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 167694323}
-  m_RootOrder: 2
+  m_Father: {fileID: 588349865}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &2117570440
 MonoBehaviour:
@@ -3981,11 +3986,11 @@ Light:
   m_GameObject: {fileID: 2117570438}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 0
+  m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1000
-  m_Range: 32.7
+  m_Color: {r: 1, g: 0.8349841, b: 0.5518868, a: 1}
+  m_Intensity: 200
+  m_Range: 14
   m_SpotAngle: 45.16949
   m_InnerSpotAngle: 41.871777
   m_CookieSize: 10
