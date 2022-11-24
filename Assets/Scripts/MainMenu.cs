@@ -9,6 +9,4 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("Clicked On Button!");
     }
-
-
 }

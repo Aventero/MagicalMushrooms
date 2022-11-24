@@ -16,8 +16,8 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!other.gameObject.tag.Equals("Item"))
-                return;
+        if(!other.gameObject.GetComponent<Interactable>())
+            return;
 
         // Add item pickup
         Item item = other.gameObject.GetComponent<Item>();

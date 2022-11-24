@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class StateManager : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class StateManager : MonoBehaviour
 
     // Custom Events
     public delegate void PlayerHitCallback();
-    public PlayerHitCallback PlayerHitEvent;
+    public UnityAction PlayerHitEvent;
 
     public delegate void ItemPickupCallBack(Item item);
     public ItemPickupCallBack ItemPickupEvent;

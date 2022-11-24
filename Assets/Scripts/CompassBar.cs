@@ -21,12 +21,24 @@ public class CompassBar : MonoBehaviour
         compassTransform = this.GetComponent<RectTransform>();
 
         itemList = new List<(GameObject, GameObject)>();
-        itemObjects = new List<GameObject>(GameObject.FindGameObjectsWithTag("Item"));
+
+        Item[] items = GameObject.FindObjectsOfType<Item>();
+        itemObjects = ItemObjectsToGameObjects(items);
     }
 
     void Update()
     {
         UpdateIcons();
+    }
+
+    private List<GameObject> ItemObjectsToGameObjects(Item[] items)
+    {
+        List<GameObject> gameObjects = new();
+
+        for (int i = 0; i < items.Length; i++)
+            gameObjects.Add(items[i].gameObject);
+
+        return gameObjects;
     }
 
     private void UpdateIcons()
