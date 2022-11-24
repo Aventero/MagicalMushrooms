@@ -19,7 +19,7 @@ public class WitchMovement : MonoBehaviour
     private float timeInsideCatchArea = 0.0f;
 
     Animator animator;
-    private bool pickingUpIsPlaying = false;
+    //private bool pickingUpIsPlaying = false;
     public Transform witchCameraPosition;
     public Transform witchCameraTarget;
 

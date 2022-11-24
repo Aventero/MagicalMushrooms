@@ -66,11 +66,27 @@ public class NewPlayerMovement : MonoBehaviour
         initialJumpVelocity = (2.0f * maxJumpHeight) / timeToApex;  // Starting velocity of the jump
     }
 
+    private void Update()
+    {
+        if (StateManager.Instance.isLockedOnWitchHead || StateManager.Instance.InMenu)
+            return;
+
+        readMouseInput();
+        readMovementInput();
+        handleRotation();
+
+        // Move the player
+        characterController.Move(currentMovement * Time.deltaTime);
+
+        if (!StateManager.Instance.OnElevator)
+            handleGravity();
+        handleJump();
+    }
+
     private void onJump(InputAction.CallbackContext context)
     {
         isJumpPressed = context.ReadValueAsButton();
     }
-
 
     void onRun(InputAction.CallbackContext context)
     {
@@ -80,7 +96,6 @@ public class NewPlayerMovement : MonoBehaviour
         if (context.canceled)
             currentSpeed = walkingSpeed;
     }
-
 
     void readMovementInput()
     {
@@ -154,19 +169,7 @@ public class NewPlayerMovement : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (StateManager.Instance.isLockedOnWitchHead || StateManager.Instance.InMenu)
-            return;
 
-        readMouseInput();
-        readMovementInput();
-        handleRotation();
-        characterController.Move(currentMovement * Time.deltaTime);
-
-        handleGravity();
-        handleJump();
-    }
 
     private void OnEnable()
     {
