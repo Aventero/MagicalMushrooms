@@ -25,8 +25,8 @@ public class NewPlayerMovement : MonoBehaviour
     private bool isJumping = false;
     private bool isJumpPressed = false;
     private float initialJumpVelocity;  // Explosive jump force
-    private const float maxJumpHeight = 2.0f; // 
-    private const float maxJumpTime = 1.0f; // Time it takes to complete the jump
+    public float maxJumpHeight = 2.0f; // 
+    public float maxJumpTime = 1.0f; // Time it takes to complete the jump
 
     // Mouse looking
     private Vector2 currentMouseInput;

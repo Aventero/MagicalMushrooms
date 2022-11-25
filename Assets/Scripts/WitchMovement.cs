@@ -38,7 +38,6 @@ public class WitchMovement : MonoBehaviour
         // Once the player was too long in the area, play the animation
         if (timeInsideCatchArea >= secondsTillCaught)
         {
-            Debug.Log("ad");
             timeInsideCatchArea = 0;
             animator.SetTrigger("PickUp");
             this.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
@@ -56,7 +55,9 @@ public class WitchMovement : MonoBehaviour
         }
 
         StateManager.Instance.isLockedOnWitchHead = false;
-        float distanceToPlayer = Vector3.Distance(agent.transform.position, player.position);
+
+        // On XZ Plane
+        float distance2DToPlayer = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(player.position.x, player.position.z));
 
         // Get the angle on the xz plane, from agent to player (from 0 to 180)
         float angleToPlayer = Vector2.Angle(new Vector2(agent.transform.forward.x, agent.transform.forward.z), new Vector2(player.position.x, player.position.z) - new Vector2(agent.transform.position.x, agent.transform.position.z));
@@ -68,7 +69,7 @@ public class WitchMovement : MonoBehaviour
         // Raycast will only hit objects (Chair, Table, etc.), if it hits one and the player is behind it, don't move there
         bool playerIsBehindObject = Physics.Raycast(agent.transform.position, (player.position - agent.transform.position), LayerMask.NameToLayer("Ignore Raycast"));
 
-        if ((distanceToPlayer < lookingDistance && angleToPlayer <= lookingAngle && !playerIsBehindObject) || distanceToPlayer <= alwaysFoundDistance)
+        if ((distance2DToPlayer < lookingDistance && angleToPlayer <= lookingAngle && !playerIsBehindObject) || distance2DToPlayer <= alwaysFoundDistance)
         {
             Debug.DrawRay(agent.transform.position, (player.position - agent.transform.position), Color.cyan);
             agent.destination = player.position;
@@ -76,7 +77,7 @@ public class WitchMovement : MonoBehaviour
             isLockedOnPlayer = true;
 
             // Player is inside the catching area
-            if (distanceToPlayer <= catchingDistance)
+            if (distance2DToPlayer <= catchingDistance)
             {
                 timeInsideCatchArea += Time.deltaTime;
             }
@@ -123,6 +124,4 @@ public class WitchMovement : MonoBehaviour
         // Choose the next
         walkIndex = (walkIndex + 1) % walkPoints.Length;
     }
-
-
 }
