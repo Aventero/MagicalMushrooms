@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8235872203522264212}
   - component: {fileID: 1085566097215354530}
   - component: {fileID: 6641751678988159579}
-  - component: {fileID: 2258046579243083438}
+  - component: {fileID: 3626236923898465429}
   m_Layer: 0
   m_Name: P_PROP_cup_interior_01
   m_TagString: Untagged
@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -52,10 +53,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -80,8 +83,9 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &2258046579243083438
-BoxCollider:
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3626236923898465429
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -90,6 +94,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.15356141, y: 0.12185305, z: 0.110503346}
-  m_Center: {x: -0.02255997, y: 0.060926527, z: -0.0076265335}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7610915948453565342, guid: cb748902e730fc74c8444c86ca5b7b48, type: 3}
