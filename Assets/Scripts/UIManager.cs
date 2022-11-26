@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -58,6 +59,7 @@ public class UIManager : MonoBehaviour
         // Spawn all Health sprites
         healthObjects = CreateIcons(HealthSprite, "HealthIcon", StateManager.Instance.PlayerHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f);
     }
+
     public void OnPlayerHit()
     {
         Debug.Log("Player hit!");
@@ -73,8 +75,12 @@ public class UIManager : MonoBehaviour
         pickedUpItemsCounter++;
         itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
 
+        // GOT ALL ITEMS
         if(pickedUpItemsCounter == amountOfItems)
+        {
             itemCounterText.color = Color.green;
+            StateManager.Instance.AllItemsCollectedEvent.Invoke();
+        }
         
     }
 

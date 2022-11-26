@@ -33,6 +33,7 @@ public class StateManager : MonoBehaviour
     // Custom Events
     public delegate void PlayerHitCallback();
     public UnityAction PlayerHitEvent;
+    public UnityAction AllItemsCollectedEvent;
 
     public delegate void ItemPickupCallBack(Item item);
     public ItemPickupCallBack ItemPickupEvent;

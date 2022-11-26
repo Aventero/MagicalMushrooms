@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,18 +7,19 @@ public class DoorMechanics : MonoBehaviour
 {
     private Animator Animator;
 
-    // Start is called before the first frame update
     void Start()
     {
         Animator = GetComponent<Animator>();
-        Animator.Play("DoorAnimator");
+        Animator.Play("CloseDoor");
         StartCoroutine(DisableAfter(5f));
+        StateManager.Instance.AllItemsCollectedEvent += OpenDoor;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OpenDoor()
     {
-        
+        Animator.enabled = true;
+        Animator.Play("OpenDoor");
+        StartCoroutine(DisableAfter(5f));
     }
 
     IEnumerator DisableAfter(float seconds)
