@@ -34,6 +34,7 @@ public class NewPlayerMovement : MonoBehaviour
     private Vector2 mouseSensitivity = new Vector2(15f, 15f);
     private float xAxisClamp = 85f;
     private float xAxisRotation = 0f;
+    public Texture2D cursorTexture;
 
     // Called before Start()
     private void Awake()
@@ -42,10 +43,6 @@ public class NewPlayerMovement : MonoBehaviour
         currentSpeed = walkingSpeed;
         playerInput = new PlayerInput();
         characterController = GetComponent<CharacterController>();
-
-        // Hide the Cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
 
         // Run input
         playerInput.CharacterControls.Run.started += onRun;
@@ -57,6 +54,11 @@ public class NewPlayerMovement : MonoBehaviour
 
         // JumpSetup
         SetupJumpVariables();
+    }
+
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void SetupJumpVariables()
