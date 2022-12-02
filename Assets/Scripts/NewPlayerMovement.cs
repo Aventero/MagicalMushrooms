@@ -34,7 +34,8 @@ public class NewPlayerMovement : MonoBehaviour
     private Vector2 mouseSensitivity = new Vector2(15f, 15f);
     private float xAxisClamp = 85f;
     private float xAxisRotation = 0f;
-    public Texture2D cursorTexture;
+
+    public bool IsFalling { private set; get; }
 
     // Called before Start()
     private void Awake()
@@ -147,7 +148,7 @@ public class NewPlayerMovement : MonoBehaviour
     void handleGravity()
     {
         // Increase the Falling speed when at apex or the player has released the jump button
-        bool isFalling = currentMovement.y <= 0.0f || !isJumpPressed;
+        IsFalling = currentMovement.y <= 0.0f || !isJumpPressed;
         float fallMultiplier = 2.0f;
 
         // Set a small grounding gravity
@@ -155,7 +156,7 @@ public class NewPlayerMovement : MonoBehaviour
         {
             currentMovement.y = groundedGravity;
         } 
-        else if (isFalling)
+        else if (IsFalling)
         {
             // When the player is falling, increase his falling velocity!
             float newYVelocity = currentMovement.y + (gravity * fallMultiplier * Time.deltaTime);
@@ -170,8 +171,6 @@ public class NewPlayerMovement : MonoBehaviour
             currentMovement.y = nextYVelocity;
         }
     }
-
-
 
     private void OnEnable()
     {

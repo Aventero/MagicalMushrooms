@@ -12974,32 +12974,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 695319785}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &695319787 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6246610476355851763, guid: dd0965d29bf285b4e85d45490c51565d,
-    type: 3}
-  m_PrefabInstance: {fileID: 695319785}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &695319788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 695319787}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Version: 1
-  m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_LightCookieSize: {x: 1, y: 1}
-  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1001 &696214180
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13560,32 +13534,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 711290899}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &711290901 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6246610476355851763, guid: dd0965d29bf285b4e85d45490c51565d,
-    type: 3}
-  m_PrefabInstance: {fileID: 711290899}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &711290902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 711290901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Version: 1
-  m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_LightCookieSize: {x: 1, y: 1}
-  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!4 &712176434 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4012719288765799499, guid: 265ef508d826d44699c2e81708545843,
@@ -21219,6 +21167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxJumpHeight: 2
   maxJumpTime: 1
+  cursorTexture: {fileID: 0}
 --- !u!4 &1264146667 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2857605709861750656, guid: a23fa7abc541c4eb6bfb454e46d4efc2,
