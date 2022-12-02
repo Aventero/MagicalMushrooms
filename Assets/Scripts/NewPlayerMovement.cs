@@ -149,6 +149,7 @@ public class NewPlayerMovement : MonoBehaviour
         // Increase the Falling speed when at apex or the player has released the jump button
         bool isFalling = currentMovement.y <= 0.0f || !isJumpPressed;
         float fallMultiplier = 2.0f;
+        Debug.Log(isFalling + "Ground : " + characterController.isGrounded);
 
         // Set a small grounding gravity
         if (characterController.isGrounded)
