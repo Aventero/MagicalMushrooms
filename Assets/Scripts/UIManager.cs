@@ -53,20 +53,21 @@ public class UIManager : MonoBehaviour
         itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
 
         // RegisterEvent
-        StateManager.Instance.PlayerHitEvent += OnPlayerHit;
         StateManager.Instance.ItemPickupEvent += OnItemPickup;
 
         // Spawn all Health sprites
-        healthObjects = CreateIcons(HealthSprite, "HealthIcon", StateManager.Instance.PlayerHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f);
+        healthObjects = CreateIcons(HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f);
     }
 
-    public void OnPlayerHit()
+    public void UpdateHealthIcons(int playerHealth)
     {
-        Debug.Log("Player hit!");
+        Debug.Log("Player hit! Player Health: " + playerHealth);
 
-        // Remove a hearts
-        if (StateManager.Instance.PlayerHealth >= 0)
-            Destroy(healthObjects[StateManager.Instance.PlayerHealth - 1]);
+        for (int i = (PlayerHealth.MaxHealth - 1); i >= 0; i--)
+        {
+            if (i >= playerHealth && healthObjects[i] != null)
+                Destroy(healthObjects[i]);
+        }
     }
 
     public void OnItemPickup(Item item)

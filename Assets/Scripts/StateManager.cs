@@ -21,8 +21,6 @@ public class StateManager : MonoBehaviour
         }
     }
 
-    public const int PlayerMaxHealth = 3;
-    public int PlayerHealth = PlayerMaxHealth;
     public bool OnElevator = false;
 
     // Camera
@@ -31,8 +29,9 @@ public class StateManager : MonoBehaviour
     public bool InMenu = false;
 
     // Custom Events
-    public delegate void PlayerHitCallback();
-    public UnityAction PlayerHitEvent;
+    public delegate void DealDamageCallBack(int damage);
+    public DealDamageCallBack DealDamageEvent;
+
     public UnityAction AllItemsCollectedEvent;
 
     public delegate void ItemPickupCallBack(Item item);

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -6423400591989991015}
   - component: {fileID: 1462050465733458513}
   - component: {fileID: 2148894460340954549}
+  - component: {fileID: 7081943148575423570}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -68,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2ab8149ec4775284bada96c1b85b4a09, type: 2}
+  - {fileID: 2100000, guid: 00407e68e18f8c7419d7e339c8346e8e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -177,7 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 769f8fba44bdd744cad5c6fcde40c6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minFallTimeForDamage: 2
   maxJumpHeight: 2
   maxJumpTime: 1
 --- !u!114 &2148894460340954549
@@ -192,6 +192,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ab8c169b87d477da8ad896106ffe01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minFallDistance: 2
+--- !u!114 &7081943148575423570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857605709861750716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6affaec201ee46a58019c2257497fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealth: 3
+  CurrentHealth: 0
 --- !u!1 &2857605710249577893
 GameObject:
   m_ObjectHideFlags: 0

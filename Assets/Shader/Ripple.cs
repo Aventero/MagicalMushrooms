@@ -27,7 +27,7 @@ public class Ripple : MonoBehaviour
         {
             if (materialChanger.rippleMaterials[i] != null)
             {
-                Debug.Log("Destroying: " + materialChanger.rippleMaterials[i]);
+                //Debug.Log("Destroying: " + materialChanger.rippleMaterials[i]);
                 Destroy(materialChanger.rippleMaterials[i]);
             }
         }

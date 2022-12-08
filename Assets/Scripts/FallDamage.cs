@@ -38,7 +38,8 @@ public class FallDamage : MonoBehaviour
         if (characterController.isGrounded && fallingDistance > minFallDistance)
         {
             // calc dmg
-            CalculateFallDamage();
+            int fallDamage = CalculateFallDamage();
+            StateManager.Instance.DealDamageEvent(fallDamage);
         }
 
         // set the position the player was last grounded
@@ -49,11 +50,10 @@ public class FallDamage : MonoBehaviour
         }
     }
 
-    private void CalculateFallDamage()
+    private int CalculateFallDamage()
     {
         float fallDistance = startFallPosition.y - this.transform.position.y;
-        Debug.Log("FallDistance: " + fallDistance);
-
-
+        int damage = (int)(fallDistance / 2.0f);
+        return damage;
     }
 }
