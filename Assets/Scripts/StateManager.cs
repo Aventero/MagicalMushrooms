@@ -25,6 +25,9 @@ public class StateManager : MonoBehaviour
     public int PlayerHealth = PlayerMaxHealth;
     public bool OnElevator = false;
 
+    // Witch
+    public bool WitchConeOnPlayer = false;
+
     // Camera
     public bool isLockedOnWitchHead = false;
 

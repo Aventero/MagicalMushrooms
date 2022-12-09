@@ -103,10 +103,10 @@ public class WitchMovement : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.color = new Color(1,0,0,0.5f);
-        Gizmos.DrawWireSphere(this.transform.position, lookingDistance);
-        Gizmos.DrawWireSphere(this.transform.position, alwaysFoundDistance);
-        Gizmos.DrawWireSphere(this.transform.position, catchingDistance);
+        //Gizmos.color = new Color(1,0,0,0.5f);
+        //Gizmos.DrawWireSphere(this.transform.position, lookingDistance);
+        //Gizmos.DrawWireSphere(this.transform.position, alwaysFoundDistance);
+        //Gizmos.DrawWireSphere(this.transform.position, catchingDistance);
     }
 
     public void GoToNextPoint()

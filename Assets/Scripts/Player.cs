@@ -14,8 +14,23 @@ public class Player : MonoBehaviour
         StateManager.Instance.PlayerHealth--;
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Witch")
+        {
+            StateManager.Instance.WitchConeOnPlayer = false;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
+        // Witch View Cone
+        if (other.tag == "Witch")
+        {
+            Debug.Log("TRUE");
+            StateManager.Instance.WitchConeOnPlayer = true;
+        }
+
         if(!other.gameObject.GetComponent<Interactable>())
             return;
 
