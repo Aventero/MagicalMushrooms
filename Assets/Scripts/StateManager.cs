@@ -32,10 +32,13 @@ public class StateManager : MonoBehaviour
     public bool InMenu = false;
 
     // Custom Events
+    public UnityAction AllItemsCollectedEvent;
+    public UnityAction GameOverEvent;
+    public UnityAction PauseGameEvent;
+    public UnityAction ResumeGameEvent;
+
     public delegate void DealDamageCallBack(int damage);
     public DealDamageCallBack DealDamageEvent;
-
-    public UnityAction AllItemsCollectedEvent;
 
     public delegate void ItemPickupCallBack(Item item);
     public ItemPickupCallBack ItemPickupEvent;

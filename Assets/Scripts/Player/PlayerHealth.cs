@@ -20,7 +20,10 @@ public class PlayerHealth : MonoBehaviour
         CurrentHealth -= damage;
 
         // Health will always be within 0 and MaxHealth
-        CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth); 
+        CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+
+        if (CurrentHealth == 0)
+            StateManager.Instance.GameOverEvent.Invoke();
 
         // Update UI
         UIManager.Instance.UpdateHealthIcons(CurrentHealth);

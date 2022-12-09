@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] private GameObject GameOverMenu;
     [SerializeField] private Sprite HealthSprite;
     [SerializeField] private GameObject OverlayParent;
     [SerializeField] private TMP_Text itemCounterText;
@@ -49,11 +50,14 @@ public class UIManager : MonoBehaviour
 
         pickedUpItems = new List<GameObject>();
 
+        GameOverMenu.SetActive(false);
+
         amountOfItems = GameObject.FindObjectsOfType<Item>().Length;
         itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
 
         // RegisterEvent
-        StateManager.Instance.ItemPickupEvent += OnItemPickup;
+        StateManager.Instance.ItemPickupEvent += this.OnItemPickup;
+        StateManager.Instance.GameOverEvent += this.GameOver;
 
         // Spawn all Health sprites
         healthObjects = CreateIcons(HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f);
@@ -135,5 +139,21 @@ public class UIManager : MonoBehaviour
         image.color = Color.red;
 
         return newIcon;
+    }
+
+    public void PauseGame()
+    {
+        StateManager.Instance.PauseGameEvent.Invoke();
+    }
+
+    public void ResumeGame()
+    {
+        StateManager.Instance.ResumeGameEvent.Invoke();
+    }
+
+    private void GameOver()
+    {
+        PauseGame();
+        GameOverMenu.SetActive(true);
     }
 }

@@ -35,6 +35,8 @@ public class NewPlayerMovement : MonoBehaviour
     private float xAxisClamp = 85f;
     private float xAxisRotation = 0f;
 
+    private bool pauseMovement = false;
+
     public bool IsFalling { private set; get; }
 
     // Called before Start()
@@ -60,6 +62,10 @@ public class NewPlayerMovement : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+
+        // Register Events
+        StateManager.Instance.PauseGameEvent += this.PauseMovement;
+        StateManager.Instance.ResumeGameEvent += this.ResumeMovement;
     }
 
     private void SetupJumpVariables()
@@ -71,7 +77,7 @@ public class NewPlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (StateManager.Instance.isLockedOnWitchHead || StateManager.Instance.InMenu)
+        if (StateManager.Instance.isLockedOnWitchHead || pauseMovement)
             return;
 
         readMouseInput();
@@ -170,6 +176,20 @@ public class NewPlayerMovement : MonoBehaviour
             float nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;    // Average the velocity
             currentMovement.y = nextYVelocity;
         }
+    }
+
+    private void PauseMovement()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        //pauseMovement = true;
+        OnDisable();
+    }
+
+    private void ResumeMovement()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        //pauseMovement = false;
+        OnEnable();
     }
 
     private void OnEnable()
