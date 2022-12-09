@@ -11,6 +11,7 @@ public class WitchMovement : MonoBehaviour
     public float lookingAngle = 45.0f;   // Angle from the forward vector
     public float alwaysFoundDistance = 10.0f;
     public float catchingDistance = 5.5f;
+    public int PlayerDamage = 1;
 
     private NavMeshAgent agent;
     private int walkIndex = 0;
@@ -42,7 +43,7 @@ public class WitchMovement : MonoBehaviour
             animator.SetTrigger("PickUp");
             this.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
             StateManager.Instance.isLockedOnWitchHead = true;
-            StateManager.Instance.PlayerHitEvent();
+            StateManager.Instance.DealDamageEvent(PlayerDamage);
             return;
         }
 
