@@ -12,6 +12,6 @@ public class GameOverMenu : MonoBehaviour
 
     public void ExitGame()
     {
-        
+        Application.Quit();
     }
 }

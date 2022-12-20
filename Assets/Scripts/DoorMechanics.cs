@@ -17,6 +17,7 @@ public class DoorMechanics : MonoBehaviour
 
     private void OpenDoor()
     {
+        StopAllCoroutines();
         Animator.enabled = true;
         Animator.Play("OpenDoor");
         StartCoroutine(DisableAfter(5f));
