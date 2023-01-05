@@ -27,7 +27,6 @@ public class Player : MonoBehaviour
         // Witch View Cone
         if (other.tag == "Witch")
         {
-            Debug.Log("TRUE");
             StateManager.Instance.WitchConeOnPlayer = true;
         }
 
