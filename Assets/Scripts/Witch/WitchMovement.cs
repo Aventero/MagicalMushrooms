@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class WitchMovement : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class WitchMovement : MonoBehaviour
     public int PlayerDamage = 1;
 
     private NavMeshAgent agent;
-    private Transform currentWalkPoint;
+    public Transform currentWalkPoint { get; private set; }
     private Transform previousWalkPoint;
     public bool isLockedOnPlayer = false;
     public float secondsTillCaught = 3.0f;
@@ -25,6 +26,21 @@ public class WitchMovement : MonoBehaviour
     //private bool pickingUpIsPlaying = false;
     public Transform witchCameraPosition;
     public Transform witchCameraTarget;
+    private bool choosingNextDestination = false;
+    private bool witchIsMoving = false;
+    public float WaitingTime = 3f;
+    public UnityAction HasReachedDestination;
+    public UnityAction StartsMovingAgain;
+    private WitchWatching witchWatching;
+
+    public bool WitchIsMoving
+    {
+        get 
+        {
+            witchIsMoving = agent.remainingDistance >= agent.stoppingDistance + 1.0f;
+            return witchIsMoving;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +54,17 @@ public class WitchMovement : MonoBehaviour
         {
             WalkPointVisits.Add(point, Random.Range(0, 2));
         }
-        GoToNextPoint();
+        witchWatching = GetComponent<WitchWatching>();
+        witchWatching.IsDoneWatching += GoToNextDestination;
+    }
+
+    private void GoToNextDestination()
+    {
+        // Next destination is set!
+        choosingNextDestination = false;
+        animator.SetBool("Stay", false);
+        StartsMovingAgain.Invoke();
+        agent.destination = currentWalkPoint.position;
     }
 
     // Update is called once per frame
@@ -47,26 +73,26 @@ public class WitchMovement : MonoBehaviour
         Debug.DrawLine(transform.position, currentWalkPoint.position, Color.green);
         Debug.DrawLine(transform.position, previousWalkPoint.position, Color.white);
 
-        // Once the player was too long in the area, play the animation
-        if (timeInsideCatchArea >= secondsTillCaught)
-        {
-            timeInsideCatchArea = 0;
-            animator.SetTrigger("PickUp");
-            this.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
-            StateManager.Instance.isLockedOnWitchHead = true;
-            StateManager.Instance.DealDamageEvent(PlayerDamage);
-            return;
-        }
+        //// Once the player was too long in the area, play the animation
+        //if (timeInsideCatchArea >= secondsTillCaught)
+        //{
+        //    timeInsideCatchArea = 0;
+        //    animator.SetTrigger("PickUp");
+        //    this.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
+        //    StateManager.Instance.isLockedOnWitchHead = true;
+        //    StateManager.Instance.DealDamageEvent(PlayerDamage);
+        //    return;
+        //}
 
-        // Don't move, while pickingUp or in transition to another animation
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("PickUpPlayer") || animator.IsInTransition(0))
-        {
-            player.transform.position = witchCameraPosition.position;
-            Camera.main.transform.LookAt(witchCameraTarget, Vector3.up);
-            return;
-        }
+        //// Don't move, while pickingUp or in transition to another animation
+        //if (animator.GetCurrentAnimatorStateInfo(0).IsName("PickUpPlayer") || animator.IsInTransition(0))
+        //{
+        //    player.transform.position = witchCameraPosition.position;
+        //    Camera.main.transform.LookAt(witchCameraTarget, Vector3.up);
+        //    return;
+        //}
 
-        StateManager.Instance.isLockedOnWitchHead = false;
+       // StateManager.Instance.isLockedOnWitchHead = false;
 
         // On XZ Plane
         //float distance2DToPlayer = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(player.position.x, player.position.z));
@@ -107,16 +133,22 @@ public class WitchMovement : MonoBehaviour
         //    isLockedOnPlayer = false;
         //}
         
-        if (!agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1.0f && !isLockedOnPlayer)
+        if (ReachedDestination())
         {
-            // Agent has reached a walking point, 
-            GoToNextPoint();
+            // Agent has reached a walking point -> Choose the next one
+            ChooseNextWalkPoint();
         }
     }
 
-    public void GoToPlayerPoint()
+    private bool ReachedDestination()
+    {
+        return !agent.pathPending && agent.remainingDistance < agent.stoppingDistance && !isLockedOnPlayer && !choosingNextDestination;
+    }
+
+    public void GoToPlayer()
     {
         //float distance2DToPlayer = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(player.position.x, player.position.z));
+        animator.SetBool("Stay", false);
         agent.destination = player.position;
         GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.red;
     }
@@ -130,17 +162,26 @@ public class WitchMovement : MonoBehaviour
         Gizmos.DrawWireSphere(this.transform.position, catchingDistance);
     }
 
-    public void GoToNextPoint()
+    public void ChooseNextWalkPoint()
     {
-        GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
+        choosingNextDestination = true;
+        animator.SetBool("Stay", true);
+        StartCoroutine(WaitThenChoosePoint(WaitingTime));
+    }
+
+    IEnumerator WaitThenChoosePoint(float waitTime)
+    {
+        // Witch has visited this point!
+        WalkPointVisits[currentWalkPoint]++;
 
         // No Walkpoints means no walking!
         if (walkPoints.Length == 0)
         {
             Debug.Log("No walkingpoints set up!");
-            return;
+            yield break;
         }
 
+        // Get the shortest path with, wich is not the current & previous one!
         Transform shortestPoint = null;
         foreach (Transform t in walkPoints)
         {
@@ -158,16 +199,10 @@ public class WitchMovement : MonoBehaviour
                 }
             }
         }
+
         previousWalkPoint = currentWalkPoint;
         currentWalkPoint = shortestPoint;
+        HasReachedDestination.Invoke();
 
-        WalkPointVisits[currentWalkPoint]++;
-
-        agent.destination = currentWalkPoint.position;
-
-        //// Agent walks to next destination
-
-        //// Choose the next
-        //walkIndex = (walkIndex + 1) % walkPoints.Length;
     }
 }
