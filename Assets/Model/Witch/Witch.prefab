@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5458216647227559669
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3865522259374541011}
-  m_Layer: 0
-  m_Name: WatchPoints (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3865522259374541011
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5458216647227559669}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 9.06}
-  m_LocalScale: {x: 0.76923054, y: 0.7692308, z: 0.76923054}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5517584346009637129}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5517584346009996481
 GameObject:
   m_ObjectHideFlags: 0
@@ -1395,7 +1364,6 @@ Transform:
   m_Children:
   - {fileID: 5517584346009637199}
   - {fileID: 5517584346009637131}
-  - {fileID: 3865522259374541011}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1432,7 +1400,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WatchPoints: []
+  AlertTime: 0.1
+  SmoothTime: 0.3
+  WatchingIntervall: 1
+  Player: {fileID: 0}
   ViewCone: {fileID: 0}
+  StandardWatchpoint: {fileID: 0}
+  Slider: {fileID: 0}
 --- !u!114 &5517584346357366644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1466,13 +1440,13 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  lookingDistance: 25
-  lookingAngle: 60
-  alwaysFoundDistance: 10
   catchingDistance: 8
+  PlayerDamage: 1
+  isLockedOnPlayer: 0
   secondsTillCaught: 3
   witchCameraPosition: {fileID: 5517584346009637133}
   witchCameraTarget: {fileID: 5517584346009637193}
+  WaitingTime: 3
 --- !u!195 &5517584346357366647
 NavMeshAgent:
   m_ObjectHideFlags: 0

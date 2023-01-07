@@ -7,8 +7,8 @@ using UnityEngine.Events;
 public class WitchMovement : MonoBehaviour
 {
     public Transform player;
-    public Transform[] walkPoints;
-    public Dictionary<Transform, int> WalkPointVisits;
+    public GameObject WalkPointsParent;
+    private List<Transform> walkPoints;
     //public float lookingDistance = 5.0f;
     //public float lookingAngle = 45.0f;   // Angle from the forward vector
     //public float alwaysFoundDistance = 10.0f;
@@ -26,21 +26,11 @@ public class WitchMovement : MonoBehaviour
     //private bool pickingUpIsPlaying = false;
     public Transform witchCameraPosition;
     public Transform witchCameraTarget;
-    private bool choosingNextDestination = false;
-    private bool witchIsMoving = false;
     public float WaitingTime = 3f;
-    public UnityAction HasReachedDestination;
+    public UnityAction ReadyToLookAround;
     public UnityAction StartsMovingAgain;
     private WitchWatching witchWatching;
-
-    public bool WitchIsMoving
-    {
-        get 
-        {
-            witchIsMoving = agent.remainingDistance >= agent.stoppingDistance + 1.0f;
-            return witchIsMoving;
-        }
-    }
+    private bool HasArrivedAtDestination = false;
 
     // Start is called before the first frame update
     void Start()
@@ -48,24 +38,18 @@ public class WitchMovement : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         agent.autoBraking = true;
+
+        // Get the Walkpoints 
+        List<Transform> childWalkPoints = new List<Transform>(WalkPointsParent.GetComponentsInChildren<Transform>());
+        childWalkPoints.Remove(WalkPointsParent.transform);
+        walkPoints = childWalkPoints;
+
         currentWalkPoint = previousWalkPoint = walkPoints[0];
-        WalkPointVisits = new Dictionary<Transform, int>();
-        foreach (Transform point in walkPoints)
-        {
-            WalkPointVisits.Add(point, Random.Range(0, 2));
-        }
         witchWatching = GetComponent<WitchWatching>();
-        witchWatching.IsDoneWatching += GoToNextDestination;
+        witchWatching.IsDoneWatching += GoToNextWalkPoint;
     }
 
-    private void GoToNextDestination()
-    {
-        // Next destination is set!
-        choosingNextDestination = false;
-        animator.SetBool("Stay", false);
-        StartsMovingAgain.Invoke();
-        agent.destination = currentWalkPoint.position;
-    }
+
 
     // Update is called once per frame
     void Update()
@@ -133,16 +117,23 @@ public class WitchMovement : MonoBehaviour
         //    isLockedOnPlayer = false;
         //}
         
-        if (ReachedDestination())
+        if (JustReachedDestination())
         {
             // Agent has reached a walking point -> Choose the next one
+            animator.SetBool("Stay", true);
             ChooseNextWalkPoint();
         }
     }
 
-    private bool ReachedDestination()
+    private bool JustReachedDestination()
     {
-        return !agent.pathPending && agent.remainingDistance < agent.stoppingDistance && !isLockedOnPlayer && !choosingNextDestination;
+        if (!HasArrivedAtDestination && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance && !isLockedOnPlayer)
+        {
+            HasArrivedAtDestination = true;
+            return true;
+        }
+
+        return false;
     }
 
     public void GoToPlayer()
@@ -164,45 +155,49 @@ public class WitchMovement : MonoBehaviour
 
     public void ChooseNextWalkPoint()
     {
-        choosingNextDestination = true;
-        animator.SetBool("Stay", true);
-        StartCoroutine(WaitThenChoosePoint(WaitingTime));
+        SetNextWalkpoint();
+        ReadyToLookAround.Invoke();
     }
 
-    IEnumerator WaitThenChoosePoint(float waitTime)
+    public void ChooseNextWalkPointImmediately()
     {
-        // Witch has visited this point!
-        WalkPointVisits[currentWalkPoint]++;
+        SetNextWalkpoint();
+        GoToNextWalkPoint();
+    }
 
+    private void GoToNextWalkPoint()
+    {
+        // Next destination is set!
+        HasArrivedAtDestination = false;
+        animator.SetBool("Stay", false);
+        StartsMovingAgain.Invoke();
+        agent.destination = currentWalkPoint.position;
+    }
+
+    void SetNextWalkpoint()
+    {
         // No Walkpoints means no walking!
-        if (walkPoints.Length == 0)
+        if (walkPoints.Count == 0)
         {
             Debug.Log("No walkingpoints set up!");
-            yield break;
+            return;
         }
 
         // Get the shortest path with, wich is not the current & previous one!
-        Transform shortestPoint = null;
-        foreach (Transform t in walkPoints)
+        List<Transform> closestWalkPoints = new List<Transform>();
+        foreach (Transform walkPoint in walkPoints)
         {
-            if (t != currentWalkPoint && t != previousWalkPoint)
+            if (walkPoint != currentWalkPoint && walkPoint != previousWalkPoint)
             {
-                if (shortestPoint == null)
-                {
-                    shortestPoint = t;
-                    continue;
-                }
-
-                if (Vector3.Distance(transform.position, t.position) < Vector3.Distance(transform.position, shortestPoint.position) && WalkPointVisits[t] <= WalkPointVisits[shortestPoint])
-                {
-                    shortestPoint = t;
-                }
+                closestWalkPoints.Add(walkPoint);
             }
         }
+        closestWalkPoints.Sort((p1, p2) => Vector3.Distance(transform.position, p1.position).CompareTo(Vector3.Distance(transform.position, p2.position)));
+
+        // Randomly choose one of the 5 closest points
+        Transform shortestPoint = closestWalkPoints[Random.Range(0, 4)];
 
         previousWalkPoint = currentWalkPoint;
         currentWalkPoint = shortestPoint;
-        HasReachedDestination.Invoke();
-
     }
 }
