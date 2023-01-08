@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -9,11 +10,9 @@ public class WitchWatching : MonoBehaviour
 {
     public GameObject WatchPointsParent;
     private List<Transform> WatchPoints;
-    private int watchIndex = 0;
 
     private Vector3 smoothingPosition;
     private Transform currentWatchTarget;
-    //private Transform oldWatchPoint;
     private Vector3 SmoothVelocity = Vector3.zero;
 
     public float AlertTime = 0.5f;
@@ -28,7 +27,7 @@ public class WitchWatching : MonoBehaviour
     public GameObject StandardWatchpoint;
     public Slider Slider;
     private WitchMovement witchMovement;
-    bool IsHuntingPlayer = false;    // Currently in vision
+    bool IsHuntingPlayer = false;
     bool IsWatchingLastSeenSpot = false;
     bool PlayerIsVisible = false;
     public UnityAction IsDoneWatching;
@@ -42,9 +41,7 @@ public class WitchWatching : MonoBehaviour
         witchMovement.ReadyToLookAround += LookAround;
         witchMovement.StartsMovingAgain += ChooseNearestWatchPoint;
 
-        List<Transform> childWatchPoints = new List<Transform>(WatchPointsParent.GetComponentsInChildren<Transform>());
-        childWatchPoints.Remove(WatchPointsParent.transform);
-        WatchPoints = childWatchPoints;
+        WatchPoints = new List<Transform>(WatchPointsParent.GetComponentsInChildren<Transform>().Where(Point => Point != WatchPointsParent.transform));
 
         smoothingPosition = WatchPoints[0].position;
         currentWatchTarget = WatchPoints[0];
@@ -65,7 +62,7 @@ public class WitchWatching : MonoBehaviour
         if (HasJustLostPlayer())
         {
             IsWatchingLastSeenSpot = true;
-            StartCoroutine(ReturnToNormalMovement(WatchWaitTime));
+            ReturnToNormalMovement();
         }
 
         if (IsHuntingPlayer)
@@ -85,8 +82,8 @@ public class WitchWatching : MonoBehaviour
             if (alertTimer >= AlertTime)
             {
                 StopAllCoroutines();
+                Slider.value = Slider.maxValue;
                 IsHuntingPlayer = true;
-                Debug.Log("Found!");
                 return true;
             }
         }
@@ -101,8 +98,8 @@ public class WitchWatching : MonoBehaviour
             losingTimer += Time.deltaTime;
             if (losingTimer >= LosingTime)
             {
+                ReturnToNormalMovement();
                 IsHuntingPlayer = false;
-                Debug.Log("Lost player!");
                 return true;
             }
         }
@@ -121,21 +118,19 @@ public class WitchWatching : MonoBehaviour
         Debug.DrawLine(ViewCone.transform.position, Player.transform.position, Color.red);
     }
 
-    IEnumerator ReturnToNormalMovement(float afterSeconds)
+    private void ReturnToNormalMovement()
     {
-        yield return new WaitForSeconds(afterSeconds);
+        Slider.value = Slider.minValue;
         GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.green;
 
         currentSmoothTime = SmoothTime;
         alertTimer = 0f;
         losingTimer = 0f;
-        //currentWatchTarget = currentWatchPoint;
 
         // Find the closest walkpoint and go to that
         witchMovement.isLockedOnPlayer = false;
         IsWatchingLastSeenSpot = false;
         witchMovement.ChooseNextWalkPointImmediately();
-        yield return new WaitForEndOfFrame();
     }
 
     private bool PlayerVisible()
@@ -155,7 +150,7 @@ public class WitchWatching : MonoBehaviour
     }
 
 
-
+    // Called when the witch starts moving again! -> The next Walkpoint has already been set
     public void ChooseNearestWatchPoint()
     {
         StartCoroutine(ChooseNearestWatchPointCoroutine());
@@ -173,41 +168,62 @@ public class WitchWatching : MonoBehaviour
         }
 
         // Choose one randomly
-        currentWatchTarget = NearestWatchpoint(witchMovement.currentWalkPoint.position, WatchPoints);
+        Vector3 forwardToWalkpoint = witchMovement.currentWalkPoint.position - transform.position;
+        List<Transform> visiblePointsAtNextDestination = CalculateVisiblePoints(witchMovement.currentWalkPoint.position, forwardToWalkpoint, 75f);
+        if (visiblePointsAtNextDestination.Count == 0)
+        {
+            currentWatchTarget = StandardWatchpoint.transform;
+        }
+        else
+            currentWatchTarget = visiblePointsAtNextDestination[UnityEngine.Random.Range(0, visiblePointsAtNextDestination.Count)];
+
+        if (EasyAngle(transform.position, transform.forward, currentWatchTarget.position) > 75f)
+        {
+            // the new point is behind the witch, look at the standard and then at the corrent one
+            Transform tmp = currentWatchTarget;
+            currentWatchTarget = StandardWatchpoint.transform;
+            yield return new WaitUntil(() => EasyAngle(transform.position, transform.forward, witchMovement.currentWalkPoint.position) < 45f);
+            currentWatchTarget = tmp;
+        }
+
         yield return null;
     }
 
-    private List<Transform> CalculateVisiblePoints()
+    private List<Transform> CalculateVisiblePoints(Vector3 desiredPoint, Vector3 forward, float viewAngle)
     {
         List<Transform> visibleWatchPoints = new List<Transform>();
-        Vector2 forward = new Vector2(transform.forward.x, transform.forward.z);
-        foreach (Transform point in WatchPoints)
+        //Vector2 forward2D = new Vector2(forward.x, forward.z);
+        foreach (Transform watchPoint in WatchPoints)
         {
-            Vector2 witchTowardsPoint = new Vector2(point.position.x, point.position.z) - new Vector2(transform.position.x, transform.position.z);
-            float angleToPoint = Vector2.Angle(forward, witchTowardsPoint);
-            if (angleToPoint <= 90f)
+           // Vector2 witchTowardsPoint = new Vector2(watchPoint.position.x, watchPoint.position.z) - new Vector2(desiredPoint.x, desiredPoint.z);
+            float angle = EasyAngle(desiredPoint, forward, watchPoint.position);
+           // float angleToPoint = Vector2.Angle(forward2D, witchTowardsPoint);
+            if (angle <= viewAngle)
             {
-                visibleWatchPoints.Add(point);
-                Debug.DrawLine(transform.position, point.position, Color.magenta, 2f);
+                visibleWatchPoints.Add(watchPoint);
+                Debug.DrawLine(transform.position, watchPoint.position, Color.magenta, 2f);
             }
         }
 
         return visibleWatchPoints;
     }
 
+    public static float EasyAngle(Vector3 position, Vector3 forward, Vector3 desiredPoint)
+    {
+        Vector2 forward2D = new Vector2(forward.x, forward.z);
+        Vector2 towardsPoint = new Vector2(desiredPoint.x, desiredPoint.z) - new Vector2(position.x, position.z);
+        return Vector2.Angle(forward2D, towardsPoint);
+    }
+
     private void LookAround()
     {
-        List<Transform> visiblePoints = CalculateVisiblePoints();
+        List<Transform> visiblePoints = CalculateVisiblePoints(transform.position, transform.forward, 75f);
         StartCoroutine(LookAroundRandomly(WatchWaitTime, visiblePoints));
     }
 
     IEnumerator LookAroundRandomly(float waitTimeInBetween, List<Transform> visiblePoints)
     {
         yield return new WaitUntil(() => !IsWatchingLastSeenSpot || !IsHuntingPlayer );
-
-        // relax
-        currentWatchTarget = StandardWatchpoint.transform;
-        yield return new WaitForSeconds(waitTimeInBetween / 2f);
 
         int times = 0;
         foreach (Transform point in visiblePoints)
@@ -228,7 +244,7 @@ public class WitchWatching : MonoBehaviour
         IsDoneWatching.Invoke();
     }
 
-    private Transform NearestWatchpoint(Vector3 position, List<Transform> points)
+    private Transform CalcualteNearestWatchpoint(Vector3 position, List<Transform> points)
     {
         // Get the shortest path with, wich is not the current & previous one!
         if (points.Count == 0)
@@ -249,6 +265,8 @@ public class WitchWatching : MonoBehaviour
     private void WatchSpot()
     {
         smoothingPosition = Vector3.SmoothDamp(smoothingPosition, currentWatchTarget.position, ref SmoothVelocity, currentSmoothTime);
-        ViewCone.transform.LookAt(smoothingPosition);
+        Vector3 relativeSmoothingPosition = smoothingPosition - ViewCone.transform.position;
+        Quaternion rotation = Quaternion.LookRotation(relativeSmoothingPosition, ViewCone.transform.up);
+        ViewCone.transform.rotation = rotation;
     }
 }

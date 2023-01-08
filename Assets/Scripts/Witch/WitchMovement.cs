@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -20,7 +21,7 @@ public class WitchMovement : MonoBehaviour
     private Transform previousWalkPoint;
     public bool isLockedOnPlayer = false;
     public float secondsTillCaught = 3.0f;
-    private float timeInsideCatchArea = 0.0f;
+    //private float timeInsideCatchArea = 0.0f;
 
     Animator animator;
     //private bool pickingUpIsPlaying = false;
@@ -40,16 +41,12 @@ public class WitchMovement : MonoBehaviour
         agent.autoBraking = true;
 
         // Get the Walkpoints 
-        List<Transform> childWalkPoints = new List<Transform>(WalkPointsParent.GetComponentsInChildren<Transform>());
-        childWalkPoints.Remove(WalkPointsParent.transform);
-        walkPoints = childWalkPoints;
+        walkPoints = new List<Transform>(WalkPointsParent.GetComponentsInChildren<Transform>().Where(point => point != WalkPointsParent.transform));
 
         currentWalkPoint = previousWalkPoint = walkPoints[0];
         witchWatching = GetComponent<WitchWatching>();
         witchWatching.IsDoneWatching += GoToNextWalkPoint;
     }
-
-
 
     // Update is called once per frame
     void Update()
@@ -167,10 +164,18 @@ public class WitchMovement : MonoBehaviour
 
     private void GoToNextWalkPoint()
     {
+        StartCoroutine(WaitThenGoToNextWalkPoint(WaitingTime));
+    }
+
+    IEnumerator WaitThenGoToNextWalkPoint(float waitTime)
+    {
+        StartsMovingAgain.Invoke();
+
+        yield return new WaitForSeconds(waitTime);
+
         // Next destination is set!
         HasArrivedAtDestination = false;
         animator.SetBool("Stay", false);
-        StartsMovingAgain.Invoke();
         agent.destination = currentWalkPoint.position;
     }
 

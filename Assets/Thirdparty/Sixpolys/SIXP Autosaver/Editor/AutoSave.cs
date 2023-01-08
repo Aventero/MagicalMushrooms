@@ -33,7 +33,8 @@ public class AutoSave : EditorWindow
 		window.minSize = new Vector2 (0, 50);
 	}
 
-	public static void LoadPreferences ()
+    [Obsolete]
+    public static void LoadPreferences ()
 	{
 		if (AutoSavePreferences.autosaveEnabled) {
 			if (timer == null) {
@@ -64,8 +65,8 @@ public class AutoSave : EditorWindow
 
 	}
 
-
-	public static void playModeChanged ()
+    [Obsolete]
+    public static void playModeChanged ()
 	{
 		if (AutoSavePreferences.saveBeforeRun && EditorApplication.isPlayingOrWillChangePlaymode && !savedBeforePlay) {
 			savedBeforePlay = true;
@@ -77,7 +78,8 @@ public class AutoSave : EditorWindow
 		}
 	}
 
-	public static void HierarchyChanged ()
+    [Obsolete]
+    public static void HierarchyChanged ()
 	{
 		if (AutoSavePreferences.saveOnHierarchyChanges && !EditorApplication.isPlaying) {
 			hierarchyChangeCount++;
@@ -94,8 +96,9 @@ public class AutoSave : EditorWindow
 			_saveNow = true;
 		}
 	}
-	
-	public static void executeSave ()
+
+    [Obsolete]
+    public static void executeSave ()
 	{
 		stw1.Stop ();
 		stw1.Reset ();
@@ -142,7 +145,8 @@ public class AutoSave : EditorWindow
 	}
 
 	[InitializeOnLoadMethod]
-	public static void InitAutosave ()
+    [Obsolete]
+    public static void InitAutosave ()
 	{
 		stw1 = new Stopwatch ();
 		stw1.Start ();
@@ -152,7 +156,8 @@ public class AutoSave : EditorWindow
 		LoadPreferences ();
 	}
 
-	public static void EditorUpdate ()
+    [Obsolete]
+    public static void EditorUpdate ()
 	{
 		if (_saveNow) {
 			_saveNow = false;
@@ -168,7 +173,8 @@ public class AutoSave : EditorWindow
 		instance = this;
 	}
 
-	void OnGUI ()
+    [Obsolete]
+    void OnGUI ()
 	{
 		EditorGUILayout.BeginHorizontal ();
 		if (logo != null) {

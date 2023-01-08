@@ -73,8 +73,11 @@ public class AutoSavePreferences
 	};
 	static int saveIntervalIndex = 0;
 
+#pragma warning disable CS0618 // Typ oder Element ist veraltet
 	[PreferenceItem("Autosave")]
-	public static void OnGUI ()
+    [System.Obsolete]
+#pragma warning restore CS0618 // Typ oder Element ist veraltet
+    public static void OnGUI ()
 	{
 		if (!loaded) {
 			LoadPreferences ();
@@ -104,7 +107,8 @@ public class AutoSavePreferences
 		}
 	}
 
-	public static void SavePreferences ()
+    [System.Obsolete]
+    public static void SavePreferences ()
 	{
 		EditorPrefs.SetBool (AUTOSAVE_ENABLED_KEY, autosaveEnabled);
 		EditorPrefs.SetInt (SAVE_INTERVAL_INDEX_KEY, saveIntervalIndex);
