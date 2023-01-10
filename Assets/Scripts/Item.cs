@@ -22,12 +22,18 @@ public class Item : Interactable
 
     public override void InPlayerSight()
     {
+        if (meshRenderer == null)
+            return;
+
         Material material = meshRenderer.material;
         material.color = InPlayerSightColor;
     }
 
     public override void OutOfPlayerSight()
     {
+        if (meshRenderer == null)
+            return;
+
         Material material = meshRenderer.material;
         material.color = standardColor;
     }
