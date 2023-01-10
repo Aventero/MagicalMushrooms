@@ -7,7 +7,6 @@ public abstract class Interactable : MonoBehaviour
 {
     [Header("Sprites:")]
     public Sprite InRangeSprite;
-    public Sprite OutOfRangeSprite;
 
     public Image Image;
 
@@ -20,8 +19,11 @@ public abstract class Interactable : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
-        if(Image)
-            Image.sprite = OutOfRangeSprite;
+        if (Image)
+        {
+            Image.sprite = InRangeSprite;
+            Image.gameObject.SetActive(false);
+        }
 
         CreateSphereCollider();
     }
@@ -50,7 +52,7 @@ public abstract class Interactable : MonoBehaviour
         if (!other.gameObject.tag.Equals("Player"))
             return;
 
-        Image.sprite = InRangeSprite;
+        Image.gameObject.SetActive(true);
     }
 
     protected virtual void OnTriggerExit(Collider other)
@@ -58,9 +60,10 @@ public abstract class Interactable : MonoBehaviour
         if (!other.gameObject.tag.Equals("Player"))
             return;
 
-        Image.sprite = OutOfRangeSprite;
+        Image.gameObject.SetActive(false);
     }
 
+    public abstract void Interact();
     public abstract void InPlayerSight();
     public abstract void OutOfPlayerSight();
 }

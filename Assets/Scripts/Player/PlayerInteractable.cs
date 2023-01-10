@@ -8,6 +8,12 @@ public class PlayerInteractable : MonoBehaviour
 
     private Interactable oldNearestInteractable;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && oldNearestInteractable != null)
+            oldNearestInteractable.Interact();
+    }
+
     private void FixedUpdate()
     {
         Transform cameraTransform = Camera.main.transform;

@@ -19,15 +19,5 @@ public class Player : MonoBehaviour
         {
             StateManager.Instance.WitchConeOnPlayer = true;
         }
-
-        if(!other.gameObject.GetComponent<Interactable>())
-            return;
-
-        // Add item pickup
-        Item item = other.gameObject.GetComponent<Item>();
-
-        StateManager.Instance.ItemPickupEvent(item);
-
-        Destroy(other.gameObject);
     }
 }

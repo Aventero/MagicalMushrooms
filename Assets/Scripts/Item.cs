@@ -37,4 +37,14 @@ public class Item : Interactable
         Material material = meshRenderer.material;
         material.color = standardColor;
     }
+
+    public override void Interact()
+    {
+        // Pickup Item
+        Item item = this.GetComponent<Item>();
+        StateManager.Instance.ItemPickupEvent(item);
+
+        // Destroy picked up item
+        Destroy(this.gameObject);
+    }
 }
