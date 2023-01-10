@@ -31,6 +31,7 @@ public class WitchWatching : MonoBehaviour
     bool IsWatchingLastSeenSpot = false;
     bool PlayerIsVisible = false;
     public UnityAction IsDoneWatching;
+    public UnityAction HuntingPlayer;
     
     
     private void Start()
@@ -83,6 +84,7 @@ public class WitchWatching : MonoBehaviour
             {
                 StopAllCoroutines();
                 Slider.value = Slider.maxValue;
+                
                 IsHuntingPlayer = true;
                 return true;
             }

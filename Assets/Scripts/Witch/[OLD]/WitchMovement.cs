@@ -138,6 +138,20 @@ public class WitchMovement : MonoBehaviour
         //float distance2DToPlayer = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(player.position.x, player.position.z));
         animator.SetBool("Stay", false);
         agent.destination = player.position;
+        
+        if (!agent.pathPending)
+        {
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                {
+                    Debug.Log("Edge - stop me");
+                    agent.isStopped = true;
+                    animator.SetBool("Stay", true);
+                }
+            }
+        }
+
         GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.red;
     }
 
