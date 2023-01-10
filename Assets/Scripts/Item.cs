@@ -6,4 +6,29 @@ public class Item : Interactable
 {
     public string Name;
     public Sprite Icon;
+
+    public Color InPlayerSightColor;
+
+    private Color standardColor;
+    private MeshRenderer meshRenderer;
+
+    private new void Start()
+    {
+        base.Start(); // Call parent start method
+
+        meshRenderer = this.gameObject.GetComponent<MeshRenderer>();
+        standardColor = meshRenderer.material.color;
+    }
+
+    public override void InPlayerSight()
+    {
+        Material material = meshRenderer.material;
+        material.color = InPlayerSightColor;
+    }
+
+    public override void OutOfPlayerSight()
+    {
+        Material material = meshRenderer.material;
+        material.color = standardColor;
+    }
 }

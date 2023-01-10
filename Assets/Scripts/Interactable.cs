@@ -60,4 +60,7 @@ public abstract class Interactable : MonoBehaviour
 
         Image.sprite = OutOfRangeSprite;
     }
+
+    public abstract void InPlayerSight();
+    public abstract void OutOfPlayerSight();
 }

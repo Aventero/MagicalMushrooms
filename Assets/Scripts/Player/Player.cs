@@ -4,16 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private void Start()
-    {
-        //StateManager.Instance.PlayerHitEvent += OnPlayerHit;
-    }
-
-    private void OnPlayerHit()
-    {
-        //StateManager.Instance.PlayerHealth--;
-    }
-
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Witch")
