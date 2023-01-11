@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class AIVision : MonoBehaviour
 {
     public GameObject ViewCone;
-    
+    public ScriptableRendererFeature ScriptableRenderer;
+
     // Player watching
     private Transform Player;
     bool IsHuntingPlayer = false;
@@ -33,6 +35,7 @@ public class AIVision : MonoBehaviour
         Player = aiStateManager.Player;
         currentWatchTarget = aiStateManager.WatchPoints[0];
         smoothingPosition = currentWatchTarget.position;
+        ScriptableRenderer.SetActive(false);
     }
 
     void FixedUpdate()
@@ -47,6 +50,7 @@ public class AIVision : MonoBehaviour
 
     public void WatchSpot()
     {
+        Debug.DrawLine(ViewCone.transform.position, currentWatchTarget.position, new Color(0.1f, 0.1f, 0.1f));
         smoothingPosition = Vector3.SmoothDamp(smoothingPosition, currentWatchTarget.position, ref SmoothVelocity, SmoothTime);
         Vector3 relativeSmoothingPosition = smoothingPosition - ViewCone.transform.position;
         Quaternion rotation = Quaternion.LookRotation(relativeSmoothingPosition, ViewCone.transform.up);
@@ -85,6 +89,7 @@ public class AIVision : MonoBehaviour
             {
                 Slider.value = Slider.maxValue;
                 IsHuntingPlayer = true;
+                ScriptableRenderer.SetActive(true);
                 return true;
             }
         }
@@ -100,6 +105,7 @@ public class AIVision : MonoBehaviour
             if (losingTimer >= LosingTime)
             {
                 IsHuntingPlayer = false;
+                ScriptableRenderer.SetActive(false);
                 return true;
             }
         }

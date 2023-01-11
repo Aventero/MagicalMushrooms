@@ -78,8 +78,6 @@ public class AIStateManager : MonoBehaviour
         aiVision.Watch(point);
     }
 
-
-
     public void TransitionToState(string stateName)
     {
         previousState = currentState;
