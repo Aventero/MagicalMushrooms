@@ -5,70 +5,62 @@ using UnityEngine;
 public class PlayerInteractable : MonoBehaviour
 {
     public float MaxRayDistance;
+    public float BoxRaySize = 1.0f;
 
-    private List<Interactable> OnSightInteractablesList;
+    private Interactable nearestInteractable;
 
-    private void Start()
+    private void Update()
     {
-        OnSightInteractablesList = new List<Interactable>();
+        if (Input.GetKeyDown(KeyCode.E) && nearestInteractable != null)
+            nearestInteractable.Interact();
     }
 
-    // Looking for Interactable in Range and Sight
     private void FixedUpdate()
     {
         Transform cameraTransform = Camera.main.transform;
 
-        RaycastHit[] hits = Physics.BoxCastAll(cameraTransform.position, new Vector3(0.5f, 0.5f, 0.5f), cameraTransform.forward, Quaternion.identity, MaxRayDistance);
-        UpdateInteractablesList(hits);
-
+        RaycastHit[] hits = Physics.BoxCastAll(cameraTransform.position, new Vector3(BoxRaySize, BoxRaySize, BoxRaySize), cameraTransform.forward, Quaternion.identity, MaxRayDistance);
+        List<(Interactable, float)> interactablesAndDistances = GetInteractablesAndDistances(hits);
+        Interactable nearestInteractable = GetNearestInteractable(interactablesAndDistances);
+        SetNewInteractable(nearestInteractable);
     }
 
-    private void UpdateInteractablesList(RaycastHit[] hits)
+    private void SetNewInteractable(Interactable newInteractable)
     {
-        List<Interactable> newInteractables = GetInteractables(hits);
+        if (nearestInteractable != null)
+            nearestInteractable.OutOfPlayerSight();
 
-        CleanUpOnSightInteractablesList(newInteractables);
-        AddNewInteractables(newInteractables);
-    }
-
-    private void CleanUpOnSightInteractablesList(List<Interactable> newInteractables)
-    {
-        List<Interactable> removeInteractablesList = new List<Interactable>();
-        foreach (Interactable oldinteractables in OnSightInteractablesList)
-        {
-            if (newInteractables.Contains(oldinteractables))
-                continue;
-
-            oldinteractables.OutOfPlayerSight();
-            removeInteractablesList.Add(oldinteractables);
-            
-        }
-
-        foreach (Interactable removeInteractable in removeInteractablesList)
-            OnSightInteractablesList.Remove(removeInteractable);
-    }
-
-    private void AddNewInteractables(List<Interactable> newInteractables)
-    {
-        foreach (Interactable newInteractable in newInteractables)
-        {
-            if (OnSightInteractablesList.Contains(newInteractable))
-                continue;
-
+        if(newInteractable != null)
             newInteractable.InPlayerSight();
-            OnSightInteractablesList.Add(newInteractable);
-        }
+
+        nearestInteractable = newInteractable;
     }
 
-    private List<Interactable> GetInteractables(RaycastHit[] hits)
+    private Interactable GetNearestInteractable(List<(Interactable, float)> interactables)
     {
-        List<Interactable> interactables = new List<Interactable>();
+        if (interactables.Count <= 0)
+            return null;
+
+        (Interactable, float) nearestInteractable = interactables[0];
+
+        foreach ((Interactable, float) interactable in interactables)
+        {
+            if (nearestInteractable.Item2 > interactable.Item2)
+                nearestInteractable = interactable;
+        }
+
+        return nearestInteractable.Item1;
+    }
+
+    private List<(Interactable, float)> GetInteractablesAndDistances(RaycastHit[] hits)
+    {
+        List<(Interactable, float)> interactables = new List<(Interactable, float)>();
 
         foreach (RaycastHit hit in hits)
         {
             Interactable interactable = hit.transform.gameObject.GetComponent<Interactable>();
             if (interactable != null)
-                interactables.Add(interactable);
+                interactables.Add((interactable, hit.distance));
         }
 
         return interactables;
