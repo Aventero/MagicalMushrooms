@@ -38,6 +38,7 @@ public class NewPlayerMovement : MonoBehaviour
     private bool pauseMovement = false;
 
     public bool IsFalling { private set; get; }
+    private bool CanMove = true;
 
     // Called before Start()
     private void Awake()
@@ -68,6 +69,11 @@ public class NewPlayerMovement : MonoBehaviour
         StateManager.Instance.ResumeGameEvent += this.ResumeMovement;
     }
 
+    public void ActivateMovement(bool activate)
+    {
+        CanMove = activate;
+    }
+
     private void SetupJumpVariables()
     {
         float timeToApex = maxJumpTime / 2.0f;
@@ -85,11 +91,15 @@ public class NewPlayerMovement : MonoBehaviour
         handleRotation();
 
         // Move the player
-        characterController.Move(currentMovement * Time.deltaTime);
+        if (CanMove)
+        {
+            characterController.Move(currentMovement * Time.deltaTime);
+            if (!StateManager.Instance.OnElevator)
+                handleGravity();
+            handleJump();
+        }
 
-        if (!StateManager.Instance.OnElevator)
-            handleGravity();
-        handleJump();
+
     }
 
     private void onJump(InputAction.CallbackContext context)

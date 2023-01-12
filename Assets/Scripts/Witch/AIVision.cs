@@ -8,6 +8,7 @@ public class AIVision : MonoBehaviour
 {
     public GameObject ViewCone;
     public ScriptableRendererFeature ScriptableRenderer;
+    public Material BlitMaterial;
 
     // Player watching
     private Transform Player;
@@ -90,6 +91,7 @@ public class AIVision : MonoBehaviour
                 Slider.value = Slider.maxValue;
                 IsHuntingPlayer = true;
                 ScriptableRenderer.SetActive(true);
+                StartCoroutine(LerpBlit(0.2f, 2f, true));
                 return true;
             }
         }
@@ -105,7 +107,7 @@ public class AIVision : MonoBehaviour
             if (losingTimer >= LosingTime)
             {
                 IsHuntingPlayer = false;
-                ScriptableRenderer.SetActive(false);
+                StartCoroutine(LerpBlit(0f, 2f, false));
                 return true;
             }
         }
@@ -113,4 +115,25 @@ public class AIVision : MonoBehaviour
         return false;
     }
 
+    IEnumerator LerpBlit(float toLerpTo, float time, bool activate)
+    {
+        // Activate if necessary
+        if (activate)
+            ScriptableRenderer.SetActive(true);
+
+        // Lerp the Transparency to b
+        float a = BlitMaterial.GetFloat("_Transparency");
+        float delta = 0f;
+        while (delta < time)
+        {
+            delta += Time.deltaTime;
+            float val = Mathf.Lerp(a, toLerpTo, delta / time);
+            BlitMaterial.SetFloat("_Transparency", val);
+            yield return null;
+        }
+
+        // Deactivate if necessary
+        if (!activate)
+            ScriptableRenderer.SetActive(false);
+    }
 }

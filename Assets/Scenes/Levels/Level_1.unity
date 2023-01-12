@@ -4198,7 +4198,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 516276608}
   m_LocalRotation: {x: -0, y: -0.97461283, z: -0, w: -0.22389723}
-  m_LocalPosition: {x: -1.9, y: 9.540001, z: -4.95}
+  m_LocalPosition: {x: -1.66, y: 13.97, z: -6.37}
   m_LocalScale: {x: 0.10000003, y: 0.1, z: 0.10000003}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4431,7 +4431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 0
+  m_Weight: 1
   m_Data:
     m_Root: {fileID: 1409812549}
     m_Mid: {fileID: 1409812548}
@@ -5252,7 +5252,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.8349841, b: 0.5518868, a: 1}
-  m_Intensity: 200
+  m_Intensity: 20
   m_Range: 44.5
   m_SpotAngle: 45.16949
   m_InnerSpotAngle: 41.871777
@@ -9567,6 +9567,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2303186048901465490, guid: 61a87df874c17f444b04604270963b83, type: 3}
+--- !u!1 &1252978554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1252978555}
+  m_Layer: 2
+  m_Name: PullPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1252978555
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252978554}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.08, y: 10.85, z: 3.98}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1409812490}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1279916731
 GameObject:
   m_ObjectHideFlags: 0
@@ -10276,6 +10307,11 @@ PrefabInstance:
       propertyPath: ViewCone
       value: 
       objectReference: {fileID: 919132148803352153}
+    - target: {fileID: 2911451248570992174, guid: 7832c25e26d297e449ecef85cac16328,
+        type: 3}
+      propertyPath: BlitMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 09cd1f7479aa45045a785bd3b8618d55, type: 2}
     - target: {fileID: 2911451248570992174, guid: 7832c25e26d297e449ecef85cac16328,
         type: 3}
       propertyPath: ScriptableRenderer
@@ -11169,6 +11205,11 @@ PrefabInstance:
       propertyPath: HandIK
       value: 
       objectReference: {fileID: 559845062}
+    - target: {fileID: 7883224600434508609, guid: 7832c25e26d297e449ecef85cac16328,
+        type: 3}
+      propertyPath: PullPoint
+      value: 
+      objectReference: {fileID: 1252978554}
     - target: {fileID: 7883224600434508609, guid: 7832c25e26d297e449ecef85cac16328,
         type: 3}
       propertyPath: HandTarget
@@ -13409,7 +13450,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1830129637}
   m_LocalRotation: {x: -0, y: -0.97461283, z: -0, w: -0.22389723}
-  m_LocalPosition: {x: -5.6, y: 11.73, z: 0.15}
+  m_LocalPosition: {x: -4.61, y: 12.44, z: 0.02}
   m_LocalScale: {x: 0.10000002, y: 0.1, z: 0.10000002}
   m_ConstrainProportionsScale: 0
   m_Children: []

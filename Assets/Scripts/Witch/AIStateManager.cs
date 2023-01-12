@@ -37,6 +37,7 @@ public class AIStateManager : MonoBehaviour
 
     // Watching
     private AIVision aiVision;
+    private bool CanHunt = true;
 
     void Awake()
     {
@@ -63,7 +64,7 @@ public class AIStateManager : MonoBehaviour
     {
         currentState.UpdateState(this);
         aiVision.WatchSpot();
-        if (aiVision.HasJustFoundPlayer())
+        if (aiVision.HasJustFoundPlayer() && CanHunt)
             TransitionToState("Chase");
 
         if (aiVision.HasJustLostPlayer())
@@ -168,5 +169,17 @@ public class AIStateManager : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    public void StopHunting(float time)
+    {
+        StartCoroutine(StopHuntingCoroutine(time));
+    }
+
+    private IEnumerator StopHuntingCoroutine(float timeWaitTime)
+    {
+        CanHunt = false;
+        yield return new WaitForSeconds(timeWaitTime);
+        CanHunt = true;
     }
 }
