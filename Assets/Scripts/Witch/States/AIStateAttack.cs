@@ -8,18 +8,17 @@ internal class AIStateAttack : MonoBehaviour, AIState
 {
     public string StateName => "Attack";
     public TwoBoneIKConstraint HandIK;
-    public GameObject HandTarget;
-
+    public MultiAimConstraint MultiAimHand;
+    public GameObject PullPoint;
     public float ReachTime = 2f;
+
     private Transform player;
     private bool pulling = false;
-    public GameObject PullPoint;
 
     public void EnterState(AIStateManager stateManager)
     {
         Debug.Log("Attack");
         player = stateManager.Player.transform;
-        HandTarget.transform.position = PullPoint.transform.position;
         StartCoroutine(ReachOutHand(stateManager, ReachTime));   
     }
 
@@ -44,7 +43,7 @@ internal class AIStateAttack : MonoBehaviour, AIState
         while (delta <= reachTime)
         {
             delta += Time.deltaTime;
-            HandIK.weight =  Mathf.Lerp(0, 1, delta / reachTime);
+            MultiAimHand.weight = HandIK.weight =  Mathf.Lerp(0, 1, delta / reachTime);
             yield return null;
         }
 
@@ -62,7 +61,7 @@ internal class AIStateAttack : MonoBehaviour, AIState
         while (delta <= reachTime)
         {
             delta += Time.deltaTime;
-            HandIK.weight = Mathf.Lerp(1, 0, delta / reachTime);
+            MultiAimHand.weight = HandIK.weight = Mathf.Lerp(1, 0, delta / reachTime);
             yield return null;
         }
 

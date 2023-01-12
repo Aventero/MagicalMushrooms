@@ -63,7 +63,6 @@ public class AIVision : MonoBehaviour
         currentWatchTarget = point;
     }
 
-
     private bool PlayerVisible()
     {
         if (!StateManager.Instance.WitchConeOnPlayer)
@@ -135,5 +134,11 @@ public class AIVision : MonoBehaviour
         // Deactivate if necessary
         if (!activate)
             ScriptableRenderer.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        ScriptableRenderer.SetActive(false);
+        BlitMaterial.SetFloat("_Transparency", 0);
     }
 }
