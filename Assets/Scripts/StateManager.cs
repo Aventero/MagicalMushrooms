@@ -40,6 +40,6 @@ public class StateManager : MonoBehaviour
     public delegate void DealDamageCallBack(int damage);
     public DealDamageCallBack DealDamageEvent;
 
-    public delegate void ItemPickupCallBack(Item item);
+    public delegate void ItemPickupCallBack(ItemData item);
     public ItemPickupCallBack ItemPickupEvent;
 }

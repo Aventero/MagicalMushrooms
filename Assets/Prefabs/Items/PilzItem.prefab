@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 4012719288765799498}
   - component: {fileID: 4012719288765799497}
   - component: {fileID: 4012719288765799500}
+  - component: {fileID: 941352585586904027}
   m_Layer: 0
   m_Name: PilzItem
   m_TagString: Item
@@ -275,8 +276,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InRangeSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  OutOfRangeSprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   Image: {fileID: 9189166816094292596}
-  interactionSize: 5
-  Name: Pilz
-  Icon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  interactionSize: 2
+  item:
+    Name: PilzItem
+    Icon: {fileID: 21300000, guid: d24e7e0b75e1a244bb9687d6fd4315ef, type: 3}
+  InPlayerSightColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!65 &941352585586904027
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4012719288765799511}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

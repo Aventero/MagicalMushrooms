@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Item : Interactable
 {
-    public string Name;
-    public Sprite Icon;
-
+    public ItemData item;
     public Color InPlayerSightColor;
 
     private Color standardColor;
@@ -41,7 +39,6 @@ public class Item : Interactable
     public override void Interact()
     {
         // Pickup Item
-        Item item = this.GetComponent<Item>();
         StateManager.Instance.ItemPickupEvent(item);
 
         // Destroy picked up item

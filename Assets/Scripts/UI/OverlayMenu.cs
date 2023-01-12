@@ -61,9 +61,15 @@ public class OverlayMenu : MonoBehaviour
         }
     }
 
-    public void OnItemPickup(Item item)
+    public void OnItemPickup(ItemData item)
     {
         Debug.Log("Picked up Item: " + item.Name + " Counter: " + pickedUpItems.Count.ToString());
+        UpdateItemCounter();
+        DisplayItemIcons(item.Icon);
+    }
+
+    public void UpdateItemCounter()
+    {
         pickedUpItemsCounter++;
 
         // Update Item Counter
@@ -75,6 +81,10 @@ public class OverlayMenu : MonoBehaviour
             itemCounterText.color = Color.green;
             StateManager.Instance.AllItemsCollectedEvent.Invoke();
         }
+    }
 
+    public void DisplayItemIcons(Sprite icon)
+    {
+        UIManager.Instance.CreateIcons(icon, "Item Icon", 1, new Vector2(1, 0), new Vector2(1, 0), 0.2f);
     }
 }

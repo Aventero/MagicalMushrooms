@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -107,7 +104,7 @@ public class CompassBar : MonoBehaviour
     private GameObject CreateIcon(GameObject itemGameobject)
     {
         // Create new Icon Game Object
-        Item item = itemGameobject.GetComponent<Item>();
+        ItemData item = itemGameobject.GetComponent<Item>().item;
         GameObject newItemGameObject = Instantiate(iconPrefab, this.transform);
 
         // Set the item sprite

@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 2148894460340954549}
   - component: {fileID: 7081943148575423570}
   - component: {fileID: 764140087229067908}
+  - component: {fileID: 2650662224756240871}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -220,6 +221,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxRayDistance: 50
+  BoxRaySize: 1
+--- !u!114 &2650662224756240871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857605709861750716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79a9da027c4049b38bece28db3c6ee1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2857605710249577893
 GameObject:
   m_ObjectHideFlags: 0
