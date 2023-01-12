@@ -65,4 +65,11 @@ public class PlayerInteractable : MonoBehaviour
 
         return interactables;
     }
+
+    private void OnDrawGizmos()
+    {
+        Vector3 cameraPos = Camera.main.transform.position;
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(cameraPos, Camera.main.transform.forward * BoxRaySize);
+    }
 }

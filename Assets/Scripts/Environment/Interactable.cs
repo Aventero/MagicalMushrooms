@@ -37,6 +37,7 @@ public abstract class Interactable : MonoBehaviour
     protected virtual void CreateSphereCollider()
     {
         SphereCollider sphereCollider = this.gameObject.AddComponent<SphereCollider>();
+        sphereCollider.center = Vector3.zero;
         sphereCollider.radius = interactionSize;
         sphereCollider.isTrigger = true;
     }
@@ -52,7 +53,7 @@ public abstract class Interactable : MonoBehaviour
         if (!other.gameObject.tag.Equals("Player"))
             return;
 
-        Image.gameObject.SetActive(true);
+        //Image.gameObject.SetActive(true);
     }
 
     protected virtual void OnTriggerExit(Collider other)
@@ -60,7 +61,7 @@ public abstract class Interactable : MonoBehaviour
         if (!other.gameObject.tag.Equals("Player"))
             return;
 
-        Image.gameObject.SetActive(false);
+        //Image.gameObject.SetActive(false);
     }
 
     public abstract void Interact();
