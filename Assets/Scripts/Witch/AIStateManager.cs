@@ -64,11 +64,20 @@ public class AIStateManager : MonoBehaviour
     {
         currentState.UpdateState(this);
         aiVision.WatchSpot();
-        if (aiVision.HasJustFoundPlayer() && CanHunt)
-            TransitionToState("Chase");
 
-        if (aiVision.HasJustLostPlayer())
+        // Chase the player, but take a break if U Hunted Before (CanHunt)
+        if (aiVision.HasJustFoundPlayer() && CanHunt)
+        {
+            aiVision.PlayerWatching();
+            TransitionToState("Chase");
+        }
+
+        // Go back to normal, but only while not attacking
+        if (aiVision.HasJustLostPlayer() && currentState.StateName != "Attack")
+        {
+            aiVision.RelaxedWatching();
             TransitionToState("Idle");
+        }
 
         Debug.DrawLine(transform.position, currentWalkPoint.position, Color.green);
         Debug.DrawLine(transform.position, previousWalkPoint.position, Color.white);

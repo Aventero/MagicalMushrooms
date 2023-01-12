@@ -9,6 +9,7 @@ public class AIVision : MonoBehaviour
     public GameObject ViewCone;
     public ScriptableRendererFeature ScriptableRenderer;
     public Material BlitMaterial;
+    public GameObject CurrentWatchTarget;
 
     // Player watching
     private Transform Player;
@@ -24,7 +25,9 @@ public class AIVision : MonoBehaviour
     public Transform currentWatchTarget { get; set; }
     private Vector3 SmoothVelocity = Vector3.zero;
     private Vector3 smoothingPosition;
-    public float SmoothTime = 0.3f;
+    private float SmoothTime = 0.3f;
+    private float HuntSmoothTime = 0f;
+    private float currentSmoothTime = 0f;
 
     private AIStateManager aiStateManager;
     public Slider Slider;
@@ -34,7 +37,8 @@ public class AIVision : MonoBehaviour
     {
         aiStateManager = GetComponent<AIStateManager>();
         Player = aiStateManager.Player;
-        currentWatchTarget = aiStateManager.WatchPoints[0];
+        Watch(aiStateManager.WatchPoints[0]);
+        RelaxedWatching();
         smoothingPosition = currentWatchTarget.position;
         ScriptableRenderer.SetActive(false);
     }
@@ -52,10 +56,21 @@ public class AIVision : MonoBehaviour
     public void WatchSpot()
     {
         Debug.DrawLine(ViewCone.transform.position, currentWatchTarget.position, new Color(0.1f, 0.1f, 0.1f));
-        smoothingPosition = Vector3.SmoothDamp(smoothingPosition, currentWatchTarget.position, ref SmoothVelocity, SmoothTime);
+        smoothingPosition = Vector3.SmoothDamp(smoothingPosition, currentWatchTarget.position, ref SmoothVelocity, currentSmoothTime);
         Vector3 relativeSmoothingPosition = smoothingPosition - ViewCone.transform.position;
         Quaternion rotation = Quaternion.LookRotation(relativeSmoothingPosition, ViewCone.transform.up);
         ViewCone.transform.rotation = rotation;
+        CurrentWatchTarget.transform.position = smoothingPosition;
+    }
+
+    public void PlayerWatching()
+    {
+        currentSmoothTime = HuntSmoothTime;
+    }
+
+    public void RelaxedWatching()
+    {
+        currentSmoothTime = SmoothTime;
     }
 
     public void Watch(Transform point)
@@ -68,7 +83,11 @@ public class AIVision : MonoBehaviour
         if (!StateManager.Instance.WitchConeOnPlayer)
             return false;
 
-        if (Physics.Linecast(ViewCone.transform.position, Player.transform.position, out RaycastHit hitInfo))
+        // Only Look at Prop and Player!
+        LayerMask layerMask = LayerMask.GetMask("Prop");
+        layerMask |= LayerMask.GetMask("Player");
+
+        if (Physics.Linecast(ViewCone.transform.position, Player.transform.position, out RaycastHit hitInfo, layerMask))
         {
             if (hitInfo.transform.CompareTag("Player"))
             {
@@ -87,6 +106,8 @@ public class AIVision : MonoBehaviour
             alertTimer += Time.deltaTime;
             if (alertTimer >= AlertTime)
             {
+                alertTimer = 0f;
+                losingTimer = 0f;
                 Slider.value = Slider.maxValue;
                 IsHuntingPlayer = true;
                 ScriptableRenderer.SetActive(true);
@@ -102,9 +123,12 @@ public class AIVision : MonoBehaviour
     {
         if (!PlayerIsVisible && IsHuntingPlayer)
         {
+            Debug.Log("Player not visible");
             losingTimer += Time.deltaTime;
             if (losingTimer >= LosingTime)
             {
+                alertTimer = 0f;
+                losingTimer = 0f;
                 IsHuntingPlayer = false;
                 StartCoroutine(LerpBlit(0f, 2f, false));
                 return true;

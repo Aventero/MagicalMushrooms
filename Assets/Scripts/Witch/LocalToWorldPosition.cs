@@ -13,7 +13,7 @@ public class LocalToWorldPosition : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         transform.position = LocalObject.transform.position;
     }
