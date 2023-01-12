@@ -38,19 +38,35 @@ public class OverlayMenu : MonoBehaviour
 
         // Spawn all Health sprites
         healthObjects = UIManager.Instance.CreateIcons(HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f);
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddIcon(Sprite icon, string displayName)
     {
-        
+        float width = 100;
+        float scale = 0.3f;
+        Vector2 position = -new Vector3(pickedUpItems.Count * width * scale, 0, 0);
+
+        GameObject newIcon = UIManager.Instance.CreateSpriteOnScreen(position, icon, displayName, new Vector2(1, 1), new Vector2(1, 1), scale);
+        pickedUpItems.Add(newIcon);
+    }
+
+    public void UpdateHealthIcons(int playerHealth)
+    {
+        Debug.Log("Player hit! Player Health: " + playerHealth);
+
+        for (int i = PlayerHealth.MaxHealth - 1; i >= 0; i--)
+        {
+            if (i >= playerHealth && healthObjects[i] != null)
+                Destroy(healthObjects[i]);
+        }
     }
 
     public void OnItemPickup(Item item)
     {
         Debug.Log("Picked up Item: " + item.Name + " Counter: " + pickedUpItems.Count.ToString());
         pickedUpItemsCounter++;
+
+        // Update Item Counter
         itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
 
         // GOT ALL ITEMS

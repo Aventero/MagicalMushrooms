@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +6,6 @@ public class UIManager : MonoBehaviour
     [Header("Menues")]
     [SerializeField] private GameObject OverlayMenu;
     [SerializeField] private GameObject GameOverMenu;
-
-    private GameObject[] healthObjects;
-    private List<GameObject> pickedUpItems; // List for displaying the item sprites
 
     public static UIManager Instance { get; private set; }
 
@@ -34,17 +27,6 @@ public class UIManager : MonoBehaviour
         StateManager.Instance.GameOverEvent += this.GameOver;
     }
 
-    public void UpdateHealthIcons(int playerHealth)
-    {
-        Debug.Log("Player hit! Player Health: " + playerHealth);
-
-        for (int i = (PlayerHealth.MaxHealth - 1); i >= 0; i--)
-        {
-            if (i >= playerHealth && healthObjects[i] != null)
-                Destroy(healthObjects[i]);
-        }
-    }
-
     public GameObject[] CreateIcons(Sprite icon, string displayName, int numberOfIcons, Vector2 anchor, Vector2 pivot, float scale)
     {
         GameObject[] iconArray = new GameObject[numberOfIcons];
@@ -62,17 +44,7 @@ public class UIManager : MonoBehaviour
         return iconArray;
     }
 
-    public void AddIcon(Sprite icon, string displayName)
-    {
-        float width = 100;
-        float scale = 0.3f;
-        Vector2 position = -new Vector3(pickedUpItems.Count * width * scale, 0, 0);
-
-        GameObject newIcon = CreateSpriteOnScreen(position, icon, displayName, new Vector2(1, 1), new Vector2(1, 1), scale);
-        pickedUpItems.Add(newIcon);
-    }
-
-    private GameObject CreateSpriteOnScreen(Vector2 position, Sprite icon, string displayName, Vector2 anchor, Vector2 pivot, float scale)
+    public GameObject CreateSpriteOnScreen(Vector2 position, Sprite icon, string displayName, Vector2 anchor, Vector2 pivot, float scale)
     {
         // Spawn new health icon
         GameObject newIcon = new GameObject(displayName);
@@ -95,6 +67,11 @@ public class UIManager : MonoBehaviour
         image.color = Color.red;
 
         return newIcon;
+    }
+
+    public void UpdateHealthIcons(int playerHealth)
+    {
+        OverlayMenu.GetComponent<OverlayMenu>().UpdateHealthIcons(playerHealth);
     }
 
     public void PauseGame()
