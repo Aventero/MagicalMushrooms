@@ -7,32 +7,14 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Menues")]
+    [SerializeField] private GameObject OverlayMenu;
     [SerializeField] private GameObject GameOverMenu;
-    [SerializeField] private Sprite HealthSprite;
-    [SerializeField] private GameObject OverlayParent;
-    [SerializeField] private TMP_Text itemCounterText;
 
     private GameObject[] healthObjects;
     private List<GameObject> pickedUpItems; // List for displaying the item sprites
 
-    private bool hideOverlay;
-    private int amountOfItems;
-    private int pickedUpItemsCounter = 0;
-
     public static UIManager Instance { get; private set; }
-
-    public bool SetOverlayVisibility
-    {
-        get
-        {
-            return hideOverlay;
-        }
-
-        set
-        {
-            OverlayParent.SetActive(value);
-        }
-    }
 
     private void Awake()
     {
@@ -46,21 +28,10 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        SetOverlayVisibility = true;
-
-        pickedUpItems = new List<GameObject>();
-
+        OverlayMenu.SetActive(true);
         GameOverMenu.SetActive(false);
 
-        amountOfItems = GameObject.FindObjectsOfType<Item>().Length;
-        itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
-
-        // RegisterEvent
-        StateManager.Instance.ItemPickupEvent += this.OnItemPickup;
         StateManager.Instance.GameOverEvent += this.GameOver;
-
-        // Spawn all Health sprites
-        healthObjects = CreateIcons(HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f);
     }
 
     public void UpdateHealthIcons(int playerHealth)
@@ -72,21 +43,6 @@ public class UIManager : MonoBehaviour
             if (i >= playerHealth && healthObjects[i] != null)
                 Destroy(healthObjects[i]);
         }
-    }
-
-    public void OnItemPickup(Item item)
-    {
-        Debug.Log("Picked up Item: " + item.Name + " Counter: " + pickedUpItems.Count.ToString());
-        pickedUpItemsCounter++;
-        itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
-
-        // GOT ALL ITEMS
-        if(pickedUpItemsCounter == amountOfItems)
-        {
-            itemCounterText.color = Color.green;
-            StateManager.Instance.AllItemsCollectedEvent.Invoke();
-        }
-        
     }
 
     public GameObject[] CreateIcons(Sprite icon, string displayName, int numberOfIcons, Vector2 anchor, Vector2 pivot, float scale)
@@ -120,7 +76,7 @@ public class UIManager : MonoBehaviour
     {
         // Spawn new health icon
         GameObject newIcon = new GameObject(displayName);
-        newIcon.transform.parent = OverlayParent.transform;
+        newIcon.transform.parent = OverlayMenu.transform;
 
         // position the icon
         RectTransform rectTransform = newIcon.AddComponent<RectTransform>();

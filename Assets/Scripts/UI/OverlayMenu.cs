@@ -1,0 +1,64 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+
+public class OverlayMenu : MonoBehaviour
+{
+    [SerializeField] private Sprite HealthSprite;
+    [SerializeField] private TMP_Text itemCounterText;
+
+    private GameObject[] healthObjects;
+    private List<GameObject> pickedUpItems; // List for displaying the item sprites
+
+    private int amountOfItems;
+    private int pickedUpItemsCounter = 0;
+
+    public bool SetVisibility
+    {
+        get
+        {
+            return this.gameObject.activeSelf;
+        }
+        set
+        {
+            this.gameObject.SetActive(value);
+        }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // RegisterEvent
+        StateManager.Instance.ItemPickupEvent += this.OnItemPickup;
+
+        pickedUpItems = new List<GameObject>();
+        amountOfItems = GameObject.FindObjectsOfType<Item>().Length;
+        itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
+
+        // Spawn all Health sprites
+        healthObjects = UIManager.Instance.CreateIcons(HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f);
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void OnItemPickup(Item item)
+    {
+        Debug.Log("Picked up Item: " + item.Name + " Counter: " + pickedUpItems.Count.ToString());
+        pickedUpItemsCounter++;
+        itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
+
+        // GOT ALL ITEMS
+        if (pickedUpItemsCounter == amountOfItems)
+        {
+            itemCounterText.color = Color.green;
+            StateManager.Instance.AllItemsCollectedEvent.Invoke();
+        }
+
+    }
+}

@@ -23,7 +23,7 @@ public class WorldUIMenu : MonoBehaviour
 
     private void ActivateMenu()
     {
-        UIManager.Instance.SetOverlayVisibility = false;
+        //UIManager.Instance.SetOverlayVisibility = false;
         StateManager.Instance.InMenu = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -31,7 +31,7 @@ public class WorldUIMenu : MonoBehaviour
 
     private void DeactivateMenu()
     {
-        UIManager.Instance.SetOverlayVisibility = true;
+        //UIManager.Instance.SetOverlayVisibility = true;
         StateManager.Instance.InMenu = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
