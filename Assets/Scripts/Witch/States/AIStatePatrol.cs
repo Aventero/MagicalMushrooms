@@ -6,10 +6,13 @@ internal class AIStatePatrol :  MonoBehaviour, AIState
 {
     public string StateName => "Patrol";
 
+    public void InitState(AIStateManager stateManager)
+    {
+    }
+
     public void EnterState(AIStateManager stateManager)
     {
-        Debug.Log("Patrol");
-
+        stateManager.aiVision.RelaxedWatching();
         stateManager.FindNewWalkpoint();
         StartCoroutine(stateManager.FindWatchpointForPatrol());
         stateManager.agent.destination = stateManager.currentWalkPoint.position;
@@ -20,6 +23,7 @@ internal class AIStatePatrol :  MonoBehaviour, AIState
     public void ExitState(AIStateManager stateManager)
     {
     }
+
 
     public void UpdateState(AIStateManager stateManager)
     {

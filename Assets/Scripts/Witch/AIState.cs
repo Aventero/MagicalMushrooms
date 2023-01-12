@@ -7,6 +7,8 @@ public interface AIState
 {
     public string StateName { get; }
 
+    void InitState(AIStateManager stateManager);
+
     void UpdateState(AIStateManager stateManager);
     
 

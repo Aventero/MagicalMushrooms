@@ -36,8 +36,7 @@ public class AIStateManager : MonoBehaviour
     public Transform WatchTarget { get => aiVision.currentWatchTarget; }
 
     // Watching
-    private AIVision aiVision;
-    private bool CanHunt = true;
+    public AIVision aiVision { get; private set; }
 
     void Awake()
     {
@@ -55,29 +54,34 @@ public class AIStateManager : MonoBehaviour
         states.Add("Patrol", GetComponent<AIStatePatrol>());
         states.Add("Chase", GetComponent <AIStateChase>());
         states.Add("Attack", GetComponent<AIStateAttack>());
+        states.Add("IgnorePlayerIdle", GetComponent<AIStateIgnorePlayerIdle>());
+
+        foreach (var state in states)
+            state.Value.InitState(this);
+
+        aiVision.HasFoundPlayer += TransitionToChase;
+        aiVision.HasLostPlayer += TransitionToPatrol;
 
         currentState = states["Idle"];
         currentState.EnterState(this);
+    }
+
+    private void TransitionToPatrol()
+    {
+        if (currentState.StateName == "Chase")
+            TransitionToState("Patrol");
+    }
+
+    private void TransitionToChase()
+    {
+        if (currentState.StateName == "Idle" || currentState.StateName == "Patrol")
+            TransitionToState("Chase");
     }
 
     void Update()
     {
         currentState.UpdateState(this);
         aiVision.WatchSpot();
-
-        // Chase the player, but take a break if U Hunted Before (CanHunt)
-        if (aiVision.HasJustFoundPlayer() && CanHunt)
-        {
-            aiVision.PlayerWatching();
-            TransitionToState("Chase");
-        }
-
-        // Go back to normal, but only while not attacking
-        if (aiVision.HasJustLostPlayer() && currentState.StateName != "Attack")
-        {
-            aiVision.RelaxedWatching();
-            TransitionToState("Idle");
-        }
 
         Debug.DrawLine(transform.position, currentWalkPoint.position, Color.green);
         Debug.DrawLine(transform.position, previousWalkPoint.position, Color.white);
@@ -94,6 +98,7 @@ public class AIStateManager : MonoBehaviour
         currentState.ExitState(this);
         currentState = states[stateName];
         currentState.EnterState(this);
+        Debug.Log(currentState.StateName);
     }
 
     public List<Transform> CalculateVisiblePoints(Vector3 desiredPoint, Vector3 forward, float viewAngle)
@@ -178,17 +183,5 @@ public class AIStateManager : MonoBehaviour
         }
 
         yield return null;
-    }
-
-    public void StopHunting(float time)
-    {
-        StartCoroutine(StopHuntingCoroutine(time));
-    }
-
-    private IEnumerator StopHuntingCoroutine(float timeWaitTime)
-    {
-        CanHunt = false;
-        yield return new WaitForSeconds(timeWaitTime);
-        CanHunt = true;
     }
 }

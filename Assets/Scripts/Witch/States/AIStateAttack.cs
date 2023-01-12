@@ -11,21 +11,27 @@ internal class AIStateAttack : MonoBehaviour, AIState
     public MultiAimConstraint MultiAimHand;
     public GameObject PullPoint;
     public float ReachTime = 2f;
+    public float PullSpeed = 2f;
 
     private Transform player;
     private bool pulling = false;
 
+    public void InitState(AIStateManager stateManager)
+    {
+    }
+
     public void EnterState(AIStateManager stateManager)
     {
-        Debug.Log("Attack");
+        stateManager.aiVision.PlayerWatching();
         player = stateManager.Player.transform;
         StartCoroutine(ReachOutHand(stateManager, ReachTime));   
     }
 
     public void ExitState(AIStateManager stateManager)
-    {        
+    {
         // Let Witch chill.
-        stateManager.StopHunting(5f);
+        StopAllCoroutines();
+        player.gameObject.GetComponent<NewPlayerMovement>().ActivateMovement(true);
     }
 
     public void UpdateState(AIStateManager stateManager)
@@ -65,7 +71,7 @@ internal class AIStateAttack : MonoBehaviour, AIState
             yield return null;
         }
 
-        stateManager.TransitionToState("Patrol");
+        stateManager.TransitionToState("IgnorePlayerIdle");
     }
 
     IEnumerator PullToPullPoint()
@@ -75,11 +81,12 @@ internal class AIStateAttack : MonoBehaviour, AIState
         while (Vector3.Distance(PullPoint.transform.position, player.transform.position) > 1f)
         {
             CharacterController controller = player.gameObject.GetComponent<CharacterController>();
-            controller.Move((PullPoint.transform.position - player.transform.position).normalized * Time.deltaTime);
+            controller.Move((PullPoint.transform.position - player.transform.position).normalized * Time.deltaTime * PullSpeed);
             yield return null;
         }
         pulling = false;
         yield return null;
     }
+
 
 }

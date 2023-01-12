@@ -158,7 +158,9 @@ GameObject:
   - component: {fileID: 5566977910982518731}
   - component: {fileID: 3466336116737580541}
   - component: {fileID: 7144520172601860356}
-  - component: {fileID: 3945182583169748090}
+  - component: {fileID: 6669183935783654414}
+  - component: {fileID: 6804227452688065278}
+  - component: {fileID: 7145826996937895361}
   m_Layer: 0
   m_Name: Door Ring
   m_TagString: Untagged
@@ -232,8 +234,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3945182583169748090
+--- !u!65 &6669183935783654414
 BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8870606044067911128}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.99155855, y: 2.4207642, z: 0.21378559}
+  m_Center: {x: 2.0625077e-15, y: 1.2087193, z: 0.04902722}
+--- !u!64 &6804227452688065278
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -242,6 +257,19 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.378543, y: 2.4207642, z: 0.46049333}
-  m_Center: {x: 0.000020444393, y: 1.2087191, z: 0.08926051}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2624307471271427810, guid: 288dd9d001aa1fc49a99bb02af983f9f, type: 3}
+--- !u!114 &7145826996937895361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8870606044067911128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd9a0cefa6c4ddf4b9aceb9f093d1b1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

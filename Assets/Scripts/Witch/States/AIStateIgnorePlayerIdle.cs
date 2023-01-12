@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIStateIdle : MonoBehaviour, AIState
+public class AIStateIgnorePlayerIdle : MonoBehaviour, AIState
 {
-    public string StateName => "Idle";
+    public string StateName => "IgnorePlayerIdle";
     public float WaitTimeInBetween = 2.0f;
 
     public void InitState(AIStateManager stateManager)
@@ -26,6 +26,7 @@ public class AIStateIdle : MonoBehaviour, AIState
         stateManager.animator.SetBool("Stay", false);
         stateManager.agent.isStopped = false;
     }
+
 
     public void UpdateState(AIStateManager stateManager)
     {

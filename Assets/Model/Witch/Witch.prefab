@@ -1728,6 +1728,7 @@ GameObject:
   - component: {fileID: 7883224600434508609}
   - component: {fileID: 2188590238945254940}
   - component: {fileID: 5743335301559118975}
+  - component: {fileID: 8078169082965218716}
   - component: {fileID: 8029946117319161000}
   - component: {fileID: 330345498339260513}
   - component: {fileID: 1671322705635581028}
@@ -1818,8 +1819,6 @@ MonoBehaviour:
   CurrentWatchTarget: {fileID: 0}
   AlertTime: 0.5
   LosingTime: 1
-  SmoothTime: 0.3
-  HuntSmoothTime: 0
   Slider: {fileID: 0}
 --- !u!114 &6186961228645208966
 MonoBehaviour:
@@ -1874,6 +1873,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 903e072be441ef846b6f276ad7a985ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8078169082965218716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5517584346009996587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5745d4fac9563fc45bfde2aa73ef1b75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WaitTimeInBetween: 2
 --- !u!114 &8029946117319161000
 MonoBehaviour:
   m_ObjectHideFlags: 0

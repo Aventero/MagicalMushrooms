@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
@@ -32,6 +33,9 @@ public class AIVision : MonoBehaviour
     private AIStateManager aiStateManager;
     public Slider Slider;
 
+    public UnityAction HasLostPlayer;
+    public UnityAction HasFoundPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,11 +52,6 @@ public class AIVision : MonoBehaviour
         PlayerIsVisible = PlayerVisible();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     public void WatchSpot()
     {
         Debug.DrawLine(ViewCone.transform.position, currentWatchTarget.position, new Color(0.1f, 0.1f, 0.1f));
@@ -61,6 +60,9 @@ public class AIVision : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(relativeSmoothingPosition, ViewCone.transform.up);
         ViewCone.transform.rotation = rotation;
         CurrentWatchTarget.transform.position = smoothingPosition;
+
+        HasJustFoundPlayer();
+        HasJustLostPlayer();
     }
 
     public void PlayerWatching()
@@ -99,13 +101,14 @@ public class AIVision : MonoBehaviour
         return false;
     }
 
-    public bool HasJustFoundPlayer()
+    private bool HasJustFoundPlayer()
     {
         if (PlayerIsVisible && !IsHuntingPlayer)
         {
             alertTimer += Time.deltaTime;
             if (alertTimer >= AlertTime)
             {
+                HasFoundPlayer.Invoke();
                 alertTimer = 0f;
                 losingTimer = 0f;
                 Slider.value = Slider.maxValue;
@@ -119,14 +122,14 @@ public class AIVision : MonoBehaviour
         return false;
     }
 
-    public bool HasJustLostPlayer()
+    private bool HasJustLostPlayer()
     {
         if (!PlayerIsVisible && IsHuntingPlayer)
         {
-            Debug.Log("Player not visible");
             losingTimer += Time.deltaTime;
             if (losingTimer >= LosingTime)
             {
+                HasLostPlayer.Invoke();
                 alertTimer = 0f;
                 losingTimer = 0f;
                 IsHuntingPlayer = false;

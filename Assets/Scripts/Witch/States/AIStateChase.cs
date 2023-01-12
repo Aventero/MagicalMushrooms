@@ -8,10 +8,13 @@ internal class AIStateChase : MonoBehaviour, AIState
     public string StateName => "Chase";
     private NavMeshAgent agent;
 
+    public void InitState(AIStateManager stateManager)
+    {
+    }
+
     public void EnterState(AIStateManager stateManager)
     {
-        Debug.Log("Chasing");
-
+        stateManager.aiVision.PlayerWatching();
         stateManager.animator.SetBool("Stay", false);
         agent = stateManager.agent;
        
