@@ -16,7 +16,7 @@ public class Deathzone : MonoBehaviour
     private void SetupBoxCollider()
     {
         BoxCollider boxCollider= this.gameObject.AddComponent<BoxCollider>();
-        boxCollider.size = new Vector3(Size.x, 0.01f, Size.y);
+        boxCollider.size = new Vector3(Size.x, 1.0f, Size.y);
         boxCollider.isTrigger = true;
     }
 
@@ -31,7 +31,7 @@ public class Deathzone : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawCube(this.transform.position, new Vector3(Size.x, 0.01f, Size.y));
+        Gizmos.DrawCube(this.transform.position, new Vector3(Size.x, 1.0f, Size.y));
     }
 
 }
