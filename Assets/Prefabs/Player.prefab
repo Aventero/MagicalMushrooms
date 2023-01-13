@@ -220,8 +220,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef4cad7d1e2a14c6799a4743ecb9db7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxRayDistance: 50
-  BoxRaySize: 1
+  MaxRayDistance: 5
+  BoxRaySize: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &2650662224756240871
 MonoBehaviour:
   m_ObjectHideFlags: 0

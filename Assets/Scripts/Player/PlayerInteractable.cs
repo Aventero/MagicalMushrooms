@@ -5,21 +5,28 @@ using UnityEngine;
 public class PlayerInteractable : MonoBehaviour
 {
     public float MaxRayDistance;
-    public float BoxRaySize = 1.0f;
+    public float BoxRaySize;
+    public LayerMask layerMask;
 
-    private Interactable nearestInteractable;
+    private Interactable oldNearestInteractable;
+
+    private void Start()
+    {
+        oldNearestInteractable = null;
+    }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && nearestInteractable != null)
-            nearestInteractable.Interact();
+      
+        if (Input.GetKeyDown(KeyCode.E) && oldNearestInteractable != null)
+            oldNearestInteractable.Interact();
     }
 
     private void FixedUpdate()
     {
         Transform cameraTransform = Camera.main.transform;
 
-        RaycastHit[] hits = Physics.BoxCastAll(cameraTransform.position, new Vector3(BoxRaySize, BoxRaySize, BoxRaySize), cameraTransform.forward, Quaternion.identity, MaxRayDistance);
+        RaycastHit[] hits = Physics.BoxCastAll(cameraTransform.position, new Vector3(BoxRaySize, BoxRaySize, BoxRaySize), cameraTransform.forward, Quaternion.identity, MaxRayDistance, layerMask);
         List<(Interactable, float)> interactablesAndDistances = GetInteractablesAndDistances(hits);
         Interactable nearestInteractable = GetNearestInteractable(interactablesAndDistances);
         SetNewInteractable(nearestInteractable);
@@ -27,13 +34,24 @@ public class PlayerInteractable : MonoBehaviour
 
     private void SetNewInteractable(Interactable newInteractable)
     {
-        if (nearestInteractable != null)
-            nearestInteractable.OutOfPlayerSight();
+        // Nothing has changed
+        if (oldNearestInteractable == newInteractable)
+            return;
+
+        Debug.Log("Old: " + (oldNearestInteractable == null ? "Null" : oldNearestInteractable.name) + " | New:" + (newInteractable == null ? "Null" : newInteractable.name));
+
+
+        if (oldNearestInteractable != null)
+        {
+            oldNearestInteractable.OutOfPlayerSight();
+        }
 
         if(newInteractable != null)
+        {
             newInteractable.InPlayerSight();
+        }
 
-        nearestInteractable = newInteractable;
+        oldNearestInteractable = newInteractable;
     }
 
     private Interactable GetNearestInteractable(List<(Interactable, float)> interactables)
@@ -59,8 +77,8 @@ public class PlayerInteractable : MonoBehaviour
         foreach (RaycastHit hit in hits)
         {
             Interactable interactable = hit.transform.gameObject.GetComponent<Interactable>();
-            if (interactable != null)
-                interactables.Add((interactable, hit.distance));
+            Debug.Log(interactable.name + " Distance: " + hit.distance);
+            interactables.Add((interactable, hit.distance));
         }
 
         return interactables;
@@ -68,8 +86,10 @@ public class PlayerInteractable : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector3 cameraPos = Camera.main.transform.position;
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(cameraPos, Camera.main.transform.forward * BoxRaySize);
+        Transform cameraTransform = Camera.main.transform;
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(cameraTransform.position, cameraTransform.forward * BoxRaySize);
+
+        Gizmos.DrawWireCube(cameraTransform.position + MaxRayDistance * cameraTransform.forward, new Vector3(2 * BoxRaySize, 2 * BoxRaySize, 2 * BoxRaySize));
     }
 }
