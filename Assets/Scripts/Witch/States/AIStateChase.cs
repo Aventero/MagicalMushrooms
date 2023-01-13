@@ -6,7 +6,9 @@ using UnityEngine.AI;
 internal class AIStateChase : MonoBehaviour, AIState
 {
     public string StateName => "Chase";
-    private NavMeshAgent agent;
+    private NavMeshAgent agent; 
+    public float AttackAfterSeconds = 1f;
+    private float chaseTime = 0f;
 
     public void InitState(AIStateManager stateManager)
     {
@@ -14,8 +16,9 @@ internal class AIStateChase : MonoBehaviour, AIState
 
     public void EnterState(AIStateManager stateManager)
     {
+        chaseTime = 0f;
         stateManager.aiVision.PlayerWatching();
-        stateManager.animator.SetBool("Stay", false);
+        //stateManager.animator.SetBool("Stay", false);
         agent = stateManager.agent;
        
         stateManager.Watch(stateManager.Player);
@@ -23,24 +26,18 @@ internal class AIStateChase : MonoBehaviour, AIState
 
     public void ExitState(AIStateManager stateManager)
     {
-        stateManager.animator.SetBool("Stay", true);
+        //stateManager.animator.SetBool("Stay", true);
     }
 
     public void UpdateState(AIStateManager stateManager)
     {
         agent.destination = stateManager.Player.position;
-
-        if (!agent.pathPending)
+        chaseTime += Time.deltaTime;
+        if (chaseTime >= AttackAfterSeconds)
         {
-            if (agent.remainingDistance <= agent.stoppingDistance)
-            {
-                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
-                {
-                    agent.isStopped = true;
-                    stateManager.TransitionToState("Attack");
-                }
-            }
+            chaseTime = 0f;
+            agent.isStopped = true;
+            stateManager.TransitionToState("Attack");
         }
-        GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.red;
     }
 }

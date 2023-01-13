@@ -27,8 +27,8 @@ public class AIVision : MonoBehaviour
     public Transform currentWatchTarget { get; set; }
     private Vector3 SmoothVelocity = Vector3.zero;
     private Vector3 smoothingPosition;
-    private float SmoothTime = 0.3f;
-    private float HuntSmoothTime = 0f;
+    public float SmoothTime = 0.3f;
+    public float HuntSmoothTime = 0.1f;
     private float currentSmoothTime = 0f;
 
     private AIStateManager aiStateManager;

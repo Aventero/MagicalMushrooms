@@ -234,6 +234,37 @@ Transform:
   m_Father: {fileID: 5517584346009637129}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3326748654663669738
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2024126862517265184}
+  m_Layer: 2
+  m_Name: NearestEdgePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2024126862517265184
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3326748654663669738}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5517584346009637129}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3461864676809611288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1756,6 +1787,7 @@ Transform:
   - {fileID: 8487696400461304384}
   - {fileID: 7015718199784541836}
   - {fileID: 5467848831547116629}
+  - {fileID: 2024126862517265184}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1817,8 +1849,11 @@ MonoBehaviour:
   ScriptableRenderer: {fileID: 0}
   BlitMaterial: {fileID: 0}
   CurrentWatchTarget: {fileID: 0}
+  RaycastPoint: {fileID: 0}
   AlertTime: 0.5
   LosingTime: 1
+  SmoothTime: 0.3
+  HuntSmoothTime: 0.1
   Slider: {fileID: 0}
 --- !u!114 &6186961228645208966
 MonoBehaviour:
@@ -1832,6 +1867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6f978dc0644bcd4aa2a2d373a562810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttackAfterSeconds: 5
 --- !u!114 &7883224600434508609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1848,6 +1884,7 @@ MonoBehaviour:
   MultiAimHand: {fileID: 0}
   PullPoint: {fileID: 0}
   ReachTime: 2
+  PullSpeed: 2
 --- !u!114 &2188590238945254940
 MonoBehaviour:
   m_ObjectHideFlags: 0

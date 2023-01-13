@@ -15,8 +15,8 @@ internal class AIStatePatrol :  MonoBehaviour, AIState
         stateManager.aiVision.RelaxedWatching();
         stateManager.FindNewWalkpoint();
         StartCoroutine(stateManager.FindWatchpointForPatrol());
-        stateManager.agent.destination = stateManager.currentWalkPoint.position;
-        stateManager.animator.SetBool("Stay", false);
+        stateManager.Walk();
+        //stateManager.animator.SetBool("Stay", false);
         stateManager.agent.isStopped = false;
     }
 

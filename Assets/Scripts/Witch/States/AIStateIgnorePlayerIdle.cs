@@ -14,7 +14,7 @@ public class AIStateIgnorePlayerIdle : MonoBehaviour, AIState
     public void EnterState(AIStateManager stateManager)
     {
         stateManager.aiVision.RelaxedWatching();
-        stateManager.animator.SetBool("Stay", true);
+        //stateManager.animator.SetBool("Stay", true);
         stateManager.agent.isStopped = true;
         List<Transform> visiblePoints = stateManager.CalculateVisiblePoints(transform.position, transform.forward, 75f);
         StartCoroutine(LookAround(stateManager, WaitTimeInBetween, visiblePoints));
@@ -23,7 +23,7 @@ public class AIStateIgnorePlayerIdle : MonoBehaviour, AIState
     public void ExitState(AIStateManager stateManager)
     {
         StopAllCoroutines();
-        stateManager.animator.SetBool("Stay", false);
+        //stateManager.animator.SetBool("Stay", false);
         stateManager.agent.isStopped = false;
     }
 

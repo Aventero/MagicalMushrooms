@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class AIStateManager : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class AIStateManager : MonoBehaviour
     public List<Transform> walkPoints { get; private set; }
 
     public Transform WatchTarget { get => aiVision.currentWatchTarget; }
+    public UnityAction ReachedDestination;
 
     // Watching
     public AIVision aiVision { get; private set; }
@@ -66,6 +68,17 @@ public class AIStateManager : MonoBehaviour
         currentState.EnterState(this);
     }
 
+    public void SetWalkPoint(Transform point)
+    {
+        previousWalkPoint = currentWalkPoint;
+        currentWalkPoint = point;
+    }
+
+    public void Walk()
+    {
+        agent.destination = currentWalkPoint.position;
+    }
+
     private void TransitionToPatrol()
     {
         if (currentState.StateName == "Chase")
@@ -82,6 +95,7 @@ public class AIStateManager : MonoBehaviour
     {
         currentState.UpdateState(this);
         aiVision.WatchSpot();
+        PlayStayAnimationOnEdges();
 
         Debug.DrawLine(transform.position, currentWalkPoint.position, Color.green);
         Debug.DrawLine(transform.position, previousWalkPoint.position, Color.white);
@@ -91,6 +105,15 @@ public class AIStateManager : MonoBehaviour
     {
         aiVision.Watch(point);
     }
+
+    private void PlayStayAnimationOnEdges()
+    {
+        if (agent.velocity.sqrMagnitude <= 0.1f)
+            animator.SetBool("Stay", true);
+        else
+            animator.SetBool("Stay", false);
+    }
+
 
     public void TransitionToState(string stateName)
     {
@@ -150,8 +173,7 @@ public class AIStateManager : MonoBehaviour
         for (int i = 0; i < closestWalkPoints.Count / 2; i++)
             Debug.DrawLine(transform.position, closestWalkPoints[i].position, Color.yellow, 1f);
 
-        previousWalkPoint = currentWalkPoint;
-        currentWalkPoint = shortestPoint;
+        SetWalkPoint(shortestPoint);
     }
 
     public IEnumerator FindWatchpointForPatrol()

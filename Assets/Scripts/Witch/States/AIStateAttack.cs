@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-
+using UnityEngine.AI;
 
 internal class AIStateAttack : MonoBehaviour, AIState
 {
@@ -13,8 +13,10 @@ internal class AIStateAttack : MonoBehaviour, AIState
     public float ReachTime = 2f;
     public float PullSpeed = 2f;
 
+    public Transform NearestEdgePoint;
     private Transform player;
     private bool pulling = false;
+    private bool attacking = false;
 
     public void InitState(AIStateManager stateManager)
     {
@@ -22,9 +24,15 @@ internal class AIStateAttack : MonoBehaviour, AIState
 
     public void EnterState(AIStateManager stateManager)
     {
+        attacking = false;
+        pulling = false;
+
         stateManager.aiVision.PlayerWatching();
         player = stateManager.Player.transform;
-        StartCoroutine(ReachOutHand(stateManager, ReachTime));   
+        stateManager.agent.isStopped = false;
+        NearestEdgePoint.position = stateManager.agent.pathEndPosition;
+        stateManager.SetWalkPoint(NearestEdgePoint);
+        stateManager.Walk();
     }
 
     public void ExitState(AIStateManager stateManager)
@@ -36,8 +44,14 @@ internal class AIStateAttack : MonoBehaviour, AIState
 
     public void UpdateState(AIStateManager stateManager)
     {
+        if (!stateManager.agent.pathPending && stateManager.agent.remainingDistance < stateManager.agent.stoppingDistance && !attacking)
+        {
+            stateManager.animator.SetBool("Stay", true);
+            stateManager.agent.isStopped = true;
+            attacking = true;
+            StartCoroutine(ReachOutHand(stateManager, ReachTime));
+        }
     }
-
 
     IEnumerator ReachOutHand(AIStateManager stateManager, float reachTime)
     {
@@ -71,7 +85,11 @@ internal class AIStateAttack : MonoBehaviour, AIState
             yield return null;
         }
 
+        attacking = false;
         stateManager.TransitionToState("IgnorePlayerIdle");
+
+        StopCoroutine(PullToPullPoint());
+        yield return null;
     }
 
     IEnumerator PullToPullPoint()
