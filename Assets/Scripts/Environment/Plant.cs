@@ -7,6 +7,7 @@ public class Plant : Interactable
     public string neededItemName;
     public Mesh FullGrownMesh;
     private PlayerInventory inventory;
+    public GameObject GrownPlant;
 
     private new void Start()
     {
@@ -21,22 +22,26 @@ public class Plant : Interactable
         if (!inventory.HasItem(neededItemName))
             return;
 
-        MeshFilter meshFilter = this.gameObject.GetComponent<MeshFilter>();
-        MeshCollider meshCollider = this.gameObject.GetComponent<MeshCollider>();
-
-        meshFilter.mesh = FullGrownMesh;
-        meshCollider.sharedMesh = FullGrownMesh;
-
         inventory.RemoveItem(neededItemName);
+        UIManager.Instance.ShowInteractionText(false);
+        GrownPlant.SetActive(true);
+        gameObject.SetActive(false);
+
     }
 
     public override void InPlayerSight()
     {
 
+        UIManager.Instance.ShowInteractionText(true);
     }
 
     public override void OutOfPlayerSight()
     {
-        
+        UIManager.Instance.ShowInteractionText(false);
+    }
+
+    private void OnDestroy()
+    {
+        UIManager.Instance.ShowInteractionText(false);
     }
 }

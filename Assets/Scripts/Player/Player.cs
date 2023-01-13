@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         // Witch View Cone
         if (other.tag == "Witch")

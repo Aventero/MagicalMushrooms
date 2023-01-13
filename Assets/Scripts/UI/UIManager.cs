@@ -83,6 +83,13 @@ public class UIManager : MonoBehaviour
         StateManager.Instance.ResumeGameEvent.Invoke();
     }
 
+    public void ShowInteractionText(bool active)
+    {
+        if (OverlayMenu != null)
+            OverlayMenu.GetComponent<OverlayMenu>().DisplayInteractionText(active);
+
+    }
+
     private void GameOver()
     {
         PauseGame();

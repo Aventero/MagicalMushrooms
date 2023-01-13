@@ -77,7 +77,7 @@ public class PlayerInteractable : MonoBehaviour
         foreach (RaycastHit hit in hits)
         {
             Interactable interactable = hit.transform.gameObject.GetComponent<Interactable>();
-            Debug.Log(interactable.name + " Distance: " + hit.distance);
+            //Debug.Log(interactable.name + " Distance: " + hit.distance);
             interactables.Add((interactable, hit.distance));
         }
 

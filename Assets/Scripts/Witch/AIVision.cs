@@ -11,6 +11,7 @@ public class AIVision : MonoBehaviour
     public ScriptableRendererFeature ScriptableRenderer;
     public Material BlitMaterial;
     public GameObject CurrentWatchTarget;
+    public GameObject RaycastPoint;
 
     // Player watching
     private Transform Player;
@@ -88,9 +89,12 @@ public class AIVision : MonoBehaviour
         // Only Look at Prop and Player!
         LayerMask layerMask = LayerMask.GetMask("Prop");
         layerMask |= LayerMask.GetMask("Player");
+        layerMask |= LayerMask.GetMask("Interactable");
 
-        if (Physics.Linecast(ViewCone.transform.position, Player.transform.position, out RaycastHit hitInfo, layerMask))
+        if (Physics.Linecast(ViewCone.transform.position, RaycastPoint.transform.position, out RaycastHit hitInfo, layerMask))
         {
+            Debug.DrawLine(ViewCone.transform.position, hitInfo.transform.position, Color.green);
+
             if (hitInfo.transform.CompareTag("Player"))
             {
                 Debug.DrawLine(ViewCone.transform.position, Player.transform.position, Color.magenta);

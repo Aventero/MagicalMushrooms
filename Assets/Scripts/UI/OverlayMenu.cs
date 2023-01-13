@@ -7,8 +7,10 @@ public class OverlayMenu : MonoBehaviour
 {
     [SerializeField] private Sprite HealthSprite;
     [SerializeField] private TMP_Text itemCounterText;
+    public GameObject InteractionText;
 
     private GameObject[] healthObjects;
+    
     private List<GameObject> pickedUpItems; // List for displaying the item sprites
 
     private int amountOfItems;
@@ -63,7 +65,7 @@ public class OverlayMenu : MonoBehaviour
 
     public void OnItemPickup(ItemData item)
     {
-        Debug.Log("Picked up Item: " + item.Name + " Counter: " + pickedUpItems.Count.ToString());
+        //Debug.Log("Picked up Item: " + item.Name + " Counter: " + pickedUpItems.Count.ToString());
         UpdateItemCounter();
         DisplayItemIcons(item.Icon);
     }
@@ -81,6 +83,11 @@ public class OverlayMenu : MonoBehaviour
             itemCounterText.color = Color.green;
             StateManager.Instance.AllItemsCollectedEvent.Invoke();
         }
+    }
+
+    public void DisplayInteractionText(bool active)
+    {
+        InteractionText.SetActive(active);
     }
 
     public void DisplayItemIcons(Sprite icon)
