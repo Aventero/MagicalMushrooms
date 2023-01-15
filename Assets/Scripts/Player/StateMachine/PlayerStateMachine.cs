@@ -9,7 +9,7 @@ public class PlayerStateMachine : MonoBehaviour
     private CharacterController characterController;
 
     // Movement
-    private readonly float runningSpeed = 8.0f;
+    private readonly float runningSpeed = 6.0f;
     private readonly float walkingSpeed = 4.0f;
     private float currentSpeed; 
     private Vector2 currentMovementInput;

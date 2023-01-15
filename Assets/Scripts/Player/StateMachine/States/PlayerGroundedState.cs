@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerGroundedState : PlayerState, IRootState
 {
     private float fakeGroundedTimer = 0;
-    private const float maxHelpSeconds = 0.15f;
+    private const float maxHelpSeconds = 0.25f;
     private bool isGrounded = true;
 
     public PlayerGroundedState(PlayerStateMachine context, PlayerStateFactory playerStateFactory, string name)
