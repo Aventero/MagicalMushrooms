@@ -15,7 +15,7 @@ public class PlayerRunState : PlayerState
 
     public override void EnterState()
     {
-        Debug.Log("Entered: RunState");
+        //Debug.Log("RunState");
         context.CurrentSpeed = context.RunningSpeed;
     }
 

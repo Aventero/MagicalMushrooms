@@ -117,6 +117,10 @@ public class PlayerStateMachine : MonoBehaviour
             characterController.Move(appliedMovement * Time.deltaTime);
     }
 
+    private void OnDrawGizmos()
+    {
+    }
+
     void HandleRotation()
     {
         // Rotate Player around the Y-Axis
@@ -178,6 +182,7 @@ public class PlayerStateMachine : MonoBehaviour
         //pauseMovement = false;
         OnEnable();
     }
+
 
     private void OnEnable()
     {

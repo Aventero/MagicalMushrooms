@@ -15,7 +15,7 @@ public class PlayerIdleState : PlayerState
 
     public override void EnterState()
     {
-        Debug.Log("Entered: IdleState");
+        //Debug.Log("IdleState");
         context.AppliedMovementX = 0;
         context.AppliedMovementZ = 0; 
     }

@@ -18,7 +18,7 @@ public class PlayerFallState : PlayerState, IRootState
 
     public override void EnterState()
     {
-        Debug.Log("Enter: FallState");
+        //Debug.Log("Enter: FallState");
         InitializeSubState();
     }
 

@@ -17,7 +17,7 @@ public class PlayerWalkState : PlayerState
 
     public override void EnterState()
     {
-        Debug.Log("Entered: WalkState");
+        //Debug.Log("WalkState");
     }
 
     public override void ExitState()

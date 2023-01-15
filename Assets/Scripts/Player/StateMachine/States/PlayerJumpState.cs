@@ -18,7 +18,7 @@ public class PlayerJumpState : PlayerState, IRootState
 
     public override void EnterState()
     {
-        Debug.Log("Entered: JumpState");
+        //Debug.Log("JumpState");
         InitializeSubState(); 
         HandleJump();
     }
