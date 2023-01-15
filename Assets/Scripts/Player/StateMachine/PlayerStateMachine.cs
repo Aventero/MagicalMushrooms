@@ -60,8 +60,6 @@ public class PlayerStateMachine : MonoBehaviour
     public float WalkingSpeed { get => walkingSpeed; }
     public float CurrentSpeed { get => currentSpeed; set => currentSpeed = value; }
 
-    public bool IsGrounded = false;
-
     private void Awake()
     {
         // Initialize
@@ -111,7 +109,6 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (StateManager.Instance.isLockedOnWitchHead || pauseMovement)
             return;
-        IsGrounded = CharacterController.isGrounded;
         HandleRotation();
         CurrentState.UpdateStates();
         

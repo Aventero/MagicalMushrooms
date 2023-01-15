@@ -1,15 +1,11 @@
-
 using System.Collections.Generic;
-using UnityEngine;
 
 public class PlayerStateFactory
 {
-    PlayerStateMachine context;
     Dictionary<string, PlayerState> playerStates = new Dictionary<string, PlayerState>();
 
     public PlayerStateFactory(PlayerStateMachine context)
     {
-        this.context = context;
         AddPlayerState(new PlayerIdleState(context, this, "Idle"));
         AddPlayerState(new PlayerWalkState(context, this, "Walk"));
         AddPlayerState(new PlayerRunState(context, this, "Run"));

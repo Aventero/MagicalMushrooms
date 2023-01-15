@@ -1,4 +1,6 @@
 
+using UnityEngine;
+
 public abstract class PlayerState
 {
     public string Name { get; }
@@ -36,7 +38,14 @@ public abstract class PlayerState
         newState.EnterState();
 
         if (isRootState)
-            context.CurrentState = newState; // Switch to the new Root State (Jump or Grounded)
+        {
+            // Switch root state
+            context.CurrentState = newState;
+
+            // Enter the current sub state of the root state
+            if (currentSubState != null)
+                currentSubState.EnterState();
+        }
         else if (currentSuperState != null)  // Has this state a super state?
             currentSuperState.SetSubState(newState); // Set the substate of the parent to newState
     }
