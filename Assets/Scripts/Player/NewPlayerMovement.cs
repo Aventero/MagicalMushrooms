@@ -77,8 +77,8 @@ public class NewPlayerMovement : MonoBehaviour
     private void SetupJumpVariables()
     {
         float timeToApex = maxJumpTime / 2.0f;
-        gravity = (-2.0f * maxJumpHeight) / Mathf.Pow(timeToApex, 2.0f); // Calculated gravity based on height and time
-        initialJumpVelocity = (2.0f * maxJumpHeight) / timeToApex;  // Starting velocity of the jump
+        gravity = -2.0f * maxJumpHeight / Mathf.Pow(timeToApex, 2.0f); // Calculated gravity based on height and time
+        initialJumpVelocity = 2.0f * maxJumpHeight / timeToApex;  // Starting velocity of the jump
     }
 
     private void Update()

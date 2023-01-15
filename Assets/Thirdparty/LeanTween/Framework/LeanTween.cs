@@ -899,7 +899,7 @@ public class LeanTween : MonoBehaviour {
     public static void drawBezierPath(Vector3 a, Vector3 b, Vector3 c, Vector3 d, float arrowSize = 0.0f, Transform arrowTransform = null){
         Vector3 last = a;
         Vector3 p;
-        Vector3 aa = (-a + 3*(b-c) + d);
+        Vector3 aa = -a + 3*(b-c) + d;
         Vector3 bb = 3*(a+c) - 6*b;
         Vector3 cc = 3*(b-a);
 
@@ -912,7 +912,7 @@ public class LeanTween : MonoBehaviour {
 
             for(float k = 1.0f; k <= 120.0f; k++){
                 t = k / 120.0f;
-                p = ((aa* t + (bb))* t + cc)* t + a;
+                p = ((aa* t + bb)* t + cc)* t + a;
                 Gizmos.DrawLine(last, p);
                 distanceTravelled += (p-last).magnitude;
                 if(distanceTravelled>1f){
@@ -929,7 +929,7 @@ public class LeanTween : MonoBehaviour {
                     arrowTransform.LookAt( last, Vector3.forward );
                     Vector3 to = arrowTransform.TransformDirection(Vector3.right);
                     // Debug.Log("to:"+to+" tweenEmpty.transform.position:"+arrowTransform.position);
-                    Vector3 back = (last-p);
+                    Vector3 back = last-p;
                     back = back.normalized;
                     Gizmos.DrawLine(p, p + (to + back)*arrowSize);
                     to = arrowTransform.TransformDirection(-Vector3.right);
@@ -943,7 +943,7 @@ public class LeanTween : MonoBehaviour {
         }else{
             for(float k = 1.0f; k <= 30.0f; k++){
                 t = k / 30.0f;
-                p = ((aa* t + (bb))* t + cc)* t + a;
+                p = ((aa* t + bb)* t + cc)* t + a;
                 Gizmos.DrawLine(last, p);
                 last = p;
             }
@@ -2120,13 +2120,13 @@ public class LeanTween : MonoBehaviour {
 
     public static float tweenOnCurve( LTDescr tweenDescr, float ratioPassed ){
         // Debug.Log("single ratio:"+ratioPassed+" tweenDescr.animationCurve.Evaluate(ratioPassed):"+tweenDescr.animationCurve.Evaluate(ratioPassed));
-        return tweenDescr.from.x + (tweenDescr.diff.x) * tweenDescr.optional.animationCurve.Evaluate(ratioPassed);
+        return tweenDescr.from.x + tweenDescr.diff.x * tweenDescr.optional.animationCurve.Evaluate(ratioPassed);
     }
 
     public static Vector3 tweenOnCurveVector( LTDescr tweenDescr, float ratioPassed ){
-        return  new Vector3(tweenDescr.from.x + (tweenDescr.diff.x) * tweenDescr.optional.animationCurve.Evaluate(ratioPassed),
-            tweenDescr.from.y + (tweenDescr.diff.y) * tweenDescr.optional.animationCurve.Evaluate(ratioPassed),
-            tweenDescr.from.z + (tweenDescr.diff.z) * tweenDescr.optional.animationCurve.Evaluate(ratioPassed) );
+        return  new Vector3(tweenDescr.from.x + tweenDescr.diff.x * tweenDescr.optional.animationCurve.Evaluate(ratioPassed),
+            tweenDescr.from.y + tweenDescr.diff.y * tweenDescr.optional.animationCurve.Evaluate(ratioPassed),
+            tweenDescr.from.z + tweenDescr.diff.z * tweenDescr.optional.animationCurve.Evaluate(ratioPassed) );
     }
 
     public static float easeOutQuadOpt( float start, float diff, float ratioPassed ){
@@ -2162,10 +2162,10 @@ public class LeanTween : MonoBehaviour {
         float retval = 0.0f;
         float diff = 0.0f;
         if ((end - start) < -half){
-            diff = ((max - start) + end) * val;
+            diff = (max - start + end) * val;
             retval = start + diff;
         }else if ((end - start) > half){
-            diff = -((max - end) + start) * val;
+            diff = -(max - end + start) * val;
             retval = start + diff;
         }else retval = start + (end - start) * val;
         return retval;
@@ -2200,7 +2200,7 @@ public class LeanTween : MonoBehaviour {
         val /= .5f;
         if (val < 1) return diffBy2 * val2 + start;
         val--;
-        return -diffBy2 * ((val2 - 2) - 1f) + start;
+        return -diffBy2 * (val2 - 2 - 1f) + start;
     }
 
     public static float easeInCubic(float start, float end, float val){
@@ -2324,14 +2324,14 @@ public class LeanTween : MonoBehaviour {
         if (val < (1 / 2.75f)){
             return end * (7.5625f * val * val) + start;
         }else if (val < (2 / 2.75f)){
-            val -= (1.5f / 2.75f);
-            return end * (7.5625f * (val) * val + .75f) + start;
+            val -= 1.5f / 2.75f;
+            return end * (7.5625f * val * val + .75f) + start;
         }else if (val < (2.5 / 2.75)){
-            val -= (2.25f / 2.75f);
-            return end * (7.5625f * (val) * val + .9375f) + start;
+            val -= 2.25f / 2.75f;
+            return end * (7.5625f * val * val + .9375f) + start;
         }else{
-            val -= (2.625f / 2.75f);
-            return end * (7.5625f * (val) * val + .984375f) + start;
+            val -= 2.625f / 2.75f;
+            return end * (7.5625f * val * val + .984375f) + start;
         }
     }
 
@@ -2346,27 +2346,27 @@ public class LeanTween : MonoBehaviour {
         end -= start;
         val /= 1;
         float s= 1.70158f * overshoot;
-        return end * (val) * val * ((s + 1) * val - s) + start;
+        return end * val * val * ((s + 1) * val - s) + start;
     }
 
     public static float easeOutBack(float start, float end, float val, float overshoot = 1.0f){
         float s = 1.70158f * overshoot;
         end -= start;
         val = (val / 1) - 1;
-        return end * ((val) * val * ((s + 1) * val + s) + 1) + start;
+        return end * (val * val * ((s + 1) * val + s) + 1) + start;
     }
 
     public static float easeInOutBack(float start, float end, float val, float overshoot = 1.0f){
         float s = 1.70158f * overshoot;
         end -= start;
         val /= .5f;
-        if ((val) < 1){
-            s *= (1.525f) * overshoot;
-            return end / 2 * (val * val * (((s) + 1) * val - s)) + start;
+        if (val < 1){
+            s *= 1.525f * overshoot;
+            return end / 2 * (val * val * ((s + 1) * val - s)) + start;
         }
         val -= 2;
-        s *= (1.525f) * overshoot;
-        return end / 2 * ((val) * val * (((s) + 1) * val + s) + 2) + start;
+        s *= 1.525f * overshoot;
+        return end / 2 * (val * val * ((s + 1) * val + s) + 2) + start;
     }
 
     public static float easeInElastic(float start, float end, float val, float overshoot = 1.0f, float period = 0.3f){
@@ -2392,7 +2392,7 @@ public class LeanTween : MonoBehaviour {
         // Debug.Log("ease in elastic val:"+val+" a:"+a+" overshoot:"+overshoot);
 
         val = val-1f;
-        return start-(a * Mathf.Pow(2f, 10f * val) * Mathf.Sin((val - s) * (2f * Mathf.PI) / p)) * overshoot;
+        return start-a * Mathf.Pow(2f, 10f * val) * Mathf.Sin((val - s) * (2f * Mathf.PI) / p) * overshoot;
     }       
 
     public static float easeOutElastic(float start, float end, float val, float overshoot = 1.0f, float period = 0.3f){
@@ -2891,7 +2891,7 @@ public class LTBezier {
 
     public LTBezier(Vector3 a, Vector3 b, Vector3 c, Vector3 d, float precision){
         this.a = a;
-        aa = (-a + 3*(b-c) + d);
+        aa = -a + 3*(b-c) + d;
         bb = 3*(a+c) - 6*b;
         cc = 3*(b-a);
 
@@ -2933,7 +2933,7 @@ public class LTBezier {
     }
 
     private Vector3 bezierPoint(float t){
-        return ((aa* t + (bb))* t + cc)* t + a;
+        return ((aa* t + bb)* t + cc)* t + a;
     }
 
     public Vector3 point(float t){ 
@@ -3148,7 +3148,7 @@ public class LTBezierPath {
             }
         }
         //Debug.Log("closestI:"+closestI+" maxIndex:"+maxIndex);
-        return (float)closestI / (float)(maxIndex);
+        return (float)closestI / (float)maxIndex;
     }
 }
 
@@ -3234,7 +3234,7 @@ public class LTSpline {
             ptsAdj[0] = earlierPoint;
             distance = 0f;
             for(int i = 0; i < precision + 1; i++){
-                float fract = ((float)(i)) / precision;
+                float fract = ((float)i) / precision;
                 // Debug.Log("fract:"+fract);
                 Vector3 point = interp( fract );
                 float dist = Vector3.Distance(point, earlierPoint);
@@ -3295,11 +3295,11 @@ public class LTSpline {
         Vector3 c = pts[currPt + 2];
         Vector3 d = pts[currPt + 3];
 
-        Vector3 val = (.5f * (
+        Vector3 val = .5f * (
             (-a + 3f * b - 3f * c + d) * (u * u * u)
             + (2f * a - 5f * b + 4f * c - d) * (u * u)
             + (-a + c) * u
-            + 2f * b));
+            + 2f * b);
         // Debug.Log("currPt:"+currPt+" t:"+t+" val.x"+val.x+" y:"+val.y+" z:"+val.z);
 
         return val;
@@ -3724,7 +3724,7 @@ public class LTRect : System.Object{
     public void resetForRotation(){
         Vector3 scale = new Vector3(GUI.matrix[0,0], GUI.matrix[1,1], GUI.matrix[2,2]);
         if(pivot==Vector2.zero){
-            pivot = new Vector2((_rect.x+((_rect.width)*0.5f )) * scale.x + GUI.matrix[0,3], (_rect.y+((_rect.height)*0.5f )) * scale.y + GUI.matrix[1,3]);
+            pivot = new Vector2((_rect.x+(_rect.width*0.5f )) * scale.x + GUI.matrix[0,3], (_rect.y+(_rect.height*0.5f )) * scale.y + GUI.matrix[1,3]);
         }
     }
 
@@ -4066,12 +4066,12 @@ public class LTGUI {
         if(vec2.x<0f)
             return false;
         float vecY = Screen.height-vec2.y;
-        return (vec2.x > rect.x && vec2.x < rect.x + rect.width && vecY > rect.y && vecY < rect.y + rect.height);
+        return vec2.x > rect.x && vec2.x < rect.x + rect.width && vecY > rect.y && vecY < rect.y + rect.height;
     }
 
     public static bool checkWithinRect(Vector2 vec2, Rect rect){
         vec2.y = Screen.height-vec2.y;
-        return (vec2.x > rect.x && vec2.x < rect.x + rect.width && vec2.y > rect.y && vec2.y < rect.y + rect.height);
+        return vec2.x > rect.x && vec2.x < rect.x + rect.width && vec2.y > rect.y && vec2.y < rect.y + rect.height;
     }
 
     public static Vector2 firstTouch(){

@@ -100,7 +100,7 @@ public class LeanAudio : object {
 			if(options.vibrato!=null){
 				for(int j=0; j<options.vibrato.Length; j++){
 					float peakMulti = Mathf.Abs( Mathf.Sin( 1.5708f + passed * (1f/options.vibrato[j][0]) * Mathf.PI ) );
-					float diff = (1f-options.vibrato[j][1]);
+					float diff = 1f-options.vibrato[j][1];
 					peakMulti = options.vibrato[j][1] + diff*peakMulti;
 					height *= peakMulti;
 				}	
@@ -176,12 +176,12 @@ public class LeanAudio : object {
 			}else if(options.waveStyle==LeanAudioOptions.LeanAudioWaveStyle.Sawtooth){
 				float sign = value > 0f ? 1f : -1f;
 				if(ratioElapsed<0.5f){
-					value = (ratioElapsed*2f)*sign;
+					value = ratioElapsed*2f*sign;
 				}else{ // 0.5f - 1f
 					value = (1f - ratioElapsed)*2f*sign;
 				}
 			}else if(options.waveStyle==LeanAudioOptions.LeanAudioWaveStyle.Noise){
-				float peakMulti = (1f-options.waveNoiseInfluence) + Mathf.PerlinNoise(0f, passedTime * options.waveNoiseScale ) * options.waveNoiseInfluence;
+				float peakMulti = 1f-options.waveNoiseInfluence + Mathf.PerlinNoise(0f, passedTime * options.waveNoiseScale ) * options.waveNoiseInfluence;
 				
 				/*if(i<25){
 					Debug.Log("passedTime:"+passedTime+" peakMulti:"+peakMulti+" infl:"+options.waveNoiseInfluence);
@@ -199,7 +199,7 @@ public class LeanAudio : object {
 			if(options.modulation!=null){
 				for(int k=0; k<options.modulation.Length; k++){
 					float peakMulti = Mathf.Abs( Mathf.Sin( 1.5708f + passedTime * (1f/options.modulation[k][0]) * Mathf.PI ) );
-					float diff = (1f-options.modulation[k][1]);
+					float diff = 1f-options.modulation[k][1];
 					peakMulti = options.modulation[k][1] + diff*peakMulti;
 					// if(k<10){
 						// Debug.Log("k:"+k+" peakMulti:"+peakMulti+" value:"+value+" after:"+(value*peakMulti));

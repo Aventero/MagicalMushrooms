@@ -39,7 +39,7 @@ internal class AIStateAttack : MonoBehaviour, AIState
     {
         // Let Witch chill.
         StopAllCoroutines();
-        player.gameObject.GetComponent<NewPlayerMovement>().ActivateMovement(true);
+        player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(true);
     }
 
     public void UpdateState(AIStateManager stateManager)
@@ -56,7 +56,7 @@ internal class AIStateAttack : MonoBehaviour, AIState
     IEnumerator ReachOutHand(AIStateManager stateManager, float reachTime)
     {
         // Activate playermovement
-        player.gameObject.GetComponent<NewPlayerMovement>().ActivateMovement(false);
+        player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(false);
 
         // Lerp hand to Pullpoint
         float delta = 0;
@@ -74,7 +74,7 @@ internal class AIStateAttack : MonoBehaviour, AIState
 
         // Pulling was done!
         StateManager.Instance.DealDamageEvent(1);
-        player.gameObject.GetComponent<NewPlayerMovement>().ActivateMovement(true);
+        player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(true);
 
         // Lerp hand back
         delta = 0;

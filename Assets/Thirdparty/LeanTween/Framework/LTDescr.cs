@@ -986,7 +986,7 @@ public class LTDescr
 
 			this.passed = Mathf.Clamp(this.passed, 0f, this.time); 
 
-			this.ratioPassed = (this.passed / this.time); // need to clamp when finished so it will finish at the exact spot and not overshoot
+			this.ratioPassed = this.passed / this.time; // need to clamp when finished so it will finish at the exact spot and not overshoot
 
 			this.easeInternal();
 
@@ -1395,9 +1395,9 @@ public class LTDescr
 	public LTDescr setEaseShake(){ this._optional.animationCurve = LeanTween.shake; this.toInternal.x = this.from.x + this.to.x; this.easeMethod = this.tweenOnCurve; return this; }
 
 	private Vector3 tweenOnCurve(){
-		return	new Vector3(this.from.x + (this.diff.x) * this._optional.animationCurve.Evaluate(ratioPassed),
-			this.from.y + (this.diff.y) * this._optional.animationCurve.Evaluate(ratioPassed),
-			this.from.z + (this.diff.z) * this._optional.animationCurve.Evaluate(ratioPassed) );
+		return	new Vector3(this.from.x + this.diff.x * this._optional.animationCurve.Evaluate(ratioPassed),
+			this.from.y + this.diff.y * this._optional.animationCurve.Evaluate(ratioPassed),
+			this.from.z + this.diff.z * this._optional.animationCurve.Evaluate(ratioPassed) );
 	}
 
 	// Vector3 Ease Methods
@@ -1421,7 +1421,7 @@ public class LTDescr
 	private Vector3 easeOutQuad(){
 		val = this.ratioPassed;
 		val = -val * (val - 2f);
-		return (this.diff * val + this.from);
+		return this.diff * val + this.from;
 	}
 
 	private Vector3 easeLinear(){
@@ -1442,7 +1442,7 @@ public class LTDescr
 
 	private Vector3 easeOutCubic(){
 		val = this.ratioPassed - 1f;
-		val = (val * val * val + 1);
+		val = val * val * val + 1;
 		return new Vector3( this.diff.x * val + this.from.x, this.diff.y * val + this.from.y, this.diff.z * val + this.from.z) ;
 	}
 
@@ -1487,7 +1487,7 @@ public class LTDescr
 
 	private Vector3 easeOutQuint(){
 		val = this.ratioPassed - 1f;
-		val = (val * val * val * val * val + 1f);
+		val = val * val * val * val * val + 1f;
 		return new Vector3(this.diff.x * val + this.from.x, this.diff.y * val + this.from.y, this.diff.z * val + this.from.z);
 	}
 
@@ -1498,7 +1498,7 @@ public class LTDescr
 			return new Vector3(this.diffDiv2.x * val + this.from.x,this.diffDiv2.y * val + this.from.y,this.diffDiv2.z * val + this.from.z);
 		}
 		val -= 2f;
-		val = (val * val * val * val * val + 2f);
+		val = val * val * val * val * val + 2f;
 		return new Vector3(this.diffDiv2.x * val + this.from.x, this.diffDiv2.y * val + this.from.y, this.diffDiv2.z * val + this.from.z);
 	}
 
@@ -1523,7 +1523,7 @@ public class LTDescr
 	}
 
 	private Vector3 easeOutExpo(){
-		val = (-Mathf.Pow(2f, -10f * this.ratioPassed) + 1f);
+		val = -Mathf.Pow(2f, -10f * this.ratioPassed) + 1f;
 		return new Vector3(this.diff.x * val + this.from.x, this.diff.y * val + this.from.y, this.diff.z * val + this.from.z);
 	}
 
@@ -1553,7 +1553,7 @@ public class LTDescr
 			return new Vector3(this.diffDiv2.x * val  + this.from.x, this.diffDiv2.y * val  + this.from.y, this.diffDiv2.z * val  + this.from.z);
 		}
 		val -= 2f;
-		val = (Mathf.Sqrt(1f - val * val) + 1f);
+		val = Mathf.Sqrt(1f - val * val) + 1f;
 		return new Vector3(this.diffDiv2.x * val + this.from.x, this.diffDiv2.y * val + this.from.y, this.diffDiv2.z * val + this.from.z);
 	}
 
@@ -1605,26 +1605,26 @@ public class LTDescr
 		val = this.ratioPassed;
 		val /= 1;
 		float s = 1.70158f * this.overshoot;
-		return this.diff * (val) * val * ((s + 1) * val - s) + this.from;
+		return this.diff * val * val * ((s + 1) * val - s) + this.from;
 	}
 
 	private Vector3 easeOutBack(){
 		float s = 1.70158f * this.overshoot;
 		val = (this.ratioPassed / 1) - 1;
-		val = ((val) * val * ((s + 1) * val + s) + 1);
+		val = val * val * ((s + 1) * val + s) + 1;
 		return this.diff * val + this.from;
 	}
 
 	private Vector3 easeInOutBack(){
 		float s = 1.70158f * this.overshoot;
 		val = this.ratioPassed * 2f;
-		if ((val) < 1){
-			s *= (1.525f) * overshoot;
-			return this.diffDiv2 * (val * val * (((s) + 1) * val - s)) + this.from;
+		if (val < 1){
+			s *= 1.525f * overshoot;
+			return this.diffDiv2 * (val * val * ((s + 1) * val - s)) + this.from;
 		}
 		val -= 2;
-		s *= (1.525f) * overshoot;
-		val = ((val) * val * (((s) + 1) * val + s) + 2);
+		s *= 1.525f * overshoot;
+		val = val * val * ((s + 1) * val + s) + 2;
 		return this.diffDiv2 * val + this.from;
 	}
 

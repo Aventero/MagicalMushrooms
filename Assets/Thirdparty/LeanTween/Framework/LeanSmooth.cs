@@ -129,7 +129,7 @@ public class LeanSmooth {
 
         currentVelocity += deltaTime / smoothTime * accelRate * diff;
 
-        currentVelocity *= (1f - deltaTime * friction);
+        currentVelocity *= 1f - deltaTime * friction;
 
         if (maxSpeed > 0f && maxSpeed < Mathf.Abs(currentVelocity))
             currentVelocity = maxSpeed * Mathf.Sign(currentVelocity);
@@ -207,7 +207,7 @@ public class LeanSmooth {
         if (deltaTime < 0f)
             deltaTime = Time.deltaTime;
 
-        bool targetGreater = (target > current);
+        bool targetGreater = target > current;
 
         float currentVelocity = deltaTime * moveSpeed * (targetGreater ? 1f : -1f);
 
@@ -291,14 +291,14 @@ public class LeanSmooth {
 
         currentVelocity += deltaTime / smoothTime * accelRate * diff;
 
-        currentVelocity *= (1f - deltaTime * friction);
+        currentVelocity *= 1f - deltaTime * friction;
 
         if (maxSpeed > 0f && maxSpeed < Mathf.Abs(currentVelocity))
             currentVelocity = maxSpeed * Mathf.Sign(currentVelocity);
 
         float returned = current + currentVelocity;
 
-        bool targetGreater = (target > current);
+        bool targetGreater = target > current;
         float returnPassed = returned - target;
         if ((targetGreater && returnPassed > 0) || !targetGreater && returnPassed < 0)
         { // Start a bounce

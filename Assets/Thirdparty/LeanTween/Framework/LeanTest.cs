@@ -115,7 +115,7 @@ public class LeanTest : object {
 	
 	public static void overview(){ 
 		testsFinished = true;
-		int failedCnt = (expected-passes);
+		int failedCnt = expected-passes;
 		string failedStr = failedCnt > 0 ? formatBC(""+failedCnt,"red") : ""+failedCnt;
 		Debug.Log(formatB("Final Report:")+" _____________________ PASSED: "+formatBC(""+passes,"green")+" FAILED: "+failedStr+" ");
 	}
