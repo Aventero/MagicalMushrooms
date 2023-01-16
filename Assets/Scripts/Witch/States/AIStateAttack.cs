@@ -13,7 +13,6 @@ internal class AIStateAttack : MonoBehaviour, AIState
     public float ReachTime = 2f;
     public float PullSpeed = 2f;
 
-    public Transform NearestEdgePoint;
     private Transform player;
     private bool pulling = false;
     private bool attacking = false;
@@ -29,15 +28,13 @@ internal class AIStateAttack : MonoBehaviour, AIState
 
         stateManager.aiVision.PlayerWatching();
         player = stateManager.Player.transform;
-        stateManager.agent.isStopped = false;
-        NearestEdgePoint.position = stateManager.agent.pathEndPosition;
-        stateManager.SetWalkPoint(NearestEdgePoint);
-        stateManager.Walk();
+        stateManager.agent.isStopped = true;
     }
 
     public void ExitState(AIStateManager stateManager)
     {
         // Let Witch chill.
+        stateManager.LerpBlit(0f, stateManager.BlitTime, false);
         StopAllCoroutines();
         player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(true);
     }
@@ -46,7 +43,6 @@ internal class AIStateAttack : MonoBehaviour, AIState
     {
         if (!stateManager.agent.pathPending && stateManager.agent.remainingDistance < stateManager.agent.stoppingDistance && !attacking)
         {
-            stateManager.animator.SetBool("Stay", true);
             stateManager.agent.isStopped = true;
             attacking = true;
             StartCoroutine(ReachOutHand(stateManager, ReachTime));

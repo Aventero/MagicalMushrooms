@@ -14,7 +14,6 @@ public class AIStateIdle : MonoBehaviour, AIState
     public void EnterState(AIStateManager stateManager)
     {
         stateManager.aiVision.RelaxedWatching();
-        //stateManager.animator.SetBool("Stay", true);
         stateManager.agent.isStopped = true;
         List<Transform> visiblePoints = stateManager.CalculateVisiblePoints(transform.position, transform.forward, 75f);
         StartCoroutine(LookAround(stateManager, WaitTimeInBetween, visiblePoints));
@@ -23,12 +22,16 @@ public class AIStateIdle : MonoBehaviour, AIState
     public void ExitState(AIStateManager stateManager)
     {
         StopAllCoroutines();
-        //stateManager.animator.SetBool("Stay", false);
         stateManager.agent.isStopped = false;
     }
 
     public void UpdateState(AIStateManager stateManager)
     {
+        if (stateManager.HasFoundPlayer())
+        {
+            StopCoroutine(nameof(LookAround));
+            stateManager.TransitionToState("Chase");
+        }
     }
 
     IEnumerator LookAround(AIStateManager stateManager, float waitTimeInBetween, List<Transform> visiblePoints)

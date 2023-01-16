@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.Universal;
 
 internal class AIStateChase : MonoBehaviour, AIState
 {
@@ -9,6 +10,9 @@ internal class AIStateChase : MonoBehaviour, AIState
     private NavMeshAgent agent; 
     public float AttackAfterSeconds = 1f;
     private float chaseTime = 0f;
+    public Transform ChasePoint;
+
+
 
     public void InitState(AIStateManager stateManager)
     {
@@ -18,26 +22,43 @@ internal class AIStateChase : MonoBehaviour, AIState
     {
         chaseTime = 0f;
         stateManager.aiVision.PlayerWatching();
-        //stateManager.animator.SetBool("Stay", false);
+        stateManager.LerpBlit(0.2f, stateManager.BlitTime, true);
         agent = stateManager.agent;
-       
         stateManager.Watch(stateManager.Player);
+        ChasePoint.position = stateManager.Player.position;
+        stateManager.SetWalkPoint(ChasePoint.position);
+        stateManager.Walk();
     }
 
     public void ExitState(AIStateManager stateManager)
     {
-        //stateManager.animator.SetBool("Stay", true);
     }
 
     public void UpdateState(AIStateManager stateManager)
     {
-        agent.destination = stateManager.Player.position;
+        stateManager.Watch(stateManager.Player);
+
+        if (stateManager.HasLostPlayer())
+        {
+            stateManager.LerpBlit(0f, stateManager.BlitTime, false);
+            stateManager.TransitionToState("LostPlayer");
+            return;
+        }
+
         chaseTime += Time.deltaTime;
-        if (chaseTime >= AttackAfterSeconds)
+        if (AgentReachedDestination(stateManager) && chaseTime >= AttackAfterSeconds)
         {
             chaseTime = 0f;
             agent.isStopped = true;
             stateManager.TransitionToState("Attack");
         }
+    }
+
+    private bool AgentReachedDestination(AIStateManager stateManager)
+    {
+        if (!stateManager.agent.pathPending && stateManager.agent.remainingDistance < stateManager.agent.stoppingDistance)
+            return true;
+
+        return false;
     }
 }

@@ -620,7 +620,7 @@ PrefabInstance:
     - target: {fileID: 1055917426698307764, guid: 66ff54a936ebe4c1f9cdf7f240ee725d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1055917426698307764, guid: 66ff54a936ebe4c1f9cdf7f240ee725d,
         type: 3}
@@ -4538,7 +4538,7 @@ PrefabInstance:
     - target: {fileID: 3421222881368468875, guid: 52862335886d74a3f849e0703b4c4d1f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3421222881368468875, guid: 52862335886d74a3f849e0703b4c4d1f,
         type: 3}
@@ -5921,6 +5921,37 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &708457011
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 708457012}
+  m_Layer: 0
+  m_Name: WitchChasePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &708457012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708457011}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1533142474}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &713312315
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9908,7 +9939,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1533142474}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1138998049
 MonoBehaviour:
@@ -10258,7 +10289,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3475e7a8d2ee6e948933251b16c6eb71,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3475e7a8d2ee6e948933251b16c6eb71,
         type: 3}
@@ -10343,7 +10374,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3475e7a8d2ee6e948933251b16c6eb71,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3475e7a8d2ee6e948933251b16c6eb71, type: 3}
@@ -11632,12 +11663,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1389664276}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1393251904 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2024126862517265184, guid: 7832c25e26d297e449ecef85cac16328,
-    type: 3}
-  m_PrefabInstance: {fileID: 1409812489}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1396269967
 GameObject:
   m_ObjectHideFlags: 0
@@ -11887,13 +11912,18 @@ PrefabInstance:
       objectReference: {fileID: 1065073347}
     - target: {fileID: 2911451248570992174, guid: 7832c25e26d297e449ecef85cac16328,
         type: 3}
+      propertyPath: BlitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911451248570992174, guid: 7832c25e26d297e449ecef85cac16328,
+        type: 3}
       propertyPath: ViewCone
       value: 
       objectReference: {fileID: 919132148803352153}
     - target: {fileID: 2911451248570992174, guid: 7832c25e26d297e449ecef85cac16328,
         type: 3}
       propertyPath: AlertTime
-      value: 0.25
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2911451248570992174, guid: 7832c25e26d297e449ecef85cac16328,
         type: 3}
@@ -12544,7 +12574,7 @@ PrefabInstance:
     - target: {fileID: 5517584346009996587, guid: 7832c25e26d297e449ecef85cac16328,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5517584346009996587, guid: 7832c25e26d297e449ecef85cac16328,
         type: 3}
@@ -12884,8 +12914,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6186961228645208966, guid: 7832c25e26d297e449ecef85cac16328,
         type: 3}
+      propertyPath: ChasePoint
+      value: 
+      objectReference: {fileID: 708457012}
+    - target: {fileID: 6186961228645208966, guid: 7832c25e26d297e449ecef85cac16328,
+        type: 3}
+      propertyPath: NearestEdgePoint
+      value: 
+      objectReference: {fileID: 708457012}
+    - target: {fileID: 6186961228645208966, guid: 7832c25e26d297e449ecef85cac16328,
+        type: 3}
       propertyPath: AttackAfterSeconds
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6279772275821685625, guid: 7832c25e26d297e449ecef85cac16328,
         type: 3}
@@ -12983,7 +13023,7 @@ PrefabInstance:
         type: 3}
       propertyPath: NearestEdgePoint
       value: 
-      objectReference: {fileID: 1393251904}
+      objectReference: {fileID: 0}
     - target: {fileID: 8029946117319161000, guid: 7832c25e26d297e449ecef85cac16328,
         type: 3}
       propertyPath: Player
@@ -12996,6 +13036,11 @@ PrefabInstance:
       objectReference: {fileID: 919132148803352153}
     - target: {fileID: 8029946117319161000, guid: 7832c25e26d297e449ecef85cac16328,
         type: 3}
+      propertyPath: BlitMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 09cd1f7479aa45045a785bd3b8618d55, type: 2}
+    - target: {fileID: 8029946117319161000, guid: 7832c25e26d297e449ecef85cac16328,
+        type: 3}
       propertyPath: WalkPointsParent
       value: 
       objectReference: {fileID: 1792762200}
@@ -13004,6 +13049,12 @@ PrefabInstance:
       propertyPath: WatchPointsParent
       value: 
       objectReference: {fileID: 2143581625}
+    - target: {fileID: 8029946117319161000, guid: 7832c25e26d297e449ecef85cac16328,
+        type: 3}
+      propertyPath: ScriptableRenderer
+      value: 
+      objectReference: {fileID: 5862373970734308343, guid: c40be3174f62c4acf8c1216858c64956,
+        type: 2}
     - target: {fileID: 8029946117319161000, guid: 7832c25e26d297e449ecef85cac16328,
         type: 3}
       propertyPath: StandardWatchpoint
@@ -13805,6 +13856,7 @@ Transform:
   - {fileID: 407125771}
   - {fileID: 378961090}
   - {fileID: 1409812490}
+  - {fileID: 708457012}
   - {fileID: 1792762201}
   - {fileID: 2143581626}
   - {fileID: 1138998048}
@@ -15404,7 +15456,7 @@ Transform:
   - {fileID: 624157581}
   - {fileID: 2016773037}
   m_Father: {fileID: 1533142474}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1805127274
 PrefabInstance:
@@ -18846,7 +18898,7 @@ Transform:
   - {fileID: 1791447261}
   - {fileID: 1396269968}
   m_Father: {fileID: 1533142474}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2145401082
 PrefabInstance:

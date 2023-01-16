@@ -27,10 +27,18 @@ internal class AIStatePatrol :  MonoBehaviour, AIState
 
     public void UpdateState(AIStateManager stateManager)
     {
+        if (stateManager.HasFoundPlayer())
+        {
+            stateManager.TransitionToState("Chase");
+            return;
+        }
+
         // check if reached a walkpoint
         if (!stateManager.agent.pathPending && stateManager.agent.remainingDistance < stateManager.agent.stoppingDistance)
         {
             stateManager.TransitionToState("Idle");
         }
+
+
     }
 }
