@@ -42,4 +42,7 @@ public class StateManager : MonoBehaviour
 
     public delegate void ItemPickupCallBack(ItemData item);
     public ItemPickupCallBack ItemPickupEvent;
+
+    public delegate void UsedItemCallBack(ItemData item);
+    public UsedItemCallBack UsedItemEvent;
 }

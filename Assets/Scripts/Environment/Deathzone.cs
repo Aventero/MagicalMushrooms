@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Deathzone : MonoBehaviour
@@ -10,13 +7,14 @@ public class Deathzone : MonoBehaviour
 
     void Start()
     {
+        ColliderSize = new Vector3(Size.x, 1.0f, Size.y);
         SetupBoxCollider();
     }
 
     private void SetupBoxCollider()
     {
         BoxCollider boxCollider= this.gameObject.AddComponent<BoxCollider>();
-        boxCollider.size = new Vector3(Size.x, 1.0f, Size.y);
+        boxCollider.size = ColliderSize;
         boxCollider.isTrigger = true;
     }
 
@@ -31,7 +29,7 @@ public class Deathzone : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawCube(this.transform.position, new Vector3(Size.x, 1.0f, Size.y));
+        Gizmos.DrawCube(this.transform.position, ColliderSize);
     }
 
 }

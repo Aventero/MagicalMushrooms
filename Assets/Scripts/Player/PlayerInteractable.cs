@@ -24,6 +24,11 @@ public class PlayerInteractable : MonoBehaviour
 
     private void FixedUpdate()
     {
+        ShootRaycast();
+    }
+
+    private void ShootRaycast()
+    {
         Transform cameraTransform = Camera.main.transform;
 
         RaycastHit[] hits = Physics.BoxCastAll(cameraTransform.position, new Vector3(BoxRaySize, BoxRaySize, BoxRaySize), cameraTransform.forward, Quaternion.identity, MaxRayDistance, layerMask);
@@ -37,9 +42,6 @@ public class PlayerInteractable : MonoBehaviour
         // Nothing has changed
         if (oldNearestInteractable == newInteractable)
             return;
-
-        Debug.Log("Old: " + (oldNearestInteractable == null ? "Null" : oldNearestInteractable.name) + " | New:" + (newInteractable == null ? "Null" : newInteractable.name));
-
 
         if (oldNearestInteractable != null)
         {
@@ -77,7 +79,6 @@ public class PlayerInteractable : MonoBehaviour
         foreach (RaycastHit hit in hits)
         {
             Interactable interactable = hit.transform.gameObject.GetComponent<Interactable>();
-            //Debug.Log(interactable.name + " Distance: " + hit.distance);
             interactables.Add((interactable, hit.distance));
         }
 

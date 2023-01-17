@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,10 +7,12 @@ public class OverlayMenu : MonoBehaviour
     [SerializeField] private Sprite HealthSprite;
     [SerializeField] private TMP_Text itemCounterText;
     public GameObject InteractionText;
+    public GameObject IconParent;
 
     private GameObject[] healthObjects;
-    
-    private List<GameObject> pickedUpItems; // List for displaying the item sprites
+
+    private List<Sprite> pickedUpItemsSprites;
+    private GameObject[] pickedUpItems; // List for displaying the item sprites
 
     private int amountOfItems;
     private int pickedUpItemsCounter = 0;
@@ -33,23 +34,14 @@ public class OverlayMenu : MonoBehaviour
     {
         // RegisterEvent
         StateManager.Instance.ItemPickupEvent += this.OnItemPickup;
+        StateManager.Instance.UsedItemEvent += this.UsedItem;
 
-        pickedUpItems = new List<GameObject>();
+        pickedUpItemsSprites = new List<Sprite>();
         amountOfItems = GameObject.FindObjectsOfType<Item>().Length;
         itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
 
         // Spawn all Health sprites
-        healthObjects = UIManager.Instance.CreateIcons(HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f);
-    }
-
-    public void AddIcon(Sprite icon, string displayName)
-    {
-        float width = 100;
-        float scale = 0.3f;
-        Vector2 position = -new Vector3(pickedUpItems.Count * width * scale, 0, 0);
-
-        GameObject newIcon = UIManager.Instance.CreateSpriteOnScreen(position, icon, displayName, new Vector2(1, 1), new Vector2(1, 1), scale);
-        pickedUpItems.Add(newIcon);
+        healthObjects = UIBuilder.CreateIcons(IconParent.transform, HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f, 15);
     }
 
     public void UpdateHealthIcons(int playerHealth)
@@ -65,9 +57,12 @@ public class OverlayMenu : MonoBehaviour
 
     public void OnItemPickup(ItemData item)
     {
-        //Debug.Log("Picked up Item: " + item.Name + " Counter: " + pickedUpItems.Count.ToString());
+        Debug.Log("Picked up Item: " + item.Name);
+
         UpdateItemCounter();
-        DisplayItemIcons(item.Icon);
+
+        pickedUpItemsSprites.Add(item.Icon);
+        UpdateItemSprites();
     }
 
     public void UpdateItemCounter()
@@ -90,8 +85,22 @@ public class OverlayMenu : MonoBehaviour
         InteractionText.SetActive(active);
     }
 
-    public void DisplayItemIcons(Sprite icon)
+    public void UsedItem(ItemData usedItem)
     {
-        UIManager.Instance.CreateIcons(icon, "Item Icon", 1, new Vector2(1, 0), new Vector2(1, 0), 0.2f);
+        print("Used Item: " + usedItem);  
+        pickedUpItemsSprites.Remove(usedItem.Icon);
+        UpdateItemSprites();
+    }
+
+    public void UpdateItemSprites()
+    {
+        if (pickedUpItems != null)
+        {
+            // Clear all Item Sprites
+            foreach (GameObject sprite in pickedUpItems)
+                Destroy(sprite);
+        }
+
+        pickedUpItems = UIBuilder.CreateIcons(IconParent.transform, pickedUpItemsSprites.ToArray(), "Item Icon", new Vector2(1, 0), new Vector2(1, 0), new Vector2(50, 50));
     }
 }
