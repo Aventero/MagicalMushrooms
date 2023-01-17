@@ -5,5 +5,5 @@ using UnityEngine;
 public class CompassBarMarker : MonoBehaviour
 {
     public string Direction;
-    public char DisplaySign;
+    public string DisplaySign;
 }

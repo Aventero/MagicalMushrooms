@@ -22,7 +22,7 @@ public class CompassBar : MonoBehaviour
     private List<GameObject> itemObjects;
 
     void Start()
-    {   
+    {
         compassTransform = this.GetComponent<RectTransform>();
 
         itemList = new List<(GameObject, GameObject)>();
