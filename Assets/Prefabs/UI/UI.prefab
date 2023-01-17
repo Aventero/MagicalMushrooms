@@ -1117,9 +1117,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteScale: 0.3
-  MinDistance: 4
-  iconPrefab: {fileID: 131519780490708343, guid: a530c1e02ac7e1248b24336ff0784516,
+  MinDistance: 1
+  IconPrefab: {fileID: 131519780490708343, guid: 9acbaabef4b8f484c9b3297bded0dfcc,
     type: 3}
+  MarkerPrefab: {fileID: 131519780490708343, guid: a530c1e02ac7e1248b24336ff0784516,
+    type: 3}
+  Markers: []
 --- !u!1 &2883315214350647026
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,27 +5,39 @@ using UnityEngine.UI;
 
 public class CompassBar : MonoBehaviour
 {
+    [Header("Variables")]
     public float SpriteScale = 0.3f;
     public float MinDistance = 2f;
-    public GameObject iconPrefab;
+    public GameObject IconPrefab;
+
+    [Header("Marker Objects")]
+    public GameObject MarkerPrefab;
+    public List<GameObject> Markers;
 
     private RectTransform compassTransform;
+
+    // First: Target | Second: Compass Object
+    private List<(GameObject, GameObject)> markerObjects;
     private List<(GameObject, GameObject)> itemList;
     private List<GameObject> itemObjects;
 
     void Start()
-    {
+    {   
         compassTransform = this.GetComponent<RectTransform>();
 
         itemList = new List<(GameObject, GameObject)>();
-
+        
         Item[] items = GameObject.FindObjectsOfType<Item>();
         itemObjects = ItemObjectsToGameObjects(items);
+
+        markerObjects = new List<(GameObject, GameObject)>();
+        CreateAllMarker();
     }
 
     void Update()
     {
         UpdateIcons();
+        UpdateMarkers();
     }
 
     private List<GameObject> ItemObjectsToGameObjects(Item[] items)
@@ -36,6 +48,23 @@ public class CompassBar : MonoBehaviour
             gameObjects.Add(items[i].gameObject);
 
         return gameObjects;
+    }
+
+    private void UpdateMarkers()
+    {
+        float compassWidth = compassTransform.rect.width / 2;
+        foreach ((GameObject, GameObject) marker in markerObjects)
+        {
+            GameObject target = marker.Item1;
+            RectTransform markerObjectTransform = marker.Item2.GetComponent<RectTransform>();
+
+            UpdateMarkerPosition(target, markerObjectTransform);
+
+            float x = markerObjectTransform.anchoredPosition.x;
+
+            bool iconNotAtEndOfCompass = (x != compassWidth && x != -compassWidth);
+            marker.Item2.SetActive(iconNotAtEndOfCompass);
+        }
     }
 
     private void UpdateIcons()
@@ -94,18 +123,37 @@ public class CompassBar : MonoBehaviour
 
     private void UpdateMarkerPosition(GameObject target, RectTransform marker)
     {
-        Vector3 targetDirection = (target.transform.position - Camera.main.transform.position).normalized;
+        Vector3 targetDirection = (target.transform.position - Camera.main.transform.position);
         float angle = Vector2.SignedAngle(new Vector2(targetDirection.x, targetDirection.z), new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z));
-        float markerPosition = Mathf.Clamp(angle / Camera.main.fieldOfView, -1, 1);
+        float markerPosition = Mathf.Clamp(2 * angle / Camera.main.fieldOfView, -1, 1);
 
         marker.anchoredPosition = new Vector2(compassTransform.rect.width / 2 * markerPosition, 0);
+    }
+
+    private void CreateAllMarker()
+    {
+        foreach (GameObject marker in Markers)
+        {
+            CompassBarMarker compassMarker = marker.GetComponent<CompassBarMarker>();
+            GameObject newMarker = CreateMarker(compassMarker, compassMarker.name);
+            markerObjects.Add((marker, newMarker));
+        }
+    }
+
+    private GameObject CreateMarker(CompassBarMarker marker, string name)
+    {
+        GameObject markerObject = Instantiate(MarkerPrefab, this.transform);
+        markerObject.name = name;
+        markerObject.GetComponentInChildren<TMP_Text>().text = marker.DisplaySign.ToString();
+
+        return markerObject;
     }
 
     private GameObject CreateIcon(GameObject itemGameobject)
     {
         // Create new Icon Game Object
         ItemData item = itemGameobject.GetComponent<Item>().item;
-        GameObject newItemGameObject = Instantiate(iconPrefab, this.transform);
+        GameObject newItemGameObject = Instantiate(IconPrefab, this.transform);
 
         // Set the item sprite
         Image newItemImage = newItemGameObject.GetComponent<Image>();
