@@ -41,6 +41,7 @@ internal class AIStateAttack : MonoBehaviour, AIState
 
     public void UpdateState(AIStateManager stateManager)
     {
+        stateManager.Watch(player);
         if (!stateManager.agent.pathPending && stateManager.agent.remainingDistance < stateManager.agent.stoppingDistance && !attacking)
         {
             stateManager.agent.isStopped = true;
