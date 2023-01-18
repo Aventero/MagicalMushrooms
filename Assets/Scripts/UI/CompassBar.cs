@@ -62,16 +62,16 @@ public class CompassBar : MonoBehaviour
         // 1200 = 0
         // 1600 = 180
         angle = Mathf.InverseLerp(-180, 180, angle);
-        float shiftAmount = Mathf.Lerp(800, 1600, angle);
+        float shiftAmount = Mathf.Lerp(-200, 200, angle);
 
         //float shiftAmount = Mathf.Abs(angle) * 0.9f;
 
         //int movingDirectino = angle <= 0 ? -1 : 1;
 
         //compassTransform.anchoredPosition = new Vector2(shiftAmount , 0);
-        compassTransform.sizeDelta = new Vector2(shiftAmount, 40);
+        compassTransform.anchoredPosition = new Vector2(shiftAmount, 0f);
 
-        Debug.Log("AngleToNorth: " + angle + " ShiftAmount: " + shiftAmount);
+        //Debug.Log("AngleToNorth: " + angle + " ShiftAmount: " + shiftAmount);
 
         // Make copy of the current Background and add the new Background at the end of the current background
     }

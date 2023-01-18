@@ -136,7 +136,6 @@ public class AIStateManager : MonoBehaviour
         currentState.ExitState(this);
         currentState = states[stateName];
         currentState.EnterState(this);
-        Debug.Log(currentState.StateName);
     }
 
     public List<Transform> CalculateVisiblePoints(Vector3 desiredPoint, Vector3 forward, float viewAngle)

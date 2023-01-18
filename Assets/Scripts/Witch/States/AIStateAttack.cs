@@ -54,6 +54,7 @@ internal class AIStateAttack : MonoBehaviour, AIState
     {
         // Activate playermovement
         player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(false);
+        StartCoroutine(PullToPullPoint());
 
         // Lerp hand to Pullpoint
         float delta = 0;
@@ -65,7 +66,6 @@ internal class AIStateAttack : MonoBehaviour, AIState
         }
 
         // Start pulling the player
-        StartCoroutine(PullToPullPoint());
         yield return new WaitForSeconds(reachTime);
         yield return new WaitUntil(() => pulling == false);
 
