@@ -36,6 +36,7 @@ public class CompassBar : MonoBehaviour
 
     void Update()
     {
+        ShiftCompassBackground();
         UpdateIcons();
         UpdateMarkers();
     }
@@ -50,9 +51,35 @@ public class CompassBar : MonoBehaviour
         return gameObjects;
     }
 
+    private void ShiftCompassBackground()
+    {
+        Vector3 targetDirection = (Markers[0].transform.position - Camera.main.transform.position);
+
+        // Angle beetween -180 and 180
+        float angle = Vector2.SignedAngle(new Vector2(targetDirection.x, targetDirection.z), new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z));
+
+        //  800 = -180
+        // 1200 = 0
+        // 1600 = 180
+        angle = Mathf.InverseLerp(-180, 180, angle);
+        float shiftAmount = Mathf.Lerp(800, 1600, angle);
+
+        //float shiftAmount = Mathf.Abs(angle) * 0.9f;
+
+        //int movingDirectino = angle <= 0 ? -1 : 1;
+
+        //compassTransform.anchoredPosition = new Vector2(shiftAmount , 0);
+        compassTransform.sizeDelta = new Vector2(shiftAmount, 40);
+
+        Debug.Log("AngleToNorth: " + angle + " ShiftAmount: " + shiftAmount);
+
+        // Make copy of the current Background and add the new Background at the end of the current background
+    }
+
     private void UpdateMarkers()
     {
         float compassWidth = compassTransform.rect.width / 2;
+
         foreach ((GameObject, GameObject) marker in markerObjects)
         {
             GameObject target = marker.Item1;
