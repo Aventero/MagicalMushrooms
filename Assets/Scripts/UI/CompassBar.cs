@@ -9,6 +9,7 @@ public class CompassBar : MonoBehaviour
     public float SpriteScale = 0.3f;
     public float MinDistance = 2f;
     public GameObject IconPrefab;
+    public RectTransform maskTransform;
 
     [Header("Marker Objects")]
     public GameObject MarkerPrefab;
@@ -24,6 +25,7 @@ public class CompassBar : MonoBehaviour
     void Start()
     {
         compassTransform = this.GetComponent<RectTransform>();
+        Debug.Log("Rect Width: " + maskTransform.rect.width + " Name: " + maskTransform.gameObject.name + " THis Name: " + this.gameObject.name);
 
         itemList = new List<(GameObject, GameObject)>();
         
@@ -57,23 +59,9 @@ public class CompassBar : MonoBehaviour
 
         // Angle beetween -180 and 180
         float angle = Vector2.SignedAngle(new Vector2(targetDirection.x, targetDirection.z), new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z));
-
-        //  800 = -180
-        // 1200 = 0
-        // 1600 = 180
         angle = Mathf.InverseLerp(-180, 180, angle);
         float shiftAmount = Mathf.Lerp(-200, 200, angle);
-
-        //float shiftAmount = Mathf.Abs(angle) * 0.9f;
-
-        //int movingDirectino = angle <= 0 ? -1 : 1;
-
-        //compassTransform.anchoredPosition = new Vector2(shiftAmount , 0);
         compassTransform.anchoredPosition = new Vector2(shiftAmount, 0f);
-
-        //Debug.Log("AngleToNorth: " + angle + " ShiftAmount: " + shiftAmount);
-
-        // Make copy of the current Background and add the new Background at the end of the current background
     }
 
     private void UpdateMarkers()
@@ -154,7 +142,8 @@ public class CompassBar : MonoBehaviour
         float angle = Vector2.SignedAngle(new Vector2(targetDirection.x, targetDirection.z), new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z));
         float markerPosition = Mathf.Clamp(2 * angle / Camera.main.fieldOfView, -1, 1);
 
-        marker.anchoredPosition = new Vector2(compassTransform.rect.width / 2 * markerPosition, 0);
+        Debug.Log("Update Marker Position" + (maskTransform.rect.width / 2));
+        marker.anchoredPosition = new Vector2(maskTransform.rect.width / 2 * markerPosition, 0);
     }
 
     private void CreateAllMarker()
@@ -180,7 +169,7 @@ public class CompassBar : MonoBehaviour
     {
         // Create new Icon Game Object
         ItemData item = itemGameobject.GetComponent<Item>().item;
-        GameObject newItemGameObject = Instantiate(IconPrefab, this.transform);
+        GameObject newItemGameObject = Instantiate(IconPrefab, maskTransform);
 
         // Set the item sprite
         Image newItemImage = newItemGameObject.GetComponent<Image>();
