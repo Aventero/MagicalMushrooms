@@ -114,7 +114,7 @@ public class CompassBar : MonoBehaviour
     private void UpdateItemDistance(float distance, GameObject iconObject)
     {
         TMP_Text distanceText = iconObject.GetComponentInChildren<TMP_Text>();
-        distanceText.text = distance.ToString("F1") + " m";
+        distanceText.text = distance.ToString("F1");
     }
 
     private void UpdateIconPosition(GameObject target, RectTransform marker)

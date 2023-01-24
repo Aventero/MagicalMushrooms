@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OverlayMenu : MonoBehaviour
 {
     [SerializeField] private Sprite HealthSprite;
+    [SerializeField] private Sprite EmptyHealthSprite;
     [SerializeField] private TMP_Text itemCounterText;
     public GameObject InteractionText;
     public GameObject IconParent;
@@ -41,7 +43,7 @@ public class OverlayMenu : MonoBehaviour
         itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
 
         // Spawn all Health sprites
-        healthObjects = UIBuilder.CreateIcons(IconParent.transform, HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f, 15);
+        healthObjects = UIBuilder.CreateIcons(IconParent.transform, HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0, 1), new Vector2(0, 1), new Vector2(25, 25), 1, 5);
     }
 
     public void UpdateHealthIcons(int playerHealth)
@@ -51,7 +53,7 @@ public class OverlayMenu : MonoBehaviour
         for (int i = PlayerHealth.MaxHealth - 1; i >= 0; i--)
         {
             if (i >= playerHealth && healthObjects[i] != null)
-                Destroy(healthObjects[i]);
+                healthObjects[i].GetComponent<Image>().sprite = EmptyHealthSprite;
         }
     }
 
