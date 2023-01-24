@@ -9,10 +9,10 @@ public class CompassBar : MonoBehaviour
     public float SpriteScale = 0.3f;
     public float MinDistance = 2f;
     public GameObject IconPrefab;
-    public RectTransform maskTransform;
+    public RectTransform BackgroundTransform;
 
     private GameObject referenceNorth;
-    private RectTransform compassTransform;
+    private RectTransform maskTransform;
 
     // First: Target | Second: Compass Object
     private List<(GameObject, GameObject)> itemList;
@@ -20,13 +20,12 @@ public class CompassBar : MonoBehaviour
 
     void Start()
     {
-        compassTransform = this.GetComponent<RectTransform>();
-        Debug.Log("Rect Width: " + maskTransform.rect.width + " Name: " + maskTransform.gameObject.name + " THis Name: " + this.gameObject.name);
+        maskTransform = this.GetComponent<RectTransform>();
 
-        itemList = new List<(GameObject, GameObject)>();
-        
         Item[] items = GameObject.FindObjectsOfType<Item>();
+        itemList = new List<(GameObject, GameObject)>();
         itemObjects = ItemObjectsToGameObjects(items);
+
         CreateReferenceNorth();
     }
 
@@ -59,8 +58,9 @@ public class CompassBar : MonoBehaviour
         // Angle beetween -180 and 180
         float angle = Vector2.SignedAngle(new Vector2(targetDirection.x, targetDirection.z), new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z));
         angle = Mathf.InverseLerp(-180, 180, angle);
+
         float shiftAmount = Mathf.Lerp(-200, 200, angle);
-        compassTransform.anchoredPosition = new Vector2(shiftAmount, 0f);
+        BackgroundTransform.anchoredPosition = new Vector2(shiftAmount, 0f);
     }
 
     private void UpdateIcons()
@@ -96,7 +96,7 @@ public class CompassBar : MonoBehaviour
                 }
                 else
                 {
-                    UpdateMarkerPosition(currentTuple.Item1, currentTuple.Item2.GetComponent<RectTransform>());
+                    UpdateIconPosition(currentTuple.Item1, currentTuple.Item2.GetComponent<RectTransform>());
                     UpdateItemDistance(distance, currentTuple.Item2);
                 }
             }
@@ -117,13 +117,12 @@ public class CompassBar : MonoBehaviour
         distanceText.text = distance.ToString("F1") + " m";
     }
 
-    private void UpdateMarkerPosition(GameObject target, RectTransform marker)
+    private void UpdateIconPosition(GameObject target, RectTransform marker)
     {
         Vector3 targetDirection = (target.transform.position - Camera.main.transform.position);
         float angle = Vector2.SignedAngle(new Vector2(targetDirection.x, targetDirection.z), new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z));
         float markerPosition = Mathf.Clamp(2 * angle / Camera.main.fieldOfView, -1, 1);
 
-        Debug.Log("Update Marker Position" + (maskTransform.rect.width / 2));
         marker.anchoredPosition = new Vector2(maskTransform.rect.width / 2 * markerPosition, 0);
     }
 

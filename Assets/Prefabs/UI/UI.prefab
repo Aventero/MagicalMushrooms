@@ -459,8 +459,9 @@ GameObject:
   - component: {fileID: 5473802547807000317}
   - component: {fileID: 2089526483875208464}
   - component: {fileID: 7573686241990070627}
+  - component: {fileID: 1316565979363181824}
   m_Layer: 5
-  m_Name: CompassBar_Mask
+  m_Name: CompassBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -509,6 +510,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 100, y: 0}
+--- !u!114 &1316565979363181824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936227815929318208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bbc4e89e6f1f49188f6d2ab91a59d68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteScale: 0.3
+  MinDistance: 1
+  IconPrefab: {fileID: 131519780490708343, guid: 9acbaabef4b8f484c9b3297bded0dfcc,
+    type: 3}
+  BackgroundTransform: {fileID: 2705581270679046784}
 --- !u!1 &2109971601864414123
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,11 +1117,10 @@ GameObject:
   - component: {fileID: 2705581270679046784}
   - component: {fileID: 2705581270623059278}
   - component: {fileID: 2705581270623059279}
-  - component: {fileID: 2705581270623059265}
   - component: {fileID: 377833679692992862}
   - component: {fileID: 5958642879632724823}
   m_Layer: 5
-  m_Name: CompassBar
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1127,7 +1144,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 40}
+  m_SizeDelta: {x: 1200, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2705581270623059278
 CanvasRenderer:
@@ -1158,7 +1175,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 3d3013fd561401645bce07b164b65714, type: 3}
-  m_Type: 0
+  m_Type: 2
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1166,24 +1183,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &2705581270623059265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2705581270623059276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bbc4e89e6f1f49188f6d2ab91a59d68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SpriteScale: 0.3
-  MinDistance: 1
-  IconPrefab: {fileID: 131519780490708343, guid: 9acbaabef4b8f484c9b3297bded0dfcc,
-    type: 3}
-  maskTransform: {fileID: 5473802547807000317}
+  m_PixelsPerUnitMultiplier: 10.24
 --- !u!114 &377833679692992862
 MonoBehaviour:
   m_ObjectHideFlags: 0
