@@ -28,9 +28,6 @@ public class AIVision : MonoBehaviour
     private float currentSmoothTime = 0f;
 
     private AIStateManager aiStateManager;
-    public Slider Slider;
-
-    // Start is called before the first frame update
     void Start()
     {
         aiStateManager = GetComponent<AIStateManager>();
@@ -103,7 +100,6 @@ public class AIVision : MonoBehaviour
             if (findingTimer >= AlertTime)
             {
                 losingTimer = 0f;
-                Slider.value = Slider.maxValue;
                 return true;
             }
 
@@ -121,7 +117,6 @@ public class AIVision : MonoBehaviour
             if (losingTimer >= LosingTime)
             {
                 findingTimer = 0f;
-                Slider.value = Slider.maxValue;
                 return true;
             }
 
@@ -130,42 +125,4 @@ public class AIVision : MonoBehaviour
 
         return false;
     }
-
-    //public bool HasJustLostPlayer()
-    //{
-    //    if (!PlayerIsVisible && IsHuntingPlayer)
-    //    {
-    //        losingTimer += Time.deltaTime;
-    //        if (losingTimer >= LosingTime)
-    //        {
-    //            findingTimer = 0f;
-    //            losingTimer = 0f;
-    //            IsHuntingPlayer = false;
-    //            StartCoroutine(LerpBlit(0f, BlitTime, false));
-    //            return true;
-    //        }
-    //    }
-
-    //    return false;
-    //}
-
-    //public bool HasJustFoundPlayer()
-    //{
-    //    if (PlayerIsVisible && !IsHuntingPlayer)
-    //    {
-    //        findingTimer += Time.deltaTime;
-    //        if (findingTimer >= AlertTime)
-    //        {
-    //            findingTimer = 0f;
-    //            losingTimer = 0f;
-    //            Slider.value = Slider.maxValue;
-    //            IsHuntingPlayer = true;
-    //            ScriptableRenderer.SetActive(true);
-    //            StartCoroutine(LerpBlit(0.2f, BlitTime, true));
-    //            return true;
-    //        }
-    //    }
-
-    //    return false;
-    //}
 }
