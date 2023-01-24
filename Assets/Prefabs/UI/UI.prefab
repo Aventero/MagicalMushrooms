@@ -459,7 +459,6 @@ GameObject:
   - component: {fileID: 5473802547807000317}
   - component: {fileID: 2089526483875208464}
   - component: {fileID: 7573686241990070627}
-  - component: {fileID: 3635207314638883684}
   m_Layer: 5
   m_Name: CompassBar_Mask
   m_TagString: Untagged
@@ -510,36 +509,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 100, y: 0}
---- !u!114 &3635207314638883684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1936227815929318208}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.4745098}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &2109971601864414123
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,9 +1184,6 @@ MonoBehaviour:
   IconPrefab: {fileID: 131519780490708343, guid: 9acbaabef4b8f484c9b3297bded0dfcc,
     type: 3}
   maskTransform: {fileID: 5473802547807000317}
-  MarkerPrefab: {fileID: 131519780490708343, guid: a530c1e02ac7e1248b24336ff0784516,
-    type: 3}
-  Markers: []
 --- !u!114 &377833679692992862
 MonoBehaviour:
   m_ObjectHideFlags: 0

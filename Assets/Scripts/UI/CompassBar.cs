@@ -11,14 +11,10 @@ public class CompassBar : MonoBehaviour
     public GameObject IconPrefab;
     public RectTransform maskTransform;
 
-    [Header("Marker Objects")]
-    public GameObject MarkerPrefab;
-    public List<GameObject> Markers;
-
+    private GameObject referenceNorth;
     private RectTransform compassTransform;
 
     // First: Target | Second: Compass Object
-    private List<(GameObject, GameObject)> markerObjects;
     private List<(GameObject, GameObject)> itemList;
     private List<GameObject> itemObjects;
 
@@ -31,16 +27,19 @@ public class CompassBar : MonoBehaviour
         
         Item[] items = GameObject.FindObjectsOfType<Item>();
         itemObjects = ItemObjectsToGameObjects(items);
-
-        markerObjects = new List<(GameObject, GameObject)>();
-        CreateAllMarker();
+        CreateReferenceNorth();
     }
 
     void Update()
     {
         ShiftCompassBackground();
         UpdateIcons();
-        UpdateMarkers();
+    }
+
+    private void CreateReferenceNorth()
+    {
+        referenceNorth = new GameObject("ReferenceNorth for CompassBar");
+        referenceNorth.transform.position = new Vector3(100, 0, 0);
     }
 
     private List<GameObject> ItemObjectsToGameObjects(Item[] items)
@@ -55,31 +54,13 @@ public class CompassBar : MonoBehaviour
 
     private void ShiftCompassBackground()
     {
-        Vector3 targetDirection = (Markers[0].transform.position - Camera.main.transform.position);
+        Vector3 targetDirection = (referenceNorth.transform.position - Camera.main.transform.position);
 
         // Angle beetween -180 and 180
         float angle = Vector2.SignedAngle(new Vector2(targetDirection.x, targetDirection.z), new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z));
         angle = Mathf.InverseLerp(-180, 180, angle);
         float shiftAmount = Mathf.Lerp(-200, 200, angle);
         compassTransform.anchoredPosition = new Vector2(shiftAmount, 0f);
-    }
-
-    private void UpdateMarkers()
-    {
-        float compassWidth = compassTransform.rect.width / 2;
-
-        foreach ((GameObject, GameObject) marker in markerObjects)
-        {
-            GameObject target = marker.Item1;
-            RectTransform markerObjectTransform = marker.Item2.GetComponent<RectTransform>();
-
-            UpdateMarkerPosition(target, markerObjectTransform);
-
-            float x = markerObjectTransform.anchoredPosition.x;
-
-            bool iconNotAtEndOfCompass = (x != compassWidth && x != -compassWidth);
-            marker.Item2.SetActive(iconNotAtEndOfCompass);
-        }
     }
 
     private void UpdateIcons()
@@ -144,25 +125,6 @@ public class CompassBar : MonoBehaviour
 
         Debug.Log("Update Marker Position" + (maskTransform.rect.width / 2));
         marker.anchoredPosition = new Vector2(maskTransform.rect.width / 2 * markerPosition, 0);
-    }
-
-    private void CreateAllMarker()
-    {
-        foreach (GameObject marker in Markers)
-        {
-            CompassBarMarker compassMarker = marker.GetComponent<CompassBarMarker>();
-            GameObject newMarker = CreateMarker(compassMarker, compassMarker.name);
-            markerObjects.Add((marker, newMarker));
-        }
-    }
-
-    private GameObject CreateMarker(CompassBarMarker marker, string name)
-    {
-        GameObject markerObject = Instantiate(MarkerPrefab, this.transform);
-        markerObject.name = name;
-        markerObject.GetComponentInChildren<TMP_Text>().text = marker.DisplaySign.ToString();
-
-        return markerObject;
     }
 
     private GameObject CreateIcon(GameObject itemGameobject)
