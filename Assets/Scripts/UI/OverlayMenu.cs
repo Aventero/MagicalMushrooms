@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class OverlayMenu : MonoBehaviour
 {
-    [SerializeField] private Sprite HealthSprite;
-    [SerializeField] private Sprite EmptyHealthSprite;
-    [SerializeField] private TMP_Text itemCounterText;
+    public Sprite HealthSprite;
+    public Sprite EmptyHealthSprite;
+    public TMP_Text itemCounterText;
+
     public GameObject InteractionText;
     public GameObject IconParent;
+    public GameObject Dialog;
 
     private GameObject[] healthObjects;
 
@@ -19,18 +21,6 @@ public class OverlayMenu : MonoBehaviour
     private int amountOfItems;
     private int pickedUpItemsCounter = 0;
 
-    public bool SetVisibility
-    {
-        get
-        {
-            return this.gameObject.activeSelf;
-        }
-        set
-        {
-            this.gameObject.SetActive(value);
-        }
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -38,12 +28,20 @@ public class OverlayMenu : MonoBehaviour
         StateManager.Instance.ItemPickupEvent += this.OnItemPickup;
         StateManager.Instance.UsedItemEvent += this.UsedItem;
 
+        Dialog.SetActive(false);
+
         pickedUpItemsSprites = new List<Sprite>();
         amountOfItems = GameObject.FindObjectsOfType<Item>().Length;
         itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
 
         // Spawn all Health sprites
         healthObjects = UIBuilder.CreateIcons(IconParent.transform, HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0, 1), new Vector2(0, 1), new Vector2(25, 25), 1, 5);
+    }
+
+    public void ShowDialog()
+    {
+        Dialog.SetActive(true);
+        Dialog.GetComponent<Dialog>().ShowDialog();
     }
 
     public void UpdateHealthIcons(int playerHealth)

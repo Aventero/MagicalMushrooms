@@ -21,6 +21,26 @@ public class StateManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (!FirstTimeLoad())
+            return;
+
+        FindObjectOfType<OverlayMenu>().ShowDialog();
+        SetAlreadyPlayedGame();
+    }
+
+    private void SetAlreadyPlayedGame()
+    {
+        PlayerPrefs.SetInt("AlreadyPlayedGame", 1);
+        PlayerPrefs.Save();
+    }
+
+    private bool FirstTimeLoad()
+    {
+        return !PlayerPrefs.HasKey("AlreadyPlayedGame");
+    }
+
     public bool OnElevator = false;
 
     // Witch
