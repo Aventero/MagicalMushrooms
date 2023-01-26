@@ -6,7 +6,6 @@ public class Item : Interactable
 {
     public ItemData item;
     public Color InPlayerSightColor;
-
     private Color standardColor;
     private MeshRenderer meshRenderer;
 
@@ -23,7 +22,8 @@ public class Item : Interactable
         if (meshRenderer == null)
             return;
 
-        UIManager.Instance.ShowInteractionText(true);
+        Debug.Log("IN SIGHT");
+        UIManager.Instance.ShowInteractionText(InteractionText);
         Material material = meshRenderer.material;
         material.color = InPlayerSightColor;
     }
@@ -33,7 +33,7 @@ public class Item : Interactable
         if (meshRenderer == null)
             return;
         
-        UIManager.Instance.ShowInteractionText(false);
+        UIManager.Instance.HideInteractionText();
         Material material = meshRenderer.material;
         material.color = standardColor;
     }
@@ -49,6 +49,6 @@ public class Item : Interactable
 
     private void OnDestroy()
     {
-        UIManager.Instance.ShowInteractionText(false);
+        UIManager.Instance.HideInteractionText();
     }
 }

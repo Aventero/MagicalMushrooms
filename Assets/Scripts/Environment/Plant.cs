@@ -12,7 +12,6 @@ public class Plant : Interactable
     private new void Start()
     {
         base.Start();
-
         inventory = FindObjectOfType<PlayerInventory>();
     }
 
@@ -23,7 +22,7 @@ public class Plant : Interactable
             return;
 
         inventory.RemoveItem(neededItemName);
-        UIManager.Instance.ShowInteractionText(false);
+        UIManager.Instance.HideInteractionText();
         GrownPlant.SetActive(true);
         gameObject.SetActive(false);
 
@@ -31,17 +30,16 @@ public class Plant : Interactable
 
     public override void InPlayerSight()
     {
-
-        UIManager.Instance.ShowInteractionText(true);
+        UIManager.Instance.ShowInteractionText(InteractionText);
     }
 
     public override void OutOfPlayerSight()
     {
-        UIManager.Instance.ShowInteractionText(false);
+        UIManager.Instance.HideInteractionText();
     }
 
     private void OnDestroy()
     {
-        UIManager.Instance.ShowInteractionText(false);
+        UIManager.Instance.HideInteractionText();
     }
 }

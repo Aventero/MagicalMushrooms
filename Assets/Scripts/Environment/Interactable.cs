@@ -3,18 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Outline))]
 public abstract class Interactable : MonoBehaviour
 {
     [Header("Sprites:")]
     public Sprite InRangeSprite;
     public Image Image;
-
+    public Outline Outline;
+    public string InteractionText;
     private GameObject player;
 
     protected void Start()
     {
         this.gameObject.layer = LayerMask.NameToLayer("Interactable");
         player = GameObject.FindGameObjectWithTag("Player");
+        Outline = GetComponent<Outline>();
+        Outline.enabled = false;
+        Outline.OutlineWidth = 10;
+        Outline.OutlineMode = Outline.Mode.OutlineVisible;
 
         if (Image)
         {

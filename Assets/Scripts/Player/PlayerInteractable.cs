@@ -46,11 +46,14 @@ public class PlayerInteractable : MonoBehaviour
         if (oldNearestInteractable != null)
         {
             oldNearestInteractable.OutOfPlayerSight();
+            oldNearestInteractable.Outline.enabled = false;
         }
 
-        if(newInteractable != null)
+        if (newInteractable != null)
         {
+            // Sees the interactable
             newInteractable.InPlayerSight();
+            newInteractable.Outline.enabled = true;
         }
 
         oldNearestInteractable = newInteractable;
@@ -65,7 +68,7 @@ public class PlayerInteractable : MonoBehaviour
 
         foreach ((Interactable, float) interactable in interactables)
         {
-            if (nearestInteractable.Item2 > interactable.Item2)
+            if (nearestInteractable.Item2 < interactable.Item2)
                 nearestInteractable = interactable;
         }
 

@@ -27,7 +27,8 @@ public class StateManager : MonoBehaviour
             return;
 
         FindObjectOfType<OverlayMenu>().ShowDialog();
-        SetAlreadyPlayedGame();
+        
+        // SetAlreadyPlayedGame();
     }
 
     private void SetAlreadyPlayedGame()

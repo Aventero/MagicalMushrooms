@@ -9,7 +9,8 @@ public class OverlayMenu : MonoBehaviour
     public Sprite EmptyHealthSprite;
     public TMP_Text itemCounterText;
 
-    public GameObject InteractionText;
+    public Image InteractionPopup;
+    public TMP_Text InteractionText;
     public GameObject IconParent;
     public GameObject Dialog;
 
@@ -35,13 +36,14 @@ public class OverlayMenu : MonoBehaviour
         itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
 
         // Spawn all Health sprites
-        healthObjects = UIBuilder.CreateIcons(IconParent.transform, HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0, 1), new Vector2(0, 1), new Vector2(25, 25), 1, 5);
+        healthObjects = UIBuilder.CreateIcons(IconParent.transform, HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0.1f, 0.97f), new Vector2(0.1f, 0.97f), new Vector2(25, 25), 1, 5);
     }
 
     public void ShowDialog()
     {
         Dialog.SetActive(true);
         Dialog.GetComponent<Dialog>().ShowDialog();
+        Time.timeScale = 0;
     }
 
     public void UpdateHealthIcons(int playerHealth)
@@ -80,9 +82,11 @@ public class OverlayMenu : MonoBehaviour
         }
     }
 
-    public void DisplayInteractionText(bool active)
+    public void DisplayInteractionText(bool active, string text)
     {
-        InteractionText.SetActive(active);
+        InteractionPopup.gameObject.SetActive(active);
+        InteractionText.gameObject.SetActive(active);
+        InteractionText.SetText(text);
     }
 
     public void UsedItem(ItemData usedItem)

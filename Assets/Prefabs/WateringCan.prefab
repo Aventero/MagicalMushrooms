@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5ce16df43b8686b44a895aaf389cbae4, type: 2}
+  - {fileID: 2100000, guid: 721502993cc76074e83ece30feb95ea9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,6 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InRangeSprite: {fileID: 0}
   Image: {fileID: 0}
+  Outline: {fileID: 0}
   item:
     Name: WateringCan
     Icon: {fileID: 21300000, guid: 9c0d6ec706e01ce448aea81584af092b, type: 3}

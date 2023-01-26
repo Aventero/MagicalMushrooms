@@ -85,5 +85,6 @@ public class Dialog : MonoBehaviour
     {
         StateManager.Instance.ResumeGameEvent();
         this.gameObject.SetActive(false);
+        Time.timeScale = 1;
     }
 }

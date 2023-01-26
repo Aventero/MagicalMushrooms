@@ -40,10 +40,16 @@ public class UIManager : MonoBehaviour
         StateManager.Instance.ResumeGameEvent.Invoke();
     }
 
-    public void ShowInteractionText(bool active)
+    public void HideInteractionText()
     {
         if (OverlayMenu != null)
-            OverlayMenu.GetComponent<OverlayMenu>().DisplayInteractionText(active);
+            OverlayMenu.GetComponent<OverlayMenu>().DisplayInteractionText(false, "");
+    }
+
+    public void ShowInteractionText(string text)
+    {
+        if (OverlayMenu != null)
+            OverlayMenu.GetComponent<OverlayMenu>().DisplayInteractionText(true, text);
     }
 
     private void GameOver()
