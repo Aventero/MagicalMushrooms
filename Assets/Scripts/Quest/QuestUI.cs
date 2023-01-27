@@ -30,7 +30,7 @@ public class QuestUI : MonoBehaviour
             questObject.GetComponentInChildren<TMP_Text>().text = quest.DisplayName;
 
             RectTransform transform = questObject.GetComponent<RectTransform>();
-            transform.localPosition = new Vector2(0, i * transform.rect.height + i * horizontalPadding);
+            transform.localPosition = new Vector2(0, i * transform.rect.height + i * horizontalPadding) * -1;
 
             questObjects.Add(questObject);
             i++;

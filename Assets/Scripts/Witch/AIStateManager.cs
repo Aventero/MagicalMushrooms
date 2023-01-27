@@ -221,6 +221,11 @@ public class AIStateManager : MonoBehaviour
         yield return null;
     }
 
+    public void SetBlitColor(Color color)
+    {
+        BlitMaterial.SetColor("_Color", color);
+    }
+
     public void LerpBlit(float toLerpTo, float time, bool activate)
     {
         StartCoroutine(LerpBlitCoroutine(toLerpTo, time, activate));

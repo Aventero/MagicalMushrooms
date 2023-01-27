@@ -12,6 +12,11 @@ internal class AIStateChase : MonoBehaviour, AIState
     private float chaseTime = 0f;
     public Transform ChasePoint;
 
+    [ColorUsageAttribute(true, true)]
+    public Color Chasing;
+
+    [ColorUsageAttribute(true, true)]
+    public Color PlayerSafe;
 
 
     public void InitState(AIStateManager stateManager)
@@ -22,6 +27,7 @@ internal class AIStateChase : MonoBehaviour, AIState
     {
         chaseTime = 0f;
         stateManager.aiVision.PlayerWatching();
+        stateManager.SetBlitColor(Chasing);
         stateManager.LerpBlit(0.2f, stateManager.BlitTime, true);
         agent = stateManager.agent;
         stateManager.Watch(stateManager.Player);
@@ -40,6 +46,7 @@ internal class AIStateChase : MonoBehaviour, AIState
 
         if (stateManager.HasLostPlayer())
         {
+            stateManager.SetBlitColor(PlayerSafe);
             stateManager.LerpBlit(0f, stateManager.BlitTime, false);
             stateManager.TransitionToState("LostPlayer");
             return;

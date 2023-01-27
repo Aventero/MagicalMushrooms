@@ -18,9 +18,9 @@ public abstract class Interactable : MonoBehaviour
         this.gameObject.layer = LayerMask.NameToLayer("Interactable");
         player = GameObject.FindGameObjectWithTag("Player");
         Outline = GetComponent<Outline>();
-        Outline.enabled = false;
-        Outline.OutlineWidth = 10;
-        Outline.OutlineMode = Outline.Mode.OutlineVisible;
+        Outline.enabled = true;
+        Outline.OutlineWidth = 1;
+        Outline.OutlineMode = Outline.Mode.OutlineAll;
 
         if (Image)
         {

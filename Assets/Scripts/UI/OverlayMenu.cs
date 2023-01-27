@@ -29,7 +29,7 @@ public class OverlayMenu : MonoBehaviour
         StateManager.Instance.ItemPickupEvent += this.OnItemPickup;
         StateManager.Instance.UsedItemEvent += this.UsedItem;
 
-        Dialog.SetActive(false);
+        //Dialog.SetActive(false);
 
         pickedUpItemsSprites = new List<Sprite>();
         amountOfItems = GameObject.FindObjectsOfType<Item>().Length;

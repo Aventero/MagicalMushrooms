@@ -22,6 +22,7 @@ public class Dialog : MonoBehaviour
 
     public void ShowDialog()
     {
+        Debug.Log("Showing");
         StateManager.Instance.PauseGameEvent();
         UpdateText();
     }

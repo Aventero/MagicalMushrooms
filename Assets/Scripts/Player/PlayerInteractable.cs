@@ -46,14 +46,14 @@ public class PlayerInteractable : MonoBehaviour
         if (oldNearestInteractable != null)
         {
             oldNearestInteractable.OutOfPlayerSight();
-            oldNearestInteractable.Outline.enabled = false;
+            oldNearestInteractable.Outline.OutlineWidth = 1;
         }
 
         if (newInteractable != null)
         {
             // Sees the interactable
             newInteractable.InPlayerSight();
-            newInteractable.Outline.enabled = true;
+            newInteractable.Outline.OutlineWidth = 10;
         }
 
         oldNearestInteractable = newInteractable;

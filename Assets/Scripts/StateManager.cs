@@ -25,9 +25,9 @@ public class StateManager : MonoBehaviour
 
     private void Start()
     {
-        if (!FirstTimeLoad())
-            return;
-
+        //if (!FirstTimeLoad())
+        //    return;
+        Debug.Log("Start StaeManager");
         FindObjectOfType<OverlayMenu>().ShowDialog();
         
         // SetAlreadyPlayedGame();

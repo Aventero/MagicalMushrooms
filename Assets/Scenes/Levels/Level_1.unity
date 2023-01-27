@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -755,7 +755,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 2cbe8823f0bcca748a7120601ffd3b8d, type: 3}
     - target: {fileID: 4106164205695646372, guid: 66ff54a936ebe4c1f9cdf7f240ee725d, type: 3}
       propertyPath: InteractionText
-      value: Pick up can!
+      value: 'Pick up can! Do it comon '
       objectReference: {fileID: 0}
     - target: {fileID: 4106164205695646375, guid: 66ff54a936ebe4c1f9cdf7f240ee725d, type: 3}
       propertyPath: m_Name
@@ -9041,7 +9041,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6397393033428226965, guid: fb2191340d7316e4881c4a30a08e70d3, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6397393033428226965, guid: fb2191340d7316e4881c4a30a08e70d3, type: 3}
       propertyPath: m_LocalScale.x
@@ -10324,7 +10324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3475e7a8d2ee6e948933251b16c6eb71, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3475e7a8d2ee6e948933251b16c6eb71, type: 3}
@@ -11122,49 +11122,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WatchTime: 2
---- !u!1 &1296244076 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8002770986714575814, guid: 8cd415465be12a443bf5de0c0ebbbf3d, type: 3}
-  m_PrefabInstance: {fileID: 690433547}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1296244080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1296244076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eca2a426d4d09443a9d2cf62ad299d88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InRangeSprite: {fileID: 0}
-  Image: {fileID: 0}
-  Outline: {fileID: 0}
-  InteractionText: 
-  item:
-    Name: 
-    Icon: {fileID: 0}
-  InPlayerSightColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &1296244081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1296244076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!1001 &1310505755
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11997,7 +11954,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2911451248570992174, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
       propertyPath: LosingTime
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2911451248570992174, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
       propertyPath: BlitMaterial
@@ -12509,7 +12466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5517584346009996587, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5517584346009996587, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -12780,9 +12737,33 @@ PrefabInstance:
       value: Rigging
       objectReference: {fileID: 0}
     - target: {fileID: 6186961228645208966, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: Chasing.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6186961228645208966, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: Chasing.g
+      value: 0.2509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 6186961228645208966, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: Chasing.r
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 6186961228645208966, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
       propertyPath: ChasePoint
       value: 
       objectReference: {fileID: 708457012}
+    - target: {fileID: 6186961228645208966, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerSafe.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6186961228645208966, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerSafe.g
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 6186961228645208966, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerSafe.r
+      value: 6.5254903
+      objectReference: {fileID: 0}
     - target: {fileID: 6186961228645208966, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
       propertyPath: NearestEdgePoint
       value: 
@@ -15181,7 +15162,7 @@ Transform:
   - {fileID: 1405089723}
   - {fileID: 121842041}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1810066590
 GameObject:
@@ -18024,6 +18005,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 826369949}
     m_Modifications:
+    - target: {fileID: 204170880358696646, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 407747439318406651, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -18120,6 +18105,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2705581270623059279, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
+      propertyPath: m_Color.a
+      value: 0.5019608
+      objectReference: {fileID: 0}
     - target: {fileID: 2883315214350647026, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -18152,13 +18141,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractionPopup
       objectReference: {fileID: 0}
+    - target: {fileID: 3211863493361231752, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3341387391698327648, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: PrevText
       objectReference: {fileID: 0}
     - target: {fileID: 3474432716615404587, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
       propertyPath: horizontalPadding
-      value: 20
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671432197769383435, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671432197769383435, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671432197769383435, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 5065312698249726505, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
       propertyPath: m_Color.b
@@ -18255,6 +18260,10 @@ PrefabInstance:
     - target: {fileID: 7237829988892321605, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8138750271696048615, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -55
       objectReference: {fileID: 0}
     - target: {fileID: 8333776674518956311, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
       propertyPath: m_Color.a
