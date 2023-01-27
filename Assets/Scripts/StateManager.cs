@@ -21,6 +21,8 @@ public class StateManager : MonoBehaviour
         }
     }
 
+    private readonly string AlreadyPlayedLevel = "AlreadyPlayedGame";
+
     private void Start()
     {
         if (!FirstTimeLoad())
@@ -33,13 +35,13 @@ public class StateManager : MonoBehaviour
 
     private void SetAlreadyPlayedGame()
     {
-        PlayerPrefs.SetInt("AlreadyPlayedGame", 1);
+        PlayerPrefs.SetInt(AlreadyPlayedLevel, 1);
         PlayerPrefs.Save();
     }
 
     private bool FirstTimeLoad()
     {
-        return !PlayerPrefs.HasKey("AlreadyPlayedGame");
+        return !PlayerPrefs.HasKey(AlreadyPlayedLevel);
     }
 
     public bool OnElevator = false;
