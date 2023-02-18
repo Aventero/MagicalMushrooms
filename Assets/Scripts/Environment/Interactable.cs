@@ -39,16 +39,12 @@ public abstract class Interactable : MonoBehaviour
     {
         if (!other.gameObject.tag.Equals("Player"))
             return;
-
-        //Image.gameObject.SetActive(true);
     }
 
     protected virtual void OnTriggerExit(Collider other)
     {
         if (!other.gameObject.tag.Equals("Player"))
             return;
-
-        //Image.gameObject.SetActive(false);
     }
 
     public abstract void Interact();

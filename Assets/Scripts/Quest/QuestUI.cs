@@ -16,7 +16,7 @@ public class QuestUI : MonoBehaviour
     {
         questObjects = new List<GameObject>();
         questManager = FindObjectOfType<QuestManager>();
-        CreateQuests(questManager.quests);
+        CreateQuests(questManager.Quests);
     }
 
     private void CreateQuests(List<Quest> quests)

@@ -8,6 +8,7 @@ public class Quest
     public string Name;
     public string DisplayName;
     public bool isFinished;
+    public GameObject QuestGameObject;
 
     public enum Type
     {

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -754,12 +754,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2cbe8823f0bcca748a7120601ffd3b8d, type: 3}
     - target: {fileID: 4106164205695646372, guid: 66ff54a936ebe4c1f9cdf7f240ee725d, type: 3}
+      propertyPath: item.Name
+      value: WateringCan
+      objectReference: {fileID: 0}
+    - target: {fileID: 4106164205695646372, guid: 66ff54a936ebe4c1f9cdf7f240ee725d, type: 3}
       propertyPath: InteractionText
       value: 'Pick up can! Do it comon '
       objectReference: {fileID: 0}
     - target: {fileID: 4106164205695646375, guid: 66ff54a936ebe4c1f9cdf7f240ee725d, type: 3}
       propertyPath: m_Name
-      value: WateringCan
+      value: q_WateringCan
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66ff54a936ebe4c1f9cdf7f240ee725d, type: 3}
@@ -1150,6 +1154,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3900927036049115335, guid: 0e49d35be6a2b10419c8db6d1b5fc40a, type: 3}
   m_PrefabInstance: {fileID: 79268011}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &103212593 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2607989599495501617, guid: 52862335886d74a3f849e0703b4c4d1f, type: 3}
+  m_PrefabInstance: {fileID: 514597628}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &117694006
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1242,6 +1251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 121842041}
   - component: {fileID: 121842042}
+  - component: {fileID: 121842043}
   m_Layer: 0
   m_Name: QuestManager
   m_TagString: Untagged
@@ -1276,21 +1286,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e545fcf09264148269bec09a6f6b48a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quests:
-  - Name: Pickup Watering Can
-    DisplayName: Pickup Watering Can
+  Quests:
+  - Name: WateringCan
+    DisplayName: Pick up a Watering can!
     isFinished: 0
+    QuestGameObject: {fileID: 425923376}
     QuestType: 0
     item:
       Name: WateringCan
-      Icon: {fileID: 0}
-  - Name: Watering the plant
-    DisplayName: Watering the plant
+      Icon: {fileID: 21300000, guid: 25c1c3c7b976dbf4c961600be510bf11, type: 3}
+  - Name: WaterPlant
+    DisplayName: Water the plant u scum!
     isFinished: 0
+    QuestGameObject: {fileID: 103212593}
     QuestType: 1
     item:
       Name: WateringCan
-      Icon: {fileID: 0}
+      Icon: {fileID: 21300000, guid: 25c1c3c7b976dbf4c961600be510bf11, type: 3}
+--- !u!114 &121842043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121842040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dcef2afb5bff0b468225c53bf2f4ee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverlayCanvas: {fileID: 154680401}
+  QuestManager: {fileID: 121842042}
+  QuestSprite: {fileID: 21300000, guid: 2cbe8823f0bcca748a7120601ffd3b8d, type: 3}
 --- !u!1001 &126199041
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1601,6 +1628,11 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2396051688946595049, guid: b7abb6ac7b0c609488fa172822bbdc6f, type: 3}
   m_PrefabInstance: {fileID: 133510064}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &154680401 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8295848374425460947, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
+  m_PrefabInstance: {fileID: 2126615657}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &167258192
 PrefabInstance:
@@ -3754,7 +3786,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2857605710249577899, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_FocalLength
-      value: 19.60353
+      value: 17.137775
       objectReference: {fileID: 0}
     - target: {fileID: 2857605710249577899, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_SensorSize.x
@@ -4058,6 +4090,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2368697073510753418, guid: c1a4060e2e62c9c4c936812e8ebf0b7f, type: 3}
   m_PrefabInstance: {fileID: 424482358}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &425923376 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4106164205695646375, guid: 66ff54a936ebe4c1f9cdf7f240ee725d, type: 3}
+  m_PrefabInstance: {fileID: 59617710}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &439216439
 PrefabInstance:
@@ -4519,7 +4556,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2607989599495501617, guid: 52862335886d74a3f849e0703b4c4d1f, type: 3}
       propertyPath: m_Name
-      value: PLANT
+      value: q_PlantBefore
       objectReference: {fileID: 0}
     - target: {fileID: 2607989599495501617, guid: 52862335886d74a3f849e0703b4c4d1f, type: 3}
       propertyPath: m_Layer
@@ -10320,11 +10357,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: c6c86d96de1adc642ae8ae5d2be22d31, type: 2}
     - target: {fileID: 919132149155446097, guid: 3475e7a8d2ee6e948933251b16c6eb71, type: 3}
       propertyPath: m_Name
-      value: Plant_after
+      value: q_PlantAfter
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3475e7a8d2ee6e948933251b16c6eb71, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3475e7a8d2ee6e948933251b16c6eb71, type: 3}
@@ -12466,7 +12503,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5517584346009996587, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5517584346009996587, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
       propertyPath: m_StaticEditorFlags
