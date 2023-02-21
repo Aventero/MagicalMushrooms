@@ -34,7 +34,7 @@ public class AIStateIgnorePlayerIdle : MonoBehaviour, AIState
         int times = 0;
         foreach (Transform point in visiblePoints)
         {
-            if (times >= 3)
+            if (times >= 1)
                 break; // Return the Coroutine
 
             // Store previous, set the new one

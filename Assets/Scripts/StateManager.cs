@@ -13,7 +13,8 @@ public class StateManager : MonoBehaviour
 
         if (Instance != null && Instance != this)
         {
-            Destroy(this);
+            Debug.Log("destorying");
+            Destroy(gameObject);
         }
         else
         {
@@ -25,11 +26,26 @@ public class StateManager : MonoBehaviour
 
     private void Start()
     {
+        // Delay the start cause Events aren't loaded in yet.
+        StartCoroutine(DelayedStart());
         //if (!FirstTimeLoad())
         //    return;
-        FindObjectOfType<OverlayMenu>().ShowDialog();
-        
         // SetAlreadyPlayedGame();
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(0.1f);
+        FindObjectOfType<OverlayMenu>().ShowDialog();
+    }
+
+    private void OnDestroy() 
+    { 
+        if (this == Instance)
+        {
+            Debug.Log("Setting null");
+            Instance = null;  
+        }
     }
 
     private void SetAlreadyPlayedGame()
@@ -67,4 +83,5 @@ public class StateManager : MonoBehaviour
 
     public delegate void UsedItemCallBack(ItemData item);
     public UsedItemCallBack UsedItemEvent;
+
 }

@@ -91,6 +91,8 @@ public class PlayerStateMachine : MonoBehaviour
 
         // JumpSetup
         SetupJumpVariables();
+
+
     }
 
     private void Start()
