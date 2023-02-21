@@ -36,6 +36,10 @@ public class AIStateIdle : MonoBehaviour, AIState
 
     IEnumerator LookAround(AIStateManager stateManager, float waitTimeInBetween, List<Transform> visiblePoints)
     {
+        // First keep watching the current point for a bit
+        stateManager.Watch(stateManager.aiVision.CurrentWatchTarget.transform.position);
+        yield return new WaitForSeconds(waitTimeInBetween / 2f);
+
         int times = 0;
         foreach (Transform point in visiblePoints)
         {

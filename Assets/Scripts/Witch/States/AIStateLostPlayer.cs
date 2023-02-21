@@ -24,12 +24,15 @@ public class AIStateLostPlayer : MonoBehaviour, AIState
     public void UpdateState(AIStateManager stateManager)
     {
         watchingTimer += Time.deltaTime;
+
+        // Get back to normal
         if (watchingTimer >= WatchingTime)
         {
             stateManager.TransitionToState("Idle");
             return;
         }
 
+        // Found the player again
         if (stateManager.HasFoundPlayer())
             stateManager.TransitionToState("Chase");
     }

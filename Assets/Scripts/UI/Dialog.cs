@@ -22,7 +22,6 @@ public class Dialog : MonoBehaviour
 
     public void ShowDialog()
     {
-        Debug.Log("Showing");
         StateManager.Instance.PauseGameEvent();
         UpdateText();
     }
@@ -32,7 +31,6 @@ public class Dialog : MonoBehaviour
         if (currentTextPos < 0 || currentTextPos >= Texts.Count)
             return;
         
-        Debug.Log("Show new Text");
         DialogText.GetComponent<TMP_Text>().text = Texts[currentTextPos];
         DialogProgressText.GetComponent<TMP_Text>().text = (currentTextPos + 1) + "/" + Texts.Count;
 

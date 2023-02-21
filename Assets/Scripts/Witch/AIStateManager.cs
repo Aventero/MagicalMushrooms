@@ -54,6 +54,7 @@ public class AIStateManager : MonoBehaviour
         agent.autoBraking = true;
 
         // Kinda hacky way to get the renderFeatures https://forum.unity.com/threads/how-to-get-access-to-renderer-features-at-runtime.1193572/
+        // Find the Blit render feature thats assignet by a Quality setting
         var renderer = (GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset).GetRenderer(0);
         var property = typeof(ScriptableRenderer).GetProperty("rendererFeatures", BindingFlags.NonPublic | BindingFlags.Instance);
         List<ScriptableRendererFeature> features = property.GetValue(renderer) as List<ScriptableRendererFeature>;
@@ -84,12 +85,17 @@ public class AIStateManager : MonoBehaviour
     {
         previousWalkPoint = currentWalkPoint;
         currentWalkPoint = point;
+        agent.destination = currentWalkPoint;
     }
 
     public void Walk()
     {
-        agent.destination = currentWalkPoint;
         agent.isStopped = false;
+    }
+
+    public void Stop()
+    {
+        agent.isStopped = true;
     }
 
     void Update()
@@ -132,6 +138,7 @@ public class AIStateManager : MonoBehaviour
 
     public void TransitionToState(string stateName)
     {
+        Debug.Log("Transitioning to " + stateName);
         previousState = currentState;
         currentState.ExitState(this);
         currentState = states[stateName];
@@ -147,7 +154,7 @@ public class AIStateManager : MonoBehaviour
             if (angle <= viewAngle)
             {
                 visibleWatchPoints.Add(watchPoint);
-                Debug.DrawLine(transform.position, watchPoint.position, Color.magenta, 2f);
+                Debug.DrawLine(desiredPoint, watchPoint.position, Color.magenta, 4f);
             }
         }
 
@@ -161,13 +168,13 @@ public class AIStateManager : MonoBehaviour
         return Vector2.Angle(forward2D, towardsPoint);
     }
 
-    public void FindNewWalkpoint()
+    public Transform FindNewWalkpoint()
     {
         // No Walkpoints means no walking!
         if (walkPoints.Count == 0)
         {
             Debug.Log("No walkingpoints set up!");
-            return;
+            return null;
         }
 
         // Get the shortest path with, wich is not the current & previous one!
@@ -187,38 +194,7 @@ public class AIStateManager : MonoBehaviour
         for (int i = 0; i < closestWalkPoints.Count / 2; i++)
             Debug.DrawLine(transform.position, closestWalkPoints[i].position, Color.yellow, 1f);
 
-        SetWalkPoint(shortestPoint.position);
-    }
-
-    public IEnumerator FindWatchpointForPatrol()
-    {
-        // No Watchpoints means no watching!
-        if (WatchPoints.Count == 0)
-        {
-            Debug.Log("No walkingpoints set up!");
-            yield break;
-        }
-
-        // Choose one randomly
-        Vector3 forwardToWalkpoint = currentWalkPoint - transform.position;
-        List<Transform> visiblePointsAtNextDestination = CalculateVisiblePoints(currentWalkPoint, forwardToWalkpoint, 75f);
-        if (visiblePointsAtNextDestination.Count == 0)
-        {
-            Watch(StandardWatchpoint.transform);
-        }
-        else
-            Watch(visiblePointsAtNextDestination[UnityEngine.Random.Range(0, visiblePointsAtNextDestination.Count)]);
-
-        if (EasyAngle(transform.position, transform.forward, aiVision.currentWatchTarget) > 75f)
-        {
-            // the new point is behind the witch, look at the standard and then at the corrent one
-            Vector3 tmp = aiVision.currentWatchTarget;
-            Watch(StandardWatchpoint.transform);
-            yield return new WaitUntil(() => EasyAngle(transform.position, transform.forward, currentWalkPoint) < 45f);
-            Watch(tmp);
-        }
-
-        yield return null;
+        return shortestPoint;
     }
 
     public void SetBlitColor(Color color)
