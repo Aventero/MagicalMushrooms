@@ -22,7 +22,7 @@ public class Dialog : MonoBehaviour
 
     public void ShowDialog()
     {
-        StateManager.Instance.PauseGameEvent();
+        StateManager.Instance.PauseGameEvent.Invoke();
         UpdateText();
     }
 
@@ -82,8 +82,7 @@ public class Dialog : MonoBehaviour
 
     public void EndDialog()
     {
-        StateManager.Instance.ResumeGameEvent();
+        StateManager.Instance.ResumeGameEvent.Invoke();
         this.gameObject.SetActive(false);
-        Time.timeScale = 1;
     }
 }

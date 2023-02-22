@@ -100,11 +100,9 @@ public class PlayerStateMachine : MonoBehaviour
         // Move the play just a bit, so he won't fly around.
         CharacterController.Move(appliedMovement * Time.deltaTime); 
 
-        Cursor.lockState = CursorLockMode.Locked;
-
         // Register Events
-        StateManager.Instance.PauseGameEvent += this.PauseMovement;
-        StateManager.Instance.ResumeGameEvent += this.ResumeMovement;
+        StateManager.Instance.PauseGameEvent.AddListener(PauseMovement);
+        StateManager.Instance.ResumeGameEvent.AddListener(ResumeMovement);
     }
 
     private void Update()
@@ -174,14 +172,12 @@ public class PlayerStateMachine : MonoBehaviour
     private void PauseMovement()
     {
         Cursor.lockState = CursorLockMode.None;
-        //pauseMovement = true;
         OnDisable();
     }
 
     private void ResumeMovement()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        //pauseMovement = false;
         OnEnable();
     }
 

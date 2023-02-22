@@ -22,14 +22,13 @@ public class OverlayMenu : MonoBehaviour
     private int amountOfItems;
     private int pickedUpItemsCounter = 0;
 
+
     // Start is called before the first frame update
     void Start()
     {
         // RegisterEvent
         StateManager.Instance.ItemPickupEvent += this.OnItemPickup;
         StateManager.Instance.UsedItemEvent += this.UsedItem;
-
-        //Dialog.SetActive(false);
 
         pickedUpItemsSprites = new List<Sprite>();
         amountOfItems = GameObject.FindObjectsOfType<Item>().Length;
@@ -43,7 +42,6 @@ public class OverlayMenu : MonoBehaviour
     {
         Dialog.SetActive(true);
         Dialog.GetComponent<Dialog>().ShowDialog();
-        Time.timeScale = 0;
     }
 
     public void UpdateHealthIcons(int playerHealth)

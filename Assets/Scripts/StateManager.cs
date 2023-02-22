@@ -6,14 +6,13 @@ using UnityEngine.Events;
 public class StateManager : MonoBehaviour
 {
     public static StateManager Instance { get; private set; }
+    public OverlayMenu OverlayMenu;
 
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
-
         if (Instance != null && Instance != this)
         {
-            Debug.Log("destorying");
             Destroy(gameObject);
         }
         else
@@ -26,17 +25,24 @@ public class StateManager : MonoBehaviour
 
     private void Start()
     {
-        // Delay the start cause Events aren't loaded in yet.
-        StartCoroutine(DelayedStart());
+        PauseGameEvent.AddListener(StopTime);
+        ResumeGameEvent.AddListener(StartTime);
+
+        OverlayMenu.ShowDialog();
         //if (!FirstTimeLoad())
         //    return;
         // SetAlreadyPlayedGame();
     }
 
-    IEnumerator DelayedStart()
+
+    private void StartTime()
     {
-        yield return new WaitForSeconds(0.1f);
-        FindObjectOfType<OverlayMenu>().ShowDialog();
+        Time.timeScale = 1;
+    }
+
+    private void StopTime()
+    {
+        Time.timeScale = 0;
     }
 
     private void OnDestroy() 
@@ -72,8 +78,8 @@ public class StateManager : MonoBehaviour
     // Custom Events
     public UnityAction AllItemsCollectedEvent;
     public UnityAction GameOverEvent;
-    public UnityAction PauseGameEvent;
-    public UnityAction ResumeGameEvent;
+    public UnityEvent PauseGameEvent;
+    public UnityEvent ResumeGameEvent;
 
     public delegate void DealDamageCallBack(int damage);
     public DealDamageCallBack DealDamageEvent;

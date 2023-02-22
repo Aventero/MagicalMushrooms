@@ -1,8 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
-using System.Collections.Generic;
-using System;
 
 public class NewPlayerMovement : MonoBehaviour
 {
@@ -15,7 +12,6 @@ public class NewPlayerMovement : MonoBehaviour
     private float currentSpeed; // Decided, by what user is pressing
     private Vector2 currentMovementInput;
     private Vector3 currentMovement;
-    private bool isMovementPressed;
 
     // Gravity
     private float gravity = -9.8f;
@@ -58,15 +54,6 @@ public class NewPlayerMovement : MonoBehaviour
 
         // JumpSetup
         SetupJumpVariables();
-    }
-
-    private void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-
-        // Register Events
-        StateManager.Instance.PauseGameEvent += this.PauseMovement;
-        StateManager.Instance.ResumeGameEvent += this.ResumeMovement;
     }
 
     public void ActivateMovement(bool activate)
@@ -119,7 +106,6 @@ public class NewPlayerMovement : MonoBehaviour
     void readMovementInput()
     {
         currentMovementInput = playerInput.CharacterControls.Move.ReadValue<Vector2>();
-        isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0; // x or y != 0 means player moves
 
         // The Vector multiplied by whats being pressed
         Vector3 movement = (transform.right * currentMovementInput.x + transform.forward * currentMovementInput.y) * currentSpeed;
@@ -190,21 +176,23 @@ public class NewPlayerMovement : MonoBehaviour
 
     private void PauseMovement()
     {
-        Cursor.lockState = CursorLockMode.None;
-        //pauseMovement = true;
+        //Cursor.lockState = CursorLockMode.None;
         OnDisable();
     }
 
     private void ResumeMovement()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        //pauseMovement = false;
+        //Cursor.lockState = CursorLockMode.Locked;
         OnEnable();
     }
 
     private void OnEnable()
     {
         playerInput.CharacterControls.Enable();
+
+        // Register Events
+        StateManager.Instance.PauseGameEvent.AddListener(PauseMovement);
+        StateManager.Instance.ResumeGameEvent.AddListener(ResumeMovement);
     }
 
     private void OnDisable()
