@@ -10,6 +10,7 @@ public class DangerBlit : MonoBehaviour
 {
     public Material BlitMaterial;
     private ScriptableRendererFeature ScriptableRenderer;
+    public Outline WitchOutline;
 
     [ColorUsageAttribute(true, true)]
     public Color PlayerIsSafe;
@@ -28,6 +29,7 @@ public class DangerBlit : MonoBehaviour
     private float dangerTimer = 0f;
     private float safeTimer = 0.5f;
     private float damageTimer = 0.5f;
+    private float outlineFadeTimer = 0f;
 
     void Start()
     {
@@ -42,7 +44,41 @@ public class DangerBlit : MonoBehaviour
 
     public void SetState(DangerState state)
     {
+        if (ScriptableRenderer == null)
+            return;
+
         dangerState = state;
+
+        switch (dangerState)
+        {
+            case DangerState.Safe:
+                BlitMaterial.SetColor("_Color", PlayerIsSafe);
+                WitchOutline.OutlineMode = Outline.Mode.OutlineAll;
+                WitchOutline.OutlineColor = Color.green;
+                break;
+            case DangerState.Danger:
+                BlitMaterial.SetColor("_Color", PlayerInDanger);
+                WitchOutline.OutlineMode = Outline.Mode.OutlineAll;
+                WitchOutline.OutlineColor = Color.yellow;
+                break;
+            case DangerState.Attack:
+                BlitMaterial.SetColor("_Color", WitchAttacking);
+                WitchOutline.OutlineMode = Outline.Mode.OutlineAll;
+                WitchOutline.OutlineColor = Color.red;
+                break;
+            case DangerState.Damage:
+                BlitMaterial.SetColor("_Color", Damage);
+                WitchOutline.OutlineMode = Outline.Mode.OutlineAll;
+                WitchOutline.OutlineColor = Color.magenta;
+                break;
+            case DangerState.Nothing:
+                WitchOutline.OutlineColor = Color.white;
+                WitchOutline.OutlineMode = Outline.Mode.OutlineVisible;
+                ScriptableRenderer.SetActive(false);
+                BlitMaterial.SetFloat("_Transparency", 0);
+                break;
+        }
+
         ScriptableRenderer.SetActive(true);
         ResetBlit();
     }   
@@ -50,6 +86,7 @@ public class DangerBlit : MonoBehaviour
     public void ResetBlit()
     {
         dangerTimer = 0f;
+        outlineFadeTimer = 0f;
         safeTimer = BlitMaterial.GetFloat("_Transparency");
         damageTimer = BlitMaterial.GetFloat("_Transparency");
     }
@@ -71,6 +108,7 @@ public class DangerBlit : MonoBehaviour
                 DamageSetting();
                 break;
             case DangerState.Nothing:
+                NothingSetting();
                 ScriptableRenderer.SetActive(false);
                 BlitMaterial.SetFloat("_Transparency", 0);
                 break;
@@ -79,8 +117,6 @@ public class DangerBlit : MonoBehaviour
 
     private void DangerSetting()
     {
-        BlitMaterial.SetColor("_Color", PlayerInDanger);
-
         dangerTimer += Time.deltaTime;
         float t = dangerTimer / DangerTime;
         SetBlitValue(Mathf.Clamp(t, 0, 0.7f)); 
@@ -88,21 +124,26 @@ public class DangerBlit : MonoBehaviour
 
     private void SafeSetting()
     {
-        BlitMaterial.SetColor("_Color", PlayerIsSafe);
         safeTimer -= Time.deltaTime;
         SetBlitValue(Mathf.Clamp(safeTimer, 0, 1));
+
+        // Fade outline to white
+        outlineFadeTimer += Time.deltaTime;
+        WitchOutline.OutlineColor = Color.Lerp(WitchOutline.OutlineColor, new Color(1, 1, 1, 0), Mathf.Clamp(outlineFadeTimer, 0f, 1f));
     }
 
     private void AttackSetting()
     {
-        BlitMaterial.SetColor("_Color", WitchAttacking);
     }
 
     private void DamageSetting()
     {
-        BlitMaterial.SetColor("_Color", Damage);
         damageTimer -= Time.deltaTime;
         SetBlitValue(Mathf.Clamp(damageTimer, 0, 1f));
+    }
+
+    private void NothingSetting()
+    {
     }
 
     private void SetBlitStateActive(bool state)

@@ -18,10 +18,10 @@ internal class AIStateChase : MonoBehaviour, AIState
 
     public void EnterState(AIStateManager stateManager)
     {
+        stateManager.DangerBlit.SetState(DangerState.Danger);
         chaseTime = 0f;
         stateManager.aiVision.PlayerWatching();
         agent = stateManager.agent;
-        stateManager.DangerBlit.SetState(DangerState.Danger);
         // Watch and chase the player
         stateManager.Watch(stateManager.Player);
         ChasePoint.position = stateManager.Player.position;

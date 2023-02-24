@@ -13,6 +13,7 @@ public class AIStateIdle : MonoBehaviour, AIState
 
     public void EnterState(AIStateManager stateManager)
     {
+        stateManager.DangerBlit.SetState(DangerState.Nothing);
         stateManager.aiVision.RelaxedWatching();
         stateManager.agent.isStopped = true;
         List<Transform> visiblePoints = stateManager.CalculateVisiblePoints(transform.position, transform.forward, 75f);

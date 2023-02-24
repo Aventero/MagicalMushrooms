@@ -23,9 +23,9 @@ internal class AIStateAttack : MonoBehaviour, AIState
 
     public void EnterState(AIStateManager stateManager)
     {
+        stateManager.DangerBlit.SetState(DangerState.Attack);
         attacking = false;
         pulling = false;
-        stateManager.DangerBlit.SetState(DangerState.Attack);
 
         stateManager.aiVision.PlayerWatching();
         player = stateManager.Player.transform;
