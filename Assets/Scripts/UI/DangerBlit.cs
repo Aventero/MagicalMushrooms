@@ -50,8 +50,8 @@ public class DangerBlit : MonoBehaviour
     public void ResetBlit()
     {
         dangerTimer = 0f;
-        safeTimer = 0.5f;
-        damageTimer = 0.3f;
+        safeTimer = BlitMaterial.GetFloat("_Transparency");
+        damageTimer = BlitMaterial.GetFloat("_Transparency");
     }
 
     public void UpdateBlit()
