@@ -14,7 +14,7 @@ internal class AIStatePatrol :  MonoBehaviour, AIState
     public void EnterState(AIStateManager stateManager)
     {
         stateManager.aiVision.RelaxedWatching();
-        stateManager.Stop();
+        stateManager.StopAgent();
         Transform walkPoint = stateManager.FindNewWalkpoint();
         stateManager.SetWalkPoint(walkPoint.position);
 

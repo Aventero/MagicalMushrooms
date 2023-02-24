@@ -42,24 +42,15 @@ public class AIStateManager : MonoBehaviour
 
     // Watching
     public AIVision aiVision { get; private set; }
-    public Material BlitMaterial;
-    public float BlitTime = 1f;
-    private ScriptableRendererFeature ScriptableRenderer;
+    public DangerBlit DangerBlit { get; private set; }
 
     void Awake()
     {
+        DangerBlit = GetComponent<DangerBlit>();
         aiVision = GetComponent<AIVision>();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.autoBraking = true;
-
-        // Kinda hacky way to get the renderFeatures https://forum.unity.com/threads/how-to-get-access-to-renderer-features-at-runtime.1193572/
-        // Find the Blit render feature thats assignet by a Quality setting
-        var renderer = (GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset).GetRenderer(0);
-        var property = typeof(ScriptableRenderer).GetProperty("rendererFeatures", BindingFlags.NonPublic | BindingFlags.Instance);
-        List<ScriptableRendererFeature> features = property.GetValue(renderer) as List<ScriptableRendererFeature>;
-        ScriptableRendererFeature blit = features.Find((feature) => feature.name == "Blit");
-        ScriptableRenderer = blit;
 
         // Get the Points from Parents
         walkPoints = new List<Transform>(WalkPointsParent.GetComponentsInChildren<Transform>().Where(point => point != WalkPointsParent.transform));
@@ -93,7 +84,7 @@ public class AIStateManager : MonoBehaviour
         agent.isStopped = false;
     }
 
-    public void Stop()
+    public void StopAgent()
     {
         agent.isStopped = true;
     }
@@ -103,7 +94,7 @@ public class AIStateManager : MonoBehaviour
         currentState.UpdateState(this);
         aiVision.WatchSpot();
         AnimateWitch();
-
+        DangerBlit.UpdateBlit();
         Debug.DrawLine(transform.position, currentWalkPoint, Color.green);
         Debug.DrawLine(transform.position, previousWalkPoint, Color.white);
     }
@@ -195,43 +186,5 @@ public class AIStateManager : MonoBehaviour
             Debug.DrawLine(transform.position, closestWalkPoints[i].position, Color.yellow, 1f);
 
         return shortestPoint;
-    }
-
-    public void SetBlitColor(Color color)
-    {
-        BlitMaterial.SetColor("_Color", color);
-    }
-
-    public void LerpBlit(float toLerpTo, float time, bool activate)
-    {
-        StartCoroutine(LerpBlitCoroutine(toLerpTo, time, activate));
-    }
-
-    IEnumerator LerpBlitCoroutine(float toLerpTo, float time, bool activate)
-    {
-        // Activate if necessary
-        if (activate)
-            ScriptableRenderer.SetActive(true);
-
-        // Lerp the Transparency to b
-        float a = BlitMaterial.GetFloat("_Transparency");
-        float delta = 0f;
-        while (delta < time)
-        {
-            delta += Time.deltaTime;
-            float val = Mathf.Lerp(a, toLerpTo, delta / time);
-            BlitMaterial.SetFloat("_Transparency", val);
-            yield return null;
-        }
-
-        // Deactivate if necessary
-        if (!activate)
-            ScriptableRenderer.SetActive(false);
-    }
-
-    private void OnDisable()
-    {
-        ScriptableRenderer.SetActive(false);
-        BlitMaterial.SetFloat("_Transparency", 0);
     }
 }

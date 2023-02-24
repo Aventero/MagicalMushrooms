@@ -25,16 +25,18 @@ internal class AIStateAttack : MonoBehaviour, AIState
     {
         attacking = false;
         pulling = false;
+        stateManager.DangerBlit.SetState(DangerState.Attack);
 
         stateManager.aiVision.PlayerWatching();
         player = stateManager.Player.transform;
-        stateManager.agent.isStopped = true;
+        // Walk to the point that seems seems right and attack
+        stateManager.SetWalkPoint(player.position);
+        stateManager.Walk();
     }
 
     public void ExitState(AIStateManager stateManager)
     {
         // Let Witch chill.
-        stateManager.LerpBlit(0f, stateManager.BlitTime, false);
         StopAllCoroutines();
         player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(true);
     }
@@ -42,9 +44,13 @@ internal class AIStateAttack : MonoBehaviour, AIState
     public void UpdateState(AIStateManager stateManager)
     {
         stateManager.Watch(player);
+
+        if (stateManager.HasLostPlayer() && !attacking)
+            stateManager.TransitionToState("LostPlayer");
+
         if (!stateManager.agent.pathPending && stateManager.agent.remainingDistance < stateManager.agent.stoppingDistance && !attacking)
         {
-            stateManager.agent.isStopped = true;
+            stateManager.StopAgent();
             attacking = true;
             StartCoroutine(ReachOutHand(stateManager, ReachTime));
         }
@@ -71,6 +77,7 @@ internal class AIStateAttack : MonoBehaviour, AIState
 
         // Pulling was done!
         StateManager.Instance.DealDamageEvent(1);
+        stateManager.DangerBlit.SetState(DangerState.Damage);
         player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(true);
 
         // Lerp hand back

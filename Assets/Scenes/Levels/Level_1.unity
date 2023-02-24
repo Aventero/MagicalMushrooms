@@ -2923,6 +2923,29 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2646830477598822418, guid: 7476b236ad62a9a4ba5e26b19d277854, type: 3}
   m_PrefabInstance: {fileID: 284004323}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &288071103 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5517584346009996585, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+  m_PrefabInstance: {fileID: 1409812489}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &288071106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288071103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1001 &291053362
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9085,6 +9108,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8252549360795132578, guid: f80f7fe1201f37c478a55a714201788e, type: 3}
   m_PrefabInstance: {fileID: 1063698196}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1064216389 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5517584346009996587, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+  m_PrefabInstance: {fileID: 1409812489}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1065888958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11945,6 +11973,58 @@ PrefabInstance:
       propertyPath: m_Icon
       value: 
       objectReference: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1390228576803306338, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: BlitMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 09cd1f7479aa45045a785bd3b8618d55, type: 2}
+    - target: {fileID: 1390228576803306338, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerIsSafe.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390228576803306338, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerIsSafe.g
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390228576803306338, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerIsSafe.r
+      value: 1.5058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390228576803306338, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerInDamage.b
+      value: 109.846214
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390228576803306338, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerInDamage.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390228576803306338, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerInDamage.r
+      value: 766.9961
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390228576803306338, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerInDanger.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390228576803306338, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerInDanger.g
+      value: 9.190301
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390228576803306338, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerInDanger.r
+      value: 31.999996
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390228576803306338, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: WitchAttacking.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390228576803306338, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: WitchAttacking.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390228576803306338, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: WitchAttacking.r
+      value: 42.722507
+      objectReference: {fileID: 0}
     - target: {fileID: 1671322705635581028, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
       propertyPath: m_Transforms.Array.data[19]
       value: 
@@ -12104,6 +12184,18 @@ PrefabInstance:
     - target: {fileID: 5191268106470026857, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424578713402036379, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerSafe.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424578713402036379, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerSafe.g
+      value: 31.121569
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424578713402036379, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+      propertyPath: PlayerSafe.r
+      value: 2.2588236
       objectReference: {fileID: 0}
     - target: {fileID: 5458216647227559669, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
       propertyPath: m_Name
@@ -12981,9 +13073,7 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 10.84
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5517584346357366644, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
-    - {fileID: 5474499214706669266, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
 --- !u!4 &1409812490 stripped
 Transform:
@@ -13006,6 +13096,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5517584346009637151, guid: 7832c25e26d297e449ecef85cac16328, type: 3}
   m_PrefabInstance: {fileID: 1409812489}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1409812507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064216389}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!4 &1409812547 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5517584346009637125, guid: 7832c25e26d297e449ecef85cac16328, type: 3}

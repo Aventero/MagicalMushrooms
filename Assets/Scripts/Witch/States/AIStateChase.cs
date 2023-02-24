@@ -8,16 +8,9 @@ internal class AIStateChase : MonoBehaviour, AIState
 {
     public string StateName => "Chase";
     private NavMeshAgent agent; 
-    public float AttackAfterSeconds = 1f;
+    public float AttackAfterSeconds;
     private float chaseTime = 0f;
     public Transform ChasePoint;
-
-    [ColorUsageAttribute(true, true)]
-    public Color Chasing;
-
-    [ColorUsageAttribute(true, true)]
-    public Color PlayerSafe;
-
 
     public void InitState(AIStateManager stateManager)
     {
@@ -27,12 +20,11 @@ internal class AIStateChase : MonoBehaviour, AIState
     {
         chaseTime = 0f;
         stateManager.aiVision.PlayerWatching();
-        stateManager.SetBlitColor(Chasing);
-        stateManager.LerpBlit(0.2f, stateManager.BlitTime, true);
         agent = stateManager.agent;
+        stateManager.DangerBlit.SetState(DangerState.Danger);
+        // Watch and chase the player
         stateManager.Watch(stateManager.Player);
         ChasePoint.position = stateManager.Player.position;
-        stateManager.SetWalkPoint(ChasePoint.position);
         stateManager.Walk();
     }
 
@@ -43,21 +35,24 @@ internal class AIStateChase : MonoBehaviour, AIState
     public void UpdateState(AIStateManager stateManager)
     {
         stateManager.Watch(stateManager.Player);
+        stateManager.SetWalkPoint(stateManager.Player.position);
 
         if (stateManager.HasLostPlayer())
         {
-            stateManager.SetBlitColor(PlayerSafe);
-            stateManager.LerpBlit(0f, stateManager.BlitTime, false);
+            // Has Lost the play
             stateManager.TransitionToState("LostPlayer");
             return;
         }
-
-        chaseTime += Time.deltaTime;
-        if (AgentReachedDestination(stateManager) && chaseTime >= AttackAfterSeconds)
+        else
         {
-            chaseTime = 0f;
-            agent.isStopped = true;
-            stateManager.TransitionToState("Attack");
+            // Is chasing
+            chaseTime += Time.deltaTime;
+            if (chaseTime >= AttackAfterSeconds)
+            {
+                chaseTime = 0f;
+                agent.isStopped = true;
+                stateManager.TransitionToState("Attack");
+            }
         }
     }
 

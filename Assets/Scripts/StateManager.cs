@@ -27,8 +27,8 @@ public class StateManager : MonoBehaviour
     {
         PauseGameEvent.AddListener(StopTime);
         ResumeGameEvent.AddListener(StartTime);
-
         OverlayMenu.ShowDialog();
+
         //if (!FirstTimeLoad())
         //    return;
         // SetAlreadyPlayedGame();
@@ -66,19 +66,16 @@ public class StateManager : MonoBehaviour
     }
 
     public bool OnElevator = false;
-
-    // Witch
     public bool WitchConeOnPlayer = false;
-
-    // Camera
     public bool isLockedOnWitchHead = false;
-
     public bool InMenu = false;
 
     // Custom Events
     public UnityAction AllItemsCollectedEvent;
     public UnityAction GameOverEvent;
+    [HideInInspector]
     public UnityEvent PauseGameEvent;
+    [HideInInspector]
     public UnityEvent ResumeGameEvent;
 
     public delegate void DealDamageCallBack(int damage);
@@ -89,5 +86,4 @@ public class StateManager : MonoBehaviour
 
     public delegate void UsedItemCallBack(ItemData item);
     public UsedItemCallBack UsedItemEvent;
-
 }

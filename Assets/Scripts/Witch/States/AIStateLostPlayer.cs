@@ -5,11 +5,13 @@ public class AIStateLostPlayer : MonoBehaviour, AIState
     public string StateName => "LostPlayer";
     public float WatchingTime = 2f;
     private float watchingTimer = 0f;
+    public float SafeBlitTime = 1f;
 
     public void EnterState(AIStateManager stateManager)
     {
         stateManager.Watch(stateManager.Player.position);
         stateManager.agent.isStopped = true;
+        stateManager.DangerBlit.SetState(DangerState.Safe);
     }
 
     public void ExitState(AIStateManager stateManager)
