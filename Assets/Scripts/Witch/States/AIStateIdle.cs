@@ -16,8 +16,9 @@ public class AIStateIdle : MonoBehaviour, AIState
         stateManager.DangerBlit.SetState(DangerState.Nothing);
         stateManager.aiVision.RelaxedWatching();
         stateManager.agent.isStopped = true;
-        List<Transform> visiblePoints = stateManager.CalculateVisiblePoints(transform.position, transform.forward, 75f);
-        StartCoroutine(LookAround(stateManager, WaitTimeInBetween, visiblePoints));
+        Vector3 directionToPlayer = stateManager.Player.position - transform.position;
+        directionToPlayer.y = 0;
+        StartCoroutine(SmoothRotateThenLookAround(stateManager, directionToPlayer));
     }
 
     public void ExitState(AIStateManager stateManager)
@@ -34,6 +35,34 @@ public class AIStateIdle : MonoBehaviour, AIState
             stateManager.TransitionToState("Chase");
         }
     }
+
+    private IEnumerator SmoothRotateThenLookAround(AIStateManager stateManager, Vector3 targetDirection)
+    {
+        // Watch closest point
+        stateManager.Watch(stateManager.CalculateClosestNotVisiblePoint(transform.position, transform.forward));
+
+        Quaternion startRotation = transform.rotation;
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
+
+        float elapsedTime = 0f;
+        float rotationDuration = 1.0f; // Adjust this value for rotation speed
+
+        while (elapsedTime < rotationDuration)
+        {
+            stateManager.agent.transform.rotation = Quaternion.Slerp(startRotation, targetRotation, elapsedTime / rotationDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the final rotation is exactly the target rotation
+        stateManager.agent.transform.rotation = targetRotation;
+        stateManager.agent.SetDestination(transform.position);
+
+        // Let Agent look at the watch points after turning
+        List<Transform> visiblePoints = stateManager.CalculateVisiblePoints(transform.position, transform.forward, 75f);
+        StartCoroutine(LookAround(stateManager, WaitTimeInBetween, visiblePoints));
+    }
+
 
     IEnumerator LookAround(AIStateManager stateManager, float waitTimeInBetween, List<Transform> visiblePoints)
     {
@@ -54,6 +83,7 @@ public class AIStateIdle : MonoBehaviour, AIState
             yield return new WaitForSeconds(waitTimeInBetween);
         }
 
+        // Completed Looking back to Patrol!
         stateManager.TransitionToState("Patrol");
         yield return null;
     }

@@ -152,6 +152,24 @@ public class AIStateManager : MonoBehaviour
         return visibleWatchPoints;
     }
 
+    public Transform CalculateClosestNotVisiblePoint(Vector3 desiredPoint, Vector3 forward)
+    {
+        Transform closestPoint = WatchPoints.ElementAt(0);
+
+        float shortestAngle = 360f;
+        foreach (Transform watchPoint in WatchPoints)
+        {
+            float angleToWatchPoint = EasyAngle(desiredPoint, forward, watchPoint.position);
+            if (angleToWatchPoint <= shortestAngle)
+            {
+                closestPoint = watchPoint;
+                shortestAngle = angleToWatchPoint;
+            }
+        }
+
+        return closestPoint;
+    }
+
     public float EasyAngle(Vector3 position, Vector3 forward, Vector3 desiredPoint)
     {
         Vector2 forward2D = new Vector2(forward.x, forward.z);
@@ -168,7 +186,11 @@ public class AIStateManager : MonoBehaviour
             return null;
         }
 
-        // Get the shortest path with, wich is not the current & previous one!
+        // RANDOM WALK POINT
+        // OR Better? -> Walkpoints that are around the player! Make the witch focus more on the sweet player!
+
+
+        // Get the shortest path, wich is not the current & previous one!
         List<Transform> closestWalkPoints = new List<Transform>();
         foreach (Transform walkPoint in walkPoints)
         {
