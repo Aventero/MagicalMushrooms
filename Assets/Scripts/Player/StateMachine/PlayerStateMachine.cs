@@ -26,6 +26,10 @@ public class PlayerStateMachine : MonoBehaviour
     private float initialJumpVelocity;
     public float maxJumpHeight = 2.0f;
     public float maxJumpTime = 1.0f; // Time it takes to complete the jump
+    
+    // Stepping
+    public float stepDistance = 0.5f;
+
 
     // Mouse looking
     private Vector2 currentMouseInput;

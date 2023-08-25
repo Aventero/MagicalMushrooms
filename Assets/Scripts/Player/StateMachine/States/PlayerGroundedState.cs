@@ -7,6 +7,7 @@ public class PlayerGroundedState : PlayerState, IRootState
     private float fakeGroundedTimer = 0;
     private const float maxHelpSeconds = 0.25f;
     private bool isGrounded = true;
+    private float distanceToNextStep = 0;
 
     public PlayerGroundedState(PlayerStateMachine context, PlayerStateFactory playerStateFactory, string name)
         : base (context, playerStateFactory, name) 
@@ -24,6 +25,9 @@ public class PlayerGroundedState : PlayerState, IRootState
 
     public override void EnterState()
     {
+        // Player has fallen and hit the ground
+        CircleSpawner circleSpawner = context.GetComponent<CircleSpawner>();
+        circleSpawner.SpawnAndGrowCircle(1.5f, 1f);
         fakeGroundedTimer = 0;
         InitializeSubState(); 
         HandleGravity();
@@ -54,6 +58,15 @@ public class PlayerGroundedState : PlayerState, IRootState
     {
         SetGroundedState();
         CheckSwitchStates();
+
+        distanceToNextStep +=  new Vector2(context.AppliedMovementX, context.AppliedMovementZ).magnitude * Time.deltaTime;
+
+        if (distanceToNextStep >= context.stepDistance)
+        {
+            Debug.Log("Stepped");
+            context.GetComponent<CircleSpawner>().SpawnAndGrowCircle(0.6f, 0.1f);
+            distanceToNextStep = 0;
+        }
     }
 
     private void SetGroundedState()
