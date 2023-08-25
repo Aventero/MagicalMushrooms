@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -13,6 +14,9 @@ public class OverlayMenu : MonoBehaviour
     public TMP_Text InteractionText;
     public GameObject IconParent;
     public GameObject Dialog;
+    public GameObject CheckpointText;
+
+    public float ShowCheckpointNotification = 1.5f;
 
     private GameObject[] healthObjects;
 
@@ -29,6 +33,8 @@ public class OverlayMenu : MonoBehaviour
         // RegisterEvent
         StateManager.Instance.ItemPickupEvent += this.OnItemPickup;
         StateManager.Instance.UsedItemEvent += this.UsedItem;
+        StateManager.Instance.RespawnPlayerEvent.AddListener(FillPlayerHealth);
+        StateManager.Instance.NewCheckpointEvent.AddListener(ShowCheckpointText);
 
         pickedUpItemsSprites = new List<Sprite>();
         amountOfItems = GameObject.FindObjectsOfType<Item>().Length;
@@ -36,6 +42,24 @@ public class OverlayMenu : MonoBehaviour
 
         // Spawn all Health sprites
         healthObjects = UIBuilder.CreateIcons(IconParent.transform, HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0.1f, 0.97f), new Vector2(0.1f, 0.97f), new Vector2(25, 25), 1, 5);
+    }
+
+    public void FillPlayerHealth()
+    {
+        foreach (GameObject healthObject in healthObjects)
+            healthObject.GetComponent<Image>().sprite = HealthSprite;
+    }
+
+    public void ShowCheckpointText()
+    {
+        CheckpointText.SetActive(true);
+        StartCoroutine(HideCheckpointTextAfterSeconds(ShowCheckpointNotification));
+    }
+
+    public IEnumerator HideCheckpointTextAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        CheckpointText.SetActive(false);
     }
 
     public void ShowDialog()

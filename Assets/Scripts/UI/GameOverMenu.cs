@@ -8,8 +8,8 @@ public class GameOverMenu : MonoBehaviour
     public void ContinueFromCheckpoint()
     {
         this.gameObject.SetActive(false);
-        StateManager.Instance.ResumeGameEvent.Invoke();
         StateManager.Instance.RespawnPlayerEvent.Invoke();
+        StateManager.Instance.ResumeGameEvent.Invoke();
     }
 
     public void RestartLevel()

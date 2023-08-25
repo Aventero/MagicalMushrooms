@@ -20,10 +20,15 @@ public class Deathzone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.gameObject.tag.Equals("Player"))
+        if (!other.gameObject.CompareTag("Player"))
             return;
+        
+        PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
 
-        StateManager.Instance.GameOverEvent.Invoke();
+        if (playerHealth.CurrentHealth != 1)
+            CheckpointManager.Instance.RespawnPlayer();
+
+        StateManager.Instance.DealDamageEvent(1);
     }
 
     private void OnDrawGizmosSelected()

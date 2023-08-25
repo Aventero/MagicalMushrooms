@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    public Vector3 respawnPoint;
+
+    public bool ShowNotification = true;
+
     private bool activated = false;
+    private Quaternion playerRotation;
+    private GameObject player;
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.tag != "Player" || activated == true)
+        if (!collider.CompareTag("Player") || activated == true)
             return;
 
-        Debug.Log("Setting Checkpoint!");
+        if (ShowNotification)
+            StateManager.Instance.NewCheckpointEvent.Invoke();
+
         activated = true;
+        playerRotation = player.transform.rotation;
         CheckpointManager.Instance.Checkpoint = this;
     }
 
@@ -22,8 +34,13 @@ public class Checkpoint : MonoBehaviour
         OnTriggerEnter(other);
     }
 
-    public Vector3 getRespawnPoint()
+    public Vector3 GetRespawnPoint()
     {
-        return respawnPoint;
+        return this.transform.position;
+    }
+
+    public Quaternion GetRotation()
+    {
+        return playerRotation;
     }
 }

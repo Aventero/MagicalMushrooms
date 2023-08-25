@@ -54,7 +54,9 @@ public class StateManager : MonoBehaviour
     public bool InMenu = false;
 
     // Custom Events
+    [HideInInspector]
     public UnityAction AllItemsCollectedEvent;
+    [HideInInspector]
     public UnityAction GameOverEvent;
     [HideInInspector]
     public UnityEvent PauseGameEvent;
@@ -62,6 +64,8 @@ public class StateManager : MonoBehaviour
     public UnityEvent ResumeGameEvent;
     [HideInInspector]
     public UnityEvent RespawnPlayerEvent;
+    [HideInInspector]
+    public UnityEvent NewCheckpointEvent;
 
     public delegate void DealDamageCallBack(int damage);
     public DealDamageCallBack DealDamageEvent;

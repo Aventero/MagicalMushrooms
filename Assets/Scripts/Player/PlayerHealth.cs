@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour
         CurrentHealth = MaxHealth;
 
         StateManager.Instance.DealDamageEvent += this.DealDamage;
+        StateManager.Instance.RespawnPlayerEvent.AddListener(RespawnPlayer);
     }
 
     public void DealDamage(int damage)
@@ -27,5 +28,10 @@ public class PlayerHealth : MonoBehaviour
 
         // Update UI
         UIManager.Instance.UpdateHealthIcons(CurrentHealth);
+    }
+
+    public void RespawnPlayer()
+    {
+        CurrentHealth = MaxHealth;
     }
 }

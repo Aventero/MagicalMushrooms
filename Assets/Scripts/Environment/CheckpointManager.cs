@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CheckpointManager : MonoBehaviour
 {
+    private CharacterController controller;
+
     public static CheckpointManager Instance { get; private set; }
 
     private void Awake()
@@ -24,12 +26,19 @@ public class CheckpointManager : MonoBehaviour
 
     private void Start()
     {
-        StateManager.Instance.RespawnPlayerEvent.AddListener(respawnPlayerEvent);
+        StateManager.Instance.RespawnPlayerEvent.AddListener(RespawnPlayer);
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        controller = player.GetComponent<CharacterController>();
     }
 
-    public void respawnPlayerEvent()
+    public void RespawnPlayer()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.transform.localPosition = Checkpoint.getRespawnPoint();
+        controller.enabled = false;
+
+        // The player can only be teleported if the CharacterController is disabled 
+        controller.transform.SetPositionAndRotation(Checkpoint.GetRespawnPoint(), Checkpoint.GetRotation());
+
+        controller.enabled = true;
     }
 }
