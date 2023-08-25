@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class GameOverMenu : MonoBehaviour
 {
+    public void ContinueFromCheckpoint()
+    {
+        this.gameObject.SetActive(false);
+        StateManager.Instance.ResumeGameEvent.Invoke();
+        StateManager.Instance.RespawnPlayerEvent.Invoke();
+    }
+
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

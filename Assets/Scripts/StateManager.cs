@@ -21,17 +21,11 @@ public class StateManager : MonoBehaviour
         }
     }
 
-    private readonly string AlreadyPlayedLevel = "AlreadyPlayedGame";
-
     private void Start()
     {
         PauseGameEvent.AddListener(StopTime);
         ResumeGameEvent.AddListener(StartTime);
         OverlayMenu.ShowDialog();
-
-        //if (!FirstTimeLoad())
-        //    return;
-        // SetAlreadyPlayedGame();
     }
 
 
@@ -54,17 +48,6 @@ public class StateManager : MonoBehaviour
         }
     }
 
-    private void SetAlreadyPlayedGame()
-    {
-        PlayerPrefs.SetInt(AlreadyPlayedLevel, 1);
-        PlayerPrefs.Save();
-    }
-
-    private bool FirstTimeLoad()
-    {
-        return !PlayerPrefs.HasKey(AlreadyPlayedLevel);
-    }
-
     public bool OnElevator = false;
     public bool WitchConeOnPlayer = false;
     public bool isLockedOnWitchHead = false;
@@ -77,6 +60,8 @@ public class StateManager : MonoBehaviour
     public UnityEvent PauseGameEvent;
     [HideInInspector]
     public UnityEvent ResumeGameEvent;
+    [HideInInspector]
+    public UnityEvent RespawnPlayerEvent;
 
     public delegate void DealDamageCallBack(int damage);
     public DealDamageCallBack DealDamageEvent;
