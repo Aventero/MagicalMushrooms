@@ -91,6 +91,7 @@ public class DangerBlit : MonoBehaviour
         damageTimer = BlitMaterial.GetFloat("_Transparency");
     }
 
+
     public void UpdateBlit()
     {
         switch (dangerState)
@@ -160,6 +161,7 @@ public class DangerBlit : MonoBehaviour
     {
         ScriptableRenderer.SetActive(false);
         BlitMaterial.SetFloat("_Transparency", 0);
+        BlitMaterial.SetColor("_Color", PlayerIsSafe);
     }
 
     IEnumerator LerpBlitCoroutine(float toLerpTo, float time, bool state)
