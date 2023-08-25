@@ -35,7 +35,6 @@ public class PlayerStateMachine : MonoBehaviour
     private float xAxisRotation = 0f;
 
     private bool CanMove = true;
-    private bool pauseMovement = false;
 
     // states
     PlayerState currentState;
@@ -107,7 +106,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Update()
     {
-        if (StateManager.Instance.isLockedOnWitchHead || pauseMovement)
+        if (StateManager.Instance.isLockedOnWitchHead)
             return;
         HandleRotation();
         CurrentState.UpdateStates();
@@ -172,12 +171,14 @@ public class PlayerStateMachine : MonoBehaviour
     private void PauseMovement()
     {
         Cursor.lockState = CursorLockMode.None;
+        CanMove = false;
         OnDisable();
     }
 
     private void ResumeMovement()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        CanMove = true;
         OnEnable();
     }
 
