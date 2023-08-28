@@ -12,8 +12,8 @@ public class PlayerWalkState : PlayerState
     {
         if (!context.IsMovementPressed)
             SwitchState(factory.Idle());
-        else if (context.IsMovementPressed && context.IsRunPressed)
-            SwitchState(factory.Run());
+        else if (context.IsMovementPressed && context.IsSneakPressed)
+            SwitchState(factory.Sneak());
     }
 
     public override void EnterState()

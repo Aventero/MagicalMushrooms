@@ -9,7 +9,7 @@ public class PlayerStateFactory
     {
         AddPlayerState(new PlayerIdleState(context, this, "Idle"));
         AddPlayerState(new PlayerWalkState(context, this, "Walk"));
-        AddPlayerState(new PlayerRunState(context, this, "Run"));
+        AddPlayerState(new PlayerSneakState(context, this, "Sneak"));
         AddPlayerState(new PlayerJumpState(context, this, "Jump"));
         AddPlayerState(new PlayerFallState(context, this, "Fall"));
         AddPlayerState(new PlayerGroundedState(context, this, "Grounded"));
@@ -33,10 +33,10 @@ public class PlayerStateFactory
         return playerStates["Walk"];
     }
 
-    public PlayerState Run()
+    public PlayerState Sneak()
     {
-        // Debug.Log("Run");
-        return playerStates["Run"];
+        // Debug.Log("Sneak");
+        return playerStates["Sneak"];
     }
 
     public PlayerState Jump()

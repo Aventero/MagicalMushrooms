@@ -23,7 +23,7 @@ public class CircleSpawner : MonoBehaviour
         SpriteRenderer circleRenderer = circle.GetComponent<SpriteRenderer>();
 
         Color initialColor = circleRenderer.color;
-        Color targetColor = new Color(initialColor.r, initialColor.g, initialColor.b, 0); // Fully transparent
+        Color targetColor = new Color(initialColor.r, initialColor.g, initialColor.b, 0);
 
         while (timer < lifetime)
         {
@@ -37,7 +37,7 @@ public class CircleSpawner : MonoBehaviour
             yield return null;
         }
 
-        Destroy(circle); // Optional: Remove the circle once it's done fading
+        Destroy(circle);
     }
    
 }

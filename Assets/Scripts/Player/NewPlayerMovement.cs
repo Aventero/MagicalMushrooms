@@ -45,8 +45,8 @@ public class NewPlayerMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
 
         // Run input
-        playerInput.CharacterControls.Run.started += onRun;
-        playerInput.CharacterControls.Run.canceled += onRun;
+        playerInput.CharacterControls.Sneak.started += onRun;
+        playerInput.CharacterControls.Sneak.canceled += onRun;
 
         // Jump input
         playerInput.CharacterControls.Jump.started += onJump;
