@@ -37,14 +37,25 @@ public abstract class Interactable : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (!other.gameObject.tag.Equals("Player"))
+        if (!other.CompareTag("Player"))
             return;
+
+        if (!string.IsNullOrEmpty(InteractionText))
+            UIManager.Instance.ShowInteractionText(InteractionText);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        OnTriggerEnter(other);
     }
 
     protected virtual void OnTriggerExit(Collider other)
     {
-        if (!other.gameObject.tag.Equals("Player"))
+        if (!other.CompareTag("Player"))
             return;
+
+        if (!string.IsNullOrEmpty(InteractionText))
+            UIManager.Instance.HideInteractionText();
     }
 
     public abstract void Interact();

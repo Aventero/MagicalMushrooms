@@ -23,7 +23,6 @@ public class Item : Interactable
             return;
 
         Debug.Log("IN SIGHT");
-        UIManager.Instance.ShowInteractionText(InteractionText);
         Material material = meshRenderer.material;
         material.color = InPlayerSightColor;
     }
@@ -33,7 +32,6 @@ public class Item : Interactable
         if (meshRenderer == null)
             return;
         
-        UIManager.Instance.HideInteractionText();
         Material material = meshRenderer.material;
         material.color = standardColor;
     }

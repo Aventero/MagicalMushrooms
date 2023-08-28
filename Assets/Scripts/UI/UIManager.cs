@@ -52,6 +52,11 @@ public class UIManager : MonoBehaviour
             OverlayMenu.GetComponent<OverlayMenu>().DisplayInteractionText(true, text);
     }
 
+    public void ShowDialog(Conversation conversation)
+    {
+        OverlayMenu.GetComponent<OverlayMenu>().ShowDialog(conversation);
+    }
+
     private void GameOver()
     {
         PauseGame();

@@ -62,10 +62,10 @@ public class OverlayMenu : MonoBehaviour
         CheckpointText.SetActive(false);
     }
 
-    public void ShowDialog()
+    public void ShowDialog(Conversation conversation)
     {
         Dialog.SetActive(true);
-        Dialog.GetComponent<Dialog>().ShowDialog();
+        Dialog.GetComponent<Dialog>().ShowDialog(conversation);
     }
 
     public void UpdateHealthIcons(int playerHealth)

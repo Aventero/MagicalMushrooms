@@ -25,7 +25,7 @@ public class StateManager : MonoBehaviour
     {
         PauseGameEvent.AddListener(StopTime);
         ResumeGameEvent.AddListener(StartTime);
-        OverlayMenu.ShowDialog();
+        //OverlayMenu.ShowDialog();
     }
 
 
