@@ -28,25 +28,22 @@ public class Dragging : MonoBehaviour
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit, Mathf.Infinity, draggingLayerMask))
         {
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, draggingLayerMask))
+            Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.white);
+            if (hit.collider.CompareTag("Draggable"))
             {
-                Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.white);
-                if (hit.collider.CompareTag("Draggable"))
-                {
-                    Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green);
-                    IsDragging = true;
-                    draggingObject = hit.collider.gameObject;
-                    draggingBody = hit.collider.GetComponent<Rigidbody>();
-                }
+                Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green);
+                IsDragging = true;
+                draggingObject = hit.collider.gameObject;
+                draggingBody = hit.collider.GetComponent<Rigidbody>();
             }
         }
 
         // Dragging the object
         if (IsDragging && draggingObject != null)
         {
-            //draggingBody.isKinematic = true;
+            draggingBody.isKinematic = false;
             draggingBody.interpolation = RigidbodyInterpolation.Interpolate;
 
             // Calculate target position
@@ -55,6 +52,13 @@ public class Dragging : MonoBehaviour
 
             Vector3 targetPosition = mainCamera.ScreenToWorldPoint(cursorPosition);
             draggingBody.velocity = (targetPosition - draggingBody.position) * 10f;
+        }
+
+        if (IsDragging && draggingObject != null && Input.GetMouseButton(1))
+        {
+            draggingBody.transform.rotation = Quaternion.identity;
+            draggingBody.rotation = Quaternion.identity;
+            draggingBody.angularVelocity = Vector3.zero;
         }
 
         if (IsDragging && Input.GetMouseButtonUp(0))
