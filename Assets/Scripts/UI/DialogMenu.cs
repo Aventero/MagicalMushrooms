@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Dialog : MonoBehaviour
+public class DialogMenu: MonoBehaviour
 {
     [Header("Text Objects")]
     public GameObject DialogProgressText;
     public GameObject DialogText;
-    public GameObject DialogName;
+    public GameObject CharacterName;
 
     [Header("Buttons")]
     public GameObject NextButton;
@@ -19,7 +19,7 @@ public class Dialog : MonoBehaviour
 
     private int currentTextPos = 0;
 
-    public void ShowDialog(Conversation conversation)
+    public void ShowDialog(Dialog conversation)
     {
         StateManager.Instance.PauseGameEvent.Invoke();
 
@@ -27,11 +27,11 @@ public class Dialog : MonoBehaviour
         UpdateText();
     }
 
-    private void SetUp(Conversation conversation)
+    private void SetUp(Dialog conversation)
     {
         texts = conversation.conversation;
 
-        DialogName.GetComponent<TMP_Text>().text = conversation.characterName;
+        CharacterName.GetComponent<TMP_Text>().text = conversation.characterName;
     }
 
     public void UpdateText()

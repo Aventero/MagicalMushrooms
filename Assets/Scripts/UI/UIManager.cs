@@ -52,7 +52,7 @@ public class UIManager : MonoBehaviour
             OverlayMenu.GetComponent<OverlayMenu>().DisplayInteractionText(true, text);
     }
 
-    public void ShowDialog(Conversation conversation)
+    public void ShowDialog(Dialog conversation)
     {
         OverlayMenu.GetComponent<OverlayMenu>().ShowDialog(conversation);
     }

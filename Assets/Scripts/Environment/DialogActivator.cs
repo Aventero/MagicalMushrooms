@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DialogActivator : Interactable
 {
-    public Conversation conversation;
+    public Dialog conversation;
     public bool InteractionNecessary = false;
     public bool DestroyIfDone = false;
 
@@ -25,6 +25,9 @@ public class DialogActivator : Interactable
 
     public void ShowDialog()
     {
+        // TODO: Remove the Line
+        MonologManager.Instance.DisplayMonolog(WitchType.ANGRY);
+
         UIManager.Instance.HideInteractionText();
         UIManager.Instance.ShowDialog(conversation);
 
