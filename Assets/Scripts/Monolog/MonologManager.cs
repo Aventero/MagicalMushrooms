@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Unity.Mathematics;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class MonologManager : MonoBehaviour
@@ -10,6 +12,7 @@ public class MonologManager : MonoBehaviour
     private readonly List<WitchMonolog> witchMonologs = new();
     private readonly List<GuideMonolog> guideMonologs = new();
 
+    public GameObject Witch;
 
     public static MonologManager Instance { get; private set; }
 
@@ -45,11 +48,9 @@ public class MonologManager : MonoBehaviour
         }
     }
 
-    private void SendMonologToUI(Monolog monolog)
+    private void SendMonologToUI(Monolog monolog, GameObject target)
     {
-        // TODO: Display conversation on screen
-        int random = UnityEngine.Random.Range(0, monolog.conversation.Count);
-        Debug.Log(monolog.conversation[random]);
+        UIManager.Instance.ShowMonolog(monolog, target);
     }
 
     public void DisplayMonolog(WitchType witchType)
@@ -58,19 +59,21 @@ public class MonologManager : MonoBehaviour
         {
             if(witchType.Equals(witchMonolog.witchType))
             {
-                SendMonologToUI(witchMonolog);
+                SendMonologToUI(witchMonolog, Witch);
             }
         }
     }
 
-    public void DisplayMonolog(GuideType guideType)
-    {
-        foreach (GuideMonolog guideMonolog in guideMonologs)
-        {
-            if (guideType.Equals(guideMonolog.guideType))
-            {
-                SendMonologToUI(guideMonolog);
-            }
-        }
-    }
+    //public void DisplayMonolog(GuideType guideType)
+    //{
+    //    foreach (GuideMonolog guideMonolog in guideMonologs)
+    //    {
+    //        if (guideType.Equals(guideMonolog.guideType))
+    //        {
+    //            GameObject Guide = GameObject.FindGameObjectWithTag("Guide");
+    //            if (Guide != null)
+    //                SendMonologToUI(guideMonolog, Guide);
+    //        }
+    //    }
+    //}
 }

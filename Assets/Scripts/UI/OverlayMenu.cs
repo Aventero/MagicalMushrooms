@@ -14,6 +14,7 @@ public class OverlayMenu : MonoBehaviour
     public TMP_Text InteractionText;
     public GameObject IconParent;
     public GameObject Dialog;
+    public GameObject Monolog;
     public GameObject CheckpointText;
 
     public float ShowCheckpointNotification = 1.5f;
@@ -26,6 +27,8 @@ public class OverlayMenu : MonoBehaviour
     private int amountOfItems;
     private int pickedUpItemsCounter = 0;
 
+    private DialogMenu dialogMenu;
+    private MonologMenu monologMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -40,8 +43,11 @@ public class OverlayMenu : MonoBehaviour
         amountOfItems = GameObject.FindObjectsOfType<Item>().Length;
         itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
 
+        dialogMenu = Dialog.GetComponent<DialogMenu>();
+        monologMenu = Monolog.GetComponent<MonologMenu>();
+
         // Spawn all Health sprites
-        healthObjects = UIBuilder.CreateIcons(IconParent.transform, HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0.1f, 0.97f), new Vector2(0.1f, 0.97f), new Vector2(25, 25), 1, 5);
+        healthObjects = UIBuilder.CreateIcons(IconParent.transform, HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0.0f, 0.99f), new Vector2(0.0f, 0.99f), new Vector2(50, 50), 1, 5);
     }
 
     public void FillPlayerHealth()
@@ -56,7 +62,7 @@ public class OverlayMenu : MonoBehaviour
         StartCoroutine(HideCheckpointTextAfterSeconds(ShowCheckpointNotification));
     }
 
-    public IEnumerator HideCheckpointTextAfterSeconds(float seconds)
+    private IEnumerator HideCheckpointTextAfterSeconds(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         CheckpointText.SetActive(false);
@@ -65,7 +71,13 @@ public class OverlayMenu : MonoBehaviour
     public void ShowDialog(Dialog conversation)
     {
         Dialog.SetActive(true);
-        Dialog.GetComponent<DialogMenu>().ShowDialog(conversation);
+        dialogMenu.ShowDialog(conversation);
+    }
+
+    public void ShowMonolog(Monolog monolog, GameObject target)
+    {
+        Monolog.SetActive(true);
+        monologMenu.ShowMonolog(monolog, target);
     }
 
     public void UpdateHealthIcons(int playerHealth)
