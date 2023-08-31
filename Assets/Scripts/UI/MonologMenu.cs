@@ -10,14 +10,16 @@ public class MonologMenu : MonoBehaviour
     public TMP_Text CharacterName;
     public TMP_Text CharacterImage;
 
-    public GameObject target;
+    public GameObject MonologWindow;
 
-    private GameObject player;
+    private GameObject target;
+    private RectTransform rect;
+
     private bool activeMonolog = false;
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        rect = this.GetComponent<RectTransform>();
     }
 
     public void ShowMonolog(Monolog monolog, GameObject target)
@@ -32,7 +34,7 @@ public class MonologMenu : MonoBehaviour
         
         activeMonolog = true;
 
-        //StartCoroutine(HideMonolog(5));
+        //StartCoroutine(HideMonolog(5)); 
     }
 
     private void Update()
@@ -42,8 +44,26 @@ public class MonologMenu : MonoBehaviour
 
         Vector3 targetPosition = target.transform.position;
         Vector3 screenPosition = Camera.main.WorldToScreenPoint(targetPosition);
-        Debug.Log(screenPosition);
-        this.GetComponent<RectTransform>().position = new Vector3(screenPosition.x, screenPosition.y, screenPosition.z);
+
+        Vector2 rectSize = rect.sizeDelta;
+
+        float offsetX = rectSize.x / 2;
+        float offsetY = rectSize.y / 2;
+
+        if (screenPosition.z < 0)
+        {
+            MonologWindow.SetActive(false);
+            return;
+        }
+        else
+        {
+            MonologWindow.SetActive(true);
+        }
+
+        float screenPosX = Mathf.Clamp(screenPosition.x, offsetX, Screen.width - offsetX);
+        float screenPosY = Mathf.Clamp(screenPosition.y, offsetY, Screen.height - offsetY);
+
+        rect.position = new Vector3(screenPosX, screenPosY, 0);
     }
 
     private IEnumerator HideMonolog(float seconds)
