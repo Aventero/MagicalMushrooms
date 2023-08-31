@@ -9,14 +9,14 @@ public class PlayerStateMachine : MonoBehaviour
     private CharacterController characterController;
 
     // Movement
-    private readonly float runningSpeed = 6.0f;
-    private readonly float walkingSpeed = 4.0f;
+    private readonly float sneakingSpeed = 1.5f;
+    private readonly float walkingSpeed = 3.0f;
     private float currentSpeed; 
     private Vector2 currentMovementInput;
     private Vector3 currentMovement;
     private Vector3 appliedMovement;
     private bool isMovementPressed;
-    private bool isRunPressed;
+    private bool isSneakPressed;
 
     // Gravity
     private float gravity;
@@ -28,8 +28,13 @@ public class PlayerStateMachine : MonoBehaviour
     public float maxJumpTime = 1.0f; // Time it takes to complete the jump
     
     // Stepping
-    public float stepDistance = 0.5f;
-
+    public float StepDistance = 0.75f;
+    public float WalkRingLifetime = 1.0f;
+    public float WalkRingSize = 0.2f;
+    public float SneakRingLifetime = 1.0f;
+    public float SneakRingSize = 0.05f;
+    public float JumpRingLifetime = 1.5f;
+    public float JumpRingSize = 1.0f;
 
     // Mouse looking
     private Vector2 currentMouseInput;
@@ -58,8 +63,8 @@ public class PlayerStateMachine : MonoBehaviour
     public float InitialJumpVelocity { get => initialJumpVelocity; set => initialJumpVelocity = value; }
     public float Gravity { get => gravity; }
     public bool IsMovementPressed { get => isMovementPressed; }
-    public bool IsRunPressed { get => isRunPressed; }
-    public float RunningSpeed { get => runningSpeed; }
+    public bool IsSneakPressed { get => isSneakPressed; }
+    public float SneakingSpeed { get => sneakingSpeed; }
     public float WalkingSpeed { get => walkingSpeed; }
     public float CurrentSpeed { get => currentSpeed; set => currentSpeed = value; }
 
@@ -85,8 +90,8 @@ public class PlayerStateMachine : MonoBehaviour
         playerInput.CharacterControls.Move.performed += OnMovementInput;
 
         // Run 
-        playerInput.CharacterControls.Run.started += OnRunInput;
-        playerInput.CharacterControls.Run.canceled += OnRunInput;
+        playerInput.CharacterControls.Sneak.started += OnSneakInput;
+        playerInput.CharacterControls.Sneak.canceled += OnSneakInput;
 
         // Jump 
         playerInput.CharacterControls.Jump.started += OnJumpInput;
@@ -112,7 +117,6 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (StateManager.Instance.isLockedOnWitchHead)
             return;
-        HandleRotation();
         CurrentState.UpdateStates();
         
         // Move the player
@@ -120,9 +124,29 @@ public class PlayerStateMachine : MonoBehaviour
             characterController.Move(appliedMovement * Time.deltaTime);
     }
 
+    private void LateUpdate()
+    {
+        HandleRotation();
+    }
+
     private void OnDrawGizmos()
     {
     }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody hitRigidbody = hit.collider.attachedRigidbody;
+        if (hitRigidbody != null)
+            hitRigidbody.isKinematic = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Rigidbody hitRigidbody = other.attachedRigidbody;
+        if (hitRigidbody != null)
+            hitRigidbody.isKinematic = false;
+    }
+
 
     void HandleRotation()
     {
@@ -154,9 +178,9 @@ public class PlayerStateMachine : MonoBehaviour
         isJumpPressed = context.ReadValueAsButton();
     }
 
-    void OnRunInput(InputAction.CallbackContext context)
+    void OnSneakInput(InputAction.CallbackContext context)
     {
-        isRunPressed = context.ReadValueAsButton();
+        isSneakPressed = context.ReadValueAsButton();
 
     }
 

@@ -7,8 +7,8 @@ public class PlayerIdleState : PlayerState
 
     public override void CheckSwitchStates()
     {
-        if (context.IsMovementPressed && context.IsRunPressed)
-            SwitchState(factory.Run());
+        if (context.IsMovementPressed && context.IsSneakPressed)
+            SwitchState(factory.Sneak());
         else if (context.IsMovementPressed)
             SwitchState(factory.Walk());
     }

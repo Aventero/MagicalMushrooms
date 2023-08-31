@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 764140087229067908}
   - component: {fileID: 2650662224756240871}
   - component: {fileID: 8724591020215935875}
+  - component: {fileID: 8568340027608994498}
+  - component: {fileID: 505489142858320399}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -119,8 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: cb5f418832c94400797c2142549bd1a3,
-    type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: cb5f418832c94400797c2142549bd1a3, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -222,8 +223,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 807e62f769916d34c9dd1c41aa235851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxJumpHeight: 2
+  maxJumpHeight: 1
   maxJumpTime: 1
+  StepDistance: 0.75
+  WalkRingLifetime: 1
+  WalkRingSize: 0.2
+  SneakRingLifetime: 1
+  SneakRingSize: 0.05
+  JumpRingLifetime: 1.5
+  JumpRingSize: 1
+--- !u!114 &8568340027608994498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857605709861750716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3933c67a716b2d948a7ce96669953a92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circlePrefab: {fileID: 5931753188418011760, guid: 4d183b2fd1f31824a97eeba9ad854f96, type: 3}
+  yPosition: -0.1
+--- !u!114 &505489142858320399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857605709861750716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f24a4c149e662749a26be604ffc0c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  draggingObject: {fileID: 0}
+  IsDragging: 0
+  distanceFromCamera: 3
 --- !u!1 &2857605710249577893
 GameObject:
   m_ObjectHideFlags: 0

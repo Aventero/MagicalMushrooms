@@ -28,12 +28,12 @@ public class PlayerFallState : PlayerState, IRootState
 
     public override void InitializeSubState()
     {
-        if (!context.IsMovementPressed && !context.IsRunPressed)
+        if (!context.IsMovementPressed && !context.IsSneakPressed)
             SetSubState(factory.Idle());
-        else if (context.IsMovementPressed && !context.IsRunPressed)
+        else if (context.IsMovementPressed && !context.IsSneakPressed)
             SetSubState(factory.Walk());
         else
-            SetSubState(factory.Run());
+            SetSubState(factory.Sneak());
     }
 
     public override void UpdateState()
