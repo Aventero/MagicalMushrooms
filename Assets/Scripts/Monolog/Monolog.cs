@@ -9,6 +9,8 @@ public class Monolog : ScriptableObject
     public string characterName;
     public Sprite characterSprite;
 
+    public bool ShowAsNotification;
+
     [TextArea]
     public List<string> conversation;
 }

@@ -66,6 +66,11 @@ public class UIManager : MonoBehaviour
         overlayMenu.ShowMonolog(monolog, target);
     }
 
+    public void ShowMonolog(Monolog monolog)
+    {
+        overlayMenu.ShowMonolog(monolog);
+    }
+
     private void GameOver()
     {
         PauseGame();

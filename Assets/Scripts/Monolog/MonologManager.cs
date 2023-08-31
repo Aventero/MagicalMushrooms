@@ -12,7 +12,7 @@ public class MonologManager : MonoBehaviour
     private readonly List<WitchMonolog> witchMonologs = new();
     private readonly List<GuideMonolog> guideMonologs = new();
 
-    public GameObject Witch;
+    public GameObject WitchTarget;
 
     public static MonologManager Instance { get; private set; }
 
@@ -53,13 +53,21 @@ public class MonologManager : MonoBehaviour
         UIManager.Instance.ShowMonolog(monolog, target);
     }
 
+    private void SendMonologToUI(Monolog monolog)
+    {
+        UIManager.Instance.ShowMonolog(monolog);
+    }
+
     public void DisplayMonolog(WitchType witchType)
     {
         foreach (WitchMonolog witchMonolog in witchMonologs)
         {
             if(witchType.Equals(witchMonolog.witchType))
             {
-                SendMonologToUI(witchMonolog, Witch);
+                if (witchMonolog.ShowAsNotification == false)
+                    SendMonologToUI(witchMonolog, WitchTarget);
+                else
+                    SendMonologToUI(witchMonolog);
             }
         }
     }

@@ -11,6 +11,8 @@ public class MonologMenu : MonoBehaviour
     public GameObject CharacterImage;
     public GameObject MonologWindow;
 
+    public float ActivationTime = 5.0f;
+
     private GameObject target;
     private RectTransform rect;
     private Image image;
@@ -27,6 +29,18 @@ public class MonologMenu : MonoBehaviour
         image = CharacterImage.GetComponent<Image>();
     }
 
+    // Shows the monolog as a notification at a static point on the screen
+    public void ShowMonolog(Monolog monolog)
+    {
+        int randomNumber = Random.Range(0, monolog.conversation.Count);
+        TextArea.text = monolog.conversation[randomNumber];
+
+        CharacterName.text = monolog.characterName;
+        image.sprite = monolog.characterSprite;
+    }
+
+
+    // Displays the monolog at the specified target 
     public void ShowMonolog(Monolog monolog, GameObject target)
     {
         int randomNumber = Random.Range(0, monolog.conversation.Count);
@@ -38,7 +52,7 @@ public class MonologMenu : MonoBehaviour
         this.target = target;
         activeMonolog = true;
 
-        //StartCoroutine(HideMonolog(5)); 
+        //StartCoroutine(HideMonolog(ActivationTime));
     }
 
     private void Update()
@@ -54,10 +68,8 @@ public class MonologMenu : MonoBehaviour
             MonologWindow.SetActive(false);
             return;
         }
-        else
-        {
-            MonologWindow.SetActive(true);
-        }
+            
+        MonologWindow.SetActive(true);
 
         float screenPosX = Mathf.Clamp(screenPosition.x, offset.x, Screen.width - offset.x);
         float screenPosY = Mathf.Clamp(screenPosition.y, offset.y, Screen.height - offset.y);

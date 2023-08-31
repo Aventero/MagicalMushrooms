@@ -80,6 +80,12 @@ public class OverlayMenu : MonoBehaviour
         monologMenu.ShowMonolog(monolog, target);
     }
 
+    public void ShowMonolog(Monolog monolog)
+    {
+        Monolog.SetActive(true);
+        monologMenu.ShowMonolog(monolog);
+    }
+
     public void UpdateHealthIcons(int playerHealth)
     {
         Debug.Log("Player hit! Player Health: " + playerHealth);
