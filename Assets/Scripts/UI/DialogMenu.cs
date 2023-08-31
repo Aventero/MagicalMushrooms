@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DialogMenu: MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class DialogMenu: MonoBehaviour
     public GameObject DialogProgressText;
     public GameObject DialogText;
     public GameObject CharacterName;
+    public GameObject CharacterImage;
 
     [Header("Buttons")]
     public GameObject NextButton;
@@ -31,6 +33,7 @@ public class DialogMenu: MonoBehaviour
     {
         texts = conversation.conversation;
 
+        CharacterImage.GetComponent<Image>().sprite = conversation.characterImage;
         CharacterName.GetComponent<TMP_Text>().text = conversation.characterName;
     }
 

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Dialog : ScriptableObject
 {
     public string characterName;
-    public Image characterImage;
+    public Sprite characterImage;
 
     [TextArea]
     public List<string> conversation;

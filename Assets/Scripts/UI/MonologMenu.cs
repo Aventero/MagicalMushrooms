@@ -1,25 +1,30 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class MonologMenu : MonoBehaviour
 {
     public TMP_Text TextArea;
     public TMP_Text CharacterName;
-    public TMP_Text CharacterImage;
 
+    public GameObject CharacterImage;
     public GameObject MonologWindow;
 
     private GameObject target;
     private RectTransform rect;
+    private Image image;
+
+    private Vector2 offset;
 
     private bool activeMonolog = false;
 
     private void Start()
     {
         rect = this.GetComponent<RectTransform>();
+        offset = rect.sizeDelta / new Vector2(2, 2);
+
+        image = CharacterImage.GetComponent<Image>();
     }
 
     public void ShowMonolog(Monolog monolog, GameObject target)
@@ -28,10 +33,9 @@ public class MonologMenu : MonoBehaviour
         TextArea.text = monolog.conversation[randomNumber];
 
         CharacterName.text = monolog.characterName;
-        // TODO: Set the Image
+        image.sprite = monolog.characterSprite;
 
         this.target = target;
-        
         activeMonolog = true;
 
         //StartCoroutine(HideMonolog(5)); 
@@ -45,11 +49,6 @@ public class MonologMenu : MonoBehaviour
         Vector3 targetPosition = target.transform.position;
         Vector3 screenPosition = Camera.main.WorldToScreenPoint(targetPosition);
 
-        Vector2 rectSize = rect.sizeDelta;
-
-        float offsetX = rectSize.x / 2;
-        float offsetY = rectSize.y / 2;
-
         if (screenPosition.z < 0)
         {
             MonologWindow.SetActive(false);
@@ -60,8 +59,8 @@ public class MonologMenu : MonoBehaviour
             MonologWindow.SetActive(true);
         }
 
-        float screenPosX = Mathf.Clamp(screenPosition.x, offsetX, Screen.width - offsetX);
-        float screenPosY = Mathf.Clamp(screenPosition.y, offsetY, Screen.height - offsetY);
+        float screenPosX = Mathf.Clamp(screenPosition.x, offset.x, Screen.width - offset.x);
+        float screenPosY = Mathf.Clamp(screenPosition.y, offset.y, Screen.height - offset.y);
 
         rect.position = new Vector3(screenPosX, screenPosY, 0);
     }

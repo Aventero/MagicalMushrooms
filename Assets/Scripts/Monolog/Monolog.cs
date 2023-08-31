@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Monolog : ScriptableObject
 {
     public string characterName;
-    public Image characterImage;
+    public Sprite characterSprite;
 
     [TextArea]
     public List<string> conversation;
