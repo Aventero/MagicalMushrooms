@@ -36,7 +36,6 @@ public class OverlayMenu : MonoBehaviour
         // RegisterEvent
         StateManager.Instance.ItemPickupEvent += this.OnItemPickup;
         StateManager.Instance.UsedItemEvent += this.UsedItem;
-        StateManager.Instance.RespawnPlayerEvent.AddListener(FillPlayerHealth);
         StateManager.Instance.NewCheckpointEvent.AddListener(ShowCheckpointText);
 
         pickedUpItemsSprites = new List<Sprite>();
@@ -45,15 +44,6 @@ public class OverlayMenu : MonoBehaviour
 
         dialogMenu = Dialog.GetComponent<DialogMenu>();
         monologMenu = Monolog.GetComponent<MonologMenu>();
-
-        // Spawn all Health sprites
-        healthObjects = UIBuilder.CreateIcons(IconParent.transform, HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0.0f, 0.99f), new Vector2(0.0f, 0.99f), new Vector2(50, 50), 1, 5);
-    }
-
-    public void FillPlayerHealth()
-    {
-        foreach (GameObject healthObject in healthObjects)
-            healthObject.GetComponent<Image>().sprite = HealthSprite;
     }
 
     public void ShowCheckpointText()
@@ -84,17 +74,6 @@ public class OverlayMenu : MonoBehaviour
     {
         Monolog.SetActive(true);
         monologMenu.ShowMonolog(monolog);
-    }
-
-    public void UpdateHealthIcons(int playerHealth)
-    {
-        Debug.Log("Player hit! Player Health: " + playerHealth);
-
-        for (int i = PlayerHealth.MaxHealth - 1; i >= 0; i--)
-        {
-            if (i >= playerHealth && healthObjects[i] != null)
-                healthObjects[i].GetComponent<Image>().sprite = EmptyHealthSprite;
-        }
     }
 
     public void OnItemPickup(ItemData item)
