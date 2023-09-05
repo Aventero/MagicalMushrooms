@@ -137,7 +137,7 @@ public class WitchWatching : MonoBehaviour
 
     private bool PlayerVisible()
     {
-        if (!StateManager.Instance.WitchConeOnPlayer)
+        if (!StateManager.Instance.IsVisionConeOnPlayer)
             return false;
 
         if (Physics.Linecast(ViewCone.transform.position, Player.transform.position, out RaycastHit hitInfo))

@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-internal class AIStatePatrol :  MonoBehaviour, AIState
+internal class AIStatePatrol :  MonoBehaviour, IAIState
 {
     public string StateName => "Patrol";
     private Transform patrolWatchPoint;
-
+    public AIStateManager AIStateManager { get => stateManager; }
+    private AIStateManager stateManager;
     public void InitState(AIStateManager stateManager)
     {
+        this.stateManager = stateManager;
     }
 
-    public void EnterState(AIStateManager stateManager)
+    public void EnterState()
     {
         stateManager.DangerBlit.SetState(DangerState.Nothing);
         stateManager.aiVision.RelaxedWatching();
@@ -44,12 +46,12 @@ internal class AIStatePatrol :  MonoBehaviour, AIState
 
     }
 
-    public void ExitState(AIStateManager stateManager)
+    public void ExitState()
     {
     }
 
 
-    public void UpdateState(AIStateManager stateManager)
+    public void UpdateState()
     {
         stateManager.Watch(patrolWatchPoint);
 
@@ -66,7 +68,7 @@ internal class AIStatePatrol :  MonoBehaviour, AIState
         }
     }
 
-    private bool IsTurning(AIStateManager stateManager)
+    private bool IsTurning()
     {
         if (stateManager.EasyAngle(transform.position, transform.forward, patrolWatchPoint.position) > 75f)
         {

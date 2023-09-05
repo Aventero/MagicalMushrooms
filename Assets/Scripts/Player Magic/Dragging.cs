@@ -15,6 +15,7 @@ public class Dragging : MonoBehaviour
     public float DistanceFromCamera = 3.0f;
     public float DraggingSpeed = 2.0f;
     public float AvoidanceDistance = 1f;
+    public float MaxVelocity = 10f;
     private Camera mainCamera;
     // Start is called before the first frame update
     void Start()
@@ -51,7 +52,11 @@ public class Dragging : MonoBehaviour
             cursorPosition.z = DistanceFromCamera;
 
             Vector3 targetPosition = mainCamera.ScreenToWorldPoint(cursorPosition);
-            draggingBody.velocity = (targetPosition - draggingBody.position) * 10f;
+            Vector3 velocity = (targetPosition - draggingBody.position) * 10f;
+            velocity.x = Mathf.Clamp(velocity.x, -MaxVelocity, MaxVelocity);
+            velocity.y = Mathf.Clamp(velocity.y, -MaxVelocity, MaxVelocity);
+            velocity.z = Mathf.Clamp(velocity.z, -MaxVelocity, MaxVelocity);
+            draggingBody.velocity = velocity;
         }
 
         if (IsDragging && draggingObject != null && Input.GetMouseButton(1))

@@ -2,32 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIStateIdle : MonoBehaviour, AIState
+public class AIStateIdle : MonoBehaviour, IAIState
 {
     public string StateName => "Idle";
+    public AIStateManager AIStateManager { get => stateManager; }
+    private AIStateManager stateManager;
+
     public float WaitTimeInBetween = 2.0f;
 
     public void InitState(AIStateManager stateManager)
     {
+        this.stateManager = stateManager;
     }
 
-    public void EnterState(AIStateManager stateManager)
+    public void EnterState()
     {
         stateManager.DangerBlit.SetState(DangerState.Nothing);
         stateManager.aiVision.RelaxedWatching();
         stateManager.agent.isStopped = true;
         Vector3 directionToPlayer = stateManager.Player.position - transform.position;
         directionToPlayer.y = 0;
-        StartCoroutine(SmoothRotateThenLookAround(stateManager, directionToPlayer));
+        StartCoroutine(SmoothRotateThenLookAround(directionToPlayer));
     }
 
-    public void ExitState(AIStateManager stateManager)
+    public void ExitState()
     {
         StopAllCoroutines();
         stateManager.agent.isStopped = false;
     }
 
-    public void UpdateState(AIStateManager stateManager)
+    public void UpdateState()
     {
         if (stateManager.HasFoundPlayer())
         {
@@ -36,7 +40,7 @@ public class AIStateIdle : MonoBehaviour, AIState
         }
     }
 
-    private IEnumerator SmoothRotateThenLookAround(AIStateManager stateManager, Vector3 targetDirection)
+    private IEnumerator SmoothRotateThenLookAround(Vector3 targetDirection)
     {
         // Watch closest point
         stateManager.Watch(stateManager.CalculateClosestNotVisiblePoint(transform.position, transform.forward));

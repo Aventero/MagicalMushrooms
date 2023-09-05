@@ -49,7 +49,7 @@ public class StateManager : MonoBehaviour
     }
 
     public bool OnElevator = false;
-    public bool WitchConeOnPlayer = false;
+    public bool IsVisionConeOnPlayer = false;
     public bool isLockedOnWitchHead = false;
     public bool InMenu = false;
 

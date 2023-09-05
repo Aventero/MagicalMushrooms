@@ -28,6 +28,9 @@ public class AIVision : MonoBehaviour
     private float currentSmoothTime = 0f;
 
     private AIStateManager aiStateManager;
+    [ReadOnly]
+    public GameObject ObjectPlayerIsHidingBehind = null;
+
     void Start()
     {
         aiStateManager = GetComponent<AIStateManager>();
@@ -70,8 +73,11 @@ public class AIVision : MonoBehaviour
 
     private bool PlayerVisible()
     {
-        if (!StateManager.Instance.WitchConeOnPlayer)
+        if (!StateManager.Instance.IsVisionConeOnPlayer)
+        {
+            ObjectPlayerIsHidingBehind = null;
             return false;
+        }
 
         // Only Look at Prop and Player!
         LayerMask layerMask = LayerMask.GetMask("Prop");
@@ -82,13 +88,20 @@ public class AIVision : MonoBehaviour
         {
             Debug.DrawLine(ViewCone.transform.position, hitInfo.transform.position, Color.green);
 
+            if (hitInfo.collider.CompareTag("Draggable"))
+            {
+                ObjectPlayerIsHidingBehind = hitInfo.transform.gameObject;
+                return false;
+            }
+
             if (hitInfo.transform.CompareTag("Player"))
             {
                 Debug.DrawLine(ViewCone.transform.position, Player.transform.position, Color.magenta);
+                ObjectPlayerIsHidingBehind = null;
                 return true;
             }
         }
-
+        ObjectPlayerIsHidingBehind = null;
         return false;
     }
 

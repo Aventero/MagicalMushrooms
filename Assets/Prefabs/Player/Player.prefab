@@ -258,12 +258,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f24a4c149e662749a26be604ffc0c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raycastLayerMask:
+  clippingAvoidanceLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  draggingLayerMask:
     serializedVersion: 2
     m_Bits: 256
   draggingObject: {fileID: 0}
   IsDragging: 0
-  distanceFromCamera: 3
+  DistanceFromCamera: 3
+  DraggingSpeed: 15
+  AvoidanceDistance: 1
+  MaxVelocity: 10
 --- !u!1 &2857605710249577893
 GameObject:
   m_ObjectHideFlags: 0

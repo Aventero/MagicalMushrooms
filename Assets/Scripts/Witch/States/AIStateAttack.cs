@@ -4,9 +4,13 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.AI;
 
-internal class AIStateAttack : MonoBehaviour, AIState
+internal class AIStateAttack : MonoBehaviour, IAIState
 {
     public string StateName => "Attack";
+
+    public AIStateManager AIStateManager { get => stateManager; }
+    private AIStateManager stateManager;
+
     public TwoBoneIKConstraint HandIK;
     public MultiAimConstraint MultiAimHand;
     public GameObject PullPoint;
@@ -19,9 +23,10 @@ internal class AIStateAttack : MonoBehaviour, AIState
 
     public void InitState(AIStateManager stateManager)
     {
+        this.stateManager = stateManager;
     }
 
-    public void EnterState(AIStateManager stateManager)
+    public void EnterState()
     {
         stateManager.DangerBlit.SetState(DangerState.Attack);
         attacking = false;
@@ -34,14 +39,14 @@ internal class AIStateAttack : MonoBehaviour, AIState
         stateManager.Walk();
     }
 
-    public void ExitState(AIStateManager stateManager)
+    public void ExitState()
     {
         // Let Witch chill.
         StopAllCoroutines();
         player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(true);
     }
 
-    public void UpdateState(AIStateManager stateManager)
+    public void UpdateState()
     {
         stateManager.Watch(player);
 
@@ -52,11 +57,11 @@ internal class AIStateAttack : MonoBehaviour, AIState
         {
             stateManager.StopAgent();
             attacking = true;
-            StartCoroutine(ReachOutHand(stateManager, ReachTime));
+            StartCoroutine(ReachOutHand(ReachTime));
         }
     }
 
-    IEnumerator ReachOutHand(AIStateManager stateManager, float reachTime)
+    IEnumerator ReachOutHand(float reachTime)
     {
         // Activate playermovement
         player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(false);

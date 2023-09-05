@@ -10,13 +10,13 @@ using UnityEngine.Rendering.Universal;
 
 public class AIStateManager : MonoBehaviour
 {
-    public AIState currentState;
-    public AIState previousState;
+    public IAIState currentState;
+    public IAIState previousState;
 
     public delegate void OnStateEvent();
     public OnStateEvent Onevent;
 
-    public Dictionary<string, AIState> states = new Dictionary<string, AIState>();
+    public Dictionary<string, IAIState> states = new Dictionary<string, IAIState>();
 
     // Player Target
     public Transform Player;
@@ -26,7 +26,7 @@ public class AIStateManager : MonoBehaviour
 
     // Watching
     public GameObject WatchPointsParent;
-    public GameObject ViewCone;
+    public GameObject VisionCone;
     public GameObject StandardWatchpoint;
     public List<Transform> WatchPoints { get; private set; }
 
@@ -63,12 +63,13 @@ public class AIStateManager : MonoBehaviour
         states.Add("Attack", GetComponent<AIStateAttack>());
         states.Add("IgnorePlayerIdle", GetComponent<AIStateIgnorePlayerIdle>());
         states.Add("LostPlayer", GetComponent<AIStateLostPlayer>());
+        states.Add("Levitate", GetComponent<AIStateLevitate>());
 
         foreach (var state in states)
             state.Value.InitState(this);
 
         currentState = states["Idle"];
-        currentState.EnterState(this);
+        currentState.EnterState();
         Debug.Log(currentState.StateName);
     }
 
@@ -91,7 +92,7 @@ public class AIStateManager : MonoBehaviour
 
     void Update()
     {
-        currentState.UpdateState(this);
+        currentState.UpdateState();
         aiVision.WatchSpot();
         AnimateWitch();
         DangerBlit.UpdateBlit();
@@ -131,9 +132,9 @@ public class AIStateManager : MonoBehaviour
     {
         Debug.Log("Transitioning to " + stateName);
         previousState = currentState;
-        currentState.ExitState(this);
+        currentState.ExitState();
         currentState = states[stateName];
-        currentState.EnterState(this);
+        currentState.EnterState();
     }
 
     public List<Transform> CalculateVisiblePoints(Vector3 desiredPoint, Vector3 forward, float viewAngle)

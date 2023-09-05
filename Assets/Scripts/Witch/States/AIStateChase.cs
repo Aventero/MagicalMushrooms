@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering.Universal;
 
-internal class AIStateChase : MonoBehaviour, AIState
+internal class AIStateChase : MonoBehaviour, IAIState
 {
     public string StateName => "Chase";
     private NavMeshAgent agent; 
@@ -12,11 +12,15 @@ internal class AIStateChase : MonoBehaviour, AIState
     private float chaseTime = 0f;
     public Transform ChasePoint;
 
+    public AIStateManager AIStateManager { get => stateManager; }
+    private AIStateManager stateManager;
+
     public void InitState(AIStateManager stateManager)
     {
+        this.stateManager = stateManager;
     }
 
-    public void EnterState(AIStateManager stateManager)
+    public void EnterState()
     {
         stateManager.DangerBlit.SetState(DangerState.Danger);
         chaseTime = 0f;
@@ -28,14 +32,14 @@ internal class AIStateChase : MonoBehaviour, AIState
         stateManager.Walk();
     }
 
-    public void ExitState(AIStateManager stateManager)
+    public void ExitState()
     {
     }
 
-    public void UpdateState(AIStateManager stateManager)
+    public void UpdateState()
     {
-        stateManager.Watch(stateManager.Player);
-        stateManager.SetWalkPoint(stateManager.Player.position);
+        stateManager.Watch(stateManager.Player);    
+        stateManager.SetWalkPoint(stateManager.Player.position); // TODO: Dont let her run after the player!!
 
         if (stateManager.HasLostPlayer())
         {
@@ -56,7 +60,7 @@ internal class AIStateChase : MonoBehaviour, AIState
         }
     }
 
-    private bool AgentReachedDestination(AIStateManager stateManager)
+    private bool AgentReachedDestination()
     {
         if (!stateManager.agent.pathPending && stateManager.agent.remainingDistance < stateManager.agent.stoppingDistance)
             return true;

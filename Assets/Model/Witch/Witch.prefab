@@ -1734,6 +1734,7 @@ GameObject:
   - component: {fileID: 1671322705635581028}
   - component: {fileID: 5424578713402036379}
   - component: {fileID: 1390228576803306338}
+  - component: {fileID: 8317708068913957313}
   m_Layer: 2
   m_Name: Witch
   m_TagString: Untagged
@@ -2034,10 +2035,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BlitMaterial: {fileID: 0}
+  WitchOutline: {fileID: 0}
   PlayerIsSafe: {r: 0, g: 0, b: 0, a: 0}
   PlayerInDanger: {r: 0, g: 0, b: 0, a: 0}
   WitchAttacking: {r: 0, g: 0, b: 0, a: 0}
   Damage: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &8317708068913957313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5517584346009996587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e1384c8b2dcbdc419282aa88d1abcb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coneAngle: 45
+  coneDistance: 10
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &5517584346009996589
 GameObject:
   m_ObjectHideFlags: 0

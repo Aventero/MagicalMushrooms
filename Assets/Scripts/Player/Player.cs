@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     {
         if (other.tag == "Witch")
         {
-            StateManager.Instance.WitchConeOnPlayer = false;
+            StateManager.Instance.IsVisionConeOnPlayer = false;
         }
     }
 
@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
         // Witch View Cone
         if (other.tag == "Witch")
         {
-            StateManager.Instance.WitchConeOnPlayer = true;
+            StateManager.Instance.IsVisionConeOnPlayer = true;
         }
     }
 }
