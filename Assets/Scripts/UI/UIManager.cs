@@ -29,11 +29,6 @@ public class UIManager : MonoBehaviour
         overlayMenu = OverlayMenu.GetComponent<OverlayMenu>();
     }
 
-    public void UpdateHealthIcons(int playerHealth)
-    {
-        overlayMenu.UpdateHealthIcons(playerHealth);
-    }
-
     public void PauseGame()
     {
         StateManager.Instance.PauseGameEvent.Invoke();

@@ -23,12 +23,7 @@ public class Deathzone : MonoBehaviour
         if (!other.gameObject.CompareTag("Player"))
             return;
         
-        PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-
-        if (playerHealth.CurrentHealth != 1)
-            CheckpointManager.Instance.RespawnPlayer();
-
-        StateManager.Instance.DealDamageEvent(1);
+        CheckpointManager.Instance.RespawnPlayer();
     }
 
     private void OnDrawGizmosSelected()

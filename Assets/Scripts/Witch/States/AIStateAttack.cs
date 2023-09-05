@@ -80,10 +80,11 @@ internal class AIStateAttack : MonoBehaviour, IAIState
         yield return new WaitForSeconds(reachTime);
         yield return new WaitUntil(() => pulling == false);
 
-        // Pulling was done!
-        StateManager.Instance.DealDamageEvent(1);
+        // Pulling was done
         stateManager.DangerBlit.SetState(DangerState.Damage);
         player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(true);
+
+        CheckpointManager.Instance.RespawnPlayer();
 
         // Lerp hand back
         delta = 0;
