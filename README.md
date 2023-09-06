@@ -6,4 +6,5 @@ Why does this witch hunt you?
 Find a way out and become big again!
 
 Good luck!
-[The wiki is here!]([https://link-url-here.org](https://github.com/Aventero/MagicalMushrooms/wiki/Guide-for-creating-a-level)https://github.com/Aventero/MagicalMushrooms/wiki/Guide-for-creating-a-level)
+
+[The wiki is here](https://github.com/Aventero/MagicalMushrooms/wiki)
