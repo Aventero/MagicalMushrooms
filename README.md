@@ -1,10 +1,5 @@
 # Magical Mushrooms
-3D Hiding Game - U ate some weird Mushrooms and have been shrinked to the size of a fly.
-
-Why does this witch hunt you? 
-
-Find a way out and become big again!
-
-Good luck!
+U have been shrunk to the size of a coin inside the house of a Witch which is trying to catch u. 
+Hide from her and escape the house.
 
 [The wiki is here](https://github.com/Aventero/MagicalMushrooms/wiki)
