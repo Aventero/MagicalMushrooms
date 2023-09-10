@@ -82,7 +82,8 @@ public class PlayerInteractable : MonoBehaviour
         foreach (RaycastHit hit in hits)
         {
             Interactable interactable = hit.transform.gameObject.GetComponent<Interactable>();
-            interactables.Add((interactable, hit.distance));
+            if (interactable.CanInteract)
+                interactables.Add((interactable, hit.distance));
         }
 
         return interactables;
@@ -92,8 +93,7 @@ public class PlayerInteractable : MonoBehaviour
     {
         Transform cameraTransform = Camera.main.transform;
         Gizmos.color = Color.green;
-        Gizmos.DrawRay(cameraTransform.position, cameraTransform.forward * BoxRaySize);
-
+        Gizmos.DrawRay(cameraTransform.position, cameraTransform.forward * MaxRayDistance);
         Gizmos.DrawWireCube(cameraTransform.position + MaxRayDistance * cameraTransform.forward, new Vector3(2 * BoxRaySize, 2 * BoxRaySize, 2 * BoxRaySize));
     }
 }

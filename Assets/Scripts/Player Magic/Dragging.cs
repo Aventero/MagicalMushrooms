@@ -32,7 +32,7 @@ public class Dragging : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit, Mathf.Infinity, draggingLayerMask))
         {
             Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.white);
-            if (hit.collider.CompareTag("Draggable"))
+            if (hit.collider.CompareTag("Draggable") && hit.collider.GetComponent<Rigidbody>() != null)
             {
                 Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green);
                 IsDragging = true;
@@ -42,7 +42,7 @@ public class Dragging : MonoBehaviour
         }
 
         // Dragging the object
-        if (IsDragging && draggingObject != null)
+        if (IsDragging && draggingObject)
         {
             draggingBody.isKinematic = false;
             draggingBody.interpolation = RigidbodyInterpolation.Interpolate;
