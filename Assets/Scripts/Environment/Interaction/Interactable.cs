@@ -4,14 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Outline))]
-public abstract class Interactable : MonoBehaviour
+public class Interactable : MonoBehaviour
 {
-    [Header("Sprites:")]
-    public Sprite InRangeSprite;
-    public Image Image;
     public Outline Outline;
     public string InteractionText;
-    private GameObject player;
+    protected GameObject player;
     public bool CanInteract = true;
 
     protected void Start()
@@ -22,18 +19,6 @@ public abstract class Interactable : MonoBehaviour
         Outline.enabled = true;
         Outline.OutlineWidth = 1;
         Outline.OutlineMode = Outline.Mode.OutlineAll;
-
-        if (Image)
-        {
-            Image.sprite = InRangeSprite;
-            Image.gameObject.SetActive(false);
-        }
-    }
-
-    protected void Update()
-    {
-        if(Image)
-            Image.transform.LookAt(player.transform);
     }
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -62,7 +47,28 @@ public abstract class Interactable : MonoBehaviour
             UIManager.Instance.HideInteractionText();
     }
 
-    public abstract void Interact();
-    public abstract void InPlayerSight();
-    public abstract void OutOfPlayerSight();
+    public virtual void Interact()
+    {
+
+    }
+
+    public virtual void InPlayerSight()
+    {
+        UIManager.Instance.ShowInteractionText(InteractionText);
+
+    }
+    public virtual void OutOfPlayerSight()
+    {
+        UIManager.Instance.HideInteractionText();
+    }
+
+    private void OnDisable()
+    {
+        UIManager.Instance.HideInteractionText();
+    }
+
+    private void OnDestroy()
+    {
+        UIManager.Instance.HideInteractionText();
+    }
 }

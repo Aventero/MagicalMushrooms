@@ -9,21 +9,12 @@ public class CageOpener : Interactable
     public float MaxTime = 3;
     public int Degrees = 180;
 
-    public override void InPlayerSight()
-    {
-        UIManager.Instance.ShowInteractionText(InteractionText);
-    }
-
     public override void Interact()
     {
+        base.Interact();
         Debug.Log("Starting to turn?");
         CanInteract = false;
         StartCoroutine(OpenDoorOverTime());
-    }
-
-    public override void OutOfPlayerSight()
-    {
-        UIManager.Instance.HideInteractionText();
     }
 
     private IEnumerator OpenDoorOverTime()
@@ -43,15 +34,5 @@ public class CageOpener : Interactable
         GetComponent<Outline>().enabled = false;
         enabled = false;
         // Todo: Actually make it not interactable anymore
-    }
-
-    private void OnDisable()
-    {
-        UIManager.Instance.HideInteractionText();
-    }
-
-    private void OnDestroy()
-    {
-        UIManager.Instance.HideInteractionText();
     }
 }

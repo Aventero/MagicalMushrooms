@@ -68,11 +68,12 @@ public class PlayerStateMachine : MonoBehaviour
     public float WalkingSpeed { get => walkingSpeed; }
     public float CurrentSpeed { get => currentSpeed; set => currentSpeed = value; }
 
+    public Vector3 ExternalMovement = Vector3.zero;
+
     private void Awake()
     {
         // Initialize
         currentSpeed = walkingSpeed;
-        playerInput = new PlayerInput();
         characterController = GetComponent<CharacterController>();
 
         states = new PlayerStateFactory(this);
@@ -80,27 +81,25 @@ public class PlayerStateMachine : MonoBehaviour
         currentState.EnterState();
 
         // Look
-        playerInput.CharacterControls.Look.started += OnMouseInput;
-        playerInput.CharacterControls.Look.canceled += OnMouseInput;
-        playerInput.CharacterControls.Look.performed += OnMouseInput;
+        //playerInput.CharacterControls.Look.started += OnMouseInput;
+        //playerInput.CharacterControls.Look.canceled += OnMouseInput;
+        //playerInput.CharacterControls.Look.performed += OnMouseInput;
 
-        // Move
-        playerInput.CharacterControls.Move.started += OnMovementInput;
-        playerInput.CharacterControls.Move.canceled += OnMovementInput;
-        playerInput.CharacterControls.Move.performed += OnMovementInput;
+        //// Move
+        //playerInput.CharacterControls.Move.started += OnMovementInput;
+        //playerInput.CharacterControls.Move.canceled += OnMovementInput;
+        //playerInput.CharacterControls.Move.performed += OnMovementInput;
 
-        // Run 
-        playerInput.CharacterControls.Sneak.started += OnSneakInput;
-        playerInput.CharacterControls.Sneak.canceled += OnSneakInput;
+        //// Run 
+        //playerInput.CharacterControls.Sneak.started += OnSneakInput;
+        //playerInput.CharacterControls.Sneak.canceled += OnSneakInput;
 
-        // Jump 
-        playerInput.CharacterControls.Jump.started += OnJumpInput;
-        playerInput.CharacterControls.Jump.canceled += OnJumpInput;
+        //// Jump 
+        //playerInput.CharacterControls.Jump.started += OnJumpInput;
+        //playerInput.CharacterControls.Jump.canceled += OnJumpInput;
 
         // JumpSetup
         SetupJumpVariables();
-
-
     }
 
     private void Start()
@@ -121,7 +120,7 @@ public class PlayerStateMachine : MonoBehaviour
         
         // Move the player
         if (CanMove)
-            characterController.Move(appliedMovement * Time.deltaTime);
+            characterController.Move(appliedMovement * Time.deltaTime + ExternalMovement);
     }
 
     private void LateUpdate()
@@ -173,24 +172,24 @@ public class PlayerStateMachine : MonoBehaviour
         initialJumpVelocity = 2.0f * maxJumpHeight / timeToApex;  // Starting velocity of the jump
     }
 
-    void OnJumpInput(InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context)
     {
         isJumpPressed = context.ReadValueAsButton();
     }
 
-    void OnSneakInput(InputAction.CallbackContext context)
+    public void OnSneak(InputAction.CallbackContext context)
     {
         isSneakPressed = context.ReadValueAsButton();
 
     }
 
-    void OnMovementInput(InputAction.CallbackContext context)
+    public void OnMovement(InputAction.CallbackContext context)
     {
         currentMovementInput = context.ReadValue<Vector2>();
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0; // x or y != 0 means player moves
     }
 
-    void OnMouseInput(InputAction.CallbackContext context)
+    public void OnMouse(InputAction.CallbackContext context)
     {
         currentMouseInput = context.ReadValue<Vector2>();
         currentMouseVector = currentMouseInput * mouseSensitivity * Time.deltaTime;
@@ -213,11 +212,11 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void OnEnable()
     {
-        playerInput.CharacterControls.Enable();
+        //playerInput.CharacterControls.Enable();
     }
 
     private void OnDisable()
     {
-        playerInput.CharacterControls.Disable();
+        //playerInput.CharacterControls.Disable();
     }
 }

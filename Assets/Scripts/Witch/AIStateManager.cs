@@ -70,7 +70,7 @@ public class AIStateManager : MonoBehaviour
 
         currentState = states["Idle"];
         currentState.EnterState();
-        Debug.Log(currentState.StateName);
+        //Debug.Log(currentState.StateName);
     }
 
     public void SetWalkPoint(Vector3 point)
@@ -130,7 +130,7 @@ public class AIStateManager : MonoBehaviour
 
     public void TransitionToState(string stateName)
     {
-        Debug.Log("Transitioning to " + stateName);
+        //Debug.Log("Transitioning to " + stateName);
         previousState = currentState;
         currentState.ExitState();
         currentState = states[stateName];
