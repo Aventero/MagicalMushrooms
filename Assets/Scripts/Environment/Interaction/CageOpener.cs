@@ -7,32 +7,33 @@ public class CageOpener : Interactable
 {
     public float OpeningSpeed = 1f;
     public float MaxTime = 3;
-    public int Degrees = 180;
+    public int Degrees = 150;
 
     public override void Interact()
     {
         base.Interact();
         Debug.Log("Starting to turn?");
         CanInteract = false;
+        GetComponent<Outline>().enabled = false;
         StartCoroutine(OpenDoorOverTime());
     }
 
     private IEnumerator OpenDoorOverTime()
     {
-        float deltaTime = 0f;
-        Vector3 axis = transform.up;
 
+        float deltaTime = 0f;
         while (deltaTime < MaxTime)
         {
             deltaTime += Time.deltaTime;
-
-            float rotationAmount = Mathf.LerpAngle(0, Degrees, deltaTime / MaxTime);
-            transform.rotation = Quaternion.Euler(axis * rotationAmount);
+            float t = deltaTime / MaxTime;
+            transform.localRotation = Quaternion.AngleAxis(t * Degrees, transform.up);
             yield return null;
         }
-
-        GetComponent<Outline>().enabled = false;
         enabled = false;
-        // Todo: Actually make it not interactable anymore
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, transform.position + transform.up * 10f);
     }
 }

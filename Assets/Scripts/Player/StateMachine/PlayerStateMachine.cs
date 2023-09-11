@@ -128,9 +128,6 @@ public class PlayerStateMachine : MonoBehaviour
         HandleRotation();
     }
 
-    private void OnDrawGizmos()
-    {
-    }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -212,11 +209,13 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void OnEnable()
     {
-        //playerInput.CharacterControls.Enable();
     }
 
     private void OnDisable()
     {
-        //playerInput.CharacterControls.Disable();
+    }
+    
+    private void OnDrawGizmos()
+    {
     }
 }

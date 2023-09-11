@@ -21,7 +21,7 @@ public class Interactable : MonoBehaviour
         Outline.OutlineMode = Outline.Mode.OutlineAll;
     }
 
-    protected virtual void OnTriggerEnter(Collider other)
+    public virtual void OnTriggerEnter(Collider other)
     {
         if (CanInteract)
         {
@@ -33,12 +33,12 @@ public class Interactable : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    public void OnTriggerStay(Collider other)
     {
         OnTriggerEnter(other);
     }
 
-    protected virtual void OnTriggerExit(Collider other)
+    public virtual void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag("Player"))
             return;

@@ -11,6 +11,7 @@ public class MovingPlatform : Interactable
     public float Speed = 2.0f;
     public float MaxTime = 3.0f;
     public float Height = 0.5f;
+    public float ElapsedTime = 0;
 
     private void Awake()
     {
@@ -33,36 +34,43 @@ public class MovingPlatform : Interactable
 
     public override void Interact()
     {
-
         CanInteract = false;
         SwapStartEnd();
-        
-        //player.transform.SetParent(gameObject.transform);
-        StartCoroutine(MoveTowards(Destination));
+        player.transform.SetParent(gameObject.transform);
     }
 
-    private IEnumerator MoveTowards(Vector3 destination)
+    private void FixedUpdate()
     {
-        PlayerStateMachine playerStateMachine = player.GetComponent<PlayerStateMachine>();
-        float deltaTime = 0;
-        while (deltaTime < MaxTime)
-        {
-            // TODO: Player has an External Velocity vector thats added to the players movement.
-            // TODO: Make the Platform a cage?
+        if (!ReachedDestination())
+            MovePlatform();
+        if (ReachedDestination())
+            CanInteract = true;
+    }
 
-            // TODO: Just make the player float and let him fly to another place
-            // So the platform is the child thats moving with the player
-            // Teleport the player on the platform
-            // Cage transport system? xD
+    private bool ReachedDestination()
+    {
+        if (Vector3.Distance(transform.position, Destination) < 0.05f)
+            return true;
+        return false;
+    }
 
-            Vector3 change = transform.position;
-            transform.position = Vector3.Lerp(StartingPosition, destination, deltaTime / MaxTime);
-            playerStateMachine.ExternalMovement = transform.position - change;
-            deltaTime += Time.deltaTime * Speed;
-            yield return null;
-        }
-        playerStateMachine.ExternalMovement = Vector3.zero;
-        CanInteract = true;
-        player.transform.SetParent(null);
+    private void MovePlatform()
+    {
+        transform.position = transform.position + (Speed * Time.deltaTime * (Destination - StartingPosition).normalized);
+    }
+
+
+    public override void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
+        if (other.CompareTag("Player"))
+            player.transform.SetParent(gameObject.transform);
+    }
+
+    public override void OnTriggerExit(Collider other)
+    {
+        base.OnTriggerExit(other);
+        if (other.CompareTag("Player"))
+            player.transform.SetParent(null);
     }
 }
