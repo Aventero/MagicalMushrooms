@@ -62,6 +62,33 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SmokeBomb"",
+                    ""type"": ""Button"",
+                    ""id"": ""fba01289-c38a-4dbe-9425-60ac9cb1f160"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Poltergeist"",
+                    ""type"": ""Button"",
+                    ""id"": ""a1c9c5f9-43f2-4b47-9b6e-5124b88eada3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MagicCloak"",
+                    ""type"": ""Button"",
+                    ""id"": ""44ad7703-59ae-4564-a8ec-17a1b0e4b180"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -196,6 +223,39 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ffa09bf6-150c-435b-93da-5788241aaa47"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SmokeBomb"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""44780337-8199-4df5-94c3-c1726b381d54"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Poltergeist"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5d77ca99-ec57-43e1-b20e-f55cac7ed7ba"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""MagicCloak"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -785,6 +845,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_CharacterControls_Jump = m_CharacterControls.FindAction("Jump", throwIfNotFound: true);
         m_CharacterControls_Sneak = m_CharacterControls.FindAction("Sneak", throwIfNotFound: true);
         m_CharacterControls_Move = m_CharacterControls.FindAction("Move", throwIfNotFound: true);
+        m_CharacterControls_SmokeBomb = m_CharacterControls.FindAction("SmokeBomb", throwIfNotFound: true);
+        m_CharacterControls_Poltergeist = m_CharacterControls.FindAction("Poltergeist", throwIfNotFound: true);
+        m_CharacterControls_MagicCloak = m_CharacterControls.FindAction("MagicCloak", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -860,6 +923,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_CharacterControls_Jump;
     private readonly InputAction m_CharacterControls_Sneak;
     private readonly InputAction m_CharacterControls_Move;
+    private readonly InputAction m_CharacterControls_SmokeBomb;
+    private readonly InputAction m_CharacterControls_Poltergeist;
+    private readonly InputAction m_CharacterControls_MagicCloak;
     public struct CharacterControlsActions
     {
         private @PlayerInput m_Wrapper;
@@ -868,6 +934,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_CharacterControls_Jump;
         public InputAction @Sneak => m_Wrapper.m_CharacterControls_Sneak;
         public InputAction @Move => m_Wrapper.m_CharacterControls_Move;
+        public InputAction @SmokeBomb => m_Wrapper.m_CharacterControls_SmokeBomb;
+        public InputAction @Poltergeist => m_Wrapper.m_CharacterControls_Poltergeist;
+        public InputAction @MagicCloak => m_Wrapper.m_CharacterControls_MagicCloak;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -889,6 +958,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Move.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnMove;
+                @SmokeBomb.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnSmokeBomb;
+                @SmokeBomb.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnSmokeBomb;
+                @SmokeBomb.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnSmokeBomb;
+                @Poltergeist.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPoltergeist;
+                @Poltergeist.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPoltergeist;
+                @Poltergeist.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPoltergeist;
+                @MagicCloak.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnMagicCloak;
+                @MagicCloak.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnMagicCloak;
+                @MagicCloak.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnMagicCloak;
             }
             m_Wrapper.m_CharacterControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -905,6 +983,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @SmokeBomb.started += instance.OnSmokeBomb;
+                @SmokeBomb.performed += instance.OnSmokeBomb;
+                @SmokeBomb.canceled += instance.OnSmokeBomb;
+                @Poltergeist.started += instance.OnPoltergeist;
+                @Poltergeist.performed += instance.OnPoltergeist;
+                @Poltergeist.canceled += instance.OnPoltergeist;
+                @MagicCloak.started += instance.OnMagicCloak;
+                @MagicCloak.performed += instance.OnMagicCloak;
+                @MagicCloak.canceled += instance.OnMagicCloak;
             }
         }
     }
@@ -1065,6 +1152,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnSneak(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+        void OnSmokeBomb(InputAction.CallbackContext context);
+        void OnPoltergeist(InputAction.CallbackContext context);
+        void OnMagicCloak(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
