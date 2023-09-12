@@ -1,75 +1,84 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class MovingPlatform : Interactable
+public class MovingPlatform : MonoBehaviour
 {
-    public Transform StartPoint;
-    public Transform EndPoint;
-    public Vector3 Destination;
-    public Vector3 StartingPosition;
+    public Transform Start;
+    public Transform End;
     public float Speed = 2.0f;
-    public float MaxTime = 3.0f;
-    public float Height = 0.5f;
-    public float ElapsedTime = 0;
+    public float WaitTime = 2f;
+    private GameObject player;
+    private float ElapsedTime = 0;
+    private float TimeToDestination = 0;
+    private float distance;
+    private bool canMove = true;
 
     private void Awake()
     {
-        StartingPosition = EndPoint.position;
-        Destination = StartPoint.position;
+        player = GameObject.FindGameObjectWithTag("Player");
+        CalculateTimeNeeded();
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(StartingPosition, Destination);
-        Gizmos.DrawWireSphere(Destination, 0.3f);
-    }
-
-    private void SwapStartEnd()
-    {
-        Vector3 tmp = Destination;
-        Destination = StartingPosition;
-        StartingPosition = tmp;
-    }
-
-    public override void Interact()
-    {
-        CanInteract = false;
-        SwapStartEnd();
-        player.transform.SetParent(gameObject.transform);
+        Gizmos.DrawLine(Start.position, End.position);
+        Gizmos.DrawWireSphere(End.position, 0.3f);
     }
 
     private void FixedUpdate()
     {
-        if (!ReachedDestination())
-            MovePlatform();
-        if (ReachedDestination())
-            CanInteract = true;
+        if (canMove)
+        {
+            float percentageTraveled = MovePlatform();
+            if (percentageTraveled >= 1)
+            {
+                canMove = false;
+                StartCoroutine(WaitThenSwap());
+            }
+        }
     }
 
-    private bool ReachedDestination()
+    private float MovePlatform()
     {
-        if (Vector3.Distance(transform.position, Destination) < 0.05f)
-            return true;
-        return false;
+        Wobble wobble = GetComponent<Wobble>();
+        ElapsedTime += Time.deltaTime;
+        float percentageTraveled = ElapsedTime / TimeToDestination;
+        percentageTraveled = Mathf.SmoothStep(0, 1, percentageTraveled);
+        Vector3 positionBefore = Vector3.Lerp(Start.position, End.position, percentageTraveled);
+        transform.position = wobble.WobbleAtTime(positionBefore, percentageTraveled);
+        return percentageTraveled;
     }
 
-    private void MovePlatform()
+    IEnumerator WaitThenSwap()
     {
-        transform.position = transform.position + (Speed * Time.deltaTime * (Destination - StartingPosition).normalized);
+        yield return new WaitForSeconds(WaitTime);
+        SwapStartEnd();
+        canMove = true;
     }
 
-
-    public override void OnTriggerEnter(Collider other)
+    private void SwapStartEnd()
     {
-        base.OnTriggerEnter(other);
+        (Start, End) = (End, Start);
+        CalculateTimeNeeded();
+    }
+
+    private void CalculateTimeNeeded()
+    {
+        distance = Vector3.Distance(transform.position, End.position);
+        ElapsedTime = 0;
+        TimeToDestination = distance / Speed;
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
         if (other.CompareTag("Player"))
             player.transform.SetParent(gameObject.transform);
     }
 
-    public override void OnTriggerExit(Collider other)
+    public void OnTriggerExit(Collider other)
     {
-        base.OnTriggerExit(other);
         if (other.CompareTag("Player"))
             player.transform.SetParent(null);
     }
