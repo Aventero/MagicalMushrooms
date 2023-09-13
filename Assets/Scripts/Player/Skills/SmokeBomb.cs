@@ -3,8 +3,9 @@ using UnityEngine;
 public class SmokeBomb: MonoBehaviour
 {
     [Header("Throwing")]
-    public float mass = 5;
-    public float throwStrength = 5f;
+    public float mass = 3;
+    public float throwStrength = 15;
+    public Vector3 cameraAngleAdjustment = new(0, 0.8f, 0);
 
     [Header("Line")]
     public int linePoints = 25;
@@ -54,7 +55,7 @@ public class SmokeBomb: MonoBehaviour
         lineRenderer.positionCount = Mathf.CeilToInt(linePoints / timeBetweenPoints) + 1;
         
         Vector3 startPosition = releaseTransform.position;
-        Vector3 startVelocity = throwStrength * Camera.main.transform.forward / mass;
+        Vector3 startVelocity = throwStrength * (Camera.main.transform.forward + cameraAngleAdjustment) / mass;
 
         int lineIndex = 0;
         lineRenderer.SetPosition(lineIndex, startPosition);
