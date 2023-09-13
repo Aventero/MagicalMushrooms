@@ -11,11 +11,11 @@ internal class AIStateAttack : MonoBehaviour, IAIState
     public AIStateManager AIStateManager { get => stateManager; }
     private AIStateManager stateManager;
 
-    public TwoBoneIKConstraint HandIK;
-    public MultiAimConstraint MultiAimHand;
-    public GameObject PullPoint;
-    public float ReachTime = 2f;
-    public float PullSpeed = 2f;
+    //public TwoBoneIKConstraint HandIK;
+    //public MultiAimConstraint MultiAimHand;
+    //public GameObject PullPoint;
+    //public float ReachTime = 2f;
+    //public float PullSpeed = 2f;
 
     private Transform player;
     private bool pulling = false;
@@ -53,68 +53,71 @@ internal class AIStateAttack : MonoBehaviour, IAIState
         if (stateManager.HasLostPlayer() && !attacking)
             stateManager.TransitionToState("LostPlayer");
 
-        if (!stateManager.agent.pathPending && stateManager.agent.remainingDistance < stateManager.agent.stoppingDistance && !attacking)
-        {
-            stateManager.StopAgent();
-            attacking = true;
-            StartCoroutine(ReachOutHand(ReachTime));
-        }
-    }
-
-    IEnumerator ReachOutHand(float reachTime)
-    {
-        // Activate playermovement
-        player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(false);
-        StartCoroutine(PullToPullPoint());
-
-        // Lerp hand to Pullpoint
-        float delta = 0;
-        while (delta <= reachTime)
-        {
-            delta += Time.deltaTime;
-            MultiAimHand.weight = HandIK.weight =  Mathf.Lerp(0, 1, delta / reachTime);
-            yield return null;
-        }
-
-        // Start pulling the player
-        yield return new WaitForSeconds(reachTime);
-        yield return new WaitUntil(() => pulling == false);
-
-        // Pulling was done
-        stateManager.DangerBlit.SetState(DangerState.Damage);
-        player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(true);
-
-        CheckpointManager.Instance.RespawnPlayer();
-
-        // Lerp hand back
-        delta = 0;
-        while (delta <= reachTime)
-        {
-            delta += Time.deltaTime;
-            MultiAimHand.weight = HandIK.weight = Mathf.Lerp(1, 0, delta / reachTime);
-            yield return null;
-        }
-
-        attacking = false;
+        stateManager.StopAgent();
         stateManager.TransitionToState("IgnorePlayerIdle");
-
-        StopCoroutine(PullToPullPoint());
-        yield return null;
+        
+        //if (!stateManager.agent.pathPending && stateManager.agent.remainingDistance < stateManager.agent.stoppingDistance && !attacking)
+        //{
+        //    stateManager.StopAgent();
+        //attacking = true;
+        //StartCoroutine(ReachOutHand(ReachTime));
+        //}
     }
 
-    IEnumerator PullToPullPoint()
-    {
-        // Slowly sucks the player toward the pulling point
-        pulling = true;
-        while (Vector3.Distance(PullPoint.transform.position, player.transform.position) > 1f)
-        {
-            CharacterController controller = player.gameObject.GetComponent<CharacterController>();
-            controller.Move((PullPoint.transform.position - player.transform.position).normalized * Time.deltaTime * PullSpeed);
-            yield return null;
-        }
-        pulling = false;
-        yield return null;
-    }
+    //IEnumerator ReachOutHand(float reachTime)
+    //{
+    //    // Activate playermovement
+    //    player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(false);
+    //    StartCoroutine(PullToPullPoint());
+
+    //    // Lerp hand to Pullpoint
+    //    float delta = 0;
+    //    while (delta <= reachTime)
+    //    {
+    //        delta += Time.deltaTime;
+    //        MultiAimHand.weight = HandIK.weight =  Mathf.Lerp(0, 1, delta / reachTime);
+    //        yield return null;
+    //    }
+
+    //    // Start pulling the player
+    //    yield return new WaitForSeconds(reachTime);
+    //    yield return new WaitUntil(() => pulling == false);
+
+    //    // Pulling was done
+    //    stateManager.DangerBlit.SetState(DangerState.Damage);
+    //    player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(true);
+
+    //    CheckpointManager.Instance.RespawnPlayer();
+
+    //    // Lerp hand back
+    //    delta = 0;
+    //    while (delta <= reachTime)
+    //    {
+    //        delta += Time.deltaTime;
+    //        MultiAimHand.weight = HandIK.weight = Mathf.Lerp(1, 0, delta / reachTime);
+    //        yield return null;
+    //    }
+
+    //    attacking = false;
+    //    stateManager.TransitionToState("IgnorePlayerIdle");
+
+    //    StopCoroutine(PullToPullPoint());
+    //    yield return null;
+    //}
+
+    //IEnumerator PullToPullPoint()
+    //{
+    //    // Slowly sucks the player toward the pulling point
+    //    pulling = true;
+    //    while (Vector3.Distance(PullPoint.transform.position, player.transform.position) > 1f)
+    //    {
+    //        CharacterController controller = player.gameObject.GetComponent<CharacterController>();
+    //        controller.Move((PullPoint.transform.position - player.transform.position).normalized * Time.deltaTime * PullSpeed);
+    //        yield return null;
+    //    }
+    //    pulling = false;
+    //    yield return null;
+    //}
 
 
 }
