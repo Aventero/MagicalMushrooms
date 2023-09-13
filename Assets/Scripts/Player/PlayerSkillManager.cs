@@ -1,10 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerSkillManager : MonoBehaviour
 {
+    private SmokeBomb smokeBomb;
+
+    private void Start()
+    {
+        smokeBomb = GetComponent<SmokeBomb>();
+    }
+
     public void OnPoltergeist(InputAction.CallbackContext callback)
     {
         if (!callback.performed)
@@ -13,16 +18,17 @@ public class PlayerSkillManager : MonoBehaviour
         Debug.Log("Activating Poltergeist");
     }
 
-
     public void OnSmokeBomb(InputAction.CallbackContext callback)
     {
         if (!callback.performed)
             return;
 
-        SmokeBomb smokeBomb = new();
-
-        //TODO: Do smokebomb stuff
         Debug.Log("Activating Smoke bomb");
+
+        if (smokeBomb.IsActivated)
+            smokeBomb.Deactivate();
+        else
+            smokeBomb.Activate();
     }
 
     public void OnMagicCloak(InputAction.CallbackContext callback)

@@ -1,23 +1,27 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
 public class CircleSpawner : MonoBehaviour
 {
     public GameObject circlePrefab;
     public float yPosition = -0.1f;
 
-    public void SpawnAndGrowCircle(float lifetime, float maxCircleSize)
+    public GameObject Spawn(Vector3 position, float circleSize)
     {
-        GameObject newCircle = Instantiate(circlePrefab, transform.position + new Vector3(0, yPosition, 0), circlePrefab.transform.rotation);
-        StartCoroutine(GrowCircle(newCircle, lifetime, maxCircleSize));
+        GameObject newCircle = Instantiate(circlePrefab, position, circlePrefab.transform.rotation);
+        SpriteRenderer spriteRenderer = newCircle.GetComponent<SpriteRenderer>();
+        spriteRenderer.GetComponent<SpriteRenderer>().transform.localScale = new Vector3(circleSize, circleSize, 1);
+
+        return newCircle;
     }
 
-    private IEnumerator GrowCircle(GameObject circle, float lifetime, float maxCircleSize)
+    public void SpawnAndGrow(float lifetime, float maxCircleSize)
+    {
+        GameObject newCircle = Instantiate(circlePrefab, transform.position + new Vector3(0, yPosition, 0), circlePrefab.transform.rotation);
+        StartCoroutine(Grow(newCircle, lifetime, maxCircleSize));
+    }
+
+    private IEnumerator Grow(GameObject circle, float lifetime, float maxCircleSize)
     {
         float timer = 0;
         SpriteRenderer circleRenderer = circle.GetComponent<SpriteRenderer>();
