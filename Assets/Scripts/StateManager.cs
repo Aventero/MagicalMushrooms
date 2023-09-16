@@ -49,7 +49,6 @@ public class StateManager : MonoBehaviour
     { 
         if (this == Instance)
         {
-            Debug.Log("Setting null");
             Instance = null;  
         }
     }
