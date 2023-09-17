@@ -109,7 +109,7 @@ public class PositionSaverEditor : Editor
 
     private void OnPlayModeStateChanged(PlayModeStateChange state)
     {
-        if (state == PlayModeStateChange.ExitingPlayMode && autoRestoreEnabled)
+        if (state == PlayModeStateChange.ExitingPlayMode && autoRestoreEnabled && selectedObject != null)
         {
             // Automatically restore the position and rotation when exiting play mode
             EditorCoroutineUtility.StartCoroutineOwnerless(RestoreTransformDelayed());

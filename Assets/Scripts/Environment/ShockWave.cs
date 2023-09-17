@@ -7,8 +7,7 @@ public class ShockWave : MonoBehaviour
     public string targetTag = "Draggable"; // Replace "YourTag" with the tag you're looking for
     public float radius = 5f; // Adjust the radius as needed
     public float LevitationTime = 3f;
-    public float Strength = 5f;
-    public AnimationCurve heightCurve;
+    public float LevitationHeight = 2f;
     Collider[] colliders;
 
     private void OnEnable()
@@ -26,15 +25,21 @@ public class ShockWave : MonoBehaviour
                 Rigidbody rb = collider.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
-                    rb.transform.AddComponent<Levitate>();
+                    Levitate levitate = rb.AddComponent<Levitate>();
+                    levitate.enabled = false;
+                    levitate.Initialize(LevitationHeight * Random.value);
+                    levitate.isLevitating = true;
+                    levitate.enabled = true;
                 }
             }
         }
+
+        StartCoroutine(StopLevitation());
     }
 
-    private void OnDisable()
+    IEnumerator StopLevitation()
     {
-        // Iterate through the colliders and check their tags
+        yield return new WaitForSeconds(LevitationTime);
         foreach (Collider collider in colliders)
         {
             if (collider == null)
@@ -42,17 +47,12 @@ public class ShockWave : MonoBehaviour
 
             if (collider.CompareTag(targetTag))
             {
-                // If the collider has the desired tag, you can access its components
-                // Example: Get the Rigidbody component
                 Rigidbody rb = collider.GetComponent<Rigidbody>();
                 if (rb != null)
-                {
                     Destroy(rb.gameObject.GetComponent<Levitate>());
-                }
             }
         }
     }
-
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, radius);
