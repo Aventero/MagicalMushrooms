@@ -18,7 +18,6 @@ internal class AIStateAttack : MonoBehaviour, IAIState
     //public float PullSpeed = 2f;
 
     private Transform player;
-    private bool pulling = false;
     private bool attacking = false;
 
     public void InitState(AIStateManager stateManager)
@@ -30,7 +29,6 @@ internal class AIStateAttack : MonoBehaviour, IAIState
     {
         stateManager.DangerBlit.SetState(DangerState.Attack);
         attacking = false;
-        pulling = false;
 
         stateManager.aiVision.PlayerWatching();
         player = stateManager.Player.transform;
