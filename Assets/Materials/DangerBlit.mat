@@ -20,6 +20,7 @@ Material:
     RenderType: Transparent
   disabledShaderPasses:
   - DepthOnly
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -43,21 +44,21 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _Blend: 0
-    - _CastShadows: 1
+    - _CastShadows: 0
     - _Cull: 2
-    - _DistToCell: 0.9
+    - _DistToCell: 0
     - _DstBlend: 10
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SrcBlend: 5
     - _Surface: 1
     - _Transparency: 0
-    - _VignietteIntensity: 0.739
-    - _VigniettePower: 15
+    - _VignietteIntensity: 0.961
+    - _VigniettePower: 6.8
     - _VignietteRadius: 4.6
-    - _VoronoyScale: 9.4
-    - _VoronoySpeed: 0.51
-    - _VoronyPower: 10.3
+    - _VoronoyScale: 50
+    - _VoronoySpeed: 0.9
+    - _VoronyPower: 1.4
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0

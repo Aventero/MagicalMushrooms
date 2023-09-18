@@ -42,11 +42,11 @@ public class AIStateManager : MonoBehaviour
 
     // Watching
     public AIVision aiVision { get; private set; }
-    public DangerBlit DangerBlit { get; private set; }
+    public DangerOverlay DangerBlit { get; private set; }
 
     void Awake()
     {
-        DangerBlit = GetComponent<DangerBlit>();
+        DangerBlit = GetComponent<DangerOverlay>();
         aiVision = GetComponent<AIVision>();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
@@ -70,7 +70,6 @@ public class AIStateManager : MonoBehaviour
 
         currentState = states["Idle"];
         currentState.EnterState();
-        //Debug.Log(currentState.StateName);
     }
 
     public void SetWalkPoint(Vector3 point)
@@ -130,7 +129,7 @@ public class AIStateManager : MonoBehaviour
 
     public void TransitionToState(string stateName)
     {
-        //Debug.Log("Transitioning to " + stateName);
+        Debug.Log("New State: " + stateName);
         previousState = currentState;
         currentState.ExitState();
         currentState = states[stateName];

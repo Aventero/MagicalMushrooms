@@ -28,7 +28,6 @@ internal class AIStatePatrol :  MonoBehaviour, IAIState
         // No Visible found or Its behind the witch -> Just watch foward
         if (visiblePointsAtNextDestination.Count == 0)
         {
-            Debug.Log("No visible point found!");
             patrolWatchPoint = stateManager.StandardWatchpoint.transform;
         }
         else

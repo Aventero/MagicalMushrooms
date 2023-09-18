@@ -39,7 +39,7 @@ public class AIStateLevitate : MonoBehaviour, IAIState
 
     private void LevitateObjectPlayerIsHidingBehind()
     {
-        stateManager.aiVision.ObjectPlayerIsHidingBehind.GetComponent<Draggable>().Levitate();
+        // stateManager.aiVision.ObjectPlayerIsHidingBehind.GetComponent<Draggable>().Levitate();
     }
 
     IEnumerator SearchAround()
