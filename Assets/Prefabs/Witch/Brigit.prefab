@@ -1802,7 +1802,7 @@ Transform:
   m_GameObject: {fileID: 4469095328606076453}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8727669201517544459}
@@ -2018,12 +2018,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ad15847515ff0641bdab0724e4941f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlitMaterial: {fileID: 2100000, guid: 09cd1f7479aa45045a785bd3b8618d55, type: 2}
+  DangerMaterial: {fileID: 0}
   WitchOutline: {fileID: 3658052458776571823}
+  Nothing: {r: 0, g: 0, b: 0, a: 0}
   PlayerIsSafe: {r: 1.5058824, g: 32, b: 0, a: 0}
   PlayerInDanger: {r: 31.999996, g: 9.190301, b: 0, a: 0}
   WitchAttacking: {r: 42.722507, g: 0, b: 0, a: 0}
   Damage: {r: 22.627417, g: 0, b: 10.736931, a: 0}
+  Intensity: 20
+  TargetColor: {r: 0, g: 0, b: 0, a: 0}
+  OldColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &3658052457786925145
 MonoBehaviour:
   m_ObjectHideFlags: 0
