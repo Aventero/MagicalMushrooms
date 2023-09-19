@@ -70,6 +70,7 @@ public class Dragging : MonoBehaviour
         if (IsDragging && Input.GetMouseButtonDown(0))
         {
             Outline outline = draggingBody.gameObject.AddComponent<Outline>();
+            outline.OutlineMode = Outline.Mode.OutlineAll;
             outline.enabled = true;
             outline.OutlineColor = Color.white;
             outline.OutlineWidth = 1;
