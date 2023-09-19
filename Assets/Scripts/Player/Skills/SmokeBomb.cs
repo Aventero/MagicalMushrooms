@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
 
-public class SmokeBomb: MonoBehaviour
+public class SmokeBomb : PlayerSkill
 {
     [Header("Throwing")]
     public float mass = 3;
@@ -12,17 +13,23 @@ public class SmokeBomb: MonoBehaviour
     public float timeBetweenPoints = 0.1f;
     public float circleSize;
 
+    [Header("Smoke Bomb")]
+    public float smokeTime;
+
     [Header("References")]
     public LineRenderer lineRenderer;
     public Transform releaseTransform;
     public GameObject circle;
+    public GameObject smokeEffect;
+    public GameObject throwingObject;
 
     private LayerMask ignoredLayer;
     private GameObject smokeCircle;
     private CircleSpawner circleSpawner;
+    private GameObject smoke;
 
     private bool drawProjection = false;
-    public bool IsActivated { get; private set; }
+    private Vector3 lastHit;
 
     private void Start()
     {
@@ -30,24 +37,32 @@ public class SmokeBomb: MonoBehaviour
         circleSpawner = GameObject.FindGameObjectWithTag("Player").GetComponent<CircleSpawner>();
     }
 
-    public void Activate()
+    public override void ShowPreview()
     {
         lineRenderer.enabled = true;
         drawProjection = true;
 
         if (IsActivated)
-            Deactivate();
+            HidePreview();
         else
             IsActivated = true;
     }
 
-    public void Deactivate()
+    public override void HidePreview()
     {
         IsActivated = false;
         drawProjection = false;
 
         lineRenderer.enabled = false;
         Destroy(smokeCircle);
+    }
+
+    public override void Execute()
+    {
+        Debug.Log("Smoke executed");
+        smoke = Instantiate(smokeEffect, this.transform);
+        smoke.transform.position = lastHit;
+        HidePreview();
     }
 
     public void DrawProjection()
@@ -77,13 +92,20 @@ public class SmokeBomb: MonoBehaviour
                 lineRenderer.SetPosition(lineIndex, hit.point);
                 lineRenderer.positionCount = lineIndex + 1;
 
-                smokeCircle = circleSpawner.Spawn(hit.point + new Vector3(0, 0.01f, 0), circleSize);
+                lastHit = hit.point + new Vector3(0, 0.01f, 0);
+                smokeCircle = circleSpawner.Spawn(lastHit, circleSize);
 
                 return;
             }
 
             lineRenderer.SetPosition(lineIndex, point);
         }
+    }
+
+    IEnumerator RemoveSmokeAfterXSeconds()
+    {
+        yield return new WaitForSeconds(smokeTime);
+        Destroy(smoke);
     }
 
     public void Update()
