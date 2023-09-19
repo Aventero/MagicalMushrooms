@@ -43,22 +43,22 @@ public class DangerOverlay : MonoBehaviour
         {
             case DangerState.Safe:
                 TargetColor = PlayerIsSafe;
-                WitchOutline.OutlineMode = Outline.Mode.OutlineAll;
+                WitchOutline.OutlineMode = Outline.Mode.OutlineVisible;
                 WitchOutline.OutlineColor = Color.green;
                 break;
             case DangerState.Danger:
                 TargetColor = PlayerInDanger;
-                WitchOutline.OutlineMode = Outline.Mode.OutlineAll;
+                WitchOutline.OutlineMode = Outline.Mode.OutlineVisible;
                 WitchOutline.OutlineColor = Color.yellow;
                 break;
             case DangerState.Attack:
                 TargetColor = WitchAttacking;
-                WitchOutline.OutlineMode = Outline.Mode.OutlineAll;
+                WitchOutline.OutlineMode = Outline.Mode.OutlineVisible;
                 WitchOutline.OutlineColor = Color.red;
                 break;
             case DangerState.Damage:
                 TargetColor = Damage;
-                WitchOutline.OutlineMode = Outline.Mode.OutlineAll;
+                WitchOutline.OutlineMode = Outline.Mode.OutlineVisible;
                 WitchOutline.OutlineColor = Color.magenta;
                 break;
             case DangerState.Nothing:
