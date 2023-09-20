@@ -23,14 +23,14 @@ public class AIVision : MonoBehaviour
     public Vector3 currentWatchTarget { get; set; }
     private Vector3 SmoothVelocity = Vector3.zero;
     private Vector3 smoothingPosition;
-    public float SmoothTime = 0.3f;
-    public float HuntSmoothTime = 0.1f;
+    public float SmoothTime = 0.5f;
+    public float HuntSmoothTime = 0.5f;
     private float currentSmoothTime = 0f;
 
     private AIStateManager aiStateManager;
-    public Slider Slider;
+    [ReadOnly]
+    public GameObject ObjectPlayerIsHidingBehind = null;
 
-    // Start is called before the first frame update
     void Start()
     {
         aiStateManager = GetComponent<AIStateManager>();
@@ -73,8 +73,11 @@ public class AIVision : MonoBehaviour
 
     private bool PlayerVisible()
     {
-        if (!StateManager.Instance.WitchConeOnPlayer)
+        if (!StateManager.Instance.IsVisionConeOnPlayer)
+        {
+            ObjectPlayerIsHidingBehind = null;
             return false;
+        }
 
         // Only Look at Prop and Player!
         LayerMask layerMask = LayerMask.GetMask("Prop");
@@ -85,13 +88,20 @@ public class AIVision : MonoBehaviour
         {
             Debug.DrawLine(ViewCone.transform.position, hitInfo.transform.position, Color.green);
 
+            if (hitInfo.collider.CompareTag("Draggable"))
+            {
+                ObjectPlayerIsHidingBehind = hitInfo.transform.gameObject;
+                return false;
+            }
+
             if (hitInfo.transform.CompareTag("Player"))
             {
                 Debug.DrawLine(ViewCone.transform.position, Player.transform.position, Color.magenta);
+                ObjectPlayerIsHidingBehind = null;
                 return true;
             }
         }
-
+        ObjectPlayerIsHidingBehind = null;
         return false;
     }
 
@@ -103,7 +113,6 @@ public class AIVision : MonoBehaviour
             if (findingTimer >= AlertTime)
             {
                 losingTimer = 0f;
-                Slider.value = Slider.maxValue;
                 return true;
             }
 
@@ -121,7 +130,6 @@ public class AIVision : MonoBehaviour
             if (losingTimer >= LosingTime)
             {
                 findingTimer = 0f;
-                Slider.value = Slider.maxValue;
                 return true;
             }
 
@@ -130,42 +138,4 @@ public class AIVision : MonoBehaviour
 
         return false;
     }
-
-    //public bool HasJustLostPlayer()
-    //{
-    //    if (!PlayerIsVisible && IsHuntingPlayer)
-    //    {
-    //        losingTimer += Time.deltaTime;
-    //        if (losingTimer >= LosingTime)
-    //        {
-    //            findingTimer = 0f;
-    //            losingTimer = 0f;
-    //            IsHuntingPlayer = false;
-    //            StartCoroutine(LerpBlit(0f, BlitTime, false));
-    //            return true;
-    //        }
-    //    }
-
-    //    return false;
-    //}
-
-    //public bool HasJustFoundPlayer()
-    //{
-    //    if (PlayerIsVisible && !IsHuntingPlayer)
-    //    {
-    //        findingTimer += Time.deltaTime;
-    //        if (findingTimer >= AlertTime)
-    //        {
-    //            findingTimer = 0f;
-    //            losingTimer = 0f;
-    //            Slider.value = Slider.maxValue;
-    //            IsHuntingPlayer = true;
-    //            ScriptableRenderer.SetActive(true);
-    //            StartCoroutine(LerpBlit(0.2f, BlitTime, true));
-    //            return true;
-    //        }
-    //    }
-
-    //    return false;
-    //}
 }

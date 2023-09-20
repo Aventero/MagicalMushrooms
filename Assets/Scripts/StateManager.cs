@@ -6,14 +6,14 @@ using UnityEngine.Events;
 public class StateManager : MonoBehaviour
 {
     public static StateManager Instance { get; private set; }
+    public OverlayMenu OverlayMenu;
 
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
-
         if (Instance != null && Instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         else
         {
@@ -21,21 +21,56 @@ public class StateManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        PauseGameEvent.AddListener(StopTime);
+        ResumeGameEvent.AddListener(StartTime);
+        Init();
+        //OverlayMenu.ShowDialog();
+    }
+
+    private void Init()
+    {
+        ResumeGameEvent.Invoke();
+    }
+
+
+    private void StartTime()
+    {
+        Time.timeScale = 1;
+    }
+
+    private void StopTime()
+    {
+        Time.timeScale = 0;
+    }
+
+    private void OnDestroy() 
+    { 
+        if (this == Instance)
+        {
+            Instance = null;  
+        }
+    }
+
     public bool OnElevator = false;
-
-    // Witch
-    public bool WitchConeOnPlayer = false;
-
-    // Camera
+    public bool IsVisionConeOnPlayer = false;
     public bool isLockedOnWitchHead = false;
-
     public bool InMenu = false;
 
     // Custom Events
+    [HideInInspector]
     public UnityAction AllItemsCollectedEvent;
+    [HideInInspector]
     public UnityAction GameOverEvent;
-    public UnityAction PauseGameEvent;
-    public UnityAction ResumeGameEvent;
+    [HideInInspector]
+    public UnityEvent PauseGameEvent;
+    [HideInInspector]
+    public UnityEvent ResumeGameEvent;
+    [HideInInspector]
+    public UnityEvent RespawnPlayerEvent;
+    [HideInInspector]
+    public UnityEvent NewCheckpointEvent;
 
     public delegate void DealDamageCallBack(int damage);
     public DealDamageCallBack DealDamageEvent;

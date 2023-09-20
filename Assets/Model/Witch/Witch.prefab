@@ -61,7 +61,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5467848831547116629}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7327985132758969811
 MonoBehaviour:
@@ -147,7 +147,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5467848831547116629}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6279772275821685625
 MonoBehaviour:
@@ -227,7 +227,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3222409443711155304}
   m_LocalRotation: {x: -0.000000007450581, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: 10}
+  m_LocalPosition: {x: 0.11, y: 11.31, z: 5.79}
   m_LocalScale: {x: 15.83, y: 15.829999, z: 15.83}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -290,7 +290,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5078216278145940838}
   m_LocalRotation: {x: -0, y: 0.97461283, z: -0, w: -0.22389723}
-  m_LocalPosition: {x: 31.800001, y: 0, z: -34.7}
+  m_LocalPosition: {x: 31.800003, y: 0, z: -34.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1733,6 +1733,8 @@ GameObject:
   - component: {fileID: 330345498339260513}
   - component: {fileID: 1671322705635581028}
   - component: {fileID: 5424578713402036379}
+  - component: {fileID: 1390228576803306338}
+  - component: {fileID: 8317708068913957313}
   m_Layer: 2
   m_Name: Witch
   m_TagString: Untagged
@@ -1815,16 +1817,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ViewCone: {fileID: 0}
-  ScriptableRenderer: {fileID: 0}
-  BlitMaterial: {fileID: 0}
   CurrentWatchTarget: {fileID: 0}
   RaycastPoint: {fileID: 0}
   AlertTime: 0.5
   LosingTime: 1
   SmoothTime: 0.3
   HuntSmoothTime: 0.1
-  Slider: {fileID: 0}
-  BlitTime: 1
 --- !u!114 &6186961228645208966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2022,6 +2020,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e25d5264d664a7d48aaa4762ad5f1084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WatchingTime: 2
+  SafeBlitTime: 1
+--- !u!114 &1390228576803306338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5517584346009996587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ad15847515ff0641bdab0724e4941f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BlitMaterial: {fileID: 0}
+  WitchOutline: {fileID: 0}
+  PlayerIsSafe: {r: 0, g: 0, b: 0, a: 0}
+  PlayerInDanger: {r: 0, g: 0, b: 0, a: 0}
+  WitchAttacking: {r: 0, g: 0, b: 0, a: 0}
+  Damage: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &8317708068913957313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5517584346009996587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e1384c8b2dcbdc419282aa88d1abcb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coneAngle: 45
+  coneDistance: 10
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &5517584346009996589
 GameObject:
   m_ObjectHideFlags: 0
@@ -2885,9 +2920,9 @@ Transform:
   m_LocalScale: {x: 0.76923054, y: 0.7692308, z: 0.76923054}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6160116503563469124}
-  - {fileID: 4711478579314297592}
   - {fileID: 4469953758742459412}
+  - {fileID: 4711478579314297592}
+  - {fileID: 6160116503563469124}
   - {fileID: 5593748210890002318}
   - {fileID: 2677391842944780422}
   - {fileID: 4914331189677991929}

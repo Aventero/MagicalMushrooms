@@ -10,13 +10,13 @@ using UnityEngine.Rendering.Universal;
 
 public class AIStateManager : MonoBehaviour
 {
-    public AIState currentState;
-    public AIState previousState;
+    public IAIState currentState;
+    public IAIState previousState;
 
     public delegate void OnStateEvent();
     public OnStateEvent Onevent;
 
-    public Dictionary<string, AIState> states = new Dictionary<string, AIState>();
+    public Dictionary<string, IAIState> states = new Dictionary<string, IAIState>();
 
     // Player Target
     public Transform Player;
@@ -26,7 +26,7 @@ public class AIStateManager : MonoBehaviour
 
     // Watching
     public GameObject WatchPointsParent;
-    public GameObject ViewCone;
+    public GameObject VisionCone;
     public GameObject StandardWatchpoint;
     public List<Transform> WatchPoints { get; private set; }
 
@@ -42,23 +42,15 @@ public class AIStateManager : MonoBehaviour
 
     // Watching
     public AIVision aiVision { get; private set; }
-    public Material BlitMaterial;
-    public float BlitTime = 1f;
-    private ScriptableRendererFeature ScriptableRenderer;
+    public DangerOverlay DangerBlit { get; private set; }
 
     void Awake()
     {
+        DangerBlit = GetComponent<DangerOverlay>();
         aiVision = GetComponent<AIVision>();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.autoBraking = true;
-
-        // Kinda hacky way to get the renderFeatures https://forum.unity.com/threads/how-to-get-access-to-renderer-features-at-runtime.1193572/
-        var renderer = (GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset).GetRenderer(0);
-        var property = typeof(ScriptableRenderer).GetProperty("rendererFeatures", BindingFlags.NonPublic | BindingFlags.Instance);
-        List<ScriptableRendererFeature> features = property.GetValue(renderer) as List<ScriptableRendererFeature>;
-        ScriptableRendererFeature blit = features.Find((feature) => feature.name == "Blit");
-        ScriptableRenderer = blit;
 
         // Get the Points from Parents
         walkPoints = new List<Transform>(WalkPointsParent.GetComponentsInChildren<Transform>().Where(point => point != WalkPointsParent.transform));
@@ -71,33 +63,38 @@ public class AIStateManager : MonoBehaviour
         states.Add("Attack", GetComponent<AIStateAttack>());
         states.Add("IgnorePlayerIdle", GetComponent<AIStateIgnorePlayerIdle>());
         states.Add("LostPlayer", GetComponent<AIStateLostPlayer>());
+        states.Add("Levitate", GetComponent<AIStateLevitate>());
 
         foreach (var state in states)
             state.Value.InitState(this);
 
         currentState = states["Idle"];
-        currentState.EnterState(this);
-        Debug.Log(currentState.StateName);
+        currentState.EnterState();
     }
 
     public void SetWalkPoint(Vector3 point)
     {
         previousWalkPoint = currentWalkPoint;
         currentWalkPoint = point;
+        agent.destination = currentWalkPoint;
     }
 
     public void Walk()
     {
-        agent.destination = currentWalkPoint;
         agent.isStopped = false;
     }
 
-    void Update()
+    public void StopAgent()
     {
-        currentState.UpdateState(this);
+        agent.isStopped = true;
+    }
+
+    void LateUpdate()
+    {
+        currentState.UpdateState();
         aiVision.WatchSpot();
         AnimateWitch();
-
+        DangerBlit.UpdateBlit();
         Debug.DrawLine(transform.position, currentWalkPoint, Color.green);
         Debug.DrawLine(transform.position, previousWalkPoint, Color.white);
     }
@@ -132,10 +129,11 @@ public class AIStateManager : MonoBehaviour
 
     public void TransitionToState(string stateName)
     {
+        Debug.Log("New State: " + stateName);
         previousState = currentState;
-        currentState.ExitState(this);
+        currentState.ExitState();
         currentState = states[stateName];
-        currentState.EnterState(this);
+        currentState.EnterState();
     }
 
     public List<Transform> CalculateVisiblePoints(Vector3 desiredPoint, Vector3 forward, float viewAngle)
@@ -147,11 +145,29 @@ public class AIStateManager : MonoBehaviour
             if (angle <= viewAngle)
             {
                 visibleWatchPoints.Add(watchPoint);
-                Debug.DrawLine(transform.position, watchPoint.position, Color.magenta, 2f);
+                Debug.DrawLine(transform.position, watchPoint.position, Color.magenta, 4f);
             }
         }
 
         return visibleWatchPoints;
+    }
+
+    public Transform CalculateClosestNotVisiblePoint(Vector3 desiredPoint, Vector3 forward)
+    {
+        Transform closestPoint = WatchPoints.ElementAt(0);
+
+        float shortestAngle = 360f;
+        foreach (Transform watchPoint in WatchPoints)
+        {
+            float angleToWatchPoint = EasyAngle(desiredPoint, forward, watchPoint.position);
+            if (angleToWatchPoint <= shortestAngle)
+            {
+                closestPoint = watchPoint;
+                shortestAngle = angleToWatchPoint;
+            }
+        }
+
+        return closestPoint;
     }
 
     public float EasyAngle(Vector3 position, Vector3 forward, Vector3 desiredPoint)
@@ -161,16 +177,20 @@ public class AIStateManager : MonoBehaviour
         return Vector2.Angle(forward2D, towardsPoint);
     }
 
-    public void FindNewWalkpoint()
+    public Transform FindNewWalkpoint()
     {
         // No Walkpoints means no walking!
         if (walkPoints.Count == 0)
         {
             Debug.Log("No walkingpoints set up!");
-            return;
+            return null;
         }
 
-        // Get the shortest path with, wich is not the current & previous one!
+        // RANDOM WALK POINT
+        // OR Better? -> Walkpoints that are around the player! Make the witch focus more on the sweet player!
+
+
+        // Get the shortest path, wich is not the current & previous one!
         List<Transform> closestWalkPoints = new List<Transform>();
         foreach (Transform walkPoint in walkPoints)
         {
@@ -187,70 +207,6 @@ public class AIStateManager : MonoBehaviour
         for (int i = 0; i < closestWalkPoints.Count / 2; i++)
             Debug.DrawLine(transform.position, closestWalkPoints[i].position, Color.yellow, 1f);
 
-        SetWalkPoint(shortestPoint.position);
-    }
-
-    public IEnumerator FindWatchpointForPatrol()
-    {
-        // No Watchpoints means no watching!
-        if (WatchPoints.Count == 0)
-        {
-            Debug.Log("No walkingpoints set up!");
-            yield break;
-        }
-
-        // Choose one randomly
-        Vector3 forwardToWalkpoint = currentWalkPoint - transform.position;
-        List<Transform> visiblePointsAtNextDestination = CalculateVisiblePoints(currentWalkPoint, forwardToWalkpoint, 75f);
-        if (visiblePointsAtNextDestination.Count == 0)
-        {
-            Watch(StandardWatchpoint.transform);
-        }
-        else
-            Watch(visiblePointsAtNextDestination[UnityEngine.Random.Range(0, visiblePointsAtNextDestination.Count)]);
-
-        if (EasyAngle(transform.position, transform.forward, aiVision.currentWatchTarget) > 75f)
-        {
-            // the new point is behind the witch, look at the standard and then at the corrent one
-            Vector3 tmp = aiVision.currentWatchTarget;
-            Watch(StandardWatchpoint.transform);
-            yield return new WaitUntil(() => EasyAngle(transform.position, transform.forward, currentWalkPoint) < 45f);
-            Watch(tmp);
-        }
-
-        yield return null;
-    }
-
-    public void LerpBlit(float toLerpTo, float time, bool activate)
-    {
-        StartCoroutine(LerpBlitCoroutine(toLerpTo, time, activate));
-    }
-
-    IEnumerator LerpBlitCoroutine(float toLerpTo, float time, bool activate)
-    {
-        // Activate if necessary
-        if (activate)
-            ScriptableRenderer.SetActive(true);
-
-        // Lerp the Transparency to b
-        float a = BlitMaterial.GetFloat("_Transparency");
-        float delta = 0f;
-        while (delta < time)
-        {
-            delta += Time.deltaTime;
-            float val = Mathf.Lerp(a, toLerpTo, delta / time);
-            BlitMaterial.SetFloat("_Transparency", val);
-            yield return null;
-        }
-
-        // Deactivate if necessary
-        if (!activate)
-            ScriptableRenderer.SetActive(false);
-    }
-
-    private void OnDisable()
-    {
-        ScriptableRenderer.SetActive(false);
-        BlitMaterial.SetFloat("_Transparency", 0);
+        return shortestPoint;
     }
 }

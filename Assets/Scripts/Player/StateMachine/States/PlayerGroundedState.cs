@@ -7,6 +7,7 @@ public class PlayerGroundedState : PlayerState, IRootState
     private float fakeGroundedTimer = 0;
     private const float maxHelpSeconds = 0.25f;
     private bool isGrounded = true;
+    private float distanceToNextStep = 0;
 
     public PlayerGroundedState(PlayerStateMachine context, PlayerStateFactory playerStateFactory, string name)
         : base (context, playerStateFactory, name) 
@@ -24,6 +25,8 @@ public class PlayerGroundedState : PlayerState, IRootState
 
     public override void EnterState()
     {
+        // Player has fallen and hit the ground
+        context.GetComponent<CircleSpawner>().SpawnAndGrow(context.JumpRingLifetime, context.JumpRingSize);
         fakeGroundedTimer = 0;
         InitializeSubState(); 
         HandleGravity();
@@ -42,18 +45,29 @@ public class PlayerGroundedState : PlayerState, IRootState
 
     public override void InitializeSubState()
     {
-        if (!context.IsMovementPressed && !context.IsRunPressed)
+        if (!context.IsMovementPressed && !context.IsSneakPressed)
             SetSubState(factory.Idle());
-        else if (context.IsMovementPressed && !context.IsRunPressed)
+        else if (context.IsMovementPressed && !context.IsSneakPressed)
             SetSubState(factory.Walk());
         else
-            SetSubState(factory.Run());
+            SetSubState(factory.Sneak());
     }
 
     public override void UpdateState()
     {
         SetGroundedState();
         CheckSwitchStates();
+
+        distanceToNextStep +=  new Vector2(context.AppliedMovementX, context.AppliedMovementZ).magnitude * Time.deltaTime;
+
+        if (distanceToNextStep >= context.StepDistance)
+        {
+            if (context.IsSneakPressed) 
+                context.GetComponent<CircleSpawner>().SpawnAndGrow(context.SneakRingLifetime, context.SneakRingSize);
+            else
+                context.GetComponent<CircleSpawner>().SpawnAndGrow(context.WalkRingLifetime, context.WalkRingSize);
+            distanceToNextStep = 0;
+        }
     }
 
     private void SetGroundedState()

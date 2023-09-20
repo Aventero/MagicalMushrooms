@@ -9,14 +9,14 @@ public class PlayerStateMachine : MonoBehaviour
     private CharacterController characterController;
 
     // Movement
-    private readonly float runningSpeed = 6.0f;
-    private readonly float walkingSpeed = 4.0f;
+    private readonly float sneakingSpeed = 1.5f;
+    private readonly float walkingSpeed = 3.0f;
     private float currentSpeed; 
     private Vector2 currentMovementInput;
     private Vector3 currentMovement;
     private Vector3 appliedMovement;
     private bool isMovementPressed;
-    private bool isRunPressed;
+    private bool isSneakPressed;
 
     // Gravity
     private float gravity;
@@ -26,6 +26,15 @@ public class PlayerStateMachine : MonoBehaviour
     private float initialJumpVelocity;
     public float maxJumpHeight = 2.0f;
     public float maxJumpTime = 1.0f; // Time it takes to complete the jump
+    
+    // Stepping
+    public float StepDistance = 0.75f;
+    public float WalkRingLifetime = 1.0f;
+    public float WalkRingSize = 0.2f;
+    public float SneakRingLifetime = 1.0f;
+    public float SneakRingSize = 0.05f;
+    public float JumpRingLifetime = 1.5f;
+    public float JumpRingSize = 1.0f;
 
     // Mouse looking
     private Vector2 currentMouseInput;
@@ -35,7 +44,6 @@ public class PlayerStateMachine : MonoBehaviour
     private float xAxisRotation = 0f;
 
     private bool CanMove = true;
-    private bool pauseMovement = false;
 
     // states
     PlayerState currentState;
@@ -55,16 +63,17 @@ public class PlayerStateMachine : MonoBehaviour
     public float InitialJumpVelocity { get => initialJumpVelocity; set => initialJumpVelocity = value; }
     public float Gravity { get => gravity; }
     public bool IsMovementPressed { get => isMovementPressed; }
-    public bool IsRunPressed { get => isRunPressed; }
-    public float RunningSpeed { get => runningSpeed; }
+    public bool IsSneakPressed { get => isSneakPressed; }
+    public float SneakingSpeed { get => sneakingSpeed; }
     public float WalkingSpeed { get => walkingSpeed; }
     public float CurrentSpeed { get => currentSpeed; set => currentSpeed = value; }
+
+    public Vector3 ExternalMovement = Vector3.zero;
 
     private void Awake()
     {
         // Initialize
         currentSpeed = walkingSpeed;
-        playerInput = new PlayerInput();
         characterController = GetComponent<CharacterController>();
 
         states = new PlayerStateFactory(this);
@@ -72,22 +81,22 @@ public class PlayerStateMachine : MonoBehaviour
         currentState.EnterState();
 
         // Look
-        playerInput.CharacterControls.Look.started += OnMouseInput;
-        playerInput.CharacterControls.Look.canceled += OnMouseInput;
-        playerInput.CharacterControls.Look.performed += OnMouseInput;
+        //playerInput.CharacterControls.Look.started += OnMouseInput;
+        //playerInput.CharacterControls.Look.canceled += OnMouseInput;
+        //playerInput.CharacterControls.Look.performed += OnMouseInput;
 
-        // Move
-        playerInput.CharacterControls.Move.started += OnMovementInput;
-        playerInput.CharacterControls.Move.canceled += OnMovementInput;
-        playerInput.CharacterControls.Move.performed += OnMovementInput;
+        //// Move
+        //playerInput.CharacterControls.Move.started += OnMovementInput;
+        //playerInput.CharacterControls.Move.canceled += OnMovementInput;
+        //playerInput.CharacterControls.Move.performed += OnMovementInput;
 
-        // Run 
-        playerInput.CharacterControls.Run.started += OnRunInput;
-        playerInput.CharacterControls.Run.canceled += OnRunInput;
+        //// Run 
+        //playerInput.CharacterControls.Sneak.started += OnSneakInput;
+        //playerInput.CharacterControls.Sneak.canceled += OnSneakInput;
 
-        // Jump 
-        playerInput.CharacterControls.Jump.started += OnJumpInput;
-        playerInput.CharacterControls.Jump.canceled += OnJumpInput;
+        //// Jump 
+        //playerInput.CharacterControls.Jump.started += OnJumpInput;
+        //playerInput.CharacterControls.Jump.canceled += OnJumpInput;
 
         // JumpSetup
         SetupJumpVariables();
@@ -98,28 +107,42 @@ public class PlayerStateMachine : MonoBehaviour
         // Move the play just a bit, so he won't fly around.
         CharacterController.Move(appliedMovement * Time.deltaTime); 
 
-        Cursor.lockState = CursorLockMode.Locked;
-
         // Register Events
-        StateManager.Instance.PauseGameEvent += this.PauseMovement;
-        StateManager.Instance.ResumeGameEvent += this.ResumeMovement;
+        StateManager.Instance.PauseGameEvent.AddListener(PauseMovement);
+        StateManager.Instance.ResumeGameEvent.AddListener(ResumeMovement);
     }
 
     private void Update()
     {
-        if (StateManager.Instance.isLockedOnWitchHead || pauseMovement)
+        if (StateManager.Instance.isLockedOnWitchHead)
             return;
-        HandleRotation();
         CurrentState.UpdateStates();
         
         // Move the player
         if (CanMove)
-            characterController.Move(appliedMovement * Time.deltaTime);
+            characterController.Move(appliedMovement * Time.deltaTime + ExternalMovement);
     }
 
-    private void OnDrawGizmos()
+    private void LateUpdate()
     {
+        HandleRotation();
     }
+
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody hitRigidbody = hit.collider.attachedRigidbody;
+        if (hitRigidbody != null)
+            hitRigidbody.isKinematic = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Rigidbody hitRigidbody = other.attachedRigidbody;
+        if (hitRigidbody != null)
+            hitRigidbody.isKinematic = false;
+    }
+
 
     void HandleRotation()
     {
@@ -146,24 +169,24 @@ public class PlayerStateMachine : MonoBehaviour
         initialJumpVelocity = 2.0f * maxJumpHeight / timeToApex;  // Starting velocity of the jump
     }
 
-    void OnJumpInput(InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context)
     {
         isJumpPressed = context.ReadValueAsButton();
     }
 
-    void OnRunInput(InputAction.CallbackContext context)
+    public void OnSneak(InputAction.CallbackContext context)
     {
-        isRunPressed = context.ReadValueAsButton();
+        isSneakPressed = context.ReadValueAsButton();
 
     }
 
-    void OnMovementInput(InputAction.CallbackContext context)
+    public void OnMovement(InputAction.CallbackContext context)
     {
         currentMovementInput = context.ReadValue<Vector2>();
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0; // x or y != 0 means player moves
     }
 
-    void OnMouseInput(InputAction.CallbackContext context)
+    public void OnMouse(InputAction.CallbackContext context)
     {
         currentMouseInput = context.ReadValue<Vector2>();
         currentMouseVector = currentMouseInput * mouseSensitivity * Time.deltaTime;
@@ -172,25 +195,27 @@ public class PlayerStateMachine : MonoBehaviour
     private void PauseMovement()
     {
         Cursor.lockState = CursorLockMode.None;
-        //pauseMovement = true;
+        CanMove = false;
         OnDisable();
     }
 
     private void ResumeMovement()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        //pauseMovement = false;
+        CanMove = true;
         OnEnable();
     }
 
 
     private void OnEnable()
     {
-        playerInput.CharacterControls.Enable();
     }
 
     private void OnDisable()
     {
-        playerInput.CharacterControls.Disable();
+    }
+    
+    private void OnDrawGizmos()
+    {
     }
 }

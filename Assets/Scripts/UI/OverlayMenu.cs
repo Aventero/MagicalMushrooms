@@ -1,33 +1,25 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OverlayMenu : MonoBehaviour
 {
-    [SerializeField] private Sprite HealthSprite;
-    [SerializeField] private TMP_Text itemCounterText;
-    public GameObject InteractionText;
+    public Image InteractionPopup;
+    public TMP_Text InteractionText;
     public GameObject IconParent;
+    public GameObject Dialog;
+    public GameObject Monolog;
+    public GameObject CheckpointText;
 
-    private GameObject[] healthObjects;
+    public float ShowCheckpointNotification = 1.5f;
 
     private List<Sprite> pickedUpItemsSprites;
     private GameObject[] pickedUpItems; // List for displaying the item sprites
 
-    private int amountOfItems;
-    private int pickedUpItemsCounter = 0;
-
-    public bool SetVisibility
-    {
-        get
-        {
-            return this.gameObject.activeSelf;
-        }
-        set
-        {
-            this.gameObject.SetActive(value);
-        }
-    }
+    private DialogMenu dialogMenu;
+    private MonologMenu monologMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -35,54 +27,58 @@ public class OverlayMenu : MonoBehaviour
         // RegisterEvent
         StateManager.Instance.ItemPickupEvent += this.OnItemPickup;
         StateManager.Instance.UsedItemEvent += this.UsedItem;
+        StateManager.Instance.NewCheckpointEvent.AddListener(ShowCheckpointText);
 
         pickedUpItemsSprites = new List<Sprite>();
-        amountOfItems = GameObject.FindObjectsOfType<Item>().Length;
-        itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
 
-        // Spawn all Health sprites
-        healthObjects = UIBuilder.CreateIcons(IconParent.transform, HealthSprite, "HealthIcon", PlayerHealth.MaxHealth, new Vector2(0, 1), new Vector2(0, 1), 0.2f, 15);
+
+        dialogMenu = Dialog.GetComponent<DialogMenu>();
+        monologMenu = Monolog.GetComponent<MonologMenu>();
     }
 
-    public void UpdateHealthIcons(int playerHealth)
+    public void ShowCheckpointText()
     {
-        Debug.Log("Player hit! Player Health: " + playerHealth);
+        CheckpointText.SetActive(true);
+        StartCoroutine(HideCheckpointTextAfterSeconds(ShowCheckpointNotification));
+    }
 
-        for (int i = PlayerHealth.MaxHealth - 1; i >= 0; i--)
-        {
-            if (i >= playerHealth && healthObjects[i] != null)
-                Destroy(healthObjects[i]);
-        }
+    private IEnumerator HideCheckpointTextAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        CheckpointText.SetActive(false);
+    }
+
+    public void ShowDialog(Dialog conversation)
+    {
+        Dialog.SetActive(true);
+        dialogMenu.ShowDialog(conversation);
+    }
+
+    public void ShowMonolog(Monolog monolog, GameObject target)
+    {
+        Monolog.SetActive(true);
+        monologMenu.ShowMonolog(monolog, target);
+    }
+
+    public void ShowMonolog(Monolog monolog)
+    {
+        Monolog.SetActive(true);
+        monologMenu.ShowMonolog(monolog);
     }
 
     public void OnItemPickup(ItemData item)
     {
         Debug.Log("Picked up Item: " + item.Name);
 
-        UpdateItemCounter();
-
         pickedUpItemsSprites.Add(item.Icon);
         UpdateItemSprites();
     }
 
-    public void UpdateItemCounter()
+    public void DisplayInteractionText(bool active, string text)
     {
-        pickedUpItemsCounter++;
-
-        // Update Item Counter
-        itemCounterText.text = pickedUpItemsCounter + " / " + amountOfItems;
-
-        // GOT ALL ITEMS
-        if (pickedUpItemsCounter == amountOfItems)
-        {
-            itemCounterText.color = Color.green;
-            StateManager.Instance.AllItemsCollectedEvent.Invoke();
-        }
-    }
-
-    public void DisplayInteractionText(bool active)
-    {
-        InteractionText.SetActive(active);
+        InteractionPopup.gameObject.SetActive(active);
+        InteractionText.gameObject.SetActive(active);
+        InteractionText.SetText(text);
     }
 
     public void UsedItem(ItemData usedItem)

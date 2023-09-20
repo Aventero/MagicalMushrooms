@@ -6,6 +6,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject OverlayMenu;
     [SerializeField] private GameObject GameOverMenu;
 
+    private OverlayMenu overlayMenu;
+
     public static UIManager Instance { get; private set; }
 
     private void Awake()
@@ -23,11 +25,8 @@ public class UIManager : MonoBehaviour
         GameOverMenu.SetActive(false);
 
         StateManager.Instance.GameOverEvent += this.GameOver;
-    }
 
-    public void UpdateHealthIcons(int playerHealth)
-    {
-        OverlayMenu.GetComponent<OverlayMenu>().UpdateHealthIcons(playerHealth);
+        overlayMenu = OverlayMenu.GetComponent<OverlayMenu>();
     }
 
     public void PauseGame()
@@ -40,10 +39,31 @@ public class UIManager : MonoBehaviour
         StateManager.Instance.ResumeGameEvent.Invoke();
     }
 
-    public void ShowInteractionText(bool active)
+    public void HideInteractionText()
     {
         if (OverlayMenu != null)
-            OverlayMenu.GetComponent<OverlayMenu>().DisplayInteractionText(active);
+            overlayMenu.DisplayInteractionText(false, "");
+    }
+
+    public void ShowInteractionText(string text)
+    {
+        if (OverlayMenu != null)
+            overlayMenu.DisplayInteractionText(true, text);
+    }
+
+    public void ShowDialog(Dialog dialog)
+    {
+        overlayMenu.ShowDialog(dialog);
+    }
+
+    public void ShowMonolog(Monolog monolog, GameObject target)
+    {
+        overlayMenu.ShowMonolog(monolog, target);
+    }
+
+    public void ShowMonolog(Monolog monolog)
+    {
+        overlayMenu.ShowMonolog(monolog);
     }
 
     private void GameOver()
