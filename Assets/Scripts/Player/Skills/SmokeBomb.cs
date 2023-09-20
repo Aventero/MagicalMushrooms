@@ -31,10 +31,15 @@ public class SmokeBomb : PlayerSkill
     private bool drawProjection = false;
     private Vector3 lastHit;
 
+    private Vector3 startPosition;
+    private Vector3 startVelocity;
+
     private void Start()
     {
         ignoredLayer |= (1 << LayerMask.GetMask("Player"));
         circleSpawner = GameObject.FindGameObjectWithTag("Player").GetComponent<CircleSpawner>();
+
+
     }
 
     public override void ShowPreview()
@@ -60,17 +65,25 @@ public class SmokeBomb : PlayerSkill
     public override void Execute()
     {
         Debug.Log("Smoke executed");
-        smoke = Instantiate(smokeEffect, this.transform);
-        smoke.transform.position = lastHit;
+        //smoke = Instantiate(smokeEffect, this.transform);
+        //smoke.transform.position = lastHit;
+
+        GameObject throwGameObject = Instantiate(throwingObject);
+        throwGameObject.transform.position = releaseTransform.position;
+
+        Rigidbody throwRigidbody = throwGameObject.GetComponent<Rigidbody>();
+        throwRigidbody.mass = mass;
+        throwRigidbody.AddForce(startVelocity, ForceMode.Impulse);
+
         HidePreview();
     }
 
     public void DrawProjection()
     {
         lineRenderer.positionCount = Mathf.CeilToInt(linePoints / timeBetweenPoints) + 1;
-        
-        Vector3 startPosition = releaseTransform.position;
-        Vector3 startVelocity = throwStrength * (Camera.main.transform.forward + cameraAngleAdjustment) / mass;
+
+        startPosition = releaseTransform.position;
+        startVelocity = throwStrength * (Camera.main.transform.forward + cameraAngleAdjustment) / mass;
 
         int lineIndex = 0;
         lineRenderer.SetPosition(lineIndex, startPosition);
