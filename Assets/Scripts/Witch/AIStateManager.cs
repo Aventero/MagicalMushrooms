@@ -64,6 +64,7 @@ public class AIStateManager : MonoBehaviour
         states.Add("IgnorePlayerIdle", GetComponent<AIStateIgnorePlayerIdle>());
         states.Add("LostPlayer", GetComponent<AIStateLostPlayer>());
         states.Add("Levitate", GetComponent<AIStateLevitate>());
+        states.Add("Capture", GetComponent<AIStateCapture>());
 
         foreach (var state in states)
             state.Value.InitState(this);
