@@ -36,10 +36,8 @@ public class SmokeBomb : PlayerSkill
 
     private void Start()
     {
-        ignoredLayer |= (1 << LayerMask.GetMask("Player"));
+        ignoredLayer = ~LayerMask.GetMask("Player", "Staff");
         circleSpawner = GameObject.FindGameObjectWithTag("Player").GetComponent<CircleSpawner>();
-
-
     }
 
     public override void ShowPreview()
@@ -97,7 +95,7 @@ public class SmokeBomb : PlayerSkill
             Vector3 prevPos = lineRenderer.GetPosition(lineIndex - 1); // Get the last point
             Vector3 lineDirection = point - prevPos;
 
-            if (Physics.Raycast(point, lineDirection.normalized, out RaycastHit hit, lineDirection.magnitude, ignoredLayer))
+            if (Physics.Raycast(prevPos, lineDirection.normalized, out RaycastHit hit, lineDirection.magnitude, ignoredLayer))
             {
                 Destroy(smokeCircle);
                 Debug.DrawRay(point, lineDirection, Color.green);
@@ -121,7 +119,7 @@ public class SmokeBomb : PlayerSkill
         Destroy(smoke);
     }
 
-    public void Update()
+    public void LateUpdate()
     {
         if (drawProjection)
             DrawProjection();
