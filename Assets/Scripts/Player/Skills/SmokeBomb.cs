@@ -60,8 +60,10 @@ public class SmokeBomb : PlayerSkill
     public override void Execute()
     {
         Debug.Log("Smoke executed");
-<<<<<<< HEAD
         IsActivated = false;
+
+        // smoke = Instantiate(smokeEffect, this.transform);
+        // smoke.transform.position = lastHit;
 
         GameObject throwGameObject = Instantiate(throwingObject);
         throwGameObject.transform.position = releaseTransform.position;
@@ -70,10 +72,6 @@ public class SmokeBomb : PlayerSkill
         throwRigidbody.mass = mass;
         throwRigidbody.AddForce((Camera.main.transform.forward + cameraAngleAdjustment) * throwStrength, ForceMode.Impulse);
 
-=======
-        smoke = Instantiate(smokeEffect, this.transform);
-        smoke.transform.position = lastHit;
->>>>>>> parent of 2ecf6c0 (Added throwing glowing smoke bomb)
         HidePreview();
     }
 
