@@ -23,7 +23,7 @@ public class SmokeBomb : PlayerSkill
     public GameObject smokeEffect;
     public GameObject throwingObject;
 
-    private LayerMask ignoredLayer;
+    private LayerMask allowedLayers;
     private GameObject smokeCircle;
     private CircleSpawner circleSpawner;
     private GameObject smoke;
@@ -31,12 +31,9 @@ public class SmokeBomb : PlayerSkill
     private bool drawProjection = false;
     private Vector3 lastHit;
 
-    private Vector3 startPosition;
-    private Vector3 startVelocity;
-
     private void Start()
     {
-        ignoredLayer = ~LayerMask.GetMask("Player", "Staff");
+        allowedLayers = LayerMask.GetMask("Default", "Prop");
         circleSpawner = GameObject.FindGameObjectWithTag("Player").GetComponent<CircleSpawner>();
     }
 
@@ -63,25 +60,29 @@ public class SmokeBomb : PlayerSkill
     public override void Execute()
     {
         Debug.Log("Smoke executed");
-        //smoke = Instantiate(smokeEffect, this.transform);
-        //smoke.transform.position = lastHit;
+<<<<<<< HEAD
+        IsActivated = false;
 
         GameObject throwGameObject = Instantiate(throwingObject);
         throwGameObject.transform.position = releaseTransform.position;
 
         Rigidbody throwRigidbody = throwGameObject.GetComponent<Rigidbody>();
         throwRigidbody.mass = mass;
-        throwRigidbody.AddForce(startVelocity, ForceMode.Impulse);
+        throwRigidbody.AddForce((Camera.main.transform.forward + cameraAngleAdjustment) * throwStrength, ForceMode.Impulse);
 
+=======
+        smoke = Instantiate(smokeEffect, this.transform);
+        smoke.transform.position = lastHit;
+>>>>>>> parent of 2ecf6c0 (Added throwing glowing smoke bomb)
         HidePreview();
     }
 
     public void DrawProjection()
     {
         lineRenderer.positionCount = Mathf.CeilToInt(linePoints / timeBetweenPoints) + 1;
-
-        startPosition = releaseTransform.position;
-        startVelocity = throwStrength * (Camera.main.transform.forward + cameraAngleAdjustment) / mass;
+        
+        Vector3 startPosition = releaseTransform.position;
+        Vector3 startVelocity = throwStrength * (Camera.main.transform.forward + cameraAngleAdjustment) / mass;
 
         int lineIndex = 0;
         lineRenderer.SetPosition(lineIndex, startPosition);
@@ -95,7 +96,7 @@ public class SmokeBomb : PlayerSkill
             Vector3 prevPos = lineRenderer.GetPosition(lineIndex - 1); // Get the last point
             Vector3 lineDirection = point - prevPos;
 
-            if (Physics.Raycast(prevPos, lineDirection.normalized, out RaycastHit hit, lineDirection.magnitude, ignoredLayer))
+            if (Physics.Raycast(prevPos, lineDirection.normalized, out RaycastHit hit, lineDirection.magnitude, allowedLayers))
             {
                 Destroy(smokeCircle);
                 Debug.DrawRay(point, lineDirection, Color.green);
@@ -105,6 +106,8 @@ public class SmokeBomb : PlayerSkill
 
                 lastHit = hit.point + new Vector3(0, 0.01f, 0);
                 smokeCircle = circleSpawner.Spawn(lastHit, circleSize);
+
+                Debug.Log(hit.collider.name);
 
                 return;
             }
