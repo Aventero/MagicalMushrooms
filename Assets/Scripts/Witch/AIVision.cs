@@ -23,8 +23,8 @@ public class AIVision : MonoBehaviour
     public Vector3 currentWatchTarget { get; set; }
     private Vector3 SmoothVelocity = Vector3.zero;
     private Vector3 smoothingPosition;
-    public float SmoothTime = 0.3f;
-    public float HuntSmoothTime = 0.1f;
+    public float SmoothTime = 0.5f;
+    public float HuntSmoothTime = 0.5f;
     private float currentSmoothTime = 0f;
 
     private AIStateManager aiStateManager;

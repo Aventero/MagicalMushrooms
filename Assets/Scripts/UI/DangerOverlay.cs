@@ -92,7 +92,7 @@ public class DangerOverlay : MonoBehaviour
     private void FadeIntensity()
     {
 
-    }
+    }   
 
     private void FadeColor()
     {
