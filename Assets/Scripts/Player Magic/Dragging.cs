@@ -64,10 +64,24 @@ public class Dragging : MonoBehaviour
             draggingBody.transform.rotation = Quaternion.identity;
             draggingBody.rotation = Quaternion.identity;
             draggingBody.angularVelocity = Vector3.zero;
+            Debug.Log("Right Mouse button on draggign");
+        }
+
+        if (IsDragging && Input.GetMouseButtonDown(0))
+        {
+            Outline outline = draggingBody.gameObject.AddComponent<Outline>();
+            outline.OutlineMode = Outline.Mode.OutlineAll;
+            outline.enabled = true;
+            outline.OutlineColor = Color.white;
+            outline.OutlineWidth = 1;
+
         }
 
         if (IsDragging && Input.GetMouseButtonUp(0))
         {
+            Outline outline = draggingBody.GetComponent<Outline>();
+            outline.enabled = false;
+            Destroy(outline);
             draggingBody.interpolation = RigidbodyInterpolation.None;
             draggingBody.isKinematic = false;
             IsDragging = false;

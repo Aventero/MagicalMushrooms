@@ -89,7 +89,7 @@ public class AIStateManager : MonoBehaviour
         agent.isStopped = true;
     }
 
-    void Update()
+    void LateUpdate()
     {
         currentState.UpdateState();
         aiVision.WatchSpot();
