@@ -19,7 +19,9 @@ public class Bomb : MonoBehaviour
             return;
 
         GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<Collider>().enabled = false;
         currentSize = transform.localScale;
+        transform.localRotation = Quaternion.identity;
         grow = true;
     }
 
@@ -34,7 +36,6 @@ public class Bomb : MonoBehaviour
 
         if(percentage >= 1)
         {
-            GetComponent<Collider>().enabled = false;
             currentSize = transform.localScale;
             StartCoroutine(Shrink());
             grow = false;
