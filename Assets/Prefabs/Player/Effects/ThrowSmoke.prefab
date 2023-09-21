@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6848175795825008858}
   - component: {fileID: 590361732060530953}
   - component: {fileID: -8184028418075529515}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ThrowSmoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6506959758786184616, guid: 8bc94b639fe7b464c8745b7dc2280b5f, type: 3}
+  - {fileID: 2100000, guid: 92a08ebff913c154ba2bc57a0e04a59a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -236,3 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea5e6f5d111c70746b2db7fdaa37cf0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxSize: {x: 0, y: 0, z: 0}
+  GrowthTime: 0
+  ShrinkSpeed: 0.2
+  WaitTillShrink: 5

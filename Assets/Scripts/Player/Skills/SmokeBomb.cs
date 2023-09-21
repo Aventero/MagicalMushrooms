@@ -67,8 +67,8 @@ public class SmokeBomb : PlayerSkill
         throwGameObject.transform.position = releaseTransform.position;
 
         Bomb bomb = throwGameObject.GetComponent<Bomb>();
-        bomb.maxSize = maxGrowingScale;
-        bomb.growthTime = growthTime;
+        bomb.MaxSize = maxGrowingScale;
+        bomb.GrowthTime = growthTime;
 
         Rigidbody throwRigidbody = throwGameObject.GetComponent<Rigidbody>();
         throwRigidbody.mass = mass;

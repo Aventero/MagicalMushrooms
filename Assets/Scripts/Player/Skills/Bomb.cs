@@ -1,12 +1,14 @@
+using System.Collections;
 using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
     [HideInInspector]
-    public Vector3 maxSize;
+    public Vector3 MaxSize;
     [HideInInspector]
-    public float growthTime;
-
+    public float GrowthTime;
+    public float ShrinkSpeed = 0.2f;
+    public float WaitTillShrink = 5f;
     private Vector3 currentSize;
     private bool grow = false;
     private float elapsedTime = 0;
@@ -16,8 +18,8 @@ public class Bomb : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
             return;
 
-        this.GetComponent<Rigidbody>().isKinematic = true;
-        currentSize = this.transform.localScale;
+        GetComponent<Rigidbody>().isKinematic = true;
+        currentSize = transform.localScale;
         grow = true;
     }
 
@@ -26,11 +28,31 @@ public class Bomb : MonoBehaviour
         if (!grow)
             return;
 
-        float percentage = elapsedTime / growthTime;
-        this.transform.localScale = Vector3.Lerp(currentSize, maxSize, percentage);
+        float percentage = elapsedTime / GrowthTime;
+        transform.localScale = Vector3.Lerp(currentSize, MaxSize, percentage);
         elapsedTime += Time.deltaTime;
 
-        if(percentage >= 1) 
+        if(percentage >= 1)
+        {
+            GetComponent<Collider>().enabled = false;
+            currentSize = transform.localScale;
+            StartCoroutine(Shrink());
             grow = false;
+        }
+    }
+
+    IEnumerator Shrink()
+    {
+        yield return new WaitForSeconds(WaitTillShrink); // wait a bit
+
+        float delta = 0;
+        while (delta < GrowthTime)
+        {
+            delta += Time.deltaTime * ShrinkSpeed;
+            transform.localScale = Vector3.Lerp(currentSize, Vector3.zero, delta / GrowthTime);
+            yield return null;
+        }
+
+        yield return null;
     }
 }
