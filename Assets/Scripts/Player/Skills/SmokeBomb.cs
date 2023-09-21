@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SmokeBomb : PlayerSkill
@@ -8,13 +9,14 @@ public class SmokeBomb : PlayerSkill
     public float throwStrength = 15;
     public Vector3 cameraAngleAdjustment = new(0, 0.8f, 0);
 
-    [Header("Line")]
+    [Header("Trajectory Line")]
     public int linePoints = 25;
     public float timeBetweenPoints = 0.1f;
     public float circleSize;
 
     [Header("Smoke Bomb")]
-    public float smokeTime;
+    public float growthTime = 5; // In seconds
+    public Vector3 maxGrowingScale;
 
     [Header("References")]
     public LineRenderer lineRenderer;
@@ -26,7 +28,6 @@ public class SmokeBomb : PlayerSkill
     private LayerMask allowedLayers;
     private GameObject smokeCircle;
     private CircleSpawner circleSpawner;
-    private GameObject smoke;
 
     private bool drawProjection = false;
     private Vector3 lastHit;
@@ -62,11 +63,12 @@ public class SmokeBomb : PlayerSkill
         Debug.Log("Smoke executed");
         IsActivated = false;
 
-        // smoke = Instantiate(smokeEffect, this.transform);
-        // smoke.transform.position = lastHit;
-
         GameObject throwGameObject = Instantiate(throwingObject);
         throwGameObject.transform.position = releaseTransform.position;
+
+        Bomb bomb = throwGameObject.GetComponent<Bomb>();
+        bomb.maxSize = maxGrowingScale;
+        bomb.growthTime = growthTime;
 
         Rigidbody throwRigidbody = throwGameObject.GetComponent<Rigidbody>();
         throwRigidbody.mass = mass;
@@ -112,12 +114,6 @@ public class SmokeBomb : PlayerSkill
 
             lineRenderer.SetPosition(lineIndex, point);
         }
-    }
-
-    IEnumerator RemoveSmokeAfterXSeconds()
-    {
-        yield return new WaitForSeconds(smokeTime);
-        Destroy(smoke);
     }
 
     public void LateUpdate()
