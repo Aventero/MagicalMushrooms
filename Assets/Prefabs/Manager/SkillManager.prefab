@@ -58,13 +58,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e88c7952ef4ef15479ebedafa0d7e7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rechargeTime: 5
   mass: 3
   throwStrength: 15
   cameraAngleAdjustment: {x: 0, y: 0.8, z: 0}
   linePoints: 100
   timeBetweenPoints: 0.01
   circleSize: 0.1
-  smokeTime: 5
+  growthTime: 5
+  maxGrowingScale: {x: 0, y: 0, z: 0}
   lineRenderer: {fileID: 0}
   releaseTransform: {fileID: 0}
   circle: {fileID: 5931753188418011760, guid: 4d183b2fd1f31824a97eeba9ad854f96, type: 3}
@@ -82,3 +84,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58928b374f447c84c8de5be057ae6f74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rechargeTime: 0

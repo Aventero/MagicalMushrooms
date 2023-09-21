@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,8 @@ public class PlayerSkillManager : MonoBehaviour
     private SmokeBomb smokeBomb;
     private Poltergeist poltergeist;
 
+    private bool lockSkill = false;
+
     private void Start()
     {
         smokeBomb = GetComponent<SmokeBomb>();
@@ -15,17 +18,19 @@ public class PlayerSkillManager : MonoBehaviour
 
     public void SkillActivation(InputAction.CallbackContext callback)
     {
-        if (!callback.performed || activeSkill == null)
+        if (!callback.performed || activeSkill == null || lockSkill)
             return;
 
-        // TODO: Maybe check if the skill has the execute method?
-
         activeSkill.Execute();
+        lockSkill = true;
+        StartCoroutine(this.LockSkillForSeconds(activeSkill.rechargeTime));
+
+        activeSkill = null;
     }
 
     public void OnPoltergeist(InputAction.CallbackContext callback)
     {
-        if (!callback.performed)
+        if (!callback.performed || lockSkill)
             return;
         
         Debug.Log("Activating Poltergeist");
@@ -34,7 +39,7 @@ public class PlayerSkillManager : MonoBehaviour
 
     public void OnSmokeBomb(InputAction.CallbackContext callback)
     {
-        if (!callback.performed)
+        if (!callback.performed || lockSkill)
             return;
 
         Debug.Log("Activating Smoke bomb");
@@ -49,9 +54,16 @@ public class PlayerSkillManager : MonoBehaviour
 
     public void OnMagicCloak(InputAction.CallbackContext callback)
     {
-        if (!callback.performed)
+        if (!callback.performed || lockSkill)
             return;
 
         Debug.Log("Activating Magic cloak");
+    }
+
+    IEnumerator LockSkillForSeconds(float time)
+    {
+        yield return new WaitForSeconds(time);
+        lockSkill = false;
+        Debug.Log("Skill unlocked!");
     }
 }

@@ -107,8 +107,6 @@ public class SmokeBomb : PlayerSkill
                 lastHit = hit.point + new Vector3(0, 0.01f, 0);
                 smokeCircle = circleSpawner.Spawn(lastHit, circleSize);
 
-                Debug.Log(hit.collider.name);
-
                 return;
             }
 

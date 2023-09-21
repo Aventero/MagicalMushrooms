@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerSkill : MonoBehaviour
 {
+    [Header("Skill")]
+    public float rechargeTime;
+
     public bool IsActivated { get; internal set; }
 
     public virtual void ShowPreview() { }
