@@ -41,7 +41,7 @@ internal class AIStateAttack : MonoBehaviour, IAIState
     {
         // Let Witch chill.
         StopAllCoroutines();
-        player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(true);
+        //player.gameObject.GetComponent<PlayerStateMachine>().ActivateMovement(true);
     }
 
     public void UpdateState()

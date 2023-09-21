@@ -64,6 +64,10 @@ public class StateManager : MonoBehaviour
     [HideInInspector]
     public UnityAction GameOverEvent;
     [HideInInspector]
+    public UnityEvent ResumeMovementEvent;
+    [HideInInspector]
+    public UnityEvent PauseMovementEvent;
+    [HideInInspector]
     public UnityEvent PauseGameEvent;
     [HideInInspector]
     public UnityEvent ResumeGameEvent;

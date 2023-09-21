@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -80,24 +81,6 @@ public class PlayerStateMachine : MonoBehaviour
         currentState = states.Grounded();
         currentState.EnterState();
 
-        // Look
-        //playerInput.CharacterControls.Look.started += OnMouseInput;
-        //playerInput.CharacterControls.Look.canceled += OnMouseInput;
-        //playerInput.CharacterControls.Look.performed += OnMouseInput;
-
-        //// Move
-        //playerInput.CharacterControls.Move.started += OnMovementInput;
-        //playerInput.CharacterControls.Move.canceled += OnMovementInput;
-        //playerInput.CharacterControls.Move.performed += OnMovementInput;
-
-        //// Run 
-        //playerInput.CharacterControls.Sneak.started += OnSneakInput;
-        //playerInput.CharacterControls.Sneak.canceled += OnSneakInput;
-
-        //// Jump 
-        //playerInput.CharacterControls.Jump.started += OnJumpInput;
-        //playerInput.CharacterControls.Jump.canceled += OnJumpInput;
-
         // JumpSetup
         SetupJumpVariables();
     }
@@ -105,12 +88,16 @@ public class PlayerStateMachine : MonoBehaviour
     private void Start()
     {
         // Move the play just a bit, so he won't fly around.
-        CharacterController.Move(appliedMovement * Time.deltaTime); 
+        CharacterController.Move(appliedMovement * Time.deltaTime);
 
         // Register Events
-        StateManager.Instance.PauseGameEvent.AddListener(PauseMovement);
-        StateManager.Instance.ResumeGameEvent.AddListener(ResumeMovement);
+        StateManager.Instance.PauseMovementEvent.AddListener(PauseMovement);
+        StateManager.Instance.ResumeMovementEvent.AddListener(ResumeMovement);
+        StateManager.Instance.PauseGameEvent.AddListener(Pause);
+        StateManager.Instance.ResumeGameEvent.AddListener(Resume);
     }
+
+
 
     private void Update()
     {
@@ -157,11 +144,6 @@ public class PlayerStateMachine : MonoBehaviour
         Camera.main.transform.eulerAngles = targetRotation;
     }
 
-    public void ActivateMovement(bool activate)
-    {
-        CanMove = activate;
-    }
-
     private void SetupJumpVariables()
     {
         float timeToApex = maxJumpTime / 2.0f;
@@ -194,12 +176,22 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void PauseMovement()
     {
+        CanMove = false;
+    }
+
+    private void ResumeMovement()
+    {
+        CanMove = true;
+    }
+
+    private void Pause()
+    {
         Cursor.lockState = CursorLockMode.None;
         CanMove = false;
         OnDisable();
     }
 
-    private void ResumeMovement()
+    private void Resume()
     {
         Cursor.lockState = CursorLockMode.Locked;
         CanMove = true;

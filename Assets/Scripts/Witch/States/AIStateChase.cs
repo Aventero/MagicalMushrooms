@@ -55,7 +55,7 @@ internal class AIStateChase : MonoBehaviour, IAIState
             {
                 chaseTime = 0f;
                 agent.isStopped = true;
-                stateManager.TransitionToState("Attack");
+                stateManager.TransitionToState("Capture");
             }
         }
     }

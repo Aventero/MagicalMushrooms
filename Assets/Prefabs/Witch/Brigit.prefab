@@ -1787,6 +1787,7 @@ GameObject:
   - component: {fileID: 3658052457786925143}
   - component: {fileID: 3658052457786925142}
   - component: {fileID: 3658052457786925141}
+  - component: {fileID: 509918369105437565}
   m_Layer: 0
   m_Name: Brigit
   m_TagString: Untagged
@@ -2098,6 +2099,126 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &509918369105437565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4469095328606076453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bfbc0125a47ce64598fdfcb7100cf3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CagePrefab: {fileID: 8542313156907897289, guid: 26eb588aee7be7448b9277e3aa0bb10e, type: 3}
+  captureMotion:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0012817383
+      value: 0.0024108887
+      inSlope: 2.7734478
+      outSlope: 2.7734478
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.34630537
+    - serializedVersion: 3
+      time: 0.14007106
+      value: 0.05072102
+      inSlope: 0.2072452
+      outSlope: 0.2072452
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.22564973
+      value: 0.1408539
+      inSlope: 0.6608255
+      outSlope: 0.6608255
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.36427724
+      value: 0.114349484
+      inSlope: 1.0485715
+      outSlope: 1.0485715
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.47742122
+      value: 0.3174428
+      inSlope: 0.33852392
+      outSlope: 0.33852392
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6595211
+      value: 0.28012317
+      inSlope: -0.042086106
+      outSlope: -0.042086106
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7993994
+      value: 0.4783826
+      inSlope: 0.7745651
+      outSlope: 0.7745651
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.11171491
+    - serializedVersion: 3
+      time: 0.885047
+      value: 0.33848625
+      inSlope: 0.093895204
+      outSlope: 0.093895204
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.91703564
+      value: 0.626657
+      inSlope: 23.89366
+      outSlope: 23.89366
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.11739155
+      outWeight: 0.048943825
+    - serializedVersion: 3
+      time: 0.95941144
+      value: 0.9871117
+      inSlope: 0.29695925
+      outSlope: 0.29695925
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.20656377
+      outSlope: 0.20656377
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.6128555
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  CageHeight: 3
+  CaptureSpeed: 0.5
 --- !u!1 &5140360957779315687
 GameObject:
   m_ObjectHideFlags: 0
