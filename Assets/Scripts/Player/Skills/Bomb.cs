@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-    [HideInInspector]
-    public Vector3 MaxSize;
-    [HideInInspector]
-    public float GrowthTime;
-    public float ShrinkSpeed = 0.2f;
+    public Vector3 GoalSize = new(5, 5, 5);
+    public float GrowthSpeed = 1;
+    public float ShrinkSpeed = 4;
     public float WaitTillShrink = 5f;
+
     private Vector3 currentSize;
-    private bool grow = false;
+    private bool isTransforming = false;
+    private float transformingSpeed;
     private float elapsedTime = 0;
 
     private void OnCollisionEnter(Collision collision)
@@ -20,40 +20,46 @@ public class Bomb : MonoBehaviour
 
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<Collider>().enabled = false;
+
         currentSize = transform.localScale;
         transform.localRotation = Quaternion.identity;
-        grow = true;
+        transformingSpeed = GrowthSpeed;
+        isTransforming = true;
     }
 
     private void Update()
     {
-        if (!grow)
+        if (!isTransforming)
             return;
 
-        float percentage = elapsedTime / GrowthTime;
-        transform.localScale = Vector3.Lerp(currentSize, MaxSize, percentage);
+        float percentage = elapsedTime / transformingSpeed;
+        transform.localScale = Vector3.Lerp(currentSize, GoalSize, percentage);
         elapsedTime += Time.deltaTime;
 
         if(percentage >= 1)
         {
-            currentSize = transform.localScale;
-            StartCoroutine(Shrink());
-            grow = false;
+            if (Equals(transform.localScale, Vector3.zero))
+                Destroy(this);
+
+            // Shrink the bomb
+            SetUpShrinkVariables();
+            StartCoroutine(WaitUntilShrink());
         }
     }
 
-    IEnumerator Shrink()
+    private void SetUpShrinkVariables()
+    {
+        isTransforming = false;
+        elapsedTime = 0;
+
+        currentSize = transform.localScale;
+        transformingSpeed = ShrinkSpeed;
+        GoalSize = Vector3.zero;
+    }
+
+    private IEnumerator WaitUntilShrink()
     {
         yield return new WaitForSeconds(WaitTillShrink); // wait a bit
-
-        float delta = 0;
-        while (delta < GrowthTime)
-        {
-            delta += Time.deltaTime * ShrinkSpeed;
-            transform.localScale = Vector3.Lerp(currentSize, Vector3.zero, delta / GrowthTime);
-            yield return null;
-        }
-
-        yield return null;
+        isTransforming = true;
     }
 }
