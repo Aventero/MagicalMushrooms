@@ -49,10 +49,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea5e6f5d111c70746b2db7fdaa37cf0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxSize: {x: 0, y: 0, z: 0}
-  GrowthTime: 0
-  ShrinkSpeed: 0.2
+  GoalSize: {x: 5, y: 5, z: 5}
+  GrowthSpeed: 2
+  ShrinkSpeed: 5
   WaitTillShrink: 5
+  transformingSpeed: 0
 --- !u!54 &3786931788777139327
 Rigidbody:
   m_ObjectHideFlags: 0

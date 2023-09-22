@@ -66,10 +66,6 @@ public class SmokeBomb : PlayerSkill
         GameObject throwGameObject = Instantiate(throwingObject);
         throwGameObject.transform.position = releaseTransform.position;
 
-        Bomb bomb = throwGameObject.GetComponent<Bomb>();
-        bomb.MaxSize = maxGrowingScale;
-        bomb.GrowthTime = growthTime;
-
         Rigidbody throwRigidbody = throwGameObject.GetComponent<Rigidbody>();
         throwRigidbody.mass = mass;
         throwRigidbody.AddForce((Camera.main.transform.forward + cameraAngleAdjustment) * throwStrength, ForceMode.Impulse);
