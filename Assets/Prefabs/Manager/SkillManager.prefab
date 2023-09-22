@@ -71,7 +71,7 @@ MonoBehaviour:
   releaseTransform: {fileID: 0}
   circle: {fileID: 5931753188418011760, guid: 4d183b2fd1f31824a97eeba9ad854f96, type: 3}
   smokeEffect: {fileID: 9221107188754396513, guid: 9bcbcfba708599b43b89eacb521dd647, type: 3}
-  throwingObject: {fileID: 2993380090596447683, guid: 55da26881dbb9514b9f4f0dc2dbabd65, type: 3}
+  throwingObject: {fileID: 5494833257188111640, guid: 8cabdf8b34d2841439ccfc5f212ff9ae, type: 3}
 --- !u!114 &8145462567293915189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,3 +85,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rechargeTime: 0
+  HighlightMaterial: {fileID: -6506959758786184616, guid: 8bc94b639fe7b464c8745b7dc2280b5f, type: 3}
+  FocusMaterial: {fileID: 2100000, guid: f4e195ac1e204eff960149d1cb34e18c, type: 2}
+  HighlightDistance: 10

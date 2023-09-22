@@ -35,6 +35,11 @@ public class PlayerSkillManager : MonoBehaviour
         
         Debug.Log("Activating Poltergeist");
         activeSkill = poltergeist;
+
+        if (activeSkill.IsActivated)
+            activeSkill.HidePreview();
+        else
+            activeSkill.ShowPreview();
     }
 
     public void OnSmokeBomb(InputAction.CallbackContext callback)
