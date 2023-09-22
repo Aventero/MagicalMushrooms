@@ -30,7 +30,7 @@ Shader "Custom/Outline Fill" {
       ColorMask RGB
 
       Stencil {
-        Ref 1
+        Ref 10
         Comp NotEqual
       }
 
