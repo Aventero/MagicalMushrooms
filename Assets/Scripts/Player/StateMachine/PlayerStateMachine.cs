@@ -104,15 +104,11 @@ public class PlayerStateMachine : MonoBehaviour
         if (StateManager.Instance.isLockedOnWitchHead)
             return;
         CurrentState.UpdateStates();
-        
+        HandleRotation();
+
         // Move the player
         if (CanMove)
             characterController.Move(appliedMovement * Time.deltaTime + ExternalMovement);
-    }
-
-    private void LateUpdate()
-    {
-        HandleRotation();
     }
 
 

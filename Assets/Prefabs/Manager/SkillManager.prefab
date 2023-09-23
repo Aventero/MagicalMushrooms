@@ -65,8 +65,8 @@ MonoBehaviour:
   linePoints: 100
   timeBetweenPoints: 0.01
   circleSize: 0.1
-  growthTime: 5
-  maxGrowingScale: {x: 0, y: 0, z: 0}
+  growthTime: 1
+  maxGrowingScale: {x: 5, y: 5, z: 5}
   lineRenderer: {fileID: 0}
   releaseTransform: {fileID: 0}
   circle: {fileID: 5931753188418011760, guid: 4d183b2fd1f31824a97eeba9ad854f96, type: 3}
@@ -89,6 +89,3 @@ MonoBehaviour:
   HighlightDistance: 10
   HighlightMaterial: {fileID: -6506959758786184616, guid: 8bc94b639fe7b464c8745b7dc2280b5f, type: 3}
   FocusMaterial: {fileID: 2100000, guid: f4e195ac1e204eff960149d1cb34e18c, type: 2}
-  allowedLayers:
-    serializedVersion: 2
-    m_Bits: 0

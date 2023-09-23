@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bomb : MonoBehaviour
@@ -13,18 +14,32 @@ public class Bomb : MonoBehaviour
     private float transformingSpeed;
     private float elapsedTime = 0;
 
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Player"))
             return;
 
-        GetComponent<Rigidbody>().isKinematic = true;
-        GetComponent<Collider>().enabled = false;
+        CollisionUtil.Side collisionSide = CollisionUtil.CalculateCollisionSideSphere(collision);
+        
+        if (collisionSide == CollisionUtil.Side.Bottom)
+        {
+            // Reached the destination -> Let the ball explode
+            GetComponent<Rigidbody>().isKinematic = true;
+            GetComponent<Collider>().isTrigger = true;
 
-        currentSize = transform.localScale;
-        transform.localRotation = Quaternion.identity;
-        transformingSpeed = GrowthSpeed;
-        isTransforming = true;
+            currentSize = transform.localScale;
+            transform.localRotation = Quaternion.identity;
+            transformingSpeed = GrowthSpeed;
+            isTransforming = true;
+        } else
+        {
+            // Any other side 
+            // Stop the movement -> let the ball fall downwards
+            Rigidbody rb = GetComponent<Rigidbody>();
+            float verticalVelocity = rb.velocity.y;
+            rb.velocity = new Vector3(0, verticalVelocity, 0);
+        }
     }
 
     private void Update()

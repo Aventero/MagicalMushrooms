@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3786931788777139327}
   - component: {fileID: 8005778765789059234}
   - component: {fileID: 6291350631846535649}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Smokeball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5494833257188111640}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
@@ -36,7 +36,7 @@ Transform:
   - {fileID: 5494833258922128321}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &-7335310464810841483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,7 +53,6 @@ MonoBehaviour:
   GrowthSpeed: 2
   ShrinkSpeed: 5
   WaitTillShrink: 5
-  transformingSpeed: 0
 --- !u!54 &3786931788777139327
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -202,7 +201,7 @@ GameObject:
   - component: {fileID: 5494833258339960809}
   - component: {fileID: 5494833258339960808}
   - component: {fileID: 5494833258339960807}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Outer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,7 +284,7 @@ GameObject:
   - component: {fileID: 5494833258922128321}
   - component: {fileID: 5494833258922128320}
   - component: {fileID: 5494833258922128351}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}

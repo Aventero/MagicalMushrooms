@@ -5,7 +5,7 @@ using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Transform))] // This custom editor works with Transform components
+//[CustomEditor(typeof(Transform))] // This custom editor works with Transform components
 public class PositionSaverEditor : Editor
 {
     private GameObject selectedObject; // Store the selected object
