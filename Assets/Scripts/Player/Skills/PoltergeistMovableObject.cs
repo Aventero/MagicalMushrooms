@@ -11,6 +11,7 @@ public class PoltergeistMovableObject : MonoBehaviour
     [HideInInspector]
     public float HighlightDistance;
 
+    private Outline outline;
     private Material objectMaterial;
     private MeshRenderer meshRenderer;
     private GameObject player;
@@ -19,18 +20,21 @@ public class PoltergeistMovableObject : MonoBehaviour
 
     void Start()
     {
+        outline = GetComponent<Outline>();
+        outline.enabled = false;
+
         meshRenderer = GetComponent<MeshRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
 
         objectMaterial = meshRenderer.material;
     }
 
-    public void TurnOnHighlight()
+    public void TurnOnHighlighting()
     {
         highlighting = true;
     }
 
-    public void TurnOffHighlight()
+    public void TurnOffHighlighting()
     {
         highlighting = false;
         isFocused = false;
@@ -41,12 +45,14 @@ public class PoltergeistMovableObject : MonoBehaviour
     {
         isFocused = true;
         meshRenderer.material = FocusMaterial;
+        outline.enabled = true;
     }
 
     public void HideFocus()
     {
         meshRenderer.material = objectMaterial;
         isFocused = false;
+        outline.enabled = false;
     }
 
     private void Update()
@@ -57,6 +63,6 @@ public class PoltergeistMovableObject : MonoBehaviour
         if (Vector3.Distance(this.transform.position, player.transform.position) <= HighlightDistance)
             meshRenderer.material = HighlightMaterial;
         else
-            TurnOffHighlight();
+            meshRenderer.material = objectMaterial;
     }
 }

@@ -11,12 +11,12 @@ public class Poltergeist : PlayerSkill
     private readonly List<PoltergeistMovableObject> movableObjectsList = new();
     private bool showHighlighting = false;
     private GameObject lastFocusedObject = null;
-    private GameObject player;
     private Camera mainCamera;
+    public LayerMask allowedLayers;
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        allowedLayers = LayerMask.GetMask("Default", "Prop");
         mainCamera = Camera.main;
         SetupGameobjects();
     }
@@ -30,6 +30,8 @@ public class Poltergeist : PlayerSkill
             movableObject.HighlightDistance = HighlightDistance;
             movableObject.FocusMaterial = FocusMaterial;
             movableObjectsList.Add(movableObject);
+
+            gameObject.AddComponent<Outline>();
         }
     }
 
@@ -38,16 +40,20 @@ public class Poltergeist : PlayerSkill
         if (!showHighlighting)
             return;
 
-        if(Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out RaycastHit hit))
+        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out RaycastHit hit, 50, allowedLayers))
         {
+            Debug.Log(hit.collider.name);
             CheckCurrentFocusObject(hit);
 
             if (!hit.collider.CompareTag("Draggable") || hit.distance > HighlightDistance)
                 return;
 
+            Debug.DrawRay(mainCamera.transform.position, mainCamera.transform.forward, Color.blue);
             lastFocusedObject = hit.collider.gameObject;
             lastFocusedObject.GetComponent<PoltergeistMovableObject>().ShowFocus();
         }
+        else
+            HideCurrentFocusedObject();
 
     }
 
@@ -57,7 +63,7 @@ public class Poltergeist : PlayerSkill
             return;
 
         if (hit.distance > HighlightDistance && hit.collider.gameObject.Equals(lastFocusedObject) )
-            HideCurrentFocusedObject(); // The same object was hit
+            HideCurrentFocusedObject(); // The same object was hit and is out of range
         else
             HideCurrentFocusedObject(); // Other gameobject was hit
         
@@ -65,13 +71,16 @@ public class Poltergeist : PlayerSkill
 
     private void HideCurrentFocusedObject()
     {
+        if(lastFocusedObject == null)
+            return;
+
         lastFocusedObject.GetComponent<PoltergeistMovableObject>().HideFocus();
         lastFocusedObject = null;
     }
 
     public override void Execute()
     {
-
+        
     }
 
     public override void ShowPreview()
@@ -81,7 +90,7 @@ public class Poltergeist : PlayerSkill
         
         foreach (PoltergeistMovableObject movableObject in movableObjectsList)
         {
-            movableObject.TurnOnHighlight();
+            movableObject.TurnOnHighlighting();
         }
     }
 
@@ -89,7 +98,7 @@ public class Poltergeist : PlayerSkill
     {
         foreach (PoltergeistMovableObject movableObject in movableObjectsList)
         {
-            movableObject.TurnOffHighlight();
+            movableObject.TurnOffHighlighting();
         }
 
         showHighlighting = false;
