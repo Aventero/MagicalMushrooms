@@ -38,6 +38,7 @@ public class PoltergeistMovableObject : MonoBehaviour
     {
         highlighting = false;
         isFocused = false;
+        outline.enabled = false;
         meshRenderer.material = objectMaterial;
     }
 

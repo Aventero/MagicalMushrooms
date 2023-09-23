@@ -85,6 +85,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rechargeTime: 0
+  PushForce: 50
+  HighlightDistance: 10
   HighlightMaterial: {fileID: -6506959758786184616, guid: 8bc94b639fe7b464c8745b7dc2280b5f, type: 3}
   FocusMaterial: {fileID: 2100000, guid: f4e195ac1e204eff960149d1cb34e18c, type: 2}
-  HighlightDistance: 10
+  allowedLayers:
+    serializedVersion: 2
+    m_Bits: 0

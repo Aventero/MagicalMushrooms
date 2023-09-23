@@ -12,5 +12,5 @@ public class PlayerSkill : MonoBehaviour
     public virtual void ShowPreview() { }
     public virtual void HidePreview() { }
 
-    public virtual void Execute() { }
+    public virtual bool Execute() { return false; }
 }

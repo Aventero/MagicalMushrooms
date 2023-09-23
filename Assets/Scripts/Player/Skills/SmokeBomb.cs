@@ -58,9 +58,8 @@ public class SmokeBomb : PlayerSkill
         Destroy(smokeCircle);
     }
 
-    public override void Execute()
+    public override bool Execute()
     {
-        Debug.Log("Smoke executed");
         IsActivated = false;
 
         GameObject throwGameObject = Instantiate(throwingObject);
@@ -71,6 +70,8 @@ public class SmokeBomb : PlayerSkill
         throwRigidbody.AddForce((Camera.main.transform.forward + cameraAngleAdjustment) * throwStrength, ForceMode.Impulse);
 
         HidePreview();
+
+        return true;
     }
 
     public void DrawProjection()

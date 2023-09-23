@@ -21,10 +21,11 @@ public class PlayerSkillManager : MonoBehaviour
         if (!callback.performed || activeSkill == null || lockSkill)
             return;
 
-        activeSkill.Execute();
+        if (!activeSkill.Execute())
+            return;
+
         lockSkill = true;
         StartCoroutine(this.LockSkillForSeconds(activeSkill.rechargeTime));
-
         activeSkill = null;
     }
 
