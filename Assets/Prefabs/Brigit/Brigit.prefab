@@ -1981,6 +1981,7 @@ MonoBehaviour:
   RaycastPoint: {fileID: 0}
   AlertTime: 0.5
   LosingTime: 0.5
+  AttackAfterSeconds: 5
   SmoothTime: 0.5
   HuntSmoothTime: 0.1
   ObjectPlayerIsHidingBehind: {fileID: 0}
@@ -1996,7 +1997,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6f978dc0644bcd4aa2a2d373a562810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackAfterSeconds: 5
   ChasePoint: {fileID: 0}
 --- !u!114 &3658052457786925147
 MonoBehaviour:

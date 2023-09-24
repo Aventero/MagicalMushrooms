@@ -19,6 +19,9 @@ public class AIVision : MonoBehaviour
     public float LosingTime = 1.0f;
     private float losingTimer = 0f;
 
+    public float AttackAfterSeconds = 5f;
+    public float ChaseTime { get; set; }
+
     // Point Watching
     public Vector3 currentWatchTarget { get; set; }
     private Vector3 SmoothVelocity = Vector3.zero;

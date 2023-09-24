@@ -42,17 +42,19 @@ public class AIStateManager : MonoBehaviour
 
     // Watching
     public AIVision aiVision { get; private set; }
+
+
     public DangerOverlay DangerOverlay { get; private set; }
 
     // Animation
-    public WitchUIAnimation witchUIAnimation { get; private set; }
+    public WitchUIAnimation UIAnimation { get; private set; }
 
     void Awake()
     {
         DangerOverlay = GetComponent<DangerOverlay>();
         aiVision = GetComponent<AIVision>();
         animator = GetComponent<Animator>();
-        witchUIAnimation = GetComponent<WitchUIAnimation>();
+        UIAnimation = GetComponent<WitchUIAnimation>();
         agent = GetComponent<NavMeshAgent>();
         agent.autoBraking = true;
 
@@ -101,7 +103,7 @@ public class AIStateManager : MonoBehaviour
         aiVision.WatchSpot();
         AnimateWitch();
         DangerOverlay.UpdateColors();
-        witchUIAnimation.UpdateAnimationStates();
+        UIAnimation.UpdateAnimationStates();
         Debug.DrawLine(transform.position, currentWalkPoint, Color.green);
         Debug.DrawLine(transform.position, previousWalkPoint, Color.white);
     }

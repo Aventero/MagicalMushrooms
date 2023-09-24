@@ -18,7 +18,7 @@ public class AIStateSpottedPlayer : MonoBehaviour, IAIState
     {
         spottingTimer = 0;
         stateManager.DangerOverlay.SetState(DangerState.Danger);
-        stateManager.witchUIAnimation.PlayEyeOpen(SpottedDuration);
+        stateManager.UIAnimation.PlayEyeOpen(SpottedDuration);
     }
 
     public void UpdateState()

@@ -8,9 +8,11 @@ public class AIStateLostPlayer : MonoBehaviour, IAIState
     public float SafeBlitTime = 1f;
     public AIStateManager AIStateManager { get => stateManager; }
     private AIStateManager stateManager;
+    private AIVision vision;
     public void InitState(AIStateManager stateManager)
     {
         this.stateManager = stateManager;
+        vision = stateManager.aiVision;
     }
 
     public void EnterState()
@@ -18,7 +20,7 @@ public class AIStateLostPlayer : MonoBehaviour, IAIState
         stateManager.Watch(stateManager.Player.position);
         stateManager.agent.isStopped = true;
         stateManager.DangerOverlay.SetState(DangerState.Safe);
-        stateManager.witchUIAnimation.PlayEyeClose();
+        stateManager.UIAnimation.PlayPupilExpand(vision.AttackAfterSeconds, true);
     }
 
     public void ExitState()
@@ -30,15 +32,19 @@ public class AIStateLostPlayer : MonoBehaviour, IAIState
     {
         watchingTimer += Time.deltaTime;
 
-        // Get back to normal
-        if (watchingTimer >= WatchingTime)
+        // Decrease Chase time but not below 0
+        if (vision.ChaseTime >= 0)
+            vision.ChaseTime -= Time.deltaTime;
+
+        if (vision.ChaseTime <= 0 && watchingTimer >= WatchingTime)
         {
-            stateManager.TransitionToState(AIStates.Levitate);
-            return;
+            vision.ChaseTime = 0;
+            stateManager.UIAnimation.PlayEyeClose();
+            stateManager.TransitionToState(AIStates.Patrol);
         }
 
         // Found the player again
         if (stateManager.HasFoundPlayer())
-            stateManager.TransitionToState(AIStates.SpottetPlayer);
+            stateManager.TransitionToState(AIStates.Chase);
     }
 }

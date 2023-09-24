@@ -8,33 +8,33 @@ internal class AIStateChase : MonoBehaviour, IAIState
 {
     public AIStates StateName => AIStates.Chase;
     private NavMeshAgent agent; 
-    public float AttackAfterSeconds;
-    private float chaseTime = 0f;
+
     public Transform ChasePoint;
 
     public AIStateManager AIStateManager { get => stateManager; }
     private AIStateManager stateManager;
+    private AIVision vision;
 
     public void InitState(AIStateManager stateManager)
     {
         this.stateManager = stateManager;
         agent = stateManager.agent;
+        vision = stateManager.aiVision;
     }
 
     public void EnterState()
     {
         // UI
         stateManager.DangerOverlay.SetState(DangerState.Danger);
-        stateManager.witchUIAnimation.PlayerPupilExpand(AttackAfterSeconds);
+        stateManager.UIAnimation.PlayPupilExpand(vision.AttackAfterSeconds, false);
         
         // Watching
-        stateManager.aiVision.SnappyWatching();
+        vision.SnappyWatching();
         stateManager.Watch(stateManager.Player);
 
         // Chase player
         ChasePoint.position = stateManager.Player.position;
         stateManager.Walk();
-        chaseTime = 0f;
     }
 
     public void ExitState()
@@ -54,10 +54,10 @@ internal class AIStateChase : MonoBehaviour, IAIState
         else
         {
             // Is chasing
-            chaseTime += Time.deltaTime;
-            if (chaseTime >= AttackAfterSeconds)
+            vision.ChaseTime += Time.deltaTime;
+            if (vision.ChaseTime >= vision.AttackAfterSeconds)
             {
-                chaseTime = 0f;
+                vision.ChaseTime = 0f;
                 agent.isStopped = true;
                 stateManager.TransitionToState(AIStates.Capture);
             }
