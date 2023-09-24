@@ -35,12 +35,7 @@ public class PlayerSkillManager : MonoBehaviour
             return;
         
         Debug.Log("Activating Poltergeist");
-        activeSkill = poltergeist;
-
-        if (activeSkill.IsActivated)
-            activeSkill.HidePreview();
-        else
-            activeSkill.ShowPreview();
+        ActivateSkill(poltergeist);
     }
 
     public void OnSmokeBomb(InputAction.CallbackContext callback)
@@ -49,13 +44,7 @@ public class PlayerSkillManager : MonoBehaviour
             return;
 
         Debug.Log("Activating Smoke bomb");
-
-        activeSkill = smokeBomb;
-
-        if (smokeBomb.IsActivated)
-            smokeBomb.HidePreview();
-        else
-            smokeBomb.ShowPreview();
+        ActivateSkill(smokeBomb);
     }
 
     public void OnMagicCloak(InputAction.CallbackContext callback)
@@ -66,7 +55,21 @@ public class PlayerSkillManager : MonoBehaviour
         Debug.Log("Activating Magic cloak");
     }
 
-    IEnumerator LockSkillForSeconds(float time)
+    private void ActivateSkill(PlayerSkill skill)
+    {
+        if (activeSkill == null)
+        {
+            activeSkill = skill;
+            activeSkill.ShowPreview();
+        }
+        else if (activeSkill == skill)
+        {
+            activeSkill.HidePreview();
+            activeSkill = null;
+        }
+    }
+
+    private IEnumerator LockSkillForSeconds(float time)
     {
         yield return new WaitForSeconds(time);
         lockSkill = false;
