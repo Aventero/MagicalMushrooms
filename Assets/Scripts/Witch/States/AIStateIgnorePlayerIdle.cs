@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AIStateIgnorePlayerIdle : MonoBehaviour, IAIState
 {
-    public string StateName => "IgnorePlayerIdle";
+    public AIStates StateName => AIStates.IgnorePlayerIdle;
     public float WaitTimeInBetween = 2.0f;
     public AIStateManager AIStateManager { get => stateManager; }
     private AIStateManager stateManager;
@@ -16,7 +16,7 @@ public class AIStateIgnorePlayerIdle : MonoBehaviour, IAIState
 
     public void EnterState()
     {
-        stateManager.DangerBlit.SetState(DangerState.Nothing);
+        stateManager.DangerOverlay.SetState(DangerState.Nothing);
         stateManager.agent.isStopped = true;
         stateManager.aiVision.RelaxedWatching();
         List<Transform> visiblePoints = stateManager.CalculateVisiblePoints(transform.position, transform.forward, 75f);
@@ -48,7 +48,7 @@ public class AIStateIgnorePlayerIdle : MonoBehaviour, IAIState
             yield return new WaitForSeconds(waitTimeInBetween);
         }
 
-        stateManager.TransitionToState("Patrol");
+        stateManager.TransitionToState(AIStates.Patrol);
         yield return null;
     }
 }

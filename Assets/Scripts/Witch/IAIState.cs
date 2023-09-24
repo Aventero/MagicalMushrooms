@@ -1,7 +1,7 @@
 
 public interface IAIState
 {
-    public string StateName { get; }
+    public AIStates StateName { get; }
 
     public AIStateManager AIStateManager { get; }
 

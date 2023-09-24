@@ -5,7 +5,7 @@ using UnityEngine;
 public class AIStateLevitate : MonoBehaviour, IAIState
 {
     private AIStateManager stateManager;
-    public string StateName => "Levitate";
+    public AIStates StateName => AIStates.Levitate;
     public float levitationRadius = 10f;
     public float LevitationTime = 5f;
 
@@ -33,7 +33,7 @@ public class AIStateLevitate : MonoBehaviour, IAIState
         if (stateManager.HasFoundPlayer())
         {
             StopAllCoroutines();
-            stateManager.TransitionToState("Chase");
+            stateManager.TransitionToState(AIStates.SpottetPlayer);
         }
     }
 
@@ -45,7 +45,7 @@ public class AIStateLevitate : MonoBehaviour, IAIState
     IEnumerator SearchAround()
     {
         yield return new WaitForSeconds(LevitationTime);
-        stateManager.TransitionToState("Patrol");
+        stateManager.TransitionToState(AIStates.Patrol);
     }
 
     private GameObject FindObjectToLevitate()

@@ -114,16 +114,16 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        Rigidbody hitRigidbody = hit.collider.attachedRigidbody;
-        if (hitRigidbody != null)
-            hitRigidbody.isKinematic = true;
+        //Rigidbody hitRigidbody = hit.collider.attachedRigidbody;
+        //if (hitRigidbody != null)
+        //    hitRigidbody.isKinematic = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Rigidbody hitRigidbody = other.attachedRigidbody;
-        if (hitRigidbody != null)
-            hitRigidbody.isKinematic = false;
+        //Rigidbody hitRigidbody = other.attachedRigidbody;
+        //if (hitRigidbody != null)
+        //    hitRigidbody.isKinematic = false;
     }
 
 

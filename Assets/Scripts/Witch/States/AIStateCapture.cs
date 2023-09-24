@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class AIStateCapture : MonoBehaviour, IAIState
 {
+    public AIStates StateName => AIStates.Capture;
+    public AIStateManager AIStateManager { get => stateManager; }
+    private AIStateManager stateManager;
+
     public GameObject CagePrefab;
 
     [Header("Height of player from 0 to 2 while 1 is the destination")]
@@ -19,11 +23,6 @@ public class AIStateCapture : MonoBehaviour, IAIState
     private float percentCaptured = 0f;
     private bool isCapturing = false;
 
-    public string StateName => "Capture";
-    public AIStateManager AIStateManager { get => stateManager; }
-    private AIStateManager stateManager;
-
-
     public void InitState(AIStateManager stateManager)
     {
         this.stateManager = stateManager;
@@ -32,7 +31,7 @@ public class AIStateCapture : MonoBehaviour, IAIState
 
     public void EnterState()
     {
-        stateManager.DangerBlit.SetState(DangerState.Attack);
+        stateManager.DangerOverlay.SetState(DangerState.Attack);
         captureTimer = 0f;
         percentCaptured = 0f;
         // Spawn Cage
@@ -76,7 +75,7 @@ public class AIStateCapture : MonoBehaviour, IAIState
         {
             CloseCageGate();
             // Fade screen
-            stateManager.TransitionToState("Patrol");
+            stateManager.TransitionToState(AIStates.Patrol);
         }
         
 

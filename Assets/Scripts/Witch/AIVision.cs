@@ -55,7 +55,7 @@ public class AIVision : MonoBehaviour
         CurrentWatchTarget.transform.position = smoothingPosition;
     }
 
-    public void PlayerWatching()
+    public void SnappyWatching()
     {
         currentSmoothTime = HuntSmoothTime;
     }

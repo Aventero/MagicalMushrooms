@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AIStateIdle : MonoBehaviour, IAIState
 {
-    public string StateName => "Idle";
+    public AIStates StateName => AIStates.Idle;
     public AIStateManager AIStateManager { get => stateManager; }
     private AIStateManager stateManager;
 
@@ -17,7 +17,7 @@ public class AIStateIdle : MonoBehaviour, IAIState
 
     public void EnterState()
     {
-        stateManager.DangerBlit.SetState(DangerState.Nothing);
+        stateManager.DangerOverlay.SetState(DangerState.Nothing);
         stateManager.aiVision.RelaxedWatching();
         stateManager.agent.isStopped = true;
         Vector3 directionToPlayer = stateManager.Player.position - transform.position;
@@ -36,7 +36,7 @@ public class AIStateIdle : MonoBehaviour, IAIState
         if (stateManager.HasFoundPlayer())
         {
             StopCoroutine(nameof(LookAround));
-            stateManager.TransitionToState("Chase");
+            stateManager.TransitionToState(AIStates.SpottetPlayer);
         }
     }
 
@@ -88,7 +88,7 @@ public class AIStateIdle : MonoBehaviour, IAIState
         }
 
         // Completed Looking back to Patrol!
-        stateManager.TransitionToState("Patrol");
+        stateManager.TransitionToState(AIStates.Patrol);
         yield return null;
     }
 }

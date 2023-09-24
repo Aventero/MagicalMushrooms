@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AIStateLostPlayer : MonoBehaviour, IAIState
 {
-    public string StateName => "LostPlayer";
+    public AIStates StateName => AIStates.LostPlayer;
     public float WatchingTime = 2f;
     private float watchingTimer = 0f;
     public float SafeBlitTime = 1f;
@@ -17,7 +17,8 @@ public class AIStateLostPlayer : MonoBehaviour, IAIState
     {
         stateManager.Watch(stateManager.Player.position);
         stateManager.agent.isStopped = true;
-        stateManager.DangerBlit.SetState(DangerState.Safe);
+        stateManager.DangerOverlay.SetState(DangerState.Safe);
+        stateManager.witchUIAnimation.PlayEyeClose();
     }
 
     public void ExitState()
@@ -32,12 +33,12 @@ public class AIStateLostPlayer : MonoBehaviour, IAIState
         // Get back to normal
         if (watchingTimer >= WatchingTime)
         {
-            stateManager.TransitionToState("Levitate");
+            stateManager.TransitionToState(AIStates.Levitate);
             return;
         }
 
         // Found the player again
         if (stateManager.HasFoundPlayer())
-            stateManager.TransitionToState("Chase");
+            stateManager.TransitionToState(AIStates.SpottetPlayer);
     }
 }

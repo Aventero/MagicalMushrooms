@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AIStateRangeAttack : MonoBehaviour, IAIState
 {
-    public string StateName => "RangeAttack";
+    public AIStates StateName => AIStates.RangeAttack;
 
     public AIStateManager AIStateManager { get => stateManager; }
     private AIStateManager stateManager;

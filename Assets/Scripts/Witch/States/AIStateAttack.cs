@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 internal class AIStateAttack : MonoBehaviour, IAIState
 {
-    public string StateName => "Attack";
+    public AIStates StateName => AIStates.Attack;
 
     public AIStateManager AIStateManager { get => stateManager; }
     private AIStateManager stateManager;
@@ -27,10 +27,10 @@ internal class AIStateAttack : MonoBehaviour, IAIState
 
     public void EnterState()
     {
-        stateManager.DangerBlit.SetState(DangerState.Attack);
+        stateManager.DangerOverlay.SetState(DangerState.Attack);
         attacking = false;
 
-        stateManager.aiVision.PlayerWatching();
+        stateManager.aiVision.SnappyWatching();
         player = stateManager.Player.transform;
         // Walk to the point that seems seems right and attack
         stateManager.SetWalkPoint(player.position);
@@ -49,10 +49,10 @@ internal class AIStateAttack : MonoBehaviour, IAIState
         stateManager.Watch(player);
 
         if (stateManager.HasLostPlayer() && !attacking)
-            stateManager.TransitionToState("LostPlayer");
+            stateManager.TransitionToState(AIStates.LostPlayer);
 
         stateManager.StopAgent();
-        stateManager.TransitionToState("IgnorePlayerIdle");
+        stateManager.TransitionToState(AIStates.IgnorePlayerIdle);
         
         //if (!stateManager.agent.pathPending && stateManager.agent.remainingDistance < stateManager.agent.stoppingDistance && !attacking)
         //{

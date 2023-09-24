@@ -4,7 +4,7 @@ using UnityEngine;
 
 internal class AIStatePatrol :  MonoBehaviour, IAIState
 {
-    public string StateName => "Patrol";
+    public AIStates StateName => AIStates.Patrol;
     private Transform patrolWatchPoint;
     public AIStateManager AIStateManager { get => stateManager; }
     private AIStateManager stateManager;
@@ -15,7 +15,7 @@ internal class AIStatePatrol :  MonoBehaviour, IAIState
 
     public void EnterState()
     {
-        stateManager.DangerBlit.SetState(DangerState.Nothing);
+        stateManager.DangerOverlay.SetState(DangerState.Nothing);
         stateManager.aiVision.RelaxedWatching();
         stateManager.StopAgent();
         Transform walkPoint = stateManager.FindNewWalkpoint();
@@ -56,14 +56,14 @@ internal class AIStatePatrol :  MonoBehaviour, IAIState
 
         if (stateManager.HasFoundPlayer())
         {
-            stateManager.TransitionToState("Chase");
+            stateManager.TransitionToState(AIStates.SpottetPlayer);
             return;
         }
 
         // check if reached a walkpoint
         if (!stateManager.agent.pathPending && stateManager.agent.remainingDistance < stateManager.agent.stoppingDistance)
         {
-            stateManager.TransitionToState("Idle");
+            stateManager.TransitionToState(AIStates.Idle);
         }
     }
 

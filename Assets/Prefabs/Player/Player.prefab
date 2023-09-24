@@ -560,7 +560,7 @@ GameObject:
   - component: {fileID: 6816786149360592777}
   m_Layer: 0
   m_Name: RayCastPoint
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -593,7 +593,7 @@ GameObject:
   - component: {fileID: 2908570376047778739}
   m_Layer: 9
   m_Name: ForwardLight
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -708,7 +708,7 @@ GameObject:
   - component: {fileID: 4246494466177820358}
   m_Layer: 9
   m_Name: StaffCamera
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -818,7 +818,7 @@ GameObject:
   - component: {fileID: 1593543338561472950}
   m_Layer: 9
   m_Name: StaffLight
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -927,6 +927,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2857605710249577896}
     m_Modifications:
+    - target: {fileID: 7614428055766683479, guid: f3d44355b3c7bd74ea49aaa9949d18d7, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 8542149271701602499, guid: f3d44355b3c7bd74ea49aaa9949d18d7, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -986,6 +990,10 @@ PrefabInstance:
     - target: {fileID: 9061276730627627641, guid: f3d44355b3c7bd74ea49aaa9949d18d7, type: 3}
       propertyPath: m_Name
       value: MagicRodDrawn
+      objectReference: {fileID: 0}
+    - target: {fileID: 9061276730627627641, guid: f3d44355b3c7bd74ea49aaa9949d18d7, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3d44355b3c7bd74ea49aaa9949d18d7, type: 3}

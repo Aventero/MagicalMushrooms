@@ -72,7 +72,7 @@ public class DangerOverlay : MonoBehaviour
     }   
 
 
-    public void UpdateBlit()
+    public void UpdateColors()
     {
         fadeTimer += Time.deltaTime;
         lerpPercent = Mathf.Clamp(fadeTimer / transitionDuration, 0, 1);

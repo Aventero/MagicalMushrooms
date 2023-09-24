@@ -16,7 +16,7 @@ public class AIStateManager : MonoBehaviour
     public delegate void OnStateEvent();
     public OnStateEvent Onevent;
 
-    public Dictionary<string, IAIState> states = new Dictionary<string, IAIState>();
+    public Dictionary<AIStates, IAIState> states = new Dictionary<AIStates, IAIState>();
 
     // Player Target
     public Transform Player;
@@ -42,13 +42,17 @@ public class AIStateManager : MonoBehaviour
 
     // Watching
     public AIVision aiVision { get; private set; }
-    public DangerOverlay DangerBlit { get; private set; }
+    public DangerOverlay DangerOverlay { get; private set; }
+
+    // Animation
+    public WitchUIAnimation witchUIAnimation { get; private set; }
 
     void Awake()
     {
-        DangerBlit = GetComponent<DangerOverlay>();
+        DangerOverlay = GetComponent<DangerOverlay>();
         aiVision = GetComponent<AIVision>();
         animator = GetComponent<Animator>();
+        witchUIAnimation = GetComponent<WitchUIAnimation>();
         agent = GetComponent<NavMeshAgent>();
         agent.autoBraking = true;
 
@@ -57,19 +61,20 @@ public class AIStateManager : MonoBehaviour
         WatchPoints = new List<Transform>(WatchPointsParent.GetComponentsInChildren<Transform>().Where(Point => Point != WatchPointsParent.transform));
         currentWalkPoint = previousWalkPoint = walkPoints[0].position;
 
-        states.Add("Idle", GetComponent<AIStateIdle>());
-        states.Add("Patrol", GetComponent<AIStatePatrol>());
-        states.Add("Chase", GetComponent <AIStateChase>());
-        states.Add("Attack", GetComponent<AIStateAttack>());
-        states.Add("IgnorePlayerIdle", GetComponent<AIStateIgnorePlayerIdle>());
-        states.Add("LostPlayer", GetComponent<AIStateLostPlayer>());
-        states.Add("Levitate", GetComponent<AIStateLevitate>());
-        states.Add("Capture", GetComponent<AIStateCapture>());
+        states.Add(AIStates.Idle, GetComponent<AIStateIdle>());
+        states.Add(AIStates.Patrol, GetComponent<AIStatePatrol>());
+        states.Add(AIStates.Chase, GetComponent <AIStateChase>());
+        states.Add(AIStates.Attack, GetComponent<AIStateAttack>());
+        states.Add(AIStates.IgnorePlayerIdle, GetComponent<AIStateIgnorePlayerIdle>());
+        states.Add(AIStates.LostPlayer, GetComponent<AIStateLostPlayer>());
+        states.Add(AIStates.Levitate, GetComponent<AIStateLevitate>());
+        states.Add(AIStates.Capture, GetComponent<AIStateCapture>());
+        states.Add(AIStates.SpottetPlayer, GetComponent<AIStateSpottedPlayer>());
 
         foreach (var state in states)
             state.Value.InitState(this);
 
-        currentState = states["Idle"];
+        currentState = states[AIStates.Idle];
         currentState.EnterState();
     }
 
@@ -95,7 +100,8 @@ public class AIStateManager : MonoBehaviour
         currentState.UpdateState();
         aiVision.WatchSpot();
         AnimateWitch();
-        DangerBlit.UpdateBlit();
+        DangerOverlay.UpdateColors();
+        witchUIAnimation.UpdateAnimationStates();
         Debug.DrawLine(transform.position, currentWalkPoint, Color.green);
         Debug.DrawLine(transform.position, previousWalkPoint, Color.white);
     }
@@ -128,7 +134,7 @@ public class AIStateManager : MonoBehaviour
         return aiVision.LostPlayer();
     }
 
-    public void TransitionToState(string stateName)
+    public void TransitionToState(AIStates stateName)
     {
         Debug.Log("New State: " + stateName);
         previousState = currentState;
@@ -210,4 +216,17 @@ public class AIStateManager : MonoBehaviour
 
         return shortestPoint;
     }
+}
+public enum AIStates
+{
+    Attack,
+    Capture,
+    Chase,
+    Idle,
+    IgnorePlayerIdle,
+    Levitate,
+    LostPlayer,
+    Patrol,
+    RangeAttack,
+    SpottetPlayer
 }
