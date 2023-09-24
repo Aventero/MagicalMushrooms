@@ -14,6 +14,25 @@ public class PlayerSkillManager : MonoBehaviour
     {
         smokeBomb = GetComponent<SmokeBomb>();
         poltergeist = GetComponent<Poltergeist>();
+
+        StateManager.Instance.PauseGameEvent.AddListener(this.OnPause);
+        StateManager.Instance.ResumeGameEvent.AddListener(this.OnResume);
+    }
+
+    public void OnPause()
+    {
+        lockSkill = true;
+        if (activeSkill != null)
+        {
+            UIManager.Instance.SkillDeactivated();
+            activeSkill.HidePreview();
+            activeSkill = null;
+        }
+    }
+
+    public void OnResume()
+    {
+        lockSkill = false;
     }
 
     public void SkillActivation(InputAction.CallbackContext callback)

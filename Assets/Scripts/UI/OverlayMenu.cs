@@ -15,6 +15,7 @@ public class OverlayMenu : MonoBehaviour
     public GameObject Monolog;
     public GameObject CheckpointText;
 
+    public GameObject Skillbar;
     public GameObject PoltergeistObject;
     public GameObject SmokeBombObject;
     public Color SkillActivationColor;
@@ -73,6 +74,11 @@ public class OverlayMenu : MonoBehaviour
     {
         Monolog.SetActive(true);
         monologMenu.ShowMonolog(monolog);
+    }
+
+    public void SetSkillBarVisibility(bool visibility)
+    {
+        Skillbar.SetActive(visibility);
     }
 
     public void ShowTooltip(string tooltipText)

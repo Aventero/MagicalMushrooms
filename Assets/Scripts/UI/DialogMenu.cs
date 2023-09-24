@@ -23,6 +23,7 @@ public class DialogMenu: MonoBehaviour
 
     public void ShowDialog(Dialog conversation)
     {
+        UIManager.Instance.SetSkillBarVisibility(false);
         StateManager.Instance.PauseGameEvent.Invoke();
 
         SetUp(conversation);
@@ -93,6 +94,7 @@ public class DialogMenu: MonoBehaviour
 
     public void EndDialog()
     {
+        UIManager.Instance.SetSkillBarVisibility(true);
         currentTextPos = 0;
         StateManager.Instance.ResumeGameEvent.Invoke();
         this.gameObject.SetActive(false);
