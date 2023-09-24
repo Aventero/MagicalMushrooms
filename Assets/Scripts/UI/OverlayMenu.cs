@@ -15,6 +15,10 @@ public class OverlayMenu : MonoBehaviour
     public GameObject Monolog;
     public GameObject CheckpointText;
 
+    public GameObject PoltergeistObject;
+    public GameObject SmokeBombObject;
+    public Color SkillActivationColor;
+
     public float ShowCheckpointNotification = 1.5f;
 
     private List<Sprite> pickedUpItemsSprites;
@@ -22,6 +26,8 @@ public class OverlayMenu : MonoBehaviour
 
     private DialogMenu dialogMenu;
     private MonologMenu monologMenu;
+    private GameObject activeSkillObject;
+    private Color activeSkillColor;
 
     // Start is called before the first frame update
     void Start()
@@ -103,6 +109,29 @@ public class OverlayMenu : MonoBehaviour
         UpdateItemSprites();
     }
 
+    public void SkillActivated(PlayerSkill playerSkill)
+    {
+        GameObject playerSkillObject = GetPlayerSkillObject(playerSkill);
+        CutoutMask mask = playerSkillObject.GetComponentInChildren<CutoutMask>();
+        activeSkillColor = mask.color;
+        mask.color = SkillActivationColor;
+        activeSkillObject = playerSkillObject;
+    }
+
+    public void SkillDeactivated()
+    {
+        CutoutMask mask = activeSkillObject.GetComponentInChildren<CutoutMask>();
+        mask.color = activeSkillColor;
+
+        activeSkillObject = null;
+        activeSkillColor = Color.white;
+    }
+
+    public void SkillExecuted(PlayerSkill playerSkill)
+    {
+        SkillDeactivated();
+    }
+
     public void UpdateItemSprites()
     {
         if (pickedUpItems != null)
@@ -113,5 +142,15 @@ public class OverlayMenu : MonoBehaviour
         }
 
         pickedUpItems = UIBuilder.CreateIcons(IconParent.transform, pickedUpItemsSprites.ToArray(), "Item Icon", new Vector2(1, 0), new Vector2(1, 0), new Vector2(50, 50));
+    }
+
+    private GameObject GetPlayerSkillObject(PlayerSkill playerSkill)
+    {
+        return playerSkill switch
+        {
+            SmokeBomb => SmokeBombObject,
+            Poltergeist => PoltergeistObject,
+            _ => null,
+        };
     }
 }

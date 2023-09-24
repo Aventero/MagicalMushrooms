@@ -25,6 +25,7 @@ public class PlayerSkillManager : MonoBehaviour
             return;
 
         lockSkill = true;
+        UIManager.Instance.SkillExecuted(activeSkill);
         StartCoroutine(this.LockSkillForSeconds(activeSkill.RechargeTime));
         activeSkill = null;
     }
@@ -61,11 +62,13 @@ public class PlayerSkillManager : MonoBehaviour
         {
             activeSkill = skill;
             activeSkill.ShowPreview();
+            UIManager.Instance.SkillActivated(skill);
         }
         else if (activeSkill == skill)
         {
             activeSkill.HidePreview();
             activeSkill = null;
+            UIManager.Instance.SkillDeactivated();
         }
     }
 
