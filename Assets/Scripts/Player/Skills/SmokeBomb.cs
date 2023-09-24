@@ -40,6 +40,8 @@ public class SmokeBomb : PlayerSkill
 
     public override void ShowPreview()
     {
+        UIManager.Instance.ShowTooltip(TooltipText);
+
         lineRenderer.enabled = true;
         drawProjection = true;
 
@@ -51,6 +53,8 @@ public class SmokeBomb : PlayerSkill
 
     public override void HidePreview()
     {
+        UIManager.Instance.HideTooltip();
+
         IsActivated = false;
         drawProjection = false;
 

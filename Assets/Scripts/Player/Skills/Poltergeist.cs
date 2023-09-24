@@ -96,6 +96,7 @@ public class Poltergeist : PlayerSkill
 
     public override void ShowPreview()
     {
+        UIManager.Instance.ShowTooltip(TooltipText);
         IsActivated = true;
         showHighlighting = true;
         
@@ -107,6 +108,8 @@ public class Poltergeist : PlayerSkill
 
     public override void HidePreview()
     {
+        UIManager.Instance.HideTooltip();
+
         foreach (PoltergeistMovableObject movableObject in movableObjectsList)
         {
             movableObject.TurnOffHighlighting();

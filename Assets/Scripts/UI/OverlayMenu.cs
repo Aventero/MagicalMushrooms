@@ -7,7 +7,9 @@ using UnityEngine.UI;
 public class OverlayMenu : MonoBehaviour
 {
     public Image InteractionPopup;
+    public TMP_Text TooltipText;
     public TMP_Text InteractionText;
+
     public GameObject IconParent;
     public GameObject Dialog;
     public GameObject Monolog;
@@ -31,9 +33,10 @@ public class OverlayMenu : MonoBehaviour
 
         pickedUpItemsSprites = new List<Sprite>();
 
-
         dialogMenu = Dialog.GetComponent<DialogMenu>();
         monologMenu = Monolog.GetComponent<MonologMenu>();
+
+        HideTooltip();
     }
 
     public void ShowCheckpointText()
@@ -64,6 +67,18 @@ public class OverlayMenu : MonoBehaviour
     {
         Monolog.SetActive(true);
         monologMenu.ShowMonolog(monolog);
+    }
+
+    public void ShowTooltip(string tooltipText)
+    {
+        TooltipText.SetText(tooltipText);
+        TooltipText.gameObject.SetActive(true);
+    }
+
+    public void HideTooltip()
+    {
+        TooltipText.SetText(string.Empty);
+        TooltipText.gameObject.SetActive(false);
     }
 
     public void OnItemPickup(ItemData item)

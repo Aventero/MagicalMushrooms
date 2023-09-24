@@ -25,7 +25,7 @@ public class PlayerSkillManager : MonoBehaviour
             return;
 
         lockSkill = true;
-        StartCoroutine(this.LockSkillForSeconds(activeSkill.rechargeTime));
+        StartCoroutine(this.LockSkillForSeconds(activeSkill.RechargeTime));
         activeSkill = null;
     }
 

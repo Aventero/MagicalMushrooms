@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerSkill : MonoBehaviour
 {
     [Header("Skill")]
-    public float rechargeTime;
+    public float RechargeTime;
+    public string TooltipText;
 
     public bool IsActivated { get; internal set; }
 

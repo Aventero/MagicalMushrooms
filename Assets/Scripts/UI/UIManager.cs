@@ -51,6 +51,18 @@ public class UIManager : MonoBehaviour
             overlayMenu.DisplayInteractionText(true, text);
     }
 
+    public void ShowTooltip(string text)
+    {
+        if (OverlayMenu != null)
+            overlayMenu.ShowTooltip(text);
+    }
+
+    public void HideTooltip()
+    {
+        if (OverlayMenu != null)
+            overlayMenu.HideTooltip();
+    }
+
     public void ShowDialog(Dialog dialog)
     {
         overlayMenu.ShowDialog(dialog);
