@@ -96,7 +96,7 @@ public class Poltergeist : PlayerSkill
 
     public override void ShowPreview()
     {
-        UIManager.Instance.ShowTooltip(TooltipText);
+        UIManager.Instance.ShowTooltip(TooltipText, MouseSide.LeftClick);
         IsActivated = true;
         showHighlighting = true;
         

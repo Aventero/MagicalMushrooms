@@ -7,18 +7,13 @@ using UnityEngine.UI;
 public class OverlayMenu : MonoBehaviour
 {
     public Image InteractionPopup;
-    public TMP_Text TooltipText;
+    public GameObject Tooltip;
     public TMP_Text InteractionText;
 
     public GameObject IconParent;
     public GameObject Dialog;
     public GameObject Monolog;
     public GameObject CheckpointText;
-
-    public GameObject Skillbar;
-    public GameObject PoltergeistObject;
-    public GameObject SmokeBombObject;
-    public Color SkillActivationColor;
 
     public float ShowCheckpointNotification = 1.5f;
 
@@ -27,8 +22,9 @@ public class OverlayMenu : MonoBehaviour
 
     private DialogMenu dialogMenu;
     private MonologMenu monologMenu;
-    private GameObject activeSkillObject;
-    private Color activeSkillColor;
+
+    // Animation
+    public Animator mouseAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -76,21 +72,17 @@ public class OverlayMenu : MonoBehaviour
         monologMenu.ShowMonolog(monolog);
     }
 
-    public void SetSkillBarVisibility(bool visibility)
+    public void ShowTooltip(string text, MouseSide mouseButton)
     {
-        Skillbar.SetActive(visibility);
-    }
-
-    public void ShowTooltip(string tooltipText)
-    {
-        TooltipText.SetText(tooltipText);
-        TooltipText.gameObject.SetActive(true);
+        TMP_Text tooltipText = Tooltip.GetComponentInChildren<TMP_Text>(true);
+        tooltipText.SetText(text);
+        Tooltip.SetActive(true);
+        mouseAnimator.Play("LeftClick");
     }
 
     public void HideTooltip()
     {
-        TooltipText.SetText(string.Empty);
-        TooltipText.gameObject.SetActive(false);
+        Tooltip.SetActive(false);
     }
 
     public void OnItemPickup(ItemData item)
@@ -115,29 +107,6 @@ public class OverlayMenu : MonoBehaviour
         UpdateItemSprites();
     }
 
-    public void SkillActivated(PlayerSkill playerSkill)
-    {
-        GameObject playerSkillObject = GetPlayerSkillObject(playerSkill);
-        CutoutMask mask = playerSkillObject.GetComponentInChildren<CutoutMask>();
-        activeSkillColor = mask.color;
-        mask.color = SkillActivationColor;
-        activeSkillObject = playerSkillObject;
-    }
-
-    public void SkillDeactivated()
-    {
-        CutoutMask mask = activeSkillObject.GetComponentInChildren<CutoutMask>();
-        mask.color = activeSkillColor;
-
-        activeSkillObject = null;
-        activeSkillColor = Color.white;
-    }
-
-    public void SkillExecuted(PlayerSkill playerSkill)
-    {
-        SkillDeactivated();
-    }
-
     public void UpdateItemSprites()
     {
         if (pickedUpItems != null)
@@ -149,14 +118,10 @@ public class OverlayMenu : MonoBehaviour
 
         pickedUpItems = UIBuilder.CreateIcons(IconParent.transform, pickedUpItemsSprites.ToArray(), "Item Icon", new Vector2(1, 0), new Vector2(1, 0), new Vector2(50, 50));
     }
+}
 
-    private GameObject GetPlayerSkillObject(PlayerSkill playerSkill)
-    {
-        return playerSkill switch
-        {
-            SmokeBomb => SmokeBombObject,
-            Poltergeist => PoltergeistObject,
-            _ => null,
-        };
-    }
+public enum MouseSide
+{
+    LeftClick,
+    RightClick
 }

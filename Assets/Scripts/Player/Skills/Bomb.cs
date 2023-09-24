@@ -53,8 +53,8 @@ public class Bomb : MonoBehaviour
 
         if(percentage >= 1)
         {
-            if (Equals(transform.localScale, Vector3.zero))
-                Destroy(this);
+            if (transform.localScale.x <= 0.01f)
+                Destroy(gameObject);
 
             // Shrink the bomb
             SetUpShrinkVariables();
