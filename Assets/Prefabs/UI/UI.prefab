@@ -4735,9 +4735,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb4f1df91987742738bcdefba18b53b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SkillActivationColor: {r: 1, g: 0, b: 0, a: 1}
+  Skillbar: {fileID: 1613233555173469856}
+  PoltergeistSkillObject: {fileID: 4686160859715690497}
+  SmokeBombObject: {fileID: 5160315568268093896}
   InteractionPopup: {fileID: 6995351195651204454}
-  Tooltip: {fileID: 4816264060304462795}
   InteractionText: {fileID: 2502398157682805545}
+  Tooltip: {fileID: 4816264060304462795}
   IconParent: {fileID: 5278448498988411936}
   Dialog: {fileID: 407747439318406651}
   Monolog: {fileID: 8258545662604010480}
@@ -5238,6 +5242,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8864d7f004bc9d44da0f516fe7273d76, type: 3}
+--- !u!1 &5160315568268093896 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6794536301834142032, guid: 8864d7f004bc9d44da0f516fe7273d76, type: 3}
+  m_PrefabInstance: {fileID: 1861699063722518680}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5743457021441512161 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6224765046290201209, guid: 8864d7f004bc9d44da0f516fe7273d76, type: 3}
@@ -5364,6 +5373,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8864d7f004bc9d44da0f516fe7273d76, type: 3}
+--- !u!1 &4686160859715690497 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6794536301834142032, guid: 8864d7f004bc9d44da0f516fe7273d76, type: 3}
+  m_PrefabInstance: {fileID: 2252816575384215889}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5269583650286361384 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6224765046290201209, guid: 8864d7f004bc9d44da0f516fe7273d76, type: 3}

@@ -6,10 +6,20 @@ using UnityEngine.UI;
 
 public class OverlayMenu : MonoBehaviour
 {
+    [Header("Player Skill References")]
+    public Color SkillActivationColor;
+
+    public GameObject Skillbar;
+    public GameObject PoltergeistSkillObject;
+    public GameObject SmokeBombObject;
+
+
     public Image InteractionPopup;
-    public GameObject Tooltip;
+    
     public TMP_Text InteractionText;
 
+    [Header("UI References")]
+    public GameObject Tooltip;
     public GameObject IconParent;
     public GameObject Dialog;
     public GameObject Monolog;
@@ -19,6 +29,9 @@ public class OverlayMenu : MonoBehaviour
 
     private List<Sprite> pickedUpItemsSprites;
     private GameObject[] pickedUpItems; // List for displaying the item sprites
+
+    private GameObject activeSkillObject = null;
+    private Color activeSkillColor = Color.white;
 
     private DialogMenu dialogMenu;
     private MonologMenu monologMenu;
@@ -85,6 +98,34 @@ public class OverlayMenu : MonoBehaviour
         Tooltip.SetActive(false);
     }
 
+    public void SkillActivated(PlayerSkill playerSkill)
+    {
+        activeSkillObject = GetPlayerSkillObject(playerSkill);
+        CutoutMask mask = activeSkillObject.GetComponentInChildren<CutoutMask>();
+        
+        activeSkillColor = mask.color;
+        mask.color = SkillActivationColor;
+    }
+
+    public void SkillDeactivated()
+    {
+        if (activeSkillObject == null)
+            return;
+
+        activeSkillObject.GetComponentInChildren<CutoutMask>().color = activeSkillColor;
+        activeSkillObject = null;
+    }
+
+    public void SkillExecuted(PlayerSkill playerSkill)
+    {
+        SkillDeactivated();
+    }
+
+    public void SetSkillBarVisibility(bool visibility)
+    {
+        Skillbar.SetActive(visibility);
+    }
+
     public void OnItemPickup(ItemData item)
     {
         Debug.Log("Picked up Item: " + item.Name);
@@ -117,6 +158,16 @@ public class OverlayMenu : MonoBehaviour
         }
 
         pickedUpItems = UIBuilder.CreateIcons(IconParent.transform, pickedUpItemsSprites.ToArray(), "Item Icon", new Vector2(1, 0), new Vector2(1, 0), new Vector2(50, 50));
+    }
+
+    private GameObject GetPlayerSkillObject(PlayerSkill playerSkill)
+    {
+        return playerSkill switch
+        {
+            SmokeBomb => SmokeBombObject,
+            Poltergeist => PoltergeistSkillObject,
+            _ => null,
+        };
     }
 }
 

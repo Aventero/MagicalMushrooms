@@ -76,17 +76,17 @@ public class UIManager : MonoBehaviour
 
     public void SkillActivated(PlayerSkill playerSkill)
     {
-        //overlayMenu.SkillActivated(playerSkill);
+        overlayMenu.SkillActivated(playerSkill);
     }
 
     public void SkillDeactivated()
     {
-        //overlayMenu.SkillDeactivated();
+        overlayMenu.SkillDeactivated();
     }
 
     public void SkillExecuted(PlayerSkill playerSkill)
     {
-        //overlayMenu.SkillExecuted(playerSkill);
+        overlayMenu.SkillExecuted(playerSkill);
     }
 
     public void ShowMonolog(Monolog monolog)
@@ -96,7 +96,7 @@ public class UIManager : MonoBehaviour
 
     public void SetSkillBarVisibility(bool visible)
     {
-        //overlayMenu.SetSkillBarVisibility(visible);
+        overlayMenu.SetSkillBarVisibility(visible);
     }
 
     private void GameOver()
