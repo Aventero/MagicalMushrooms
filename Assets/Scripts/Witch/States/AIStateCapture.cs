@@ -76,7 +76,8 @@ public class AIStateCapture : MonoBehaviour, IAIState
         {
             CloseCageGate();
             // Fade screen
-            stateManager.TransitionToState(AIStates.Patrol);
+            stateManager.UIAnimation.PlayEyeClose();
+            stateManager.TransitionToState(AIStates.IgnorePlayerIdle);
         }
         
 

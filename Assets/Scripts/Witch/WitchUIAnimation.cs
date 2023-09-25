@@ -88,7 +88,6 @@ public class WitchUIAnimation : MonoBehaviour
 
         if (currentAnimationName != animationName)
         {
-            Debug.LogWarning($"Trying to reverse an animation that's not currently playing!");
             return;
         }
 
