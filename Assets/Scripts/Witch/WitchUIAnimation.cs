@@ -30,6 +30,11 @@ public class WitchUIAnimation : MonoBehaviour
         PlayAnimationForDuration("EyeLidOpen", timeNeeded);
     }
 
+    public void PlayEyeAttackMode(float timeNeeded)
+    {
+        PlayAnimationForDuration("EyeAttackMode", timeNeeded);
+    }
+
     public void PlayPupilExpand(float timeNeeded, bool playInReverse)
     {
         if (playInReverse)

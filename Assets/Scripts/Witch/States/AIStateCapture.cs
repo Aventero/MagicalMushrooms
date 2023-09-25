@@ -32,6 +32,7 @@ public class AIStateCapture : MonoBehaviour, IAIState
     public void EnterState()
     {
         stateManager.DangerOverlay.SetState(DangerState.Attack);
+        stateManager.UIAnimation.PlayEyeAttackMode(4f);
         captureTimer = 0f;
         percentCaptured = 0f;
         // Spawn Cage
