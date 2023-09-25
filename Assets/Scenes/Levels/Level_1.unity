@@ -2579,6 +2579,10 @@ PrefabInstance:
       propertyPath: releaseTransform
       value: 
       objectReference: {fileID: 367580556}
+    - target: {fileID: 8145462567293915189, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
+      propertyPath: PushForce
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
 --- !u!1001 &175687028
@@ -10248,6 +10252,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
+    - target: {fileID: 8724591020215935875, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
+      propertyPath: walkWobbleAmount
+      value: 0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: 8724591020215935875, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
+      propertyPath: cameraWobbleFrequency
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
 --- !u!4 &378961090 stripped
@@ -13105,8 +13117,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 658335966}
   m_LocalRotation: {x: -0, y: -0.7473797, z: -0, w: -0.66439724}
-  m_LocalPosition: {x: 9.261, y: 12.064, z: 24.841}
-  m_LocalScale: {x: 0.100000076, y: 0.1, z: 0.100000076}
+  m_LocalPosition: {x: 10.09, y: 12.064, z: 25.16}
+  m_LocalScale: {x: 0.14154011, y: 0.14154, z: 0.14154011}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1533142474}

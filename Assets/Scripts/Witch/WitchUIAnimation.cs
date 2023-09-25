@@ -87,9 +87,7 @@ public class WitchUIAnimation : MonoBehaviour
         }
 
         if (currentAnimationName != animationName)
-        {
             return;
-        }
 
         AnimatorStateInfo stateInfo = eyeAnimatorInUI.GetCurrentAnimatorStateInfo(0);
         float currentNormalizedTime = stateInfo.normalizedTime % 1;  // Ensure it's between 0 and 1

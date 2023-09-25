@@ -37,12 +37,29 @@ public class StateManager : MonoBehaviour
 
     private void StartTime()
     {
-        Time.timeScale = 1;
+        StartCoroutine(TogglePauseResume(0.1f, 1));
     }
 
     private void StopTime()
     {
-        Time.timeScale = 0;
+        StartCoroutine(TogglePauseResume(0.1f, 0));
+    }
+
+    // Can hopefully help with NaN calculations (deviding by 0)
+    private IEnumerator TogglePauseResume(float lerpDuration, int targetTimeScale)
+    {
+        float currentTimeScale = Time.timeScale;
+        float elapsedTime = 0f;
+
+        // stop time by duration 
+        while (elapsedTime < lerpDuration)
+        {
+            elapsedTime += Time.unscaledDeltaTime; // This will work even when delta time is 0
+            Time.timeScale = Mathf.Lerp(currentTimeScale, targetTimeScale, elapsedTime / lerpDuration);
+            yield return null;
+        }
+
+        Time.timeScale = targetTimeScale;
     }
 
     private void OnDestroy() 
