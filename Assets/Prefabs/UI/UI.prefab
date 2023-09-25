@@ -4739,6 +4739,7 @@ MonoBehaviour:
   Skillbar: {fileID: 1613233555173469856}
   PoltergeistSkillObject: {fileID: 4686160859715690497}
   SmokeBombObject: {fileID: 5160315568268093896}
+  CoinVacuumObject: {fileID: 3776761341061080188}
   InteractionPopup: {fileID: 6995351195651204454}
   InteractionText: {fileID: 2502398157682805545}
   Tooltip: {fileID: 4816264060304462795}
@@ -4746,7 +4747,7 @@ MonoBehaviour:
   Dialog: {fileID: 407747439318406651}
   Monolog: {fileID: 8258545662604010480}
   CheckpointText: {fileID: 6240304427863053165}
-  ShowCheckpointNotification: 1.5
+  CheckpointNotificationDuration: 1.5
   mouseAnimator: {fileID: 6826864181028224010}
 --- !u!1 &8357060236899634818
 GameObject:
@@ -5876,6 +5877,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8864d7f004bc9d44da0f516fe7273d76, type: 3}
+--- !u!1 &3776761341061080188 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6794536301834142032, guid: 8864d7f004bc9d44da0f516fe7273d76, type: 3}
+  m_PrefabInstance: {fileID: 7647897946759734572}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4341474979350093653 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6224765046290201209, guid: 8864d7f004bc9d44da0f516fe7273d76, type: 3}

@@ -12,10 +12,10 @@ public class OverlayMenu : MonoBehaviour
     public GameObject Skillbar;
     public GameObject PoltergeistSkillObject;
     public GameObject SmokeBombObject;
+    public GameObject CoinVacuumObject;
 
-
+    [Header("Interaction")]
     public Image InteractionPopup;
-    
     public TMP_Text InteractionText;
 
     [Header("UI References")]
@@ -25,7 +25,7 @@ public class OverlayMenu : MonoBehaviour
     public GameObject Monolog;
     public GameObject CheckpointText;
 
-    public float ShowCheckpointNotification = 1.5f;
+    public float CheckpointNotificationDuration = 1.5f;
 
     private List<Sprite> pickedUpItemsSprites;
     private GameObject[] pickedUpItems; // List for displaying the item sprites
@@ -58,7 +58,7 @@ public class OverlayMenu : MonoBehaviour
     public void ShowCheckpointText()
     {
         CheckpointText.SetActive(true);
-        StartCoroutine(HideCheckpointTextAfterSeconds(ShowCheckpointNotification));
+        StartCoroutine(HideCheckpointTextAfterSeconds(CheckpointNotificationDuration));
     }
 
     private IEnumerator HideCheckpointTextAfterSeconds(float seconds)
@@ -101,6 +101,12 @@ public class OverlayMenu : MonoBehaviour
     public void SkillActivated(PlayerSkill playerSkill)
     {
         activeSkillObject = GetPlayerSkillObject(playerSkill);
+
+        if(activeSkillObject == null)
+        {
+            Debug.Log("ACTIVE SKILL OBJECT IS NULL!");
+            return;
+        }
         CutoutMask mask = activeSkillObject.GetComponentInChildren<CutoutMask>();
         
         activeSkillColor = mask.color;
@@ -166,8 +172,9 @@ public class OverlayMenu : MonoBehaviour
         {
             SmokeBomb => SmokeBombObject,
             Poltergeist => PoltergeistSkillObject,
+            CoinVacuum => CoinVacuumObject,
             _ => null,
-        };
+        } ;
     }
 }
 

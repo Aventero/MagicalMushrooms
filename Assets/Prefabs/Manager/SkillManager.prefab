@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4858251474997619657}
   - component: {fileID: 4858251474997619671}
   - component: {fileID: 8145462567293915189}
+  - component: {fileID: 291362341822247036}
   m_Layer: 0
   m_Name: SkillManager
   m_TagString: Untagged
@@ -91,3 +92,17 @@ MonoBehaviour:
   HighlightDistance: 10
   HighlightMaterial: {fileID: -6506959758786184616, guid: 8bc94b639fe7b464c8745b7dc2280b5f, type: 3}
   FocusMaterial: {fileID: 2100000, guid: f4e195ac1e204eff960149d1cb34e18c, type: 2}
+--- !u!114 &291362341822247036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858251474997619659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3c504ecfb75b040a1d2c4f93a3e037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RechargeTime: 0
+  TooltipText: Vacuum
