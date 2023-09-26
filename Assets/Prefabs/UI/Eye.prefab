@@ -106,7 +106,7 @@ RectTransform:
   m_Children:
   - {fileID: 860299103380601307}
   - {fileID: 593657626327601601}
-  - {fileID: 3757188865996078886}
+  - {fileID: 273062552153824756}
   - {fileID: 208337502772275192}
   m_Father: {fileID: 4791640451817670329}
   m_RootOrder: 0
@@ -115,6 +115,43 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2492694329659425428
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 273062552153824756}
+  m_Layer: 5
+  m_Name: PupilTrack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &273062552153824756
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2492694329659425428}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3757188865996078886}
+  m_Father: {fileID: 5145881396276285005}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 40.2139, y: 34.2874}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3632315513475815611
 GameObject:
@@ -507,6 +544,7 @@ GameObject:
   - component: {fileID: 2603918639128076809}
   - component: {fileID: 3917225471169061513}
   - component: {fileID: 3396835711980775126}
+  - component: {fileID: 3444256492150604693}
   m_Layer: 5
   m_Name: SecondMask
   m_TagString: Untagged
@@ -527,8 +565,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7773458739036710675}
-  m_Father: {fileID: 5145881396276285005}
-  m_RootOrder: 2
+  m_Father: {fileID: 273062552153824756}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -586,6 +624,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &3444256492150604693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7258446250666422341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 921214fe13f3c3642bea09f9aacf44e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointToTrack: {fileID: 0}
+  trackingArea: {fileID: 273062552153824756}
 --- !u!1 &7425503898845006790
 GameObject:
   m_ObjectHideFlags: 0

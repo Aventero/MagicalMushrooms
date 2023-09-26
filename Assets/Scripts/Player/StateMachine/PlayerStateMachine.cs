@@ -166,23 +166,6 @@ public class PlayerStateMachine : MonoBehaviour
         heldObject.localPosition = Vector3.Lerp(heldObject.localPosition, targetPosition, Time.deltaTime * ObjectLerpSpeed);
     }
 
-    void ApplyHeldObjectInertia(float yVelocityDifference)
-    {
-        if (!heldObject)
-            return;
-
-        // Calculate position offset based on velocity difference.
-        Vector3 positionOffset = new Vector3(0, -yVelocityDifference * 0.05f, 0); // Adjust multiplier as needed.
-
-        // Calculate rotation offset. This will tilt the object slightly based on the change in velocity.
-        Vector3 rotationOffsetEuler = new Vector3(-yVelocityDifference * 2f, 0, 0); // Adjust multiplier as needed.
-
-        // Apply inertia effects to the held object.
-        heldObject.localPosition = InitialHeldObjectPosition + positionOffset;
-        heldObject.localRotation = InitialHeldObjectRotation * Quaternion.Euler(rotationOffsetEuler);
-    }
-
-
     private void SetupJumpVariables()
     {
         float timeToApex = maxJumpTime / 2.0f;

@@ -33,7 +33,7 @@ public class AIStateManager : MonoBehaviour
     // Walking
     public NavMeshAgent agent { get; private set; }
     public GameObject WalkPointsParent;
-    public Vector3 currentWalkPoint { get; private set; }
+    public Vector3 currentWalkPoint;
     private Vector3 previousWalkPoint;
     public List<Transform> walkPoints { get; private set; }
 
@@ -72,6 +72,7 @@ public class AIStateManager : MonoBehaviour
         states.Add(AIStates.Levitate, GetComponent<AIStateLevitate>());
         states.Add(AIStates.Capture, GetComponent<AIStateCapture>());
         states.Add(AIStates.SpottetPlayer, GetComponent<AIStateSpottedPlayer>());
+        states.Add(AIStates.PanicSearch, GetComponent<AIStatePanicSearch>());
 
         foreach (var state in states)
             state.Value.InitState(this);
@@ -228,6 +229,7 @@ public enum AIStates
     IgnorePlayerIdle,
     Levitate,
     LostPlayer,
+    PanicSearch,
     Patrol,
     RangeAttack,
     SpottetPlayer

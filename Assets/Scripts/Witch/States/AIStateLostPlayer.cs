@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class AIStateLostPlayer : MonoBehaviour, IAIState
@@ -6,9 +7,15 @@ public class AIStateLostPlayer : MonoBehaviour, IAIState
     public float WatchingTime = 2f;
     private float watchingTimer = 0f;
     public float SafeBlitTime = 1f;
+
     public AIStateManager AIStateManager { get => stateManager; }
     private AIStateManager stateManager;
     private AIVision vision;
+
+    // Lost the player
+    private Coroutine searchRoutine;
+    public float searchRadius = 5f;   // radius around the player's last known position
+    public float lookDuration = 1f;   // how long to look in one direction
     public void InitState(AIStateManager stateManager)
     {
         this.stateManager = stateManager;
@@ -17,15 +24,24 @@ public class AIStateLostPlayer : MonoBehaviour, IAIState
 
     public void EnterState()
     {
+        stateManager.DangerOverlay.SetState(DangerState.Safe);
+        stateManager.aiVision.SetWatchingMode(WatchingMode.LostPlayer);
         stateManager.Watch(stateManager.Player.position);
         stateManager.agent.isStopped = true;
-        stateManager.DangerOverlay.SetState(DangerState.Safe);
         stateManager.UIAnimation.PlayPupilExpand(vision.AttackAfterSeconds, true);
+
+        // Start the frantic search
+        if (searchRoutine != null)
+            StopCoroutine(searchRoutine);
+
+        searchRoutine = StartCoroutine(LookInCircles());
     }
 
     public void ExitState()
     {
         watchingTimer = 0;
+        if (searchRoutine != null)
+            StopCoroutine(searchRoutine);
     }
 
     public void UpdateState()
@@ -40,11 +56,27 @@ public class AIStateLostPlayer : MonoBehaviour, IAIState
         {
             vision.ChaseTime = 0;
             stateManager.UIAnimation.PlayEyeClose();
-            stateManager.TransitionToState(AIStates.Patrol);
+            stateManager.TransitionToState(AIStates.PanicSearch);
         }
 
         // Found the player again
         if (stateManager.HasFoundPlayer())
             stateManager.TransitionToState(AIStates.Chase);
+    }
+
+    IEnumerator LookInCircles()
+    {
+        while (true)
+        {
+            // Random point around the player
+            Vector3 randomDirection = Random.insideUnitSphere * searchRadius;
+            Vector3 lookPoint = stateManager.Player.position + randomDirection;
+
+            // Use X Y for the search area
+            lookPoint.y = stateManager.Player.position.y;
+
+            stateManager.Watch(lookPoint);
+            yield return new WaitForSeconds(lookDuration);
+        }
     }
 }

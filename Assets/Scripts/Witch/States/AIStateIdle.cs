@@ -18,7 +18,7 @@ public class AIStateIdle : MonoBehaviour, IAIState
     public void EnterState()
     {
         stateManager.DangerOverlay.SetState(DangerState.Nothing);
-        stateManager.aiVision.RelaxedWatching();
+        stateManager.aiVision.SetWatchingMode(WatchingMode.Relaxed);
         stateManager.agent.isStopped = true;
         Vector3 directionToPlayer = stateManager.Player.position - transform.position;
         directionToPlayer.y = 0;

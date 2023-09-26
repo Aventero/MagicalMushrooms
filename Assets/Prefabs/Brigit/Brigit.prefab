@@ -1790,6 +1790,7 @@ GameObject:
   - component: {fileID: 509918369105437565}
   - component: {fileID: 6260247174605872889}
   - component: {fileID: 3878593198957987791}
+  - component: {fileID: 1772418458079385184}
   m_Layer: 0
   m_Name: Brigit
   m_TagString: Untagged
@@ -1964,6 +1965,7 @@ MonoBehaviour:
   VisionCone: {fileID: 5394735594995476286}
   StandardWatchpoint: {fileID: 3658052458742186992}
   WalkPointsParent: {fileID: 0}
+  currentWalkPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &3658052457786925149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1976,14 +1978,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d7f3779cab09984fac63f37fc6ff354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PerceptionLag: 0.5
+  LosingTime: 0.5
   ViewCone: {fileID: 5394735594995476286}
   CurrentWatchTarget: {fileID: 3658052458627584229}
   RaycastPoint: {fileID: 0}
-  AlertTime: 0.5
-  LosingTime: 0.5
   AttackAfterSeconds: 5
-  SmoothTime: 0.5
-  HuntSmoothTime: 0.1
+  RelaxedSmoothTime: 1.5
+  ChaseSmoothTime: 1
+  LostPlayerSmoothTime: 2
+  PanicSearchSmoothTime: 0.5
+  SpottetPlayerSmoothTime: 0.5
   ObjectPlayerIsHidingBehind: {fileID: 0}
 --- !u!114 &3658052457786925148
 MonoBehaviour:
@@ -1998,6 +2003,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChasePoint: {fileID: 0}
+  maxDistance: 1
+  samplingInterval: 0.5
 --- !u!114 &3658052457786925147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2046,6 +2053,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WatchingTime: 2
   SafeBlitTime: 1
+  searchRadius: 5
+  lookDuration: 1
 --- !u!114 &3658052457786925144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2248,6 +2257,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpottedDuration: 1
+--- !u!114 &1772418458079385184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4469095328606076453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e256cb3e48e23418970b906a4c278d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SearchRadius: 10
+  LookDuration: 3
+  Looks: 5
 --- !u!1 &5140360957779315687
 GameObject:
   m_ObjectHideFlags: 0

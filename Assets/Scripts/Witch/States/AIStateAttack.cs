@@ -30,7 +30,7 @@ internal class AIStateAttack : MonoBehaviour, IAIState
         stateManager.DangerOverlay.SetState(DangerState.Attack);
         attacking = false;
 
-        stateManager.aiVision.SnappyWatching();
+        stateManager.aiVision.SetWatchingMode(WatchingMode.Chasing);
         player = stateManager.Player.transform;
         // Walk to the point that seems seems right and attack
         stateManager.SetWalkPoint(player.position);

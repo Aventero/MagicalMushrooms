@@ -17,6 +17,8 @@ public class AIStateSpottedPlayer : MonoBehaviour, IAIState
     public void EnterState()
     {
         spottingTimer = 0;
+        stateManager.Watch(stateManager.Player.position);
+        stateManager.aiVision.SetWatchingMode(WatchingMode.SpottedPlayer);
         stateManager.DangerOverlay.SetState(DangerState.Danger);
         stateManager.UIAnimation.PlayEyeOpen(SpottedDuration);
     }
