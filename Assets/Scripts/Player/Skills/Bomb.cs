@@ -12,6 +12,7 @@ public class Bomb : MonoBehaviour
     private float percentCompleted = 0;
 
     private Vector3 currentSize;
+    private bool isFlying = true;
     private bool isTransforming = false;
     private float transformingSpeed;
     private float elapsedTime = 0;
@@ -31,6 +32,7 @@ public class Bomb : MonoBehaviour
         if (collisionSide == CollisionUtil.Side.Bottom)
         {
             // Material
+            isFlying = false;
             propBlock = new MaterialPropertyBlock();
 
             // Reached the destination -> Let the ball explode
@@ -53,23 +55,30 @@ public class Bomb : MonoBehaviour
 
     private void Update()
     {
-        if (!isTransforming)
+        if (isFlying)
             return;
 
-        // Scale or Shrink Smoke
-        percentCompleted = elapsedTime / transformingSpeed;
-        transform.localScale = Vector3.Lerp(currentSize, GoalSize, percentCompleted);
-        elapsedTime += Time.deltaTime;
-
-        UpdateMaterial(percentCompleted);
-        if (percentCompleted >= 1)
+        if (isTransforming)
         {
-            if (transform.localScale.x <= 0.01f)
-                Destroy(gameObject);
+            // Scale or Shrink Smoke
+            percentCompleted = elapsedTime / transformingSpeed;
+            percentCompleted = Mathf.SmoothStep(0, 1, percentCompleted);
+            transform.localScale = Vector3.Lerp(currentSize, GoalSize, percentCompleted);
+            elapsedTime += Time.deltaTime;
+            UpdateMaterial(percentCompleted);
 
-            // Shrink the bomb
-            SetUpShrinkVariables();
-            StartCoroutine(WaitUntilShrink());
+            if (percentCompleted >= 1)
+            {
+                if (transform.localScale.x <= 0.01f)
+                    Destroy(gameObject);
+
+                // Shrink the bomb
+                SetUpShrinkVariables();
+                StartCoroutine(WaitUntilShrink());
+            }
+        } else
+        {
+            UpdateMaterial(0);
         }
     }
 
@@ -78,27 +87,40 @@ public class Bomb : MonoBehaviour
 
         float amplitude;
         float frequency;
+        float speed; 
 
         if (transformingSpeed == ShrinkSpeed)
         {
             // Object is shrinking
             frequency = 50;
-            amplitude = Mathf.Clamp(0.5f + percentage * 2.5f, 0f, 3f); // 0.5 -> 
+            amplitude = Mathf.Clamp(0.5f + percentage * 2.5f, 0f, 3f); // 0.5 ->
+            speed = 0.1f;
+        }
+        else if (transformingSpeed == GrowthSpeed)
+        {
+            // Object Growing
+            frequency = 49f + percentage * 1f;
+            amplitude = 0.3f + percentage * 0.2f; // 0.5
+            speed = 0.1f;
         }
         else
         {
-            // Object Growing
-            frequency = 25f + percentage * 25f;
-            amplitude = 0.3f + percentage * 0.2f; // 0.5
+            // Object is stationary
+            amplitude = 0.5f;
+            frequency = 50f;
+            speed = 0.1f;
         }
+
 
         smokeRendererOuter.GetPropertyBlock(propBlock);
         smokeRendererBottom.GetPropertyBlock(propBlock);
         propBlock.SetFloat("_Frequency", frequency); // 0 - 50
         propBlock.SetFloat("_Amplitude", amplitude); // 0 - 0.5
+        propBlock.SetFloat("_Speed", speed);
         smokeRendererOuter.SetPropertyBlock(propBlock);
         smokeRendererBottom.SetPropertyBlock(propBlock);
     }
+
 
     private void SetUpShrinkVariables()
     {
@@ -112,7 +134,9 @@ public class Bomb : MonoBehaviour
 
     private IEnumerator WaitUntilShrink()
     {
+        transformingSpeed = 0;
         yield return new WaitForSeconds(WaitTillShrink); // wait a bit
         isTransforming = true;
+        transformingSpeed = ShrinkSpeed;
     }
 }

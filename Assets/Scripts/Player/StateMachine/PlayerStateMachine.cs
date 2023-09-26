@@ -38,7 +38,7 @@ public class PlayerStateMachine : MonoBehaviour
     public float JumpRingSize = 1.0f;
 
     // Camera
-    private Quaternion initialCameraRotation;
+    public Quaternion InitialCameraRotation { get; private set; }
     private Vector3 currentRotationVelocity;
     private Vector3 currentCameraVelocity;
     private float targetPlayerYRotation;
@@ -53,6 +53,7 @@ public class PlayerStateMachine : MonoBehaviour
     private Vector2 currentMouseVector;
     private Vector2 mouseSensitivity = new Vector2(15f, 15f);
     private float xAxisClamp = 85f;
+    private float xAxisRotation = 0;
     public float rotationSpeed = 1.0f;
     public float smoothTime = 0.1f;
 
@@ -61,17 +62,20 @@ public class PlayerStateMachine : MonoBehaviour
     public Transform heldObject; 
     public float swayAmount = 0.002f; 
     public float walkWobbleAmount = 0.02f;
-    private Vector3 initialHeldObjectPosition;
+    public float YInertiaStrength = 0.05f;
+    public float RotionalInertiaStrength = 0.05f;
+    public Vector3 InitialHeldObjectPosition { get; private set; }
+    public Quaternion InitialHeldObjectRotation { get; private set; }
 
     private bool CanMove = true;
     private bool CanRotate = true;
 
-    // states
+    // Player States
     PlayerState currentState;
     PlayerStateFactory states;
     public PlayerState CurrentState { get => currentState; set => currentState = value;  }
 
-    // Getters & Setters
+    // Movement Getters & Setters
     public bool IsJumpPressed { get => isJumpPressed; }
     public Vector2 CurrentMovementInput { get => currentMovementInput; }
     public CharacterController CharacterController { get => characterController; }
@@ -96,8 +100,9 @@ public class PlayerStateMachine : MonoBehaviour
         // Initialize
         currentSpeed = walkingSpeed;
         characterController = GetComponent<CharacterController>();
-        initialHeldObjectPosition = heldObject.localPosition;
-        initialCameraRotation = Camera.main.transform.localRotation;
+        InitialHeldObjectPosition = heldObject.localPosition;
+        InitialHeldObjectRotation = heldObject.localRotation;
+        InitialCameraRotation = Camera.main.transform.localRotation;
         states = new PlayerStateFactory(this);
         currentState = states.Grounded();
         currentState.EnterState();
@@ -134,8 +139,6 @@ public class PlayerStateMachine : MonoBehaviour
         if (CanMove)
         {
             // Move the player
-            HandleCameraWobble();
-            HandleHeldObjectWobble();
             CurrentState.UpdateStates();
             characterController.Move(appliedMovement * Time.deltaTime + ExternalMovement);
         }
@@ -143,40 +146,14 @@ public class PlayerStateMachine : MonoBehaviour
 
     void HandleRotation()
     {
-        // Calculate targetRotations
-        targetPlayerYRotation += currentMouseVector.x * rotationSpeed;
-        targetCameraXRotation -= currentMouseVector.y * rotationSpeed;
-
-        // Clamp camera X rotation
-        targetCameraXRotation = Mathf.Clamp(targetCameraXRotation, -xAxisClamp, xAxisClamp);
-
         // Rotate Player around the Y-Axis
-        float smoothedPlayerYRotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetPlayerYRotation, ref currentRotationVelocity.y, smoothTime);
-        transform.rotation = Quaternion.Euler(0f, smoothedPlayerYRotation, 0f);
-
-        // Rotate Camera around X-Axis
-        float smoothedCameraXRotation = Mathf.SmoothDampAngle(Camera.main.transform.eulerAngles.x, targetCameraXRotation, ref currentCameraVelocity.x, smoothTime);
-        Camera.main.transform.rotation = Quaternion.Euler(smoothedCameraXRotation, transform.eulerAngles.y, 0f);
-
-    }
-
-    void HandleCameraWobble()
-    {
-        if (isMovementPressed)
-        {
-            // Camera wobble and Object wobble are the same Frequency, making it feel more "correct"
-            float wobblePitch = Mathf.Sin(Time.time * wobbleFrequency) * cameraWobbleAmount; // Up - down
-            float wobbleYaw = Mathf.Sin(Time.time * wobbleFrequency * 2f) * cameraWobbleAmount * 0.5f; // Left -Right
-
-            // Apply wobble to camera's rotation
-            Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(wobblePitch, wobbleYaw, 0f);
-            Camera.main.transform.localRotation = Quaternion.Slerp(Camera.main.transform.localRotation, targetRotation, Time.deltaTime * ObjectLerpSpeed);
-        }
-        else
-        {
-            // Not moving -> Camera initial rotation
-            Camera.main.transform.localRotation = Quaternion.Slerp(Camera.main.transform.localRotation, initialCameraRotation, Time.deltaTime * ObjectLerpSpeed);
-        }
+        transform.Rotate(Vector3.up, currentMouseVector.x);
+        // Rotate the camera around X-Axis
+        xAxisRotation -= currentMouseVector.y;
+        xAxisRotation = Mathf.Clamp(xAxisRotation, -xAxisClamp, xAxisClamp);
+        Vector3 targetRotation = transform.eulerAngles;
+        targetRotation.x = xAxisRotation;
+        Camera.main.transform.eulerAngles = targetRotation;
     }
 
     void HandleHeldObjectSway()
@@ -185,28 +162,26 @@ public class PlayerStateMachine : MonoBehaviour
         float movementX = -currentMouseVector.x * swayAmount;
         float movementY = -currentMouseVector.y * swayAmount;
 
-        Vector3 targetPosition = new Vector3(initialHeldObjectPosition.x + movementX, initialHeldObjectPosition.y, initialHeldObjectPosition.z + movementY);
+        Vector3 targetPosition = new Vector3(InitialHeldObjectPosition.x + movementX, InitialHeldObjectPosition.y, InitialHeldObjectPosition.z + movementY);
         heldObject.localPosition = Vector3.Lerp(heldObject.localPosition, targetPosition, Time.deltaTime * ObjectLerpSpeed);
     }
 
-    void HandleHeldObjectWobble()
+    void ApplyHeldObjectInertia(float yVelocityDifference)
     {
-        if (isMovementPressed)
-        {
-            // Calculate wobble amount -> sin(oscilation) * amplitude
-            float wobbleX = Mathf.Sin(Time.time * wobbleFrequency) * walkWobbleAmount; // For side-to-side wobble
-            float wobbleY = Mathf.Sin(Time.time * wobbleFrequency * 2f) * walkWobbleAmount * 0.5f; // For up-and-down wobble
+        if (!heldObject)
+            return;
 
-            // Apply wobble to object's position
-            Vector3 targetPosition = new Vector3(initialHeldObjectPosition.x + wobbleX, initialHeldObjectPosition.y + wobbleY, initialHeldObjectPosition.z);
-            heldObject.localPosition = Vector3.Lerp(heldObject.localPosition, targetPosition, Time.deltaTime * ObjectLerpSpeed);
-        }
-        else
-        {
-            // If not moving, smoothly reset the object's position to its initial position
-            heldObject.localPosition = Vector3.Lerp(heldObject.localPosition, initialHeldObjectPosition, Time.deltaTime * ObjectLerpSpeed);
-        }
+        // Calculate position offset based on velocity difference.
+        Vector3 positionOffset = new Vector3(0, -yVelocityDifference * 0.05f, 0); // Adjust multiplier as needed.
+
+        // Calculate rotation offset. This will tilt the object slightly based on the change in velocity.
+        Vector3 rotationOffsetEuler = new Vector3(-yVelocityDifference * 2f, 0, 0); // Adjust multiplier as needed.
+
+        // Apply inertia effects to the held object.
+        heldObject.localPosition = InitialHeldObjectPosition + positionOffset;
+        heldObject.localRotation = InitialHeldObjectRotation * Quaternion.Euler(rotationOffsetEuler);
     }
+
 
     private void SetupJumpVariables()
     {

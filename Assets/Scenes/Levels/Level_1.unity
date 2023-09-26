@@ -20,10 +20,10 @@ RenderSettings:
   m_FogDensity: 0.005
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
-  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
-  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 0.25
+  m_AmbientSkyColor: {r: 0.021626921, g: 0.041936066, b: 0.05660379, a: 1}
+  m_AmbientEquatorColor: {r: 0, g: 0.028712058, b: 0.047169805, a: 1}
+  m_AmbientGroundColor: {r: 0.012014957, g: 0.023162166, b: 0.05660379, a: 1}
+  m_AmbientIntensity: 0
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
@@ -10228,6 +10228,10 @@ PrefabInstance:
       propertyPath: m_Cameras.Array.data[1]
       value: 
       objectReference: {fileID: 1319716841}
+    - target: {fileID: 2857605710249577899, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 503
+      objectReference: {fileID: 0}
     - target: {fileID: 3967052195879107231, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_TagString
       value: Untagged
@@ -10248,13 +10252,13 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
+    - target: {fileID: 7873582812902127291, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
+      propertyPath: m_Intensity
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 8545098985912918252, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_TagString
       value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 8724591020215935875, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
-      propertyPath: walkWobbleAmount
-      value: 0.015
       objectReference: {fileID: 0}
     - target: {fileID: 8724591020215935875, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: cameraWobbleFrequency

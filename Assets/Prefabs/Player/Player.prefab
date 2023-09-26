@@ -383,7 +383,9 @@ MonoBehaviour:
   ObjectLerpSpeed: 2
   heldObject: {fileID: 4693526057618045244}
   swayAmount: 0.005
-  walkWobbleAmount: 0.02
+  walkWobbleAmount: 0.015
+  YInertiaStrength: 0.5
+  RotionalInertiaStrength: 0
   ExternalMovement: {x: 0, y: 0, z: 0}
 --- !u!114 &8568340027608994498
 MonoBehaviour:

@@ -10,7 +10,7 @@ public class PlayerStateFactory
         AddPlayerState(new PlayerIdleState(context, this, "Idle"));
         AddPlayerState(new PlayerWalkState(context, this, "Walk"));
         AddPlayerState(new PlayerSneakState(context, this, "Sneak"));
-        AddPlayerState(new PlayerJumpState(context, this, "Jump"));
+        AddPlayerState(new PlayerRiseState(context, this, "Rise"));
         AddPlayerState(new PlayerFallState(context, this, "Fall"));
         AddPlayerState(new PlayerGroundedState(context, this, "Grounded"));
     }
@@ -23,37 +23,37 @@ public class PlayerStateFactory
 
     public PlayerState Idle()
     {
-        // Debug.Log("Idle");
+        //Debug.Log("Idle");
         return playerStates["Idle"];
     }
 
     public PlayerState Walk()
     {
-        // Debug.Log("Walk");
+        //Debug.Log("Walk");
         return playerStates["Walk"];
     }
 
     public PlayerState Sneak()
     {
-        // Debug.Log("Sneak");
+        //Debug.Log("Sneak");
         return playerStates["Sneak"];
     }
 
     public PlayerState Jump()
     {
-        // Debug.Log("Jump");
-        return playerStates["Jump"];
+        Debug.Log("Rise");
+        return playerStates["Rise"];
     }
 
     public PlayerState Fall()
     {
-        // Debug.Log("Fall");
+        Debug.Log("Fall");
         return playerStates["Fall"];
     }
 
     public PlayerState Grounded()
     {
-        // Debug.Log("Grounded");
+        //Debug.Log("Grounded");
         return playerStates["Grounded"];
     }
 }
