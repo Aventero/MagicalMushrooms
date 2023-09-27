@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering.Universal;
@@ -16,9 +17,10 @@ internal class AIStateChase : MonoBehaviour, IAIState
     private AIVision vision;
 
     public float maxDistance = 100f; // Maximum distance to check from the starting position
+    public float AgentChasingRotationSpeed = 5f;
 
     [Range(1, 5)]
-    public float samplingInterval = 0.5f; // The distance between each sampled point
+    public float samplingForWalkPoint = 0.5f; // The distance between each sampled point
 
     public void InitState(AIStateManager stateManager)
     {
@@ -38,6 +40,7 @@ internal class AIStateChase : MonoBehaviour, IAIState
         stateManager.Watch(stateManager.Player);
 
         // Chase player
+        agent.updateRotation = false; // !! This makes the agent not rotate on its own. !!
         ChasePoint.position = stateManager.Player.position;
         stateManager.SetWalkPoint(GetClosestPointNearPlayerOnLine(stateManager.Player.position));
 
@@ -46,16 +49,15 @@ internal class AIStateChase : MonoBehaviour, IAIState
 
     public void ExitState()
     {
+        agent.updateRotation = true;  // !! Agent rotate on its own. !!
     }
 
     public void UpdateState()
     {
         stateManager.Watch(stateManager.Player);
 
-        Vector3 directionToPlayer = (stateManager.aiVision.currentWatchTarget - transform.position).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime);
-
+        RotateAgent(stateManager.Player.position);
+        
         //stateManager.SetWalkPoint(stateManager.Player.position); // TODO: Dont let her run after the player!!
         if (stateManager.HasLostPlayer())
         {
@@ -76,6 +78,27 @@ internal class AIStateChase : MonoBehaviour, IAIState
         }
     }
 
+
+    // Use this for rotations????? Whenever looking at a new pooint?
+    private void RotateAgent(Vector3 targetPosition)
+    {
+        Vector3 directionToTarget = (targetPosition - transform.position).normalized;
+
+        // Do not rotate upwards or downwards
+        directionToTarget.y = 0;
+
+        if (directionToTarget == Vector3.zero)
+        {
+            return; // Avoid trying to look in a zero direction
+        }
+
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, AgentChasingRotationSpeed * Time.deltaTime);
+
+        // Set the agent's desired velocity so it moves in the direction we set.
+        agent.velocity = transform.forward * agent.speed;
+    }
+
     public Vector3 GetClosestPointNearPlayerOnLine(Vector3 playerPosition)
     {
         Vector3 directionFromPlayer = (transform.position - playerPosition).normalized;
@@ -90,7 +113,7 @@ internal class AIStateChase : MonoBehaviour, IAIState
                 return hit.position;
             }
 
-            currentSamplePoint += directionFromPlayer * samplingInterval;
+            currentSamplePoint += directionFromPlayer * samplingForWalkPoint;
             distance = Vector3.Distance(playerPosition, currentSamplePoint);
         }
         Debug.DrawLine(transform.position, playerPosition, Color.red, 5f);

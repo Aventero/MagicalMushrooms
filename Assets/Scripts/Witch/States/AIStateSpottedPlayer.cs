@@ -7,7 +7,8 @@ public class AIStateSpottedPlayer : MonoBehaviour, IAIState
     public AIStateManager AIStateManager { get => stateManager; }
     private AIStateManager stateManager;
     public AIStates StateName => AIStates.SpottetPlayer;
-    public float SpottedDuration = 1f;
+    [Header("Time needed for the witch to SEE the player")]
+    public float SpottedDuration = 0.5f;
     private float spottingTimer = 0f;
     public void InitState(AIStateManager stateManager)
     {
