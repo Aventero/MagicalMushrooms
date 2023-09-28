@@ -61,10 +61,10 @@ public class AIStateManager : MonoBehaviour
         currentState.EnterState();
     }
 
-    void LateUpdate()
+    void Update()
     {
         currentState.UpdateState();
-        Vision.WatchSpot();
+        Vision.WatchCurrentTarget();
         Movement.AnimateWitch();
         DangerOverlay.UpdateColors();
         UIAnimation.UpdateAnimationStates();

@@ -13,6 +13,7 @@ public class AIMovement : MonoBehaviour
 
     // Animation
     public Animator animator { get; private set; }
+    public float StayTreshhold = 0.1f;
 
     void Awake()
     {
@@ -72,7 +73,7 @@ public class AIMovement : MonoBehaviour
 
     public void AnimateWitch()
     {
-        if (agent.velocity.sqrMagnitude <= 0.1f)
+        if (agent.velocity.sqrMagnitude <= StayTreshhold)
             animator.SetBool("Stay", true);
         else
             animator.SetBool("Stay", false);

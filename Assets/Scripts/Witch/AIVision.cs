@@ -13,9 +13,16 @@ public class AIVision : MonoBehaviour
     public float LosingTime = 1.0f;
     private float losingTimer = 0f;
 
+    [Header("View Cone")]
+    public float DistanceScaling = 1f;
+    public float ScalingStrength = 10f;
+    public float MaxScaling = 10f;
     public GameObject ViewCone;
-    public GameObject CurrentWatchTarget;
+    public GameObject HeadWatchTarget;
     public GameObject RaycastPoint;
+    private Vector3 originalVisionScale;
+    [ReadOnly]
+    public float distanceToWatchPoint;
 
     // Player watching
     private Transform Player;
@@ -37,20 +44,19 @@ public class AIVision : MonoBehaviour
     public float SpottetPlayerSmoothTime = 0.5f;
     private float currentSmoothTime = 0f;
 
-
     private AIStateManager aiStateManager;
     [ReadOnly]
     public GameObject ObjectPlayerIsHidingBehind = null;
+    LayerMask lookAtMask;
 
-    // Only Look at Prop and Player!
-    LayerMask layerMask;
-
+    public bool ReachedTarget = false;
 
     void Start()
     {
-        layerMask = LayerMask.GetMask("Prop");
-        layerMask |= LayerMask.GetMask("Player");
-        layerMask |= LayerMask.GetMask("Interactable");
+        lookAtMask = LayerMask.GetMask("Prop");
+        lookAtMask |= LayerMask.GetMask("Player");
+        lookAtMask |= LayerMask.GetMask("Interactable");
+        originalVisionScale = ViewCone.transform.localScale;
         aiStateManager = GetComponent<AIStateManager>();
         Player = aiStateManager.Player;
         Watch(aiStateManager.WatchPoints[0].position);
@@ -63,37 +69,29 @@ public class AIVision : MonoBehaviour
         PlayerIsVisible = PlayerVisible();
     }
 
-    public void WatchSpot()
+    public void WatchCurrentTarget()
     {
-        Debug.DrawLine(ViewCone.transform.position, currentWatchTarget, new Color(0.1f, 0.1f, 0.1f));
+        TurnTowardsTarget();
+        ReachedTarget = HasReachedTarget();
+        if (ReachedTarget)
+        {
+            // asd
+        }
+    }
+
+    public void TurnTowardsTarget()
+    {
         smoothingPosition = Vector3.SmoothDamp(smoothingPosition, currentWatchTarget, ref SmoothVelocity, currentSmoothTime);
         Vector3 relativeSmoothingPosition = smoothingPosition - ViewCone.transform.position;
         Quaternion rotation = Quaternion.LookRotation(relativeSmoothingPosition, ViewCone.transform.up);
         ViewCone.transform.rotation = rotation;
-        CurrentWatchTarget.transform.position = smoothingPosition;
-
-        //RotateAgent(currentWatchTarget);
+        HeadWatchTarget.transform.position = smoothingPosition;
     }
 
-
-    // Use this for rotations????? Whenever looking at a new pooint?
-    private void RotateAgent(Vector3 targetPosition)
+    public bool HasReachedTarget()
     {
-        Vector3 directionToTarget = (targetPosition - transform.position).normalized;
-
-        // Do not rotate upwards or downwards
-        directionToTarget.y = 0;
-
-        if (directionToTarget == Vector3.zero)
-        {
-            return; // Avoid trying to look in a zero direction
-        }
-
-        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5 * Time.deltaTime);
-
-        // Set the agent's desired velocity so it moves in the direction we set.
-        aiStateManager.Movement.agent.velocity = transform.forward * aiStateManager.Movement.agent.speed;
+        float threshold = 0.01f;
+        return Vector3.Distance(smoothingPosition, currentWatchTarget) < threshold;
     }
 
     public void SetWatchingMode(WatchingMode watchSpeed)
@@ -109,7 +107,6 @@ public class AIVision : MonoBehaviour
         };
     }
 
-
     public void Watch(Vector3 point)
     {
         currentWatchTarget = point;
@@ -123,7 +120,7 @@ public class AIVision : MonoBehaviour
             return false;
         }
 
-        if (Physics.Linecast(ViewCone.transform.position, RaycastPoint.transform.position, out RaycastHit hitInfo, layerMask))
+        if (Physics.Linecast(ViewCone.transform.position, RaycastPoint.transform.position, out RaycastHit hitInfo, lookAtMask))
         {
             Debug.DrawLine(ViewCone.transform.position, hitInfo.transform.position, Color.green);
 

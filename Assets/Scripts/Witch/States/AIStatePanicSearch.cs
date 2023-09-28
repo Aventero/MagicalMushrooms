@@ -43,7 +43,7 @@ public class AIStatePanicSearch : MonoBehaviour, IAIState
 
     IEnumerator FranticSearch()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < Looks; i++)
         {
             Vector3 randomDirection = Random.insideUnitSphere * SearchRadius;
             Vector3 lookPoint = stateManager.Player.position + randomDirection;
