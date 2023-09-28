@@ -18,8 +18,8 @@ public class AIStateIdle : MonoBehaviour, IAIState
     public void EnterState()
     {
         stateManager.DangerOverlay.SetState(DangerState.Nothing);
-        stateManager.aiVision.SetWatchingMode(WatchingMode.Relaxed);
-        stateManager.agent.isStopped = true;
+        stateManager.Vision.SetWatchingMode(WatchingMode.Relaxed);
+        stateManager.Movement.agent.isStopped = true;
         Vector3 directionToPlayer = stateManager.Player.position - transform.position;
         directionToPlayer.y = 0;
         StartCoroutine(SmoothRotateThenLookAround(directionToPlayer));
@@ -28,7 +28,7 @@ public class AIStateIdle : MonoBehaviour, IAIState
     public void ExitState()
     {
         StopAllCoroutines();
-        stateManager.agent.isStopped = false;
+        stateManager.Movement.agent.isStopped = false;
     }
 
     public void UpdateState()
@@ -53,14 +53,14 @@ public class AIStateIdle : MonoBehaviour, IAIState
 
         while (elapsedTime < rotationDuration)
         {
-            stateManager.agent.transform.rotation = Quaternion.Slerp(startRotation, targetRotation, elapsedTime / rotationDuration);
+            stateManager.Movement.agent.transform.rotation = Quaternion.Slerp(startRotation, targetRotation, elapsedTime / rotationDuration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         // Ensure the final rotation is exactly the target rotation
-        stateManager.agent.transform.rotation = targetRotation;
-        stateManager.agent.SetDestination(transform.position);
+        stateManager.Movement.agent.transform.rotation = targetRotation;
+        stateManager.Movement.agent.SetDestination(transform.position);
 
         // Let Agent look at the watch points after turning
         List<Transform> visiblePoints = stateManager.CalculateVisiblePoints(transform.position, transform.forward, 75f);
@@ -71,7 +71,7 @@ public class AIStateIdle : MonoBehaviour, IAIState
     IEnumerator LookAround(AIStateManager stateManager, float waitTimeInBetween, List<Transform> visiblePoints)
     {
         // First keep watching the current point for a bit
-        stateManager.Watch(stateManager.aiVision.CurrentWatchTarget.transform.position);
+        stateManager.Watch(stateManager.Vision.CurrentWatchTarget.transform.position);
         yield return new WaitForSeconds(waitTimeInBetween / 2f);
 
         int times = 0;

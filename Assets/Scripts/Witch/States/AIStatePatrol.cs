@@ -16,14 +16,14 @@ internal class AIStatePatrol :  MonoBehaviour, IAIState
     public void EnterState()
     {
         stateManager.DangerOverlay.SetState(DangerState.Nothing);
-        stateManager.aiVision.SetWatchingMode(WatchingMode.Relaxed);
-        stateManager.StopAgent();
-        Transform walkPoint = stateManager.FindNewWalkpoint();
-        stateManager.SetWalkPoint(walkPoint.position);
+        stateManager.Vision.SetWatchingMode(WatchingMode.Relaxed);
+        stateManager.Movement.StopAgent();
+        Transform walkPoint = stateManager.Movement.FindNewWalkpoint();
+        stateManager.Movement.SetWalkPoint(walkPoint.position);
 
         // Find a point to watch
-        Vector3 forwardToWalkpoint = stateManager.currentWalkPoint - transform.position;
-        List<Transform> visiblePointsAtNextDestination = stateManager.CalculateVisiblePoints(stateManager.currentWalkPoint, forwardToWalkpoint, 75f);
+        Vector3 forwardToWalkpoint = stateManager.Movement.currentWalkPoint - transform.position;
+        List<Transform> visiblePointsAtNextDestination = stateManager.CalculateVisiblePoints(stateManager.Movement.currentWalkPoint, forwardToWalkpoint, 75f);
 
         // No Visible found or Its behind the witch -> Just watch foward
         if (visiblePointsAtNextDestination.Count == 0)
@@ -41,7 +41,7 @@ internal class AIStatePatrol :  MonoBehaviour, IAIState
         }
 
         stateManager.Watch(patrolWatchPoint);
-        stateManager.Walk();
+        stateManager.Movement.Walk();
 
     }
 
@@ -61,7 +61,7 @@ internal class AIStatePatrol :  MonoBehaviour, IAIState
         }
 
         // check if reached a walkpoint
-        if (!stateManager.agent.pathPending && stateManager.agent.remainingDistance < stateManager.agent.stoppingDistance)
+        if (!stateManager.Movement.agent.pathPending && stateManager.Movement.agent.remainingDistance < stateManager.Movement.agent.stoppingDistance)
         {
             stateManager.TransitionToState(AIStates.Idle);
         }

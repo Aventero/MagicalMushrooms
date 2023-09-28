@@ -30,11 +30,11 @@ internal class AIStateAttack : MonoBehaviour, IAIState
         stateManager.DangerOverlay.SetState(DangerState.Attack);
         attacking = false;
 
-        stateManager.aiVision.SetWatchingMode(WatchingMode.Chasing);
+        stateManager.Vision.SetWatchingMode(WatchingMode.Chasing);
         player = stateManager.Player.transform;
         // Walk to the point that seems seems right and attack
-        stateManager.SetWalkPoint(player.position);
-        stateManager.Walk();
+        stateManager.Movement.SetWalkPoint(player.position);
+        stateManager.Movement.Walk();
     }
 
     public void ExitState()
@@ -51,7 +51,7 @@ internal class AIStateAttack : MonoBehaviour, IAIState
         if (stateManager.HasLostPlayer() && !attacking)
             stateManager.TransitionToState(AIStates.LostPlayer);
 
-        stateManager.StopAgent();
+        stateManager.Movement.StopAgent();
         stateManager.TransitionToState(AIStates.IgnorePlayerIdle);
         
         //if (!stateManager.agent.pathPending && stateManager.agent.remainingDistance < stateManager.agent.stoppingDistance && !attacking)

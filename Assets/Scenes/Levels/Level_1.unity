@@ -44994,86 +44994,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1772418458079385184, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: LookDuration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1772418458079385184, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: SearchRadius
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3658052456881299823, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3658052457786925145, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: lookDuration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3658052457786925145, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: searchRadius
-      value: 5
-      objectReference: {fileID: 0}
+    - target: {fileID: 1824091702, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: WalkPointsParent
+      value: 
+      objectReference: {fileID: 500307437}
     - target: {fileID: 3658052457786925148, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: ChasePoint
       value: 
       objectReference: {fileID: 708457012}
-    - target: {fileID: 3658052457786925148, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: maxDistance
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3658052457786925148, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: samplingInterval
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3658052457786925149, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: RaycastPoint
       value: 
       objectReference: {fileID: 1579720263}
-    - target: {fileID: 3658052457786925149, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: ChaseSmoothTime
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3658052457786925149, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: RelaxedSmoothTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3658052457786925149, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: AttackAfterSeconds
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3658052457786925149, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: LostPlayerSmoothTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3658052457786925149, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: PanicSearchSmoothTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3658052457786925149, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: SpottetPlayerSmoothTime
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 3658052457786925150, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: Player
       value: 
       objectReference: {fileID: 378961090}
     - target: {fileID: 3658052457786925150, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: WalkPointsParent
-      value: 
-      objectReference: {fileID: 500307437}
-    - target: {fileID: 3658052457786925150, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: WatchPointsParent
       value: 
       objectReference: {fileID: 2143581625}
-    - target: {fileID: 3658052458170113973, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3658052458627584229, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: m_Icon
-      value: 
-      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 3841212219368694943, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -45118,17 +45058,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3878593198957987791, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: SpottedDuration
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 4469095328606076453, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: m_Name
       value: Brigit
-      objectReference: {fileID: 0}
-    - target: {fileID: 4469095328606076453, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6260247174605872889, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: eyeAnimatorInUI

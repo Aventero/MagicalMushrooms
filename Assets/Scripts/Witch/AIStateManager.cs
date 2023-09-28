@@ -12,38 +12,22 @@ public class AIStateManager : MonoBehaviour
 {
     public IAIState currentState;
     public IAIState previousState;
-
     public delegate void OnStateEvent();
     public OnStateEvent Onevent;
-
     public Dictionary<AIStates, IAIState> states = new Dictionary<AIStates, IAIState>();
 
-    // Player Target
-    public Transform Player;
-
-    // AI model
-    public Animator animator { get; private set; }
-
     // Watching
+    public Transform Player;
     public GameObject WatchPointsParent;
     public GameObject VisionCone;
     public GameObject StandardWatchpoint;
     public List<Transform> WatchPoints { get; private set; }
 
-    // Walking
-    public NavMeshAgent agent { get; private set; }
-    public GameObject WalkPointsParent;
-    public Vector3 currentWalkPoint;
-    private Vector3 previousWalkPoint;
-    public List<Transform> walkPoints { get; private set; }
-
-    public Vector3 WatchTarget { get => aiVision.currentWatchTarget; }
-    public UnityAction ReachedDestination;
-
     // Watching
-    public AIVision aiVision { get; private set; }
-
-
+    public Vector3 WatchTarget { get => Vision.currentWatchTarget; }
+    public UnityAction ReachedDestination;
+    public AIVision Vision { get; private set; }
+    public AIMovement Movement {  get; private set; }
     public DangerOverlay DangerOverlay { get; private set; }
 
     // Animation
@@ -51,17 +35,13 @@ public class AIStateManager : MonoBehaviour
 
     void Awake()
     {
+        Movement = GetComponent<AIMovement>();
         DangerOverlay = GetComponent<DangerOverlay>();
-        aiVision = GetComponent<AIVision>();
-        animator = GetComponent<Animator>();
+        Vision = GetComponent<AIVision>();
         UIAnimation = GetComponent<WitchUIAnimation>();
-        agent = GetComponent<NavMeshAgent>();
-        agent.autoBraking = true;
 
         // Get the Points from Parents
-        walkPoints = new List<Transform>(WalkPointsParent.GetComponentsInChildren<Transform>().Where(point => point != WalkPointsParent.transform));
         WatchPoints = new List<Transform>(WatchPointsParent.GetComponentsInChildren<Transform>().Where(Point => Point != WatchPointsParent.transform));
-        currentWalkPoint = previousWalkPoint = walkPoints[0].position;
 
         states.Add(AIStates.Idle, GetComponent<AIStateIdle>());
         states.Add(AIStates.Patrol, GetComponent<AIStatePatrol>());
@@ -81,60 +61,33 @@ public class AIStateManager : MonoBehaviour
         currentState.EnterState();
     }
 
-    public void SetWalkPoint(Vector3 point)
-    {
-        previousWalkPoint = currentWalkPoint;
-        currentWalkPoint = point;
-        agent.destination = currentWalkPoint;
-    }
-
-    public void Walk()
-    {
-        agent.isStopped = false;
-    }
-
-    public void StopAgent()
-    {
-        agent.isStopped = true;
-    }
-
     void LateUpdate()
     {
         currentState.UpdateState();
-        aiVision.WatchSpot();
-        AnimateWitch();
+        Vision.WatchSpot();
+        Movement.AnimateWitch();
         DangerOverlay.UpdateColors();
         UIAnimation.UpdateAnimationStates();
-        Debug.DrawLine(transform.position, currentWalkPoint, Color.green);
-        Debug.DrawLine(transform.position, previousWalkPoint, Color.white);
     }
 
     public void Watch(Transform point)
     {
-        aiVision.Watch(point.position);
+        Vision.Watch(point.position);
     }
 
     public void Watch(Vector3 point)
     {
-        aiVision.Watch(point);
-    }
-
-    private void AnimateWitch()
-    {
-        if (agent.velocity.sqrMagnitude <= 0.1f)
-            animator.SetBool("Stay", true);
-        else
-            animator.SetBool("Stay", false);
+        Vision.Watch(point);
     }
 
     public bool HasFoundPlayer()
     {
-        return aiVision.FoundPlayer();
+        return Vision.FoundPlayer();
     }
 
     public bool HasLostPlayer()
     {
-        return aiVision.LostPlayer();
+        return Vision.LostPlayer();
     }
 
     public void TransitionToState(AIStates stateName)
@@ -187,38 +140,6 @@ public class AIStateManager : MonoBehaviour
         return Vector2.Angle(forward2D, towardsPoint);
     }
 
-    public Transform FindNewWalkpoint()
-    {
-        // No Walkpoints means no walking!
-        if (walkPoints.Count == 0)
-        {
-            Debug.Log("No walkingpoints set up!");
-            return null;
-        }
-
-        // RANDOM WALK POINT
-        // OR Better? -> Walkpoints that are around the player! Make the witch focus more on the sweet player!
-
-
-        // Get the shortest path, wich is not the current & previous one!
-        List<Transform> closestWalkPoints = new List<Transform>();
-        foreach (Transform walkPoint in walkPoints)
-        {
-            if (walkPoint.position != currentWalkPoint && walkPoint.position != previousWalkPoint)
-            {
-                closestWalkPoints.Add(walkPoint);
-            }
-        }
-        closestWalkPoints.Sort((p1, p2) => Vector3.Distance(transform.position, p1.position).CompareTo(Vector3.Distance(transform.position, p2.position)));
-
-        // Randomly choose one of the 5 closest points
-        Transform shortestPoint = closestWalkPoints[Random.Range(0, closestWalkPoints.Count / 2)];
-
-        for (int i = 0; i < closestWalkPoints.Count / 2; i++)
-            Debug.DrawLine(transform.position, closestWalkPoints[i].position, Color.yellow, 1f);
-
-        return shortestPoint;
-    }
 }
 public enum AIStates
 {

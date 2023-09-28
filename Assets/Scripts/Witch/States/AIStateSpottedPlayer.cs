@@ -19,7 +19,7 @@ public class AIStateSpottedPlayer : MonoBehaviour, IAIState
     {
         spottingTimer = 0;
         stateManager.Watch(stateManager.Player.position);
-        stateManager.aiVision.SetWatchingMode(WatchingMode.SpottedPlayer);
+        stateManager.Vision.SetWatchingMode(WatchingMode.SpottedPlayer);
         stateManager.DangerOverlay.SetState(DangerState.Danger);
         stateManager.UIAnimation.PlayEyeOpen(SpottedDuration);
     }
@@ -31,7 +31,7 @@ public class AIStateSpottedPlayer : MonoBehaviour, IAIState
         if (spottingTimer >= SpottedDuration)
             stateManager.TransitionToState(AIStates.Chase);
 
-        if (stateManager.aiVision.LostPlayer())
+        if (stateManager.Vision.LostPlayer())
             stateManager.TransitionToState(AIStates.LostPlayer);
     }
 

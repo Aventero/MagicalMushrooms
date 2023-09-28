@@ -1585,7 +1585,7 @@ GameObject:
   m_Layer: 0
   m_Name: CurrentWatchTarget
   m_TagString: Untagged
-  m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1791,6 +1791,7 @@ GameObject:
   - component: {fileID: 6260247174605872889}
   - component: {fileID: 3878593198957987791}
   - component: {fileID: 1772418458079385184}
+  - component: {fileID: 1824091702}
   m_Layer: 0
   m_Name: Brigit
   m_TagString: Untagged
@@ -1964,8 +1965,6 @@ MonoBehaviour:
   WatchPointsParent: {fileID: 0}
   VisionCone: {fileID: 5394735594995476286}
   StandardWatchpoint: {fileID: 3658052458742186992}
-  WalkPointsParent: {fileID: 0}
-  currentWalkPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &3658052457786925149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1983,11 +1982,11 @@ MonoBehaviour:
   ViewCone: {fileID: 5394735594995476286}
   CurrentWatchTarget: {fileID: 3658052458627584229}
   RaycastPoint: {fileID: 0}
-  AttackAfterSeconds: 5
-  RelaxedSmoothTime: 1.5
-  ChaseSmoothTime: 1
-  LostPlayerSmoothTime: 2
-  PanicSearchSmoothTime: 0.5
+  AttackAfterSeconds: 15
+  RelaxedSmoothTime: 1
+  ChaseSmoothTime: 0.25
+  LostPlayerSmoothTime: 1
+  PanicSearchSmoothTime: 1
   SpottetPlayerSmoothTime: 0.5
   ObjectPlayerIsHidingBehind: {fileID: 0}
 --- !u!114 &3658052457786925148
@@ -2003,8 +2002,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChasePoint: {fileID: 0}
-  maxDistance: 1
-  samplingInterval: 0.5
+  maxDistance: 100
+  AgentChasingRotationSpeed: 5
+  samplingForWalkPoint: 0.5
 --- !u!114 &3658052457786925147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2054,7 +2054,7 @@ MonoBehaviour:
   WatchingTime: 2
   SafeBlitTime: 1
   searchRadius: 5
-  lookDuration: 1
+  lookDuration: 2
 --- !u!114 &3658052457786925144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2256,7 +2256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c093556bce6a96941841ba34155dcfb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpottedDuration: 1
+  SpottedDuration: 0.5
 --- !u!114 &1772418458079385184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2270,8 +2270,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchRadius: 10
-  LookDuration: 3
+  LookDuration: 2
   Looks: 5
+--- !u!114 &1824091702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4469095328606076453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 911abcb23f1176642a575bcea68a87e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentWalkPoint: {x: 0, y: 0, z: 0}
+  WalkPointsParent: {fileID: 0}
 --- !u!1 &5140360957779315687
 GameObject:
   m_ObjectHideFlags: 0

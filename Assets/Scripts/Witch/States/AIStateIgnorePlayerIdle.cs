@@ -17,8 +17,8 @@ public class AIStateIgnorePlayerIdle : MonoBehaviour, IAIState
     public void EnterState()
     {
         stateManager.DangerOverlay.SetState(DangerState.Nothing);
-        stateManager.agent.isStopped = true;
-        stateManager.aiVision.SetWatchingMode(WatchingMode.Relaxed);
+        stateManager.Movement.agent.isStopped = true;
+        stateManager.Vision.SetWatchingMode(WatchingMode.Relaxed);
         List<Transform> visiblePoints = stateManager.CalculateVisiblePoints(transform.position, transform.forward, 75f);
         StartCoroutine(LookAround(WaitTimeInBetween, visiblePoints));
     }
@@ -26,7 +26,7 @@ public class AIStateIgnorePlayerIdle : MonoBehaviour, IAIState
     public void ExitState()
     {
         StopAllCoroutines();
-        stateManager.agent.isStopped = false;
+        stateManager.Movement.agent.isStopped = false;
     }
 
     public void UpdateState()

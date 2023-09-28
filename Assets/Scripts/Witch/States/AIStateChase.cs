@@ -8,8 +8,6 @@ using UnityEngine.Rendering.Universal;
 internal class AIStateChase : MonoBehaviour, IAIState
 {
     public AIStates StateName => AIStates.Chase;
-    private NavMeshAgent agent; 
-
     public Transform ChasePoint;
 
     public AIStateManager AIStateManager { get => stateManager; }
@@ -25,8 +23,7 @@ internal class AIStateChase : MonoBehaviour, IAIState
     public void InitState(AIStateManager stateManager)
     {
         this.stateManager = stateManager;
-        agent = stateManager.agent;
-        vision = stateManager.aiVision;
+        vision = stateManager.Vision;
     }
 
     public void EnterState()
@@ -40,22 +37,21 @@ internal class AIStateChase : MonoBehaviour, IAIState
         stateManager.Watch(stateManager.Player);
 
         // Chase player
-        agent.updateRotation = false; // !! This makes the agent not rotate on its own. !!
+        stateManager.Movement.agent.updateRotation = false; // !! This makes the agent not rotate on its own. !!
         ChasePoint.position = stateManager.Player.position;
-        stateManager.SetWalkPoint(GetClosestPointNearPlayerOnLine(stateManager.Player.position));
+        stateManager.Movement.SetWalkPoint(GetClosestPointNearPlayerOnLine(stateManager.Player.position));
 
-        stateManager.Walk();
+        stateManager.Movement.Walk();
     }
 
     public void ExitState()
     {
-        agent.updateRotation = true;  // !! Agent rotate on its own. !!
+        stateManager.Movement.agent.updateRotation = true;  // !! Agent rotate on its own. !!
     }
 
     public void UpdateState()
     {
         stateManager.Watch(stateManager.Player);
-
         RotateAgent(stateManager.Player.position);
         
         //stateManager.SetWalkPoint(stateManager.Player.position); // TODO: Dont let her run after the player!!
@@ -72,7 +68,7 @@ internal class AIStateChase : MonoBehaviour, IAIState
             if (vision.ChaseTime >= vision.AttackAfterSeconds)
             {
                 vision.ChaseTime = 0f;
-                agent.isStopped = true;
+                stateManager.Movement.agent.isStopped = true;
                 stateManager.TransitionToState(AIStates.Capture);
             }
         }
@@ -96,7 +92,7 @@ internal class AIStateChase : MonoBehaviour, IAIState
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, AgentChasingRotationSpeed * Time.deltaTime);
 
         // Set the agent's desired velocity so it moves in the direction we set.
-        agent.velocity = transform.forward * agent.speed;
+        stateManager.Movement.agent.velocity = transform.forward * stateManager.Movement.agent.speed;
     }
 
     public Vector3 GetClosestPointNearPlayerOnLine(Vector3 playerPosition)
@@ -122,7 +118,7 @@ internal class AIStateChase : MonoBehaviour, IAIState
 
     private bool AgentReachedDestination()
     {
-        if (!stateManager.agent.pathPending && stateManager.agent.remainingDistance < stateManager.agent.stoppingDistance)
+        if (!stateManager.Movement.agent.pathPending && stateManager.Movement.agent.remainingDistance < stateManager.Movement.agent.stoppingDistance)
             return true;
 
         return false;

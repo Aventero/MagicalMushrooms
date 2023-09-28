@@ -71,6 +71,29 @@ public class AIVision : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(relativeSmoothingPosition, ViewCone.transform.up);
         ViewCone.transform.rotation = rotation;
         CurrentWatchTarget.transform.position = smoothingPosition;
+
+        //RotateAgent(currentWatchTarget);
+    }
+
+
+    // Use this for rotations????? Whenever looking at a new pooint?
+    private void RotateAgent(Vector3 targetPosition)
+    {
+        Vector3 directionToTarget = (targetPosition - transform.position).normalized;
+
+        // Do not rotate upwards or downwards
+        directionToTarget.y = 0;
+
+        if (directionToTarget == Vector3.zero)
+        {
+            return; // Avoid trying to look in a zero direction
+        }
+
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5 * Time.deltaTime);
+
+        // Set the agent's desired velocity so it moves in the direction we set.
+        aiStateManager.Movement.agent.velocity = transform.forward * aiStateManager.Movement.agent.speed;
     }
 
     public void SetWatchingMode(WatchingMode watchSpeed)

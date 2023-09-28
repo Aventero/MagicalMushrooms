@@ -28,20 +28,19 @@ public class TrackObjectInScreenSpace : MonoBehaviour
 
     private Vector2 GetTrackingPosFromCameraToTrackedObject()
     {
-        // camera towards the witch
         Vector3 toEnemy = pointToTrack.position - rotatingSource.position;
 
-        // Project onto the camera's horizontal plane
+        // Project to 2D
         Vector3 projectedToTrackPoint = Vector3.ProjectOnPlane(toEnemy, rotatingSource.up);
 
         // Angle from -180 to 180
         float angle = Vector3.SignedAngle(rotatingSource.forward, projectedToTrackPoint, rotatingSource.up);
 
         // Clamp the angle between -45 and 45
-        float clampedAngle = Mathf.Clamp(angle, -45f, 45f);
+        float clampedAngle = Mathf.Clamp(angle, -30f, 30f);
 
         // Map the clamped angle: -45° becomes 0, 45° becomes 1, and 0° becomes 0.5
-        float mappedAngle = 1- (0.5f - (clampedAngle / 90f)); // We use 90 since 45 is half of 90.
+        float mappedAngle = 1- (0.5f - (clampedAngle / 60f)); // We use 90 since 45 is half of 90.
 
 
         // Position of icon using the mapped angle
@@ -66,7 +65,7 @@ public class TrackObjectInScreenSpace : MonoBehaviour
         float normalizedAngle = 0.5f + angle / 360f;
 
         // Now the Icon goes from Right to left -> Indicating watching behaviour of the witch
-        float reversedNormalizedAngle = 1 - normalizedAngle;
+        float reversedNormalizedAngle = normalizedAngle;
 
         // Position of icon
         float iconX = reversedNormalizedAngle * trackingArea.rect.width - halfWidth;

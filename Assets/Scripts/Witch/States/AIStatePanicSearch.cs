@@ -20,8 +20,8 @@ public class AIStatePanicSearch : MonoBehaviour, IAIState
     public void EnterState()
     {
         stateManager.DangerOverlay.SetState(DangerState.Safe);
-        stateManager.aiVision.SetWatchingMode(WatchingMode.Paniced);
-        stateManager.agent.isStopped = true;
+        stateManager.Vision.SetWatchingMode(WatchingMode.Paniced);
+        stateManager.Movement.agent.isStopped = true;
 
         if (searchRoutine != null)
             StopCoroutine(searchRoutine);
