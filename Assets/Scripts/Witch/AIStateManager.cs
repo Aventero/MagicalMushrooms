@@ -58,6 +58,10 @@ public class AIStateManager : MonoBehaviour
             state.Value.InitState(this);
 
         currentState = states[AIStates.Idle];
+    }
+
+    private void Start()
+    {
         currentState.EnterState();
     }
 

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2396051688946595049}
   - component: {fileID: 6637033646566788831}
   - component: {fileID: 1092109185826828838}
-  - component: {fileID: 7333763351814170928}
   m_Layer: 0
   m_Name: P_PROP_candle_interior_03
   m_TagString: Untagged
@@ -88,19 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7333763351814170928
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1664965753703761658}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.26202285, y: 0.2542943, z: 0.21344061}
-  m_Center: {x: 0.0040353984, y: 0.12438212, z: 0.009833977}
 --- !u!1001 &2767803132858438243
 PrefabInstance:
   m_ObjectHideFlags: 0
