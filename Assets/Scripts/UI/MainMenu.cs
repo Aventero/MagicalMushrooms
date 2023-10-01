@@ -5,8 +5,9 @@ using UnityEngine.EventSystems;
 
 public class MainMenu : MonoBehaviour
 {
-    public void OnButtonClick()
+    public void Quit()
     {
-        Debug.Log("Clicked On Button!");
+        Debug.Log("Quitting the game! Bye!");
+        Application.Quit();
     }
 }
