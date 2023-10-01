@@ -34,7 +34,7 @@ internal class AIStateAttack : MonoBehaviour, IAIState
         player = stateManager.Player.transform;
         // Walk to the point that seems seems right and attack
         stateManager.Movement.SetWalkPoint(player.position);
-        stateManager.Movement.Walk();
+        stateManager.Movement.StartAgent();
     }
 
     public void ExitState()
@@ -46,7 +46,7 @@ internal class AIStateAttack : MonoBehaviour, IAIState
 
     public void UpdateState()
     {
-        stateManager.Watch(player);
+        stateManager.Watch(player.position);
 
         if (stateManager.HasLostPlayer() && !attacking)
             stateManager.TransitionToState(AIStates.LostPlayer);

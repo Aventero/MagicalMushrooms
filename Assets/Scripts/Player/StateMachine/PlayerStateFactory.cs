@@ -41,13 +41,13 @@ public class PlayerStateFactory
 
     public PlayerState Jump()
     {
-        Debug.Log("Rise");
+       // Debug.Log("Rise");
         return playerStates["Rise"];
     }
 
     public PlayerState Fall()
     {
-        Debug.Log("Fall");
+       // Debug.Log("Fall");
         return playerStates["Fall"];
     }
 

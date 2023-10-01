@@ -34,14 +34,14 @@ internal class AIStateChase : MonoBehaviour, IAIState
         
         // Watching
         vision.SetWatchingMode(WatchingMode.Chasing);
-        stateManager.Watch(stateManager.Player);
+        stateManager.Watch(stateManager.Player.position);
 
         // Chase player
         stateManager.Movement.agent.updateRotation = false; // !! This makes the agent not rotate on its own. !!
         ChasePoint.position = stateManager.Player.position;
         stateManager.Movement.SetWalkPoint(GetClosestPointNearPlayerOnLine(stateManager.Player.position));
 
-        stateManager.Movement.Walk();
+        stateManager.Movement.StartAgent();
     }
 
     public void ExitState()
@@ -51,7 +51,7 @@ internal class AIStateChase : MonoBehaviour, IAIState
 
     public void UpdateState()
     {
-        stateManager.Watch(stateManager.Player);
+        stateManager.Watch(stateManager.Player.position);
         RotateAgent(stateManager.Player.position);
         
         //stateManager.SetWalkPoint(stateManager.Player.position); // TODO: Dont let her run after the player!!

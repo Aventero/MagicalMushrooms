@@ -38,18 +38,20 @@ public class AIVision : MonoBehaviour
 
     [Header("Vision Smoothing")]
     public float RelaxedSmoothTime = 1.5f;
+    public float PatrolSmoothTime = 0.25f;
     public float ChaseSmoothTime = 1.0f;
     public float LostPlayerSmoothTime = 2.0f;
     public float PanicSearchSmoothTime = 0.5f;
     public float SpottetPlayerSmoothTime = 0.5f;
     private float currentSmoothTime = 0f;
 
-    private AIStateManager aiStateManager;
+    private AIStateManager stateManager;
     [ReadOnly]
     public GameObject ObjectPlayerIsHidingBehind = null;
     LayerMask lookAtMask;
 
-    public bool ReachedTarget = false;
+    public bool ReachedWatchTarget = false;
+    private Quaternion currentAgentRotationTarget;
 
     void Start()
     {
@@ -57,9 +59,9 @@ public class AIVision : MonoBehaviour
         lookAtMask |= LayerMask.GetMask("Player");
         lookAtMask |= LayerMask.GetMask("Interactable");
         originalVisionScale = ViewCone.transform.localScale;
-        aiStateManager = GetComponent<AIStateManager>();
-        Player = aiStateManager.Player;
-        Watch(aiStateManager.WatchPoints[0].position);
+        stateManager = GetComponent<AIStateManager>();
+        Player = stateManager.Player;
+        Watch(stateManager.WatchPoints[0].position);
         SetWatchingMode(WatchingMode.Relaxed);
         smoothingPosition = currentWatchTarget;
     }
@@ -72,10 +74,9 @@ public class AIVision : MonoBehaviour
     public void WatchCurrentTarget()
     {
         TurnTowardsTarget();
-        ReachedTarget = HasReachedTarget();
-        if (ReachedTarget)
+        ReachedWatchTarget = HasReachedTarget();
+        if (ReachedWatchTarget)
         {
-            // asd
         }
     }
 
@@ -86,11 +87,12 @@ public class AIVision : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(relativeSmoothingPosition, ViewCone.transform.up);
         ViewCone.transform.rotation = rotation;
         HeadWatchTarget.transform.position = smoothingPosition;
+        Debug.DrawLine(stateManager.Vision.ViewCone.transform.position, smoothingPosition, Color.white);
     }
 
-    public bool HasReachedTarget()
+    private bool HasReachedTarget()
     {
-        float threshold = 0.01f;
+        float threshold = 0.05f;
         return Vector3.Distance(smoothingPosition, currentWatchTarget) < threshold;
     }
 
@@ -99,6 +101,7 @@ public class AIVision : MonoBehaviour
         currentSmoothTime = watchSpeed switch
         {
             WatchingMode.Relaxed => RelaxedSmoothTime,
+            WatchingMode.Patrol => PatrolSmoothTime,
             WatchingMode.SpottedPlayer => SpottetPlayerSmoothTime,
             WatchingMode.Chasing => ChaseSmoothTime,
             WatchingMode.LostPlayer => LostPlayerSmoothTime,
@@ -179,6 +182,7 @@ public class AIVision : MonoBehaviour
 public enum WatchingMode
 {
     Relaxed,
+    Patrol,
     SpottedPlayer,
     Chasing,
     LostPlayer,

@@ -42,7 +42,7 @@ public class AIStateIgnorePlayerIdle : MonoBehaviour, IAIState
                 break; // Return the Coroutine
 
             // Store previous, set the new one
-            stateManager.Watch(point);
+            stateManager.Watch(point.position);
             times++;
 
             yield return new WaitForSeconds(waitTimeInBetween);

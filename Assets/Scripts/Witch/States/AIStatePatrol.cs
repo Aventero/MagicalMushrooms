@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-internal class AIStatePatrol :  MonoBehaviour, IAIState
+internal class AIStatePatrol : MonoBehaviour, IAIState
 {
     public AIStates StateName => AIStates.Patrol;
+    public AIStateManager AIStateManager => stateManager;
+
+    [SerializeField] private AIStateManager stateManager;
     private Transform patrolWatchPoint;
-    public AIStateManager AIStateManager { get => stateManager; }
-    private AIStateManager stateManager;
+    private bool completedWalk;
+
     public void InitState(AIStateManager stateManager)
     {
         this.stateManager = stateManager;
@@ -15,65 +18,113 @@ internal class AIStatePatrol :  MonoBehaviour, IAIState
 
     public void EnterState()
     {
-        stateManager.DangerOverlay.SetState(DangerState.Nothing);
-        stateManager.Vision.SetWatchingMode(WatchingMode.Relaxed);
-        stateManager.Movement.StopAgent();
-        Transform walkPoint = stateManager.Movement.FindNewWalkpoint();
-        stateManager.Movement.SetWalkPoint(walkPoint.position);
-
-        // Find a point to watch
-        Vector3 forwardToWalkpoint = stateManager.Movement.currentWalkPoint - transform.position;
-        List<Transform> visiblePointsAtNextDestination = stateManager.CalculateVisiblePoints(stateManager.Movement.currentWalkPoint, forwardToWalkpoint, 75f);
-
-        // No Visible found or Its behind the witch -> Just watch foward
-        if (visiblePointsAtNextDestination.Count == 0)
-        {
-            patrolWatchPoint = stateManager.StandardWatchpoint.transform;
-        }
-        else
-            patrolWatchPoint = visiblePointsAtNextDestination[UnityEngine.Random.Range(0, visiblePointsAtNextDestination.Count)];
-
-
-        // If the patrolWatchPoint is behind the witch watch, dont use it
-        if (stateManager.EasyAngle(transform.position, transform.forward, patrolWatchPoint.position) > 75f)
-        {
-            patrolWatchPoint = stateManager.StandardWatchpoint.transform;
-        }
-
-        stateManager.Watch(patrolWatchPoint);
-        stateManager.Movement.Walk();
-
+        PrepareForPatrol();
+        SetPatrolWatchPoint();
+        StartCoroutine(TurnThenWalk());
     }
 
     public void ExitState()
     {
+        StopAllCoroutines();
     }
-
 
     public void UpdateState()
     {
-        stateManager.Watch(patrolWatchPoint);
-
         if (stateManager.HasFoundPlayer())
         {
             stateManager.TransitionToState(AIStates.SpottetPlayer);
             return;
         }
 
-        // check if reached a walkpoint
-        if (!stateManager.Movement.agent.pathPending && stateManager.Movement.agent.remainingDistance < stateManager.Movement.agent.stoppingDistance)
+        if (completedWalk)
         {
             stateManager.TransitionToState(AIStates.Idle);
         }
     }
 
-    private bool IsTurning()
+    private void PrepareForPatrol()
     {
-        if (stateManager.EasyAngle(transform.position, transform.forward, patrolWatchPoint.position) > 75f)
+        completedWalk = false;
+        stateManager.DangerOverlay.SetState(DangerState.Nothing);
+        stateManager.Vision.SetWatchingMode(WatchingMode.Patrol);
+        stateManager.Movement.StopAgent();
+        Transform walkPoint = stateManager.Movement.FindNewWalkpoint();
+        stateManager.Movement.SetWalkPoint(walkPoint.position);
+    }
+
+    private void SetPatrolWatchPoint()
+    {
+        patrolWatchPoint = DetermineWatchPoint();
+        Debug.DrawLine(stateManager.Vision.ViewCone.transform.position, patrolWatchPoint.position, Color.green, 2f);
+    }
+
+    private Transform DetermineWatchPoint()
+    {
+        Vector3 forwardToWalkpoint = stateManager.Movement.currentWalkPoint - transform.position;
+        List<Transform> visiblePoints = stateManager.CalculateVisiblePoints(stateManager.Movement.currentWalkPoint, forwardToWalkpoint, 75f);
+
+        if (visiblePoints.Count == 0)
         {
-            Debug.Log(stateManager.EasyAngle(transform.position, transform.forward, patrolWatchPoint.position));
-            return true;
+            return stateManager.StandardWatchpoint.transform;
         }
-        return false;
+
+        return visiblePoints[Random.Range(0, visiblePoints.Count)];
+    }
+
+    private bool HeadHasToTurn()
+    {
+        return stateManager.EasyAngle(transform.position, transform.forward, patrolWatchPoint.position) > 75f;
+    }
+
+    private bool ReachedWalkpoint()
+    {
+        return !stateManager.Movement.agent.pathPending && stateManager.Movement.agent.remainingDistance < stateManager.Movement.agent.stoppingDistance;
+    }
+
+    private IEnumerator TurnThenWalk()
+    {
+        stateManager.Watch(HeadHasToTurn() ? stateManager.StandardWatchpoint.transform.position : patrolWatchPoint.position);
+
+        yield return new WaitUntil(() => stateManager.Vision.ReachedWatchTarget);
+        
+        stateManager.Movement.StartAgent();
+        StartCoroutine(WalkWatching());
+    }
+
+    private IEnumerator WalkWatching()
+    {
+        while (!ReachedWalkpoint())
+        {
+            WatchBasedOnConditions();
+            yield return null;
+        }
+
+        FinalizePatrolWalk();
+    }
+
+    private void WatchBasedOnConditions()
+    {
+        if (HeadHasToTurn() || !stateManager.Vision.ReachedWatchTarget)
+        {
+            stateManager.Watch(stateManager.StandardWatchpoint.transform.position);
+        }
+        else
+        {
+            Debug.DrawLine(stateManager.Vision.ViewCone.transform.position, stateManager.Vision.currentWatchTarget, Color.cyan);
+            stateManager.Watch(patrolWatchPoint.position);
+        }
+    }
+
+    private void FinalizePatrolWalk()
+    {
+        stateManager.Movement.StopAgent();
+        stateManager.Watch(patrolWatchPoint.position);
+        StartCoroutine(WatchFinalPatrolpoint());
+    }
+
+    private IEnumerator WatchFinalPatrolpoint()
+    {
+        yield return new WaitUntil(() => stateManager.Vision.ReachedWatchTarget);
+        completedWalk = true;
     }
 }

@@ -1940,8 +1940,8 @@ NavMeshAgent:
   m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 150
-  m_StoppingDistance: 1
+  m_AngularSpeed: 200
+  m_StoppingDistance: 0.25
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -1987,13 +1987,14 @@ MonoBehaviour:
   RaycastPoint: {fileID: 0}
   distanceToWatchPoint: 0
   AttackAfterSeconds: 15
-  RelaxedSmoothTime: 1
+  RelaxedSmoothTime: 0.5
+  PatrolSmoothTime: 0.25
   ChaseSmoothTime: 0.25
   LostPlayerSmoothTime: 1
   PanicSearchSmoothTime: 1
   SpottetPlayerSmoothTime: 0.5
   ObjectPlayerIsHidingBehind: {fileID: 0}
-  ReachedTarget: 0
+  ReachedWatchTarget: 0
 --- !u!114 &3658052457786925148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2085,6 +2086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 903e072be441ef846b6f276ad7a985ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateManager: {fileID: 0}
 --- !u!114 &3658052457786925142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2097,7 +2099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c1399e756f9ce4386ec4595c3a8c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WaitTimeInBetween: 2
+  WaitTimeInBetween: 1.5
 --- !u!114 &3658052457786925141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2291,7 +2293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentWalkPoint: {x: 0, y: 0, z: 0}
   WalkPointsParent: {fileID: 0}
-  StayTreshhold: 0.25
+  AddedStopThreshold: 0.1
 --- !u!1 &5140360957779315687
 GameObject:
   m_ObjectHideFlags: 0

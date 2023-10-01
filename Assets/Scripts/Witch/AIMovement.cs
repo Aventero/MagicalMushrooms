@@ -13,7 +13,7 @@ public class AIMovement : MonoBehaviour
 
     // Animation
     public Animator animator { get; private set; }
-    public float StayTreshhold = 0.1f;
+    public float AddedStopThreshold = 0.1f;
 
     void Awake()
     {
@@ -32,7 +32,7 @@ public class AIMovement : MonoBehaviour
         agent.destination = currentWalkPoint;
     }
 
-    public void Walk()
+    public void StartAgent()
     {
         agent.isStopped = false;
     }
@@ -65,15 +65,15 @@ public class AIMovement : MonoBehaviour
         // Randomly choose one of the 5 closest points
         Transform shortestPoint = closestWalkPoints[Random.Range(0, closestWalkPoints.Count / 2)];
 
-        for (int i = 0; i < closestWalkPoints.Count / 2; i++)
-            Debug.DrawLine(transform.position, closestWalkPoints[i].position, Color.yellow, 1f);
+        //for (int i = 0; i < closestWalkPoints.Count / 2; i++)
 
+        Debug.DrawLine(transform.position, shortestPoint.position, Color.yellow, 1f);
         return shortestPoint;
     }
 
     public void AnimateWitch()
     {
-        if (agent.velocity.sqrMagnitude <= StayTreshhold)
+        if (agent.velocity.sqrMagnitude <= AddedStopThreshold + agent.stoppingDistance)
             animator.SetBool("Stay", true);
         else
             animator.SetBool("Stay", false);

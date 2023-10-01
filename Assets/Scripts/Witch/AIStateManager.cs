@@ -70,11 +70,6 @@ public class AIStateManager : MonoBehaviour
         UIAnimation.UpdateAnimationStates();
     }
 
-    public void Watch(Transform point)
-    {
-        Vision.Watch(point.position);
-    }
-
     public void Watch(Vector3 point)
     {
         Vision.Watch(point);
