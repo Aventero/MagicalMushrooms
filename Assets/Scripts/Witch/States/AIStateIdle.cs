@@ -47,7 +47,7 @@ public class AIStateIdle : MonoBehaviour, IAIState
     {
         // First keep watching the current point for a bit
         stateManager.Watch(stateManager.Vision.HeadWatchTarget.transform.position);
-        yield return new WaitForSeconds(waitTimeInBetween / 2f);
+        yield return new WaitUntil(() => stateManager.Vision.HasReachedTarget());
 
         int times = 0;
         foreach (Transform point in visiblePoints)
@@ -57,8 +57,8 @@ public class AIStateIdle : MonoBehaviour, IAIState
 
             // Store previous, set the new one
             stateManager.Watch(point.position);
-            yield return new WaitUntil(() => stateManager.Vision.ReachedWatchTarget);
-
+            yield return new WaitUntil(() => stateManager.Vision.HasReachedTarget());
+            Debug.Log("Reached");
             times++;
             yield return new WaitForSeconds(waitTimeInBetween);
         }

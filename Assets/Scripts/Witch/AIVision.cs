@@ -1,3 +1,4 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,9 +51,6 @@ public class AIVision : MonoBehaviour
     public GameObject ObjectPlayerIsHidingBehind = null;
     LayerMask lookAtMask;
 
-    public bool ReachedWatchTarget = false;
-    private Quaternion currentAgentRotationTarget;
-
     void Start()
     {
         lookAtMask = LayerMask.GetMask("Prop");
@@ -74,10 +72,7 @@ public class AIVision : MonoBehaviour
     public void WatchCurrentTarget()
     {
         TurnTowardsTarget();
-        ReachedWatchTarget = HasReachedTarget();
-        if (ReachedWatchTarget)
-        {
-        }
+        ScaleVisionByDistance();
     }
 
     public void TurnTowardsTarget()
@@ -88,11 +83,12 @@ public class AIVision : MonoBehaviour
         ViewCone.transform.rotation = rotation;
         HeadWatchTarget.transform.position = smoothingPosition;
         Debug.DrawLine(stateManager.Vision.ViewCone.transform.position, smoothingPosition, Color.white);
+        Debug.DrawLine(stateManager.Vision.ViewCone.transform.position, currentWatchTarget, Color.yellow);
     }
 
-    private bool HasReachedTarget()
+    public bool HasReachedTarget()
     {
-        float threshold = 0.05f;
+        float threshold = 0.25f;
         return Vector3.Distance(smoothingPosition, currentWatchTarget) < threshold;
     }
 
@@ -113,6 +109,22 @@ public class AIVision : MonoBehaviour
     public void Watch(Vector3 point)
     {
         currentWatchTarget = point;
+    }
+
+    public void ScaleVisionByDistance()
+    {
+        float distanceToWatchpoint = Vector3.Distance(ViewCone.transform.position, currentWatchTarget);
+
+        // Calculate a lerp factor between 0 and 1 based on the distance.
+        // Assuming a maximum distance at which the scale starts returning to the original value is 'maxDistance'.
+        float maxDistance = 25.0f;  // Set this to whatever value you need.
+        float lerpFactor = Mathf.Clamp01(distanceToWatchpoint / maxDistance);
+
+        // Calculate the additional scale for the Z-axis. 'maxAdditionalScale' is the maximum increase in scale when distance is 0.
+        float maxAdditionalScale = 30.0f;  // Set this to the value you need.
+        float additionalZScale = Mathf.Lerp(maxAdditionalScale, 0, lerpFactor);
+
+        ViewCone.transform.localScale = new Vector3(originalVisionScale.x, originalVisionScale.y, originalVisionScale.z - additionalZScale);
     }
 
 

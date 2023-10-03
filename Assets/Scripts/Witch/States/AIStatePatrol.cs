@@ -104,7 +104,7 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
 
     private void WatchBasedOnConditions()
     {
-        if (HeadHasToTurn() || !stateManager.Vision.ReachedWatchTarget)
+        if (HeadHasToTurn() || !stateManager.Vision.HasReachedTarget())
         {
             stateManager.Watch(stateManager.StandardWatchpoint.transform.position);
         }
@@ -118,14 +118,15 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
     private void FinalizePatrolWalk()
     {
         stateManager.Movement.StopAgent();
-        stateManager.Vision.SetWatchingMode(WatchingMode.Relaxed);
-        stateManager.Watch(patrolWatchPoint.position);
-        StartCoroutine(WatchFinalPatrolpoint());
+        //stateManager.Vision.SetWatchingMode(WatchingMode.Relaxed);
+        //stateManager.Watch(patrolWatchPoint.position);
+        //StartCoroutine(WatchFinalPatrolpoint());
+        completedWalk = true;
     }
 
     private IEnumerator WatchFinalPatrolpoint()
     {
-        yield return new WaitUntil(() => stateManager.Vision.ReachedWatchTarget);
+        yield return new WaitUntil(() => stateManager.Vision.HasReachedTarget());
         completedWalk = true;
     }
 }
