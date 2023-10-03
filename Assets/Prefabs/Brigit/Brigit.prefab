@@ -1534,7 +1534,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 4021970876807074587}
+    m_ConstrainedObject: {fileID: 9040432211930150808}
     m_SourceObjects:
       m_Length: 1
       m_Item0:
@@ -1793,6 +1793,8 @@ GameObject:
   - component: {fileID: 3878593198957987791}
   - component: {fileID: 1772418458079385184}
   - component: {fileID: 1824091702}
+  - component: {fileID: 8829789049218775547}
+  - component: {fileID: 2943452753161012043}
   m_Layer: 0
   m_Name: Brigit
   m_TagString: Untagged
@@ -1938,11 +1940,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 2.5
-  m_Speed: 10
+  m_Speed: 7
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 200
-  m_StoppingDistance: 2
+  m_AngularSpeed: 100
+  m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -1988,7 +1990,7 @@ MonoBehaviour:
   RaycastPoint: {fileID: 0}
   distanceToWatchPoint: 0
   AttackAfterSeconds: 5
-  RelaxedSmoothTime: 0.5
+  RelaxedSmoothTime: 1
   PatrolSmoothTime: 0.25
   ChaseSmoothTime: 0.25
   LostPlayerSmoothTime: 1
@@ -2087,7 +2089,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 903e072be441ef846b6f276ad7a985ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateManager: {fileID: 0}
 --- !u!114 &3658052457786925142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2100,8 +2101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c1399e756f9ce4386ec4595c3a8c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WaitTimeInBetween: 1.5
-  PointsToWatch: 1
+  WaitTimeInBetween: 2
+  PointsToWatch: 3
+  ProbabilityOfTurning: 0
 --- !u!114 &3658052457786925141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2265,7 +2267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c093556bce6a96941841ba34155dcfb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpottedDuration: 0.5
+  SpottedDuration: 0.25
 --- !u!114 &1772418458079385184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2296,6 +2298,34 @@ MonoBehaviour:
   currentWalkPoint: {x: 0, y: 0, z: 0}
   WalkPointsParent: {fileID: 0}
   AddedStopThreshold: 0.1
+--- !u!114 &8829789049218775547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4469095328606076453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1614e73a4678d444980e4afc2eda1d9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WatchPointRange: 30
+  WalkPointRange: 60
+  ProbabilityToAddOutsidePoint: 0.1
+--- !u!114 &2943452753161012043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4469095328606076453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2fe1b80275d6c41bc5cd237c20b322, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RotationSpeed: 2
 --- !u!1 &5140360957779315687
 GameObject:
   m_ObjectHideFlags: 0
@@ -3347,6 +3377,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8309740031629214536, guid: 0db75667ae3aca746af0bbeb3e235eb4, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309740031629214536, guid: 0db75667ae3aca746af0bbeb3e235eb4, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309740031629214536, guid: 0db75667ae3aca746af0bbeb3e235eb4, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309740031629214536, guid: 0db75667ae3aca746af0bbeb3e235eb4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -3384,6 +3426,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8309740031629214536, guid: 0db75667ae3aca746af0bbeb3e235eb4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309740031629214536, guid: 0db75667ae3aca746af0bbeb3e235eb4, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8444698410628308464, guid: 0db75667ae3aca746af0bbeb3e235eb4, type: 3}

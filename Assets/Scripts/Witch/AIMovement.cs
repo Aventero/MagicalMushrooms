@@ -45,30 +45,15 @@ public class AIMovement : MonoBehaviour
         agent.destination = agent.transform.position;
     }
 
-    public Transform FindNewWalkpoint()
+    public void MoveToNextPoint()
     {
-        // No Walkpoints means no walking!
         if (walkPoints.Count == 0)
-        {
-            Debug.Log("No walkingpoints set up!");
-            return null;
-        }
+            return;
 
-        // Get the shortest path, wich is not the current & previous one!
-        List<Transform> closestWalkPoints = new List<Transform>();
-        foreach (Transform walkPoint in stateManager.PlayerDetection.GetWalkablePoints())
-        {
-            if (walkPoint.position != currentWalkPoint && walkPoint.position != previousWalkPoint)
-            {
-                closestWalkPoints.Add(walkPoint);
-            }
-        }
-        closestWalkPoints.Sort((p1, p2) => Vector3.Distance(transform.position, p1.position).CompareTo(Vector3.Distance(transform.position, p2.position)));
-
-        // Randomly choose one of the closest points
-        Transform shortestPoint = closestWalkPoints[Random.Range(0, closestWalkPoints.Count / 2)];
-        Debug.DrawLine(transform.position, shortestPoint.position, Color.yellow, 1f);
-        return shortestPoint;
+        // Choose a random point of interest
+        List<Transform> points = stateManager.PlayerDetection.GetViewPointsAroundPlayerAndSome();
+        int index = Random.Range(0, points.Count);
+        agent.destination = points[index].position;
     }
 
     public void AnimateWitch()
@@ -79,3 +64,4 @@ public class AIMovement : MonoBehaviour
             animator.SetBool("Stay", false);
     }
 }
+

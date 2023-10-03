@@ -6,12 +6,9 @@ public interface IAIState
     public AIStateManager AIStateManager { get; }
 
     void InitState(AIStateManager stateManager);
-
-    void UpdateState();
-    
-
     void EnterState();
 
+    void UpdateState();
     
     void ExitState();
 }

@@ -7,7 +7,7 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
     public AIStates StateName => AIStates.Patrol;
     public AIStateManager AIStateManager => stateManager;
 
-    [SerializeField] private AIStateManager stateManager;
+    private AIStateManager stateManager;
     private Transform patrolWatchPoint;
     private bool completedWalk;
 
@@ -48,8 +48,9 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
         stateManager.DangerOverlay.SetState(DangerState.Nothing);
         stateManager.Vision.SetWatchingMode(WatchingMode.Patrol);
         stateManager.Movement.StopAgent();
-        Transform walkPoint = stateManager.Movement.FindNewWalkpoint();
-        stateManager.Movement.SetWalkPoint(walkPoint.position);
+        //Transform walkPoint = stateManager.Movement.FindNewWalkpoint();
+        //stateManager.Movement.SetWalkPoint(walkPoint.position);
+        stateManager.Movement.MoveToNextPoint();
     }
 
     private void SetPatrolWatchPoint()
@@ -61,7 +62,7 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
     private Transform DetermineWatchPoint()
     {
         Vector3 forwardToWalkpoint = stateManager.Movement.currentWalkPoint - transform.position;
-        List<Transform> visiblePoints = stateManager.CalculateVisiblePoints(stateManager.Movement.currentWalkPoint, forwardToWalkpoint, 75f);
+        List<Transform> visiblePoints = stateManager.VisiblePointsAroundPlayer(stateManager.Movement.currentWalkPoint, forwardToWalkpoint, 75f);
 
         if (visiblePoints.Count == 0)
         {
@@ -76,7 +77,7 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
         return stateManager.EasyAngle(transform.position, transform.forward, patrolWatchPoint.position) > 75f;
     }
 
-    private bool ReachedWalkpoint()
+    private bool ReachedDestination()
     {
         return !stateManager.Movement.agent.pathPending && stateManager.Movement.agent.remainingDistance < stateManager.Movement.agent.stoppingDistance;
     }
@@ -92,7 +93,7 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
 
     private IEnumerator WalkWatching()
     {
-        while (!ReachedWalkpoint())
+        while (!ReachedDestination())
         {
             WatchBasedOnConditions();
             yield return null;
@@ -117,6 +118,7 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
     private void FinalizePatrolWalk()
     {
         stateManager.Movement.StopAgent();
+        stateManager.Vision.SetWatchingMode(WatchingMode.Relaxed);
         stateManager.Watch(patrolWatchPoint.position);
         StartCoroutine(WatchFinalPatrolpoint());
     }

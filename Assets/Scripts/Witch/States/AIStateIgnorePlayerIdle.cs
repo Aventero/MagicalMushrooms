@@ -19,7 +19,7 @@ public class AIStateIgnorePlayerIdle : MonoBehaviour, IAIState
         stateManager.DangerOverlay.SetState(DangerState.Nothing);
         stateManager.Movement.agent.isStopped = true;
         stateManager.Vision.SetWatchingMode(WatchingMode.Relaxed);
-        List<Transform> visiblePoints = stateManager.CalculateVisiblePoints(transform.position, transform.forward, 75f);
+        List<Transform> visiblePoints = stateManager.VisiblePointsAroundPlayer(transform.position, transform.forward, 75f);
         StartCoroutine(LookAround(WaitTimeInBetween, visiblePoints));
     }
 

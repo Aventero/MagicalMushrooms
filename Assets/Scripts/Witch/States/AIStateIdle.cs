@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AIStateIdle : MonoBehaviour, IAIState
@@ -10,6 +11,8 @@ public class AIStateIdle : MonoBehaviour, IAIState
 
     public float WaitTimeInBetween = 2.0f;
     public int PointsToWatch = 2;
+    [Range(0f, 1f)]
+    public float ProbabilityOfTurning = 0.5f;
 
     public void InitState(AIStateManager stateManager)
     {
@@ -21,9 +24,8 @@ public class AIStateIdle : MonoBehaviour, IAIState
         stateManager.DangerOverlay.SetState(DangerState.Nothing);
         stateManager.Vision.SetWatchingMode(WatchingMode.Relaxed);
         stateManager.Movement.StopAgent();
-        Vector3 directionToPlayer = stateManager.Player.position - transform.position;
-        directionToPlayer.y = 0;
-        StartCoroutine(LookAround(WaitTimeInBetween, stateManager.CalculateVisiblePoints(transform.position, transform.forward, 75f)));
+        List<Transform> visiblePointsAroundPlayer = stateManager.VisiblePointsAroundPlayer(transform.position, transform.forward, 75f);
+        StartCoroutine(LookAround(WaitTimeInBetween, visiblePointsAroundPlayer));
     }
 
     public void ExitState()
@@ -41,34 +43,6 @@ public class AIStateIdle : MonoBehaviour, IAIState
         }
     }
 
-    //private IEnumerator SmoothRotateThenLookAround(Vector3 targetDirection)
-    //{
-    //    // Watch closest point
-    //    stateManager.Watch(stateManager.CalculateClosestNotVisiblePoint(transform.position, transform.forward));
-
-    //    Quaternion startRotation = transform.rotation;
-    //    Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
-
-    //    float elapsedTime = 0f;
-    //    float rotationDuration = 1.0f; // Adjust this value for rotation speed
-
-    //    while (elapsedTime < rotationDuration)
-    //    {
-    //        stateManager.Movement.agent.transform.rotation = Quaternion.Slerp(startRotation, targetRotation, elapsedTime / rotationDuration);
-    //        elapsedTime += Time.deltaTime;
-    //        yield return null;
-    //    }
-
-    //    // Ensure the final rotation is exactly the target rotation
-    //    stateManager.Movement.agent.transform.rotation = targetRotation;
-    //    stateManager.Movement.agent.SetDestination(transform.position);
-
-    //    // Let Agent look at the watch points after turning
-    //    List<Transform> visiblePoints = stateManager.CalculateVisiblePoints(transform.position, transform.forward, 75f);
-    //    StartCoroutine(LookAround(stateManager, WaitTimeInBetween, visiblePoints));
-    //}
-
-
     IEnumerator LookAround(float waitTimeInBetween, List<Transform> visiblePoints)
     {
         // First keep watching the current point for a bit
@@ -83,13 +57,19 @@ public class AIStateIdle : MonoBehaviour, IAIState
 
             // Store previous, set the new one
             stateManager.Watch(point.position);
-            times++;
+            yield return new WaitUntil(() => stateManager.Vision.ReachedWatchTarget);
 
+            times++;
             yield return new WaitForSeconds(waitTimeInBetween);
         }
 
-        // Completed Looking back to Patrol!
         stateManager.TransitionToState(AIStates.Patrol);
+
+        yield return null;
+    }
+
+    IEnumerator TurnAround()
+    {
         yield return null;
     }
 }

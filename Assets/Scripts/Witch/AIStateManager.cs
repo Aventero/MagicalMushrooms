@@ -54,6 +54,7 @@ public class AIStateManager : MonoBehaviour
         states.Add(AIStates.Capture, GetComponent<AIStateCapture>());
         states.Add(AIStates.SpottetPlayer, GetComponent<AIStateSpottedPlayer>());
         states.Add(AIStates.PanicSearch, GetComponent<AIStatePanicSearch>());
+        states.Add(AIStates.Turn, GetComponent<AIStateTurn>());
 
         foreach (var state in states)
             state.Value.InitState(this);
@@ -104,10 +105,26 @@ public class AIStateManager : MonoBehaviour
         currentState.EnterState();
     }
 
-    public List<Transform> CalculateVisiblePoints(Vector3 desiredPoint, Vector3 forward, float viewAngle)
+    public List<Transform> VisiblePointsAroundPlayer(Vector3 desiredPoint, Vector3 forward, float viewAngle)
     {
         List<Transform> visibleWatchPoints = new List<Transform>();
-        foreach (Transform watchPoint in PlayerDetection.GetVisiblePoints())
+        foreach (Transform watchPoint in PlayerDetection.GetViewPointsAroundPlayer())
+        {
+            float angle = EasyAngle(desiredPoint, forward, watchPoint.position);
+            if (angle <= viewAngle)
+            {
+                visibleWatchPoints.Add(watchPoint);
+                Debug.DrawLine(transform.position, watchPoint.position, Color.magenta, 4f);
+            }
+        }
+
+        return visibleWatchPoints;
+    }
+
+    public List<Transform> VisiblePointsFromWitchView(Vector3 desiredPoint, Vector3 forward, float viewAngle)
+    {
+        List<Transform> visibleWatchPoints = new List<Transform>();
+        foreach (Transform watchPoint in WatchPoints)
         {
             float angle = EasyAngle(desiredPoint, forward, watchPoint.position);
             if (angle <= viewAngle)
@@ -140,5 +157,6 @@ public enum AIStates
     PanicSearch,
     Patrol,
     RangeAttack,
-    SpottetPlayer
+    SpottetPlayer,
+    Turn
 }

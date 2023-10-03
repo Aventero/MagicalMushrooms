@@ -116,19 +116,31 @@ public class AIVision : MonoBehaviour
     }
 
 
-    public void RotateAgent(Vector3 targetPosition, float rotationSpeed)
+    public bool RotateAgent(Vector3 targetPosition, float rotationSpeed)
     {
-        Vector3 directionToTarget = (targetPosition - transform.position).normalized;
+        Vector3 directionToTarget = targetPosition - transform.position;
+        directionToTarget.y = 0;
+        directionToTarget = directionToTarget.normalized;
 
         // Do not rotate upwards or downwards
-        directionToTarget.y = 0;
 
         if (directionToTarget == Vector3.zero)
-            return; // Avoid trying to look in a zero direction
+            return false; 
 
         Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+        // Only XZ plane
+        Vector3 currentForwardOnXZ = transform.forward;
+        currentForwardOnXZ.y = 0;
+
+        // Done rotating?
+        float dot = Vector3.Dot(currentForwardOnXZ.normalized, directionToTarget);
+        if (dot > 0.99f)
+            return true;
+        return false;
     }
+
 
 
     private bool PlayerVisible()
