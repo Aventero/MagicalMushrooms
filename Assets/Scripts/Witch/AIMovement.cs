@@ -14,9 +14,11 @@ public class AIMovement : MonoBehaviour
     // Animation
     public Animator animator { get; private set; }
     public float AddedStopThreshold = 0.1f;
+    private AIStateManager stateManager;
 
     void Awake()
     {
+        stateManager = GetComponent<AIStateManager>();
         agent = GetComponent<NavMeshAgent>();
         agent.autoBraking = true;
         animator = GetComponent<Animator>();
@@ -54,7 +56,7 @@ public class AIMovement : MonoBehaviour
 
         // Get the shortest path, wich is not the current & previous one!
         List<Transform> closestWalkPoints = new List<Transform>();
-        foreach (Transform walkPoint in walkPoints)
+        foreach (Transform walkPoint in stateManager.PlayerDetection.GetWalkablePoints())
         {
             if (walkPoint.position != currentWalkPoint && walkPoint.position != previousWalkPoint)
             {
@@ -63,11 +65,8 @@ public class AIMovement : MonoBehaviour
         }
         closestWalkPoints.Sort((p1, p2) => Vector3.Distance(transform.position, p1.position).CompareTo(Vector3.Distance(transform.position, p2.position)));
 
-        // Randomly choose one of the 5 closest points
+        // Randomly choose one of the closest points
         Transform shortestPoint = closestWalkPoints[Random.Range(0, closestWalkPoints.Count / 2)];
-
-        //for (int i = 0; i < closestWalkPoints.Count / 2; i++)
-
         Debug.DrawLine(transform.position, shortestPoint.position, Color.yellow, 1f);
         return shortestPoint;
     }

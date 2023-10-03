@@ -124,13 +124,10 @@ public class AIVision : MonoBehaviour
         directionToTarget.y = 0;
 
         if (directionToTarget == Vector3.zero)
-        {
             return; // Avoid trying to look in a zero direction
-        }
 
         Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        stateManager.Movement.agent.velocity = transform.forward * stateManager.Movement.agent.speed;
     }
 
 

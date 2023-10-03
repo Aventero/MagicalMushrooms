@@ -32,9 +32,10 @@ public class AIStateManager : MonoBehaviour
 
     // Animation
     public WitchUIAnimation UIAnimation { get; private set; }
-
+    public PlayerDetection PlayerDetection { get; private set; }
     void Awake()
     {
+        PlayerDetection = GetComponent<PlayerDetection>();
         Movement = GetComponent<AIMovement>();
         DangerOverlay = GetComponent<DangerOverlay>();
         Vision = GetComponent<AIVision>();
@@ -59,9 +60,14 @@ public class AIStateManager : MonoBehaviour
 
         currentState = states[AIStates.Idle];
     }
-
     private void Start()
     {
+        StartCoroutine(StartDelayed());
+    }
+
+    private IEnumerator StartDelayed()
+    {
+        yield return new WaitForSeconds(0.1f);
         currentState.EnterState();
     }
 
@@ -101,7 +107,7 @@ public class AIStateManager : MonoBehaviour
     public List<Transform> CalculateVisiblePoints(Vector3 desiredPoint, Vector3 forward, float viewAngle)
     {
         List<Transform> visibleWatchPoints = new List<Transform>();
-        foreach (Transform watchPoint in WatchPoints)
+        foreach (Transform watchPoint in PlayerDetection.GetVisiblePoints())
         {
             float angle = EasyAngle(desiredPoint, forward, watchPoint.position);
             if (angle <= viewAngle)
@@ -112,24 +118,6 @@ public class AIStateManager : MonoBehaviour
         }
 
         return visibleWatchPoints;
-    }
-
-    public Transform CalculateClosestNotVisiblePoint(Vector3 desiredPoint, Vector3 forward)
-    {
-        Transform closestPoint = WatchPoints.ElementAt(0);
-
-        float shortestAngle = 360f;
-        foreach (Transform watchPoint in WatchPoints)
-        {
-            float angleToWatchPoint = EasyAngle(desiredPoint, forward, watchPoint.position);
-            if (angleToWatchPoint <= shortestAngle)
-            {
-                closestPoint = watchPoint;
-                shortestAngle = angleToWatchPoint;
-            }
-        }
-
-        return closestPoint;
     }
 
     public float EasyAngle(Vector3 position, Vector3 forward, Vector3 desiredPoint)

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5595529246203935248}
   - component: {fileID: 3529791371215126566}
   - component: {fileID: 7187991191203331295}
-  - component: {fileID: 521451411757935803}
+  - component: {fileID: 6898193541239966730}
   m_Layer: 8
   m_Name: P_PROP_coinpouch_interior
   m_TagString: Untagged
@@ -84,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &521451411757935803
-BoxCollider:
+--- !u!64 &6898193541239966730
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -94,6 +94,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.18364581, y: 0.2260277, z: 0.19472793}
-  m_Center: {x: 0.004586395, y: 0.11301382, z: -0.00011175871}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3342185362824553059, guid: 7ee8de62456c28d4fb994e15bb71adaa, type: 3}

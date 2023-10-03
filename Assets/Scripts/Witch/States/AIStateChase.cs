@@ -87,13 +87,15 @@ internal class AIStateChase : MonoBehaviour, IAIState
             NavMeshHit hit;
             if (NavMesh.SamplePosition(currentSamplePoint, out hit, 5.0f, NavMesh.AllAreas))
             {
+                // Return the closest pos on navMesh
+                Debug.DrawLine(transform.position, playerPosition, Color.yellow, 2f);
                 return hit.position;
             }
 
             currentSamplePoint += directionFromPlayer * samplingForWalkPoint;
             distance = Vector3.Distance(playerPosition, currentSamplePoint);
         }
-        Debug.DrawLine(transform.position, playerPosition, Color.red, 5f);
+        // Nothing found, just use the player
         return playerPosition;
     }
 
