@@ -40,6 +40,7 @@ public class AIMovement : MonoBehaviour
     public void StopAgent()
     {
         agent.isStopped = true;
+        agent.destination = agent.transform.position;
     }
 
     public Transform FindNewWalkpoint()

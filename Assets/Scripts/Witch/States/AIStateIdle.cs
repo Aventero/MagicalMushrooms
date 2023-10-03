@@ -9,6 +9,7 @@ public class AIStateIdle : MonoBehaviour, IAIState
     private AIStateManager stateManager;
 
     public float WaitTimeInBetween = 2.0f;
+    public int PointsToWatch = 2;
 
     public void InitState(AIStateManager stateManager)
     {
@@ -28,7 +29,7 @@ public class AIStateIdle : MonoBehaviour, IAIState
     public void ExitState()
     {
         StopAllCoroutines();
-        stateManager.Movement.agent.isStopped = false;
+        stateManager.Movement.StartAgent();
     }
 
     public void UpdateState()
@@ -77,7 +78,7 @@ public class AIStateIdle : MonoBehaviour, IAIState
         int times = 0;
         foreach (Transform point in visiblePoints)
         {
-            if (times >= 3)
+            if (times >= PointsToWatch)
                 break; // Return the Coroutine
 
             // Store previous, set the new one

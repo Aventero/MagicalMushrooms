@@ -47,12 +47,13 @@ internal class AIStateChase : MonoBehaviour, IAIState
     public void ExitState()
     {
         stateManager.Movement.agent.updateRotation = true;  // !! Agent rotate on its own. !!
+        stateManager.Movement.StopAgent();
     }
 
     public void UpdateState()
     {
         stateManager.Watch(stateManager.Player.position);
-        RotateAgent(stateManager.Player.position);
+        stateManager.Vision.RotateAgent(stateManager.Player.position, AgentChasingRotationSpeed);
         
         //stateManager.SetWalkPoint(stateManager.Player.position); // TODO: Dont let her run after the player!!
         if (stateManager.HasLostPlayer())
@@ -74,26 +75,6 @@ internal class AIStateChase : MonoBehaviour, IAIState
         }
     }
 
-
-    // Use this for rotations????? Whenever looking at a new pooint?
-    private void RotateAgent(Vector3 targetPosition)
-    {
-        Vector3 directionToTarget = (targetPosition - transform.position).normalized;
-
-        // Do not rotate upwards or downwards
-        directionToTarget.y = 0;
-
-        if (directionToTarget == Vector3.zero)
-        {
-            return; // Avoid trying to look in a zero direction
-        }
-
-        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, AgentChasingRotationSpeed * Time.deltaTime);
-
-        // Set the agent's desired velocity so it moves in the direction we set.
-        stateManager.Movement.agent.velocity = transform.forward * stateManager.Movement.agent.speed;
-    }
 
     public Vector3 GetClosestPointNearPlayerOnLine(Vector3 playerPosition)
     {

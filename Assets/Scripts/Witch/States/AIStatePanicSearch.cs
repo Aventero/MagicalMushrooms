@@ -21,7 +21,7 @@ public class AIStatePanicSearch : MonoBehaviour, IAIState
     {
         stateManager.DangerOverlay.SetState(DangerState.Safe);
         stateManager.Vision.SetWatchingMode(WatchingMode.Paniced);
-        stateManager.Movement.agent.isStopped = true;
+        stateManager.Movement.StopAgent();
 
         if (searchRoutine != null)
             StopCoroutine(searchRoutine);

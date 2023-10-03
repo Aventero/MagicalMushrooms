@@ -83,10 +83,9 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
 
     private IEnumerator TurnThenWalk()
     {
-        stateManager.Watch(HeadHasToTurn() ? stateManager.StandardWatchpoint.transform.position : patrolWatchPoint.position);
-
-        yield return new WaitUntil(() => stateManager.Vision.ReachedWatchTarget);
-        
+        //stateManager.Watch(HeadHasToTurn() ? stateManager.StandardWatchpoint.transform.position : patrolWatchPoint.position);
+        //yield return new WaitUntil(() => stateManager.Vision.ReachedWatchTarget);
+        yield return null;
         stateManager.Movement.StartAgent();
         StartCoroutine(WalkWatching());
     }

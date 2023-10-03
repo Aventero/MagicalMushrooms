@@ -27,7 +27,7 @@ public class AIStateLostPlayer : MonoBehaviour, IAIState
         stateManager.DangerOverlay.SetState(DangerState.Safe);
         stateManager.Vision.SetWatchingMode(WatchingMode.LostPlayer);
         stateManager.Watch(stateManager.Player.position);
-        stateManager.Movement.agent.isStopped = true;
+        stateManager.Movement.StopAgent();
         stateManager.UIAnimation.PlayPupilExpand(vision.AttackAfterSeconds, true);
 
         // Start the frantic search
