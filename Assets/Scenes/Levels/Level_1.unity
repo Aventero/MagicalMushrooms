@@ -4003,10 +4003,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1808120555}
     m_Modifications:
     - target: {fileID: 291362341822247036, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
-      propertyPath: angle
-      value: 17.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 291362341822247036, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
       propertyPath: endAngle
       value: 30
       objectReference: {fileID: 0}
@@ -4018,10 +4014,6 @@ PrefabInstance:
       propertyPath: vacuumCenter
       value: 
       objectReference: {fileID: 367580556}
-    - target: {fileID: 291362341822247036, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
-      propertyPath: vacuumRadius
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 4858251474997619656, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -14200,14 +14192,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2857605709861750662, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
-      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2857605709861750662, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
-      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2857605709861750662, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 285831296}
@@ -14223,22 +14207,6 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 285831296}
-    - target: {fileID: 2857605709861750662, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
-      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2857605709861750662, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
-      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnCoinVacuum
-      objectReference: {fileID: 0}
-    - target: {fileID: 2857605709861750662, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
-      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PlayerSkillManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2857605709861750662, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
-      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 2857605709861750716, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_Name
       value: Player
@@ -14247,10 +14215,6 @@ PrefabInstance:
       propertyPath: m_Cameras.Array.data[1]
       value: 
       objectReference: {fileID: 1319716841}
-    - target: {fileID: 6816786149360592777, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
 --- !u!4 &378961090 stripped
@@ -65561,10 +65525,6 @@ PrefabInstance:
       propertyPath: WatchPointsParent
       value: 
       objectReference: {fileID: 2143581625}
-    - target: {fileID: 3658052458742186959, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 106.44
-      objectReference: {fileID: 0}
     - target: {fileID: 3841212219368694943, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -65608,10 +65568,6 @@ PrefabInstance:
     - target: {fileID: 3841212219368694943, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3841212219368694943, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4469095328606076453, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: m_Name
