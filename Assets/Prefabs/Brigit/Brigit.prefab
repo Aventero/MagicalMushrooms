@@ -1811,8 +1811,8 @@ Transform:
   m_GameObject: {fileID: 4469095328606076453}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8727669201517544459}
   - {fileID: 5842890004878848122}
@@ -1997,7 +1997,6 @@ MonoBehaviour:
   PanicSearchSmoothTime: 1
   SpottetPlayerSmoothTime: 0.5
   ObjectPlayerIsHidingBehind: {fileID: 0}
-  ReachedWatchTarget: 0
 --- !u!114 &3658052457786925148
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -37,18 +37,47 @@ public class PlayerSkillManager : MonoBehaviour
         lockSkill = false;
     }
 
+    private void Update()
+    {
+        if (activeSkill != null && activeSkill.IsMouseHeld)
+        {
+            activeSkill.Execute();  // continuously execute if the skill is being held
+        }
+    }
+
     public void SkillActivation(InputAction.CallbackContext callback)
     {
-        if (!callback.performed || activeSkill == null || lockSkill)
+        if (activeSkill == null || lockSkill)
             return;
 
-        if (!activeSkill.Execute())
-            return;
+        // Check if the active skill can be held
+        if (activeSkill.CanBeHeld())
+        {
+            if (callback.started)
+            {
+                activeSkill.IsMouseHeld = true;
+                return;
+            }
+            else if (callback.canceled)
+            {
+                activeSkill.IsMouseHeld = false;
+                //lockSkill = true;
+                //UIManager.Instance.SkillExecuted(activeSkill);
+                //StartCoroutine(this.LockSkillForSeconds(activeSkill.RechargeTime));
+                //activeSkill = null;
+                return;
+            }
+        }
+        else if (callback.performed)  // Handle non-holdable skills here
+        {
+            if (!activeSkill.Execute())
+                return;
 
-        lockSkill = true;
-        UIManager.Instance.SkillExecuted(activeSkill);
-        StartCoroutine(this.LockSkillForSeconds(activeSkill.RechargeTime));
-        activeSkill = null;
+            lockSkill = true;
+            UIManager.Instance.SkillExecuted(activeSkill);
+            StartCoroutine(this.LockSkillForSeconds(activeSkill.RechargeTime));
+            activeSkill = null;
+        }
     }
 
     public void OnPoltergeist(InputAction.CallbackContext callback)
