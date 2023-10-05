@@ -94,7 +94,7 @@ class Coin : MonoBehaviour
         float startDistance = Vector3.Distance(transform.position, origin.position);
         float distanceToOrigin = startDistance;
 
-        while (distanceToOrigin > 0.01f)
+        while (distanceToOrigin > 0.02f)
         {
             float currentScaleFactor = transform.localScale.x / initialScale.x;
             trailRenderer.startWidth = initialStartWidth * currentScaleFactor;
@@ -106,7 +106,7 @@ class Coin : MonoBehaviour
 
             // Attraction logic using acceleration and velocity
             velocity += (origin.position - transform.position).normalized * vacuumForce;
-            float dampingFactor = 0.1f + 0.9f * (1f - distanceFactor); // Adjust these values as necessary
+            float dampingFactor = 0.05f + 0.9f * (1f - distanceFactor); // Adjust these values as necessary
             velocity *= dampingFactor;
 
             // Apply
@@ -116,6 +116,7 @@ class Coin : MonoBehaviour
             yield return null;
         }
 
+        Stats.Instance.IncreaseCoinsCollected(CoinData.Value);
         Destroy(gameObject);
     }
 
