@@ -4003,12 +4003,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 1808120555}
     m_Modifications:
     - target: {fileID: 291362341822247036, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
+      propertyPath: angle
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 291362341822247036, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
       propertyPath: endAngle
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 291362341822247036, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
       propertyPath: startAngle
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 291362341822247036, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
+      propertyPath: vacuumForce
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 291362341822247036, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
       propertyPath: vacuumCenter
@@ -15764,7 +15772,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4411540197447418040, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -73.95
       objectReference: {fileID: 0}
     - target: {fileID: 5158605306064443917, guid: 7f8f2bd8eaede034bad230199549c749, type: 3}
       propertyPath: pointToTrack
@@ -31417,7 +31425,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 929279963}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.459301, y: -0.09873068, z: -0.5037179, w: 0.7249574}
   m_LocalPosition: {x: 11.876045, y: 10.36, z: 14.968624}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -31646,7 +31654,7 @@ Transform:
   - {fileID: 1371548322}
   m_Father: {fileID: 0}
   m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 34.505, y: -47.325, z: -85.084}
 --- !u!1 &931163419
 GameObject:
   m_ObjectHideFlags: 0

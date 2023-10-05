@@ -50,7 +50,7 @@ public class AIVision : MonoBehaviour
     [ReadOnly]
     public GameObject ObjectPlayerIsHidingBehind = null;
     LayerMask lookAtMask;
-
+    private Vector3 targetScale;
     void Start()
     {
         lookAtMask = LayerMask.GetMask("Prop");
@@ -115,16 +115,19 @@ public class AIVision : MonoBehaviour
     {
         float distanceToWatchpoint = Vector3.Distance(ViewCone.transform.position, currentWatchTarget);
 
-        // Calculate a lerp factor between 0 and 1 based on the distance.
-        // Assuming a maximum distance at which the scale starts returning to the original value is 'maxDistance'.
-        float maxDistance = 25.0f;  // Set this to whatever value you need.
+        // Lerp factor based on distance
+        float maxDistance = 25.0f;
         float lerpFactor = Mathf.Clamp01(distanceToWatchpoint / maxDistance);
 
-        // Calculate the additional scale for the Z-axis. 'maxAdditionalScale' is the maximum increase in scale when distance is 0.
-        float maxAdditionalScale = 30.0f;  // Set this to the value you need.
+        // Additional scale for the Z-axis.
+        float maxAdditionalScale = 30.0f;
         float additionalZScale = Mathf.Lerp(maxAdditionalScale, 0, lerpFactor);
 
-        ViewCone.transform.localScale = new Vector3(originalVisionScale.x, originalVisionScale.y, originalVisionScale.z - additionalZScale);
+        targetScale = new Vector3(originalVisionScale.x, originalVisionScale.y, originalVisionScale.z - additionalZScale);
+
+        // Interpolate towards the target scale.
+        float lerpSpeed = 0.1f;
+        ViewCone.transform.localScale = Vector3.Lerp(ViewCone.transform.localScale, targetScale, lerpSpeed);
     }
 
 

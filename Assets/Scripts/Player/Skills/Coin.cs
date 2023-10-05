@@ -54,8 +54,9 @@ class Coin : MonoBehaviour
 
         if (currentJiggleDuration >= maxJiggleDuration)
         {
+            Vector3 jiggleDirection = (transform.position - initialPosition).normalized;
             CanBeSuckedIn = true; // Enable the flag when max jiggle duration is reached
-            StartCoroutine(TheSlurp(origin, slurpForce));
+            StartCoroutine(TheSlurp(origin, slurpForce, jiggleDirection));
         }
     }
 
@@ -75,51 +76,66 @@ class Coin : MonoBehaviour
         }
     }
 
-    public IEnumerator TheSlurp(Transform origin, float vacuumForce)
+    public IEnumerator TheSlurp(Transform origin, float vacuumForce, Vector3 startDirection)
     {
-        trailRenderer.enabled = true;
         // Management
+        trailRenderer.enabled = true;
         GetComponent<Collider>().enabled = false;
         IsSlurping = true;
 
-        // Scale
-        Vector3 initialScale = transform.localScale;
+        // Variables for acceleration and velocity
+        Vector3 velocity = startDirection * vacuumForce * 2f;
 
-        // Trail renderer
+        // Initial scales
+        Vector3 initialScale = transform.localScale;
         float initialStartWidth = trailRenderer.startWidth;
         float initialEndWidth = trailRenderer.endWidth;
 
-        // Lerping
         float startDistance = Vector3.Distance(transform.position, origin.position);
         float distanceToOrigin = startDistance;
-        while (distanceToOrigin > 0.001f)
+
+        while (distanceToOrigin > 0.01f)
         {
-            // Adjust Trailrenderer
             float currentScaleFactor = transform.localScale.x / initialScale.x;
             trailRenderer.startWidth = initialStartWidth * currentScaleFactor;
             trailRenderer.endWidth = initialEndWidth * currentScaleFactor;
 
-            // This will go from 0 to 1 as the coin gets closer
+            // Scaling down 1 -> 0
             float distanceFactor = 1f - (distanceToOrigin / startDistance);
-
-            // Force increase by distance
-            float currentForce = vacuumForce * (1f + Mathf.Pow(distanceFactor, ExponentialIncrease));
-
-            // Scale down by distance
             transform.localScale = Vector3.Lerp(initialScale, Vector3.zero, distanceFactor);
 
-            // Coin moves to origin
-            float adjustedForce = currentForce * (1f - CoinData.Resistance);
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                origin.position,
-                adjustedForce * Time.deltaTime
-            );
+            // Attraction logic using acceleration and velocity
+            velocity += (origin.position - transform.position).normalized * vacuumForce;
+            float dampingFactor = 0.1f + 0.9f * (1f - distanceFactor); // Adjust these values as necessary
+            velocity *= dampingFactor;
+
+            // Apply
+            transform.position += velocity * Time.deltaTime;
 
             distanceToOrigin = Vector3.Distance(transform.position, origin.position);
             yield return null;
         }
 
         Destroy(gameObject);
+    }
+
+}
+
+public static class Vector3Extensions
+{
+    public static Vector3 ClampMagnitude(this Vector3 vector, float min, float max)
+    {
+        float magnitude = vector.magnitude;
+
+        if (magnitude > max)
+        {
+            return Vector3.ClampMagnitude(vector, max);
+        }
+        else if (magnitude < min && magnitude > 0)
+        {
+            return vector.normalized * min;
+        }
+
+        return vector;
     }
 }
