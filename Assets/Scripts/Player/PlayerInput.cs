@@ -98,6 +98,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""e34ee604-b571-4ed0-92f6-aea4e2368065"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -285,6 +294,17 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""65561f1b-945d-4e03-9dc8-edf1df07c32b"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -880,6 +900,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_CharacterControls_Poltergeist = m_CharacterControls.FindAction("Poltergeist", throwIfNotFound: true);
         m_CharacterControls_CoinVacuum = m_CharacterControls.FindAction("CoinVacuum", throwIfNotFound: true);
         m_CharacterControls_Action = m_CharacterControls.FindAction("Action", throwIfNotFound: true);
+        m_CharacterControls_Escape = m_CharacterControls.FindAction("Escape", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -959,6 +980,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_CharacterControls_Poltergeist;
     private readonly InputAction m_CharacterControls_CoinVacuum;
     private readonly InputAction m_CharacterControls_Action;
+    private readonly InputAction m_CharacterControls_Escape;
     public struct CharacterControlsActions
     {
         private @PlayerInput m_Wrapper;
@@ -971,6 +993,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @Poltergeist => m_Wrapper.m_CharacterControls_Poltergeist;
         public InputAction @CoinVacuum => m_Wrapper.m_CharacterControls_CoinVacuum;
         public InputAction @Action => m_Wrapper.m_CharacterControls_Action;
+        public InputAction @Escape => m_Wrapper.m_CharacterControls_Escape;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1004,6 +1027,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Action.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnAction;
                 @Action.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnAction;
                 @Action.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnAction;
+                @Escape.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnEscape;
+                @Escape.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnEscape;
+                @Escape.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnEscape;
             }
             m_Wrapper.m_CharacterControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -1032,6 +1058,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Action.started += instance.OnAction;
                 @Action.performed += instance.OnAction;
                 @Action.canceled += instance.OnAction;
+                @Escape.started += instance.OnEscape;
+                @Escape.performed += instance.OnEscape;
+                @Escape.canceled += instance.OnEscape;
             }
         }
     }
@@ -1196,6 +1225,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnPoltergeist(InputAction.CallbackContext context);
         void OnCoinVacuum(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

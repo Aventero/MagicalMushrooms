@@ -1,11 +1,13 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.InputSystem.InputAction;
 
 public class UIManager : MonoBehaviour
 {
     [Header("Menues")]
     [SerializeField] private GameObject OverlayMenu;
     [SerializeField] private GameObject GameOverMenu;
+    [SerializeField] private GameObject PauseMenu;
 
     private OverlayMenu overlayMenu;
 
@@ -24,10 +26,22 @@ public class UIManager : MonoBehaviour
     {
         OverlayMenu.SetActive(true);
         GameOverMenu.SetActive(false);
+        PauseMenu.SetActive(false);
 
         StateManager.Instance.GameOverEvent += this.GameOver;
 
         overlayMenu = OverlayMenu.GetComponent<OverlayMenu>();
+    }
+
+    // User hit the escape key 
+    public void Escape(CallbackContext context)
+    {
+        if (!context.performed)
+            return;
+
+        OverlayMenu.SetActive(false);
+        PauseMenu.SetActive(true);
+        PauseMenu.GetComponent<PauseMenu>().ShowMenu();
     }
 
     public void PauseGame()
