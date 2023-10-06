@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3023994083016291481}
   - component: {fileID: 832646342349939048}
   - component: {fileID: 4700273923911285753}
-  - component: {fileID: 8578390209463353177}
   - component: {fileID: 3978808014527679782}
   - component: {fileID: 40250464101626912}
+  - component: {fileID: 3020887442077093643}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Untagged
@@ -86,19 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &8578390209463353177
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7360445342254938796}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3978808014527679782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,6 +103,7 @@ MonoBehaviour:
   InInitialPosition: 1
   IsSlurping: 0
   ExponentialIncrease: 2
+  MaxJiggleAmount: 0.5
 --- !u!96 &40250464101626912
 TrailRenderer:
   serializedVersion: 2
@@ -224,3 +212,16 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!135 &3020887442077093643
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7360445342254938796}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5000002
+  m_Center: {x: -0.000019073486, y: -0.000015258789, z: 0.0000076293945}

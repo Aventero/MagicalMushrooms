@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
+    public int CoinsCollected = 0;
+    public int MaxCoins = 100;
+
+    [Header("Text Etc.")]
     public GameObject CoinCounter;
     private TMP_Text counterText;
-    public int CoinsCollected = 0;
+
+    [Header("Pop")]
     public float popScaleFactor = 1.1f; // This determines how big the pop effect will be.
-    public float popDuration = 0.001f; // This determines how long the pop effect will last.
+    public float popDuration = 0.02f; // This determines how long the pop effect will last.
     public static Stats Instance { get; private set; }
     private Vector3 originalScale;
 
@@ -26,17 +31,26 @@ public class Stats : MonoBehaviour
     private void Start()
     {
         counterText = CoinCounter.GetComponentInChildren<TMP_Text>();
-        counterText.SetText("Lights " + CoinsCollected.ToString());
+        counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
         originalScale = counterText.transform.localScale;
     }
 
     public void IncreaseCoinsCollected(int value)
     {
         CoinsCollected += value;
-        counterText.SetText("Lights " + CoinsCollected.ToString());
+
+        if (CoinsCollected > MaxCoins)
+            CoinsCollected = MaxCoins;
+
+        counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
 
         // Start the pop effect
         StartCoroutine(PopTextEffect());
+    }
+
+    public float GetNormalizedCoins()
+    {
+        return (float)CoinsCollected / MaxCoins;
     }
 
     private IEnumerator PopTextEffect()

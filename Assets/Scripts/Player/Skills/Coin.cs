@@ -10,7 +10,8 @@ class Coin : MonoBehaviour
     public float ExponentialIncrease = 2f;
     private Vector3 initialPosition;
     private Vector3 targetJigglePosition;
-    private float jiggleAmount = 0.2f;
+    private float currentJiggleAmount = 0f;
+    public float MaxJiggleAmount = 1f;
     private float maxJiggleDuration = 1f;
     private float currentJiggleDuration = 0f;
     private float jiggleSpeed = 5f; // Adjust to control the speed of the jiggle movement
@@ -44,13 +45,16 @@ class Coin : MonoBehaviour
             directionChangeTimer = 0f;
 
             // Calculate a new target jiggle position around the initial position
-            float xJiggle = initialPosition.x + Random.Range(-jiggleAmount, jiggleAmount);
-            float yJiggle = initialPosition.y + Random.Range(-jiggleAmount, jiggleAmount);
-            targetJigglePosition = new Vector3(xJiggle, yJiggle, initialPosition.z);
+            float xJiggle = initialPosition.x + Random.Range(-currentJiggleAmount, currentJiggleAmount);
+            float yJiggle = initialPosition.y + Random.Range(-currentJiggleAmount, currentJiggleAmount);
+            float zJiggle = initialPosition.z + Random.Range(-currentJiggleAmount, currentJiggleAmount);
+            targetJigglePosition = new Vector3(xJiggle, yJiggle, zJiggle);
         }
 
         // Lerp to the target jiggle position
+        Debug.Log(currentJiggleAmount);
         transform.position = Vector3.Lerp(transform.position, targetJigglePosition, Time.deltaTime * jiggleSpeed);
+        currentJiggleAmount = Mathf.Lerp(0, MaxJiggleAmount, currentJiggleDuration / maxJiggleDuration);
 
         if (currentJiggleDuration >= maxJiggleDuration)
         {
@@ -94,7 +98,7 @@ class Coin : MonoBehaviour
         float startDistance = Vector3.Distance(transform.position, origin.position);
         float distanceToOrigin = startDistance;
 
-        while (distanceToOrigin > 0.02f)
+        while (distanceToOrigin > 0.03f)
         {
             float currentScaleFactor = transform.localScale.x / initialScale.x;
             trailRenderer.startWidth = initialStartWidth * currentScaleFactor;
@@ -108,7 +112,7 @@ class Coin : MonoBehaviour
             velocity += (origin.position - transform.position).normalized * vacuumForce;
             float dampingFactor = 0.05f + 0.9f * (1f - distanceFactor); // Adjust these values as necessary
             velocity *= dampingFactor;
-
+            velocity = Vector3Extensions.ClampMagnitude(velocity, -100, 100);
             // Apply
             transform.position += velocity * Time.deltaTime;
 
