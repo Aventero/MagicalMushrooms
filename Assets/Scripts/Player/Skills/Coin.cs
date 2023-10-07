@@ -100,7 +100,7 @@ class Coin : MonoBehaviour
         float timeSinceLastCloseApproach = 0f;
         float previousDistance = distanceToOrigin;
 
-        while (distanceToOrigin > 0.025f)
+        while (distanceToOrigin > 0.015f)
         {
             float currentScaleFactor = transform.localScale.x / initialScale.x;
             trailRenderer.startWidth = initialStartWidth * currentScaleFactor;
