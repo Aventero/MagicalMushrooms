@@ -8,13 +8,14 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject OptionsMenu;
     public VolumeProfile volumeProfile;
+    public GameObject Menu;
 
     private VolumeProfile standardProfile;
     private Volume volume;
 
     private bool activeMenu = false;
 
-    private void Start()
+    private void Awake()
     {
         volume = GameObject.FindObjectOfType<Volume>();
         standardProfile = volume.profile;
@@ -33,6 +34,7 @@ public class PauseMenu : MonoBehaviour
         }
 
         Debug.Log("Starting Pause menu");
+        Menu.SetActive(true);
         volume.profile = volumeProfile;
         OptionsMenu.SetActive(false);
         StateManager.Instance.PauseGameEvent.Invoke();
@@ -43,6 +45,7 @@ public class PauseMenu : MonoBehaviour
         activeMenu = false;
         volume.profile = standardProfile;
         StateManager.Instance.ResumeGameEvent.Invoke();
+        UIManager.Instance.SetOverlayVisibility(true);
         this.gameObject.SetActive(false);
     }
 
@@ -53,7 +56,13 @@ public class PauseMenu : MonoBehaviour
 
     public void Options()
     {
+        Menu.SetActive(false);
         OptionsMenu.SetActive(true);
+    }
+
+    public void TurnOnMenu()
+    {
+        Menu.SetActive(true);
     }
 
     public void ReturnToMainMenu()

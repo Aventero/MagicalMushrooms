@@ -6,6 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public void Awake()
+    {
+        Time.timeScale = 1.0f;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     public void Continue()
     {
         NewGame();
@@ -13,7 +19,13 @@ public class MainMenu : MonoBehaviour
 
     public void NewGame()
     {
+        SetCursor();
         SceneManager.LoadScene(1);
+    }
+
+    private void SetCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void Quit()

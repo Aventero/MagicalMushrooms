@@ -113,6 +113,11 @@ public class UIManager : MonoBehaviour
         overlayMenu.SetSkillBarVisibility(visible);
     }
 
+    public void SetOverlayVisibility(bool visible)
+    {
+        OverlayMenu.SetActive(visible);
+    }
+
     private void GameOver()
     {
         PauseGame();
