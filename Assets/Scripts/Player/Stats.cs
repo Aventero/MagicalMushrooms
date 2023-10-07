@@ -48,7 +48,7 @@ public class Stats : MonoBehaviour
         counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
 
         // Start the pop effect
-        StaffColoration.Bling();
+        StaffColoration.MagicReachedOrigin();
         StartCoroutine(PopTextEffect());
     }
 

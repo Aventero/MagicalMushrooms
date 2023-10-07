@@ -22,6 +22,7 @@ public class AIStateSpottedPlayer : MonoBehaviour, IAIState
         stateManager.Vision.SetWatchingMode(WatchingMode.SpottedPlayer);
         stateManager.DangerOverlay.SetState(DangerState.Danger);
         stateManager.UIAnimation.PlayEyeOpen(SpottedDuration);
+        stateManager.ToggleWitchLocator(true);
     }
 
     public void UpdateState()
@@ -38,5 +39,6 @@ public class AIStateSpottedPlayer : MonoBehaviour, IAIState
     public void ExitState()
     {
         spottingTimer = 0;
+        stateManager.ToggleWitchLocator(false);
     }
 }

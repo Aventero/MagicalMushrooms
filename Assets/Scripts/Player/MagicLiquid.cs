@@ -46,7 +46,7 @@ public class MagicLiquid : MonoBehaviour
         propBlock.SetFloat("_Height", Stats.Instance.GetNormalizedCoins());
         rend.SetPropertyBlock(propBlock);
 
-        if (Stats.Instance.CoinsCollected <= 1)
+        if (Stats.Instance.CoinsCollected <= 1 || Stats.Instance.CoinsCollected >= Stats.Instance.MaxCoins)
             return;
 
         if (Time.timeScale <= 0.7f)
@@ -87,7 +87,7 @@ public class MagicLiquid : MonoBehaviour
         lastRot = transform.rotation.eulerAngles;
     }
 
-    public void Bling()
+    public void MagicReachedOrigin()
     {
         Vector3 boundsSize = meshFilter.mesh.bounds.size;
         rend.GetPropertyBlock(propBlock);

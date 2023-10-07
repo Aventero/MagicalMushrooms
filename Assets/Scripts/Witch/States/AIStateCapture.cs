@@ -33,6 +33,7 @@ public class AIStateCapture : MonoBehaviour, IAIState
     {
         stateManager.DangerOverlay.SetState(DangerState.Attack);
         stateManager.UIAnimation.PlayEyeAttackMode(4f);
+        stateManager.ToggleWitchLocator(true);
         captureTimer = 0f;
         percentCaptured = 0f;
         // Spawn Cage
@@ -53,6 +54,7 @@ public class AIStateCapture : MonoBehaviour, IAIState
         isCapturing = false;
         StateManager.Instance.ResumeMovementEvent.Invoke();
         StateManager.Instance.RespawnPlayerEvent.Invoke();
+        stateManager.ToggleWitchLocator(false);
     }
 
     public void UpdateState()

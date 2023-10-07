@@ -58,3 +58,4 @@ public class AIStatePanicSearch : MonoBehaviour, IAIState
         stateManager.TransitionToState(AIStates.Idle);
     }
 }
+    

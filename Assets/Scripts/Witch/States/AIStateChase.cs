@@ -31,7 +31,8 @@ internal class AIStateChase : MonoBehaviour, IAIState
         // UI
         stateManager.DangerOverlay.SetState(DangerState.Danger);
         stateManager.UIAnimation.PlayPupilExpand(vision.AttackAfterSeconds, false);
-        
+        stateManager.ToggleWitchLocator(true);
+
         // Watching
         vision.SetWatchingMode(WatchingMode.Chasing);
         stateManager.Watch(stateManager.Player.position);
@@ -48,6 +49,7 @@ internal class AIStateChase : MonoBehaviour, IAIState
     {
         stateManager.Movement.agent.updateRotation = true;  // !! Agent rotate on its own. !!
         stateManager.Movement.StopAgent();
+        stateManager.ToggleWitchLocator(false);
     }
 
     public void UpdateState()

@@ -29,6 +29,7 @@ public class AIStateLostPlayer : MonoBehaviour, IAIState
         stateManager.Watch(stateManager.Player.position);
         stateManager.Movement.StopAgent();
         stateManager.UIAnimation.PlayPupilExpand(vision.AttackAfterSeconds, true);
+        stateManager.ToggleWitchLocator(true);
 
         // Start the frantic search
         if (searchRoutine != null)
@@ -42,6 +43,7 @@ public class AIStateLostPlayer : MonoBehaviour, IAIState
         watchingTimer = 0;
         if (searchRoutine != null)
             StopCoroutine(searchRoutine);
+        stateManager.ToggleWitchLocator(false);
     }
 
     public void UpdateState()

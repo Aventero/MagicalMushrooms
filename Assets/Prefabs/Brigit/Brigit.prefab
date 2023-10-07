@@ -1795,6 +1795,7 @@ GameObject:
   - component: {fileID: 1824091702}
   - component: {fileID: 8829789049218775547}
   - component: {fileID: 2943452753161012043}
+  - component: {fileID: 980274409482953503}
   m_Layer: 0
   m_Name: Brigit
   m_TagString: Untagged
@@ -2325,6 +2326,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotationSpeed: 2
+--- !u!114 &980274409482953503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4469095328606076453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba0e90bfa1ff61f44adadd0a43015463, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainCamera: {fileID: 0}
+  Witch: {fileID: 3841212219368694943}
+  WitchLocatorTransform: {fileID: 0}
 --- !u!1 &5140360957779315687
 GameObject:
   m_ObjectHideFlags: 0

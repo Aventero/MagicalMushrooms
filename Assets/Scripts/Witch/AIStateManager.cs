@@ -33,6 +33,9 @@ public class AIStateManager : MonoBehaviour
     // Animation
     public WitchUIAnimation UIAnimation { get; private set; }
     public PlayerDetection PlayerDetection { get; private set; }
+
+    public WitchLocator WitchLocator { get; private set; }
+
     void Awake()
     {
         PlayerDetection = GetComponent<PlayerDetection>();
@@ -40,6 +43,7 @@ public class AIStateManager : MonoBehaviour
         DangerOverlay = GetComponent<DangerOverlay>();
         Vision = GetComponent<AIVision>();
         UIAnimation = GetComponent<WitchUIAnimation>();
+        WitchLocator = GetComponent<WitchLocator>();
 
         // Get the Points from Parents
         WatchPoints = new List<Transform>(WatchPointsParent.GetComponentsInChildren<Transform>().Where(Point => Point != WatchPointsParent.transform));
@@ -83,8 +87,6 @@ public class AIStateManager : MonoBehaviour
         UIAnimation.UpdateAnimationStates();
     }
 
-
-
     public void Watch(Vector3 point)
     {
         Vision.Watch(point);
@@ -98,6 +100,11 @@ public class AIStateManager : MonoBehaviour
     public bool HasLostPlayer()
     {
         return Vision.LostPlayer();
+    }
+
+    public void ToggleWitchLocator(bool enabled)
+    {
+        WitchLocator.WitchLocatorInUI.SetActive(enabled);   
     }
 
     public void TransitionToState(AIStates stateName)
