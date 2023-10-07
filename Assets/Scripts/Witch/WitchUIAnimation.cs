@@ -7,6 +7,11 @@ public class WitchUIAnimation : MonoBehaviour
     public Animator eyeAnimatorInUI;
     private string currentAnimationName;
 
+    private void Awake()
+    {
+        eyeAnimatorInUI.keepAnimatorControllerStateOnDisable = true;
+    }
+
     private void Start()
     {
     }

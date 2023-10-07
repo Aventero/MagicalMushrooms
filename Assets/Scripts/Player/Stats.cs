@@ -7,9 +7,12 @@ public class Stats : MonoBehaviour
     public int CoinsCollected = 0;
     public int MaxCoins = 100;
 
-    [Header("Text Etc.")]
-    public GameObject CoinCounter;
+    [Header("Text")]
+    public GameObject CoinCounterGameObject;
     private TMP_Text counterText;
+
+    [Header("Coloration")]
+    public MagicLiquid StaffColoration;
 
     [Header("Pop")]
     public float popScaleFactor = 1.1f; // This determines how big the pop effect will be.
@@ -30,7 +33,7 @@ public class Stats : MonoBehaviour
 
     private void Start()
     {
-        counterText = CoinCounter.GetComponentInChildren<TMP_Text>();
+        counterText = CoinCounterGameObject.GetComponentInChildren<TMP_Text>();
         counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
         originalScale = counterText.transform.localScale;
     }
@@ -45,6 +48,7 @@ public class Stats : MonoBehaviour
         counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
 
         // Start the pop effect
+        StaffColoration.Bling();
         StartCoroutine(PopTextEffect());
     }
 

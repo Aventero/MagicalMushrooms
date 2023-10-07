@@ -52,7 +52,6 @@ class Coin : MonoBehaviour
         }
 
         // Lerp to the target jiggle position
-        Debug.Log(currentJiggleAmount);
         transform.position = Vector3.Lerp(transform.position, targetJigglePosition, Time.deltaTime * jiggleSpeed);
         currentJiggleAmount = Mathf.Lerp(0, MaxJiggleAmount, currentJiggleDuration / maxJiggleDuration);
 
@@ -98,7 +97,10 @@ class Coin : MonoBehaviour
         float startDistance = Vector3.Distance(transform.position, origin.position);
         float distanceToOrigin = startDistance;
 
-        while (distanceToOrigin > 0.03f)
+        float timeSinceLastCloseApproach = 0f;
+        float previousDistance = distanceToOrigin;
+
+        while (distanceToOrigin > 0.025f)
         {
             float currentScaleFactor = transform.localScale.x / initialScale.x;
             trailRenderer.startWidth = initialStartWidth * currentScaleFactor;
@@ -110,9 +112,26 @@ class Coin : MonoBehaviour
 
             // Attraction logic using acceleration and velocity
             velocity += (origin.position - transform.position).normalized * vacuumForce;
-            float dampingFactor = 0.05f + 0.9f * (1f - distanceFactor); // Adjust these values as necessary
+            float dampingFactor = 0.05f + 0.9f * (1f - distanceFactor);
             velocity *= dampingFactor;
             velocity = Vector3Extensions.ClampMagnitude(velocity, -100, 100);
+
+            // Check if the coin is getting closer to the player
+            if (distanceToOrigin < previousDistance)
+                timeSinceLastCloseApproach = 0f;
+            else
+                timeSinceLastCloseApproach += Time.deltaTime;
+
+
+            previousDistance = distanceToOrigin;
+
+            // If the coin hasn't made significant progress in 1 second, apply a stronger force
+            if (timeSinceLastCloseApproach > 0.1f)
+            {
+                velocity *= 0.25f; 
+                timeSinceLastCloseApproach = 0f;
+            }
+
             // Apply
             transform.position += velocity * Time.deltaTime;
 

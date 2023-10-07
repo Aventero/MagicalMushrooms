@@ -27,7 +27,7 @@ public class OptionsMenu : MonoBehaviour
 
     private bool fullscreen;
 
-    private void Start()
+    private void Awake()
     {
         Menu.SetActive(true);
         DialogMenu.SetActive(false);
@@ -130,21 +130,24 @@ public class OptionsMenu : MonoBehaviour
 
     private void SetupResolution()
     {
-        currentResolutionPos = 0;
-        foreach (Resolution resolution in resolutions)
+        currentResolutionPos = -1; 
+        for (int i = 0; i < resolutions.Length; i++)
         {
-            if (resolution.width == Screen.width && resolution.height == Screen.height)
+            if (resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
             {
                 Debug.Log("FOUND Resolution: " + Screen.width + " x " + Screen.height);
-
-                return;
+                currentResolutionPos = i;
+                break; 
             }
-
-            currentResolutionPos++;
         }
 
-        Debug.Log("No Resolution Found: " + Screen.width + " x " + Screen.height);
+        if (currentResolutionPos == -1)
+        {
+            Debug.Log("No Resolution Found: " + Screen.width + " x " + Screen.height);
+            currentResolutionPos = 0; 
+        }
     }
+
 
     private void SaveSettings()
     {

@@ -42,7 +42,7 @@ public class MovingPlatform : MonoBehaviour
 
     private float MovePlatform()
     {
-        Wobble wobble = GetComponent<Wobble>();
+        PlatformWobble wobble = GetComponent<PlatformWobble>();
         ElapsedTime += Time.deltaTime;
         float percentageTraveled = ElapsedTime / TimeToDestination;
         percentageTraveled = Mathf.SmoothStep(0, 1, percentageTraveled);

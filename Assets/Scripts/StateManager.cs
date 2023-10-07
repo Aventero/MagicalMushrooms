@@ -38,11 +38,13 @@ public class StateManager : MonoBehaviour
     private void StartTime()
     {
         StartCoroutine(TogglePauseResume(0.1f, 1));
+        IsPaused = false;
     }
 
     private void StopTime()
     {
         StartCoroutine(TogglePauseResume(0.1f, 0));
+        IsPaused = true;
     }
 
     // Can hopefully help with NaN calculations (deviding by 0)
@@ -73,7 +75,7 @@ public class StateManager : MonoBehaviour
     public bool OnElevator = false;
     public bool IsVisionConeOnPlayer = false;
     public bool isLockedOnWitchHead = false;
-    public bool InMenu = false;
+    public bool IsPaused = false;
 
     // Custom Events
     [HideInInspector]

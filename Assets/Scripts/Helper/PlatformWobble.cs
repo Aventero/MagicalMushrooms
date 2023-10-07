@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wobble : MonoBehaviour
+public class PlatformWobble : MonoBehaviour
 {
     public float Radius;
     public float Speed = 2.0f;

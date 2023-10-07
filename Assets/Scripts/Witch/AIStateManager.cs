@@ -74,12 +74,16 @@ public class AIStateManager : MonoBehaviour
 
     void Update()
     {
+        if (StateManager.Instance.IsPaused)
+            return;
         currentState.UpdateState();
         Vision.WatchCurrentTarget();
         Movement.AnimateWitch();
         DangerOverlay.UpdateColors();
         UIAnimation.UpdateAnimationStates();
     }
+
+
 
     public void Watch(Vector3 point)
     {

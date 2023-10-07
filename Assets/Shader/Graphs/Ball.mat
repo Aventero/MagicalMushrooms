@@ -22,20 +22,21 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Ball
   m_Shader: {fileID: -6465566751694194690, guid: d6932f6dd90e4be44903beb0a055ba3e, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _ALPHATEST_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    RenderType: Opaque
+    RenderType: TransparentCutout
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 0cd3c83ec93bb8440a8eff00f1cd5e9e, type: 3}
+        m_Texture: {fileID: 2800000, guid: b4ce2ee828bfd824ab22c9eefb317fda, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -52,27 +53,30 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _Blend: 0
     - _CastShadows: 1
-    - _Cull: 2
+    - _Cull: 0
     - _DstBlend: 0
+    - _FresnelPower: 7.46
     - _Height: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReceiveShadows: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _Wobble: 0.0248
-    - _WobbleHeight: 0.0186
-    - _WobbleSpeed: 4.02
-    - _WorkflowMode: 1
+    - _WobbleHeight: 0.0116
+    - _WobbleSpeed: 3.9
+    - _WobbleX: 0
+    - _WobbleY: 0.13
+    - _WobbleZ: 0
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _BaseColor: {r: 0.0022275045, g: 0.6132076, b: 0, a: 0}
-    - _Color: {r: 7.4642644, g: 5.5908804, b: 0, a: 0}
-    - _EmissionColor: {r: 0.70987976, g: 22.627417, b: 0, a: 0}
+    - _BaseColor: {r: 0.3867925, g: 0.2244126, b: 0.2244126, a: 0}
+    - _EmissionColor: {r: 0, g: 0.05415542, b: 0.4245283, a: 0}
+    - _FresnelColor: {r: 1.9319273, g: 11.181761, b: 0, a: 0}
+    - _LiquidColor: {r: 0.06901923, g: 0.31132078, b: 0.07363447, a: 0}
     - _ObjectBounds: {r: 0.84, g: 0.12, b: 0, a: 0}
+    - _SurfaceColor: {r: 1.1096008, g: 8.574187, b: 0, a: 0}
   m_BuildTextureStacks: []
