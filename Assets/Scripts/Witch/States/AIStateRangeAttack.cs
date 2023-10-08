@@ -13,6 +13,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
     [Header("Rig")]
     public TwoBoneIKConstraint RightHandAimConstraint;
     public float WeightTime = 2f;
+    private float initialWeight;
 
     [Header("Attack Zone")]
     public GameObject InteractionZoneGimble;
@@ -37,6 +38,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
         InteractionZoneGimble.SetActive(true);
         stateManager.Movement.SetWalkPoint(stateManager.Player.position);
         StartCoroutine(ScaleZone());
+        initialWeight = RightHandAimConstraint.weight;
     }
 
     public void ExitState()
@@ -62,7 +64,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
             attackTimeDelta += Time.deltaTime;
             rigTimeDelta += Time.deltaTime;
 
-            RightHandAimConstraint.weight = rigTimeDelta / WeightTime;
+            RightHandAimConstraint.weight = Mathf.Lerp(initialWeight, 1f, rigTimeDelta / WeightTime);
             Tracking(magicProjectile);
 
             // Scale the Zone and Projectile
@@ -109,6 +111,15 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
         }
 
         // Nothing hit!
+        float deltaTime = 0;
+        while (deltaTime <= 1f)
+        {
+            // Move arm back down
+            deltaTime += Time.deltaTime;
+            RightHandAimConstraint.weight = Mathf.Lerp(1f, initialWeight, deltaTime / 1f);
+            yield return null;
+        }
+
         stateManager.TransitionToState(AIStates.IgnorePlayerIdle);
         Destroy(magicProjectile);
     }
@@ -149,6 +160,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
         while (deltaTime <= maxTime)
         {
             deltaTime += Time.deltaTime;
+            RightHandAimConstraint.weight = Mathf.Lerp(1f, initialWeight, deltaTime / maxTime);
             stateManager.Player.transform.position = magicProjectile.transform.position;
             yield return null;
         }
