@@ -16,6 +16,7 @@ public class AIStateIgnorePlayerIdle : MonoBehaviour, IAIState
 
     public void EnterState()
     {
+        stateManager.UIAnimation.PlayEyeClose();
         stateManager.DangerOverlay.SetState(DangerState.Nothing);
         stateManager.Movement.agent.isStopped = true;
         stateManager.Vision.SetWatchingMode(WatchingMode.Relaxed);

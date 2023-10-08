@@ -40,7 +40,8 @@ internal class AIStateChase : MonoBehaviour, IAIState
         // Chase player
         stateManager.Movement.agent.updateRotation = false; // !! This makes the agent not rotate on its own. !!
         ChasePoint.position = stateManager.Player.position;
-        stateManager.Movement.SetWalkPoint(GetClosestPointNearPlayerOnLine(stateManager.Player.position));
+        //stateManager.Movement.SetWalkPoint(GetClosestPointNearPlayerOnLine(stateManager.Player.position));
+        stateManager.Movement.SetWalkPoint(stateManager.Player.position);
 
         stateManager.Movement.StartAgent();
     }
@@ -72,7 +73,7 @@ internal class AIStateChase : MonoBehaviour, IAIState
             {
                 vision.ChaseTime = 0f;
                 stateManager.Movement.agent.isStopped = true;
-                stateManager.TransitionToState(AIStates.Capture);
+                stateManager.TransitionToState(AIStates.RangeAttack);
             }
         }
     }
@@ -100,6 +101,7 @@ internal class AIStateChase : MonoBehaviour, IAIState
         // Nothing found, just use the player
         return playerPosition;
     }
+
 
     private bool AgentReachedDestination()
     {

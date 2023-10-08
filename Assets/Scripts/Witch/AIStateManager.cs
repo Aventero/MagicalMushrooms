@@ -52,6 +52,7 @@ public class AIStateManager : MonoBehaviour
         states.Add(AIStates.Patrol, GetComponent<AIStatePatrol>());
         states.Add(AIStates.Chase, GetComponent <AIStateChase>());
         states.Add(AIStates.Attack, GetComponent<AIStateAttack>());
+        states.Add(AIStates.RangeAttack, GetComponent<AIStateRangeAttack>());
         states.Add(AIStates.IgnorePlayerIdle, GetComponent<AIStateIgnorePlayerIdle>());
         states.Add(AIStates.LostPlayer, GetComponent<AIStateLostPlayer>());
         states.Add(AIStates.Levitate, GetComponent<AIStateLevitate>());

@@ -60,20 +60,5 @@ public class PlayerDetection : MonoBehaviour
         // Draw a simple circle around the entity to show detection range
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(Source.position, WatchPointRange);
-
-        //// Draw lines towards the watchpoints
-        //foreach (Transform watchpoint in GetViewPointsAroundPlayer())
-        //{
-        //    Gizmos.color = Color.red;
-        //    Gizmos.DrawLine(Source.position, watchpoint.position);
-        //}
-
-
-        //// Draw lines towards the watchpoints
-        //foreach (Transform walkpoint in GetWalkPointsAroundPlayer())
-        //{
-        //    Gizmos.color = Color.yellow;
-        //    Gizmos.DrawLine(Source.position, walkpoint.position);
-        //}
     }
 }
