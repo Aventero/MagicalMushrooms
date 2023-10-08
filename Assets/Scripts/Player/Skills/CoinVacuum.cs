@@ -33,27 +33,20 @@ public class CoinVacuum : MonoBehaviour
             }
         }
         else
-        {
             Execute();
-        }
+        
     }
 
     public void Input(InputAction.CallbackContext callback)
     {
         if (callback.started)
-        {
             mouseHeld = true;
-        }
         else if(callback.canceled)
             mouseHeld = false;
-
-        Debug.Log("Input: " + callback.action);
-        
     }
 
     public void Execute()
     {
-        Debug.Log("Execution lurp");
         // Find coins within the vacuum radius at the time of execution
         Collider[] hitColliders = Physics.OverlapSphere(vacuumCenter.position, vacuumRadius);
         foreach (Collider hitCollider in hitColliders)
