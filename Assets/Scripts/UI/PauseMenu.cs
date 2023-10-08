@@ -51,7 +51,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Save()
     {
-        Debug.Log("Trying so save");
+        GameObject.FindObjectOfType<SaveManager>().SaveGame();
     }
 
     public void Options()
