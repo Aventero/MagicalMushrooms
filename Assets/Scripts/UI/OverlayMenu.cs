@@ -172,7 +172,6 @@ public class OverlayMenu : MonoBehaviour
         {
             SmokeBomb => SmokeBombObject,
             Poltergeist => PoltergeistSkillObject,
-            CoinVacuum => CoinVacuumObject,
             _ => null,
         } ;
     }

@@ -7,14 +7,12 @@ public class PlayerSkillManager : MonoBehaviour
     private PlayerSkill activeSkill = null;
     private SmokeBomb smokeBomb;
     private Poltergeist poltergeist;
-    private CoinVacuum coinVacuum;
 
     private bool lockSkill = false;
 
     private void Start()
     {
         smokeBomb = GetComponent<SmokeBomb>();
-        coinVacuum = GetComponent<CoinVacuum>();
         poltergeist = GetComponent<Poltergeist>();
 
         StateManager.Instance.PauseGameEvent.AddListener(this.OnPause);
@@ -96,15 +94,6 @@ public class PlayerSkillManager : MonoBehaviour
 
         Debug.Log("Activating Smoke bomb");
         ActivateSkill(smokeBomb);
-    }
-
-    public void OnCoinVacuum(InputAction.CallbackContext callback)
-    {
-        if (!callback.performed || lockSkill)
-            return;
-
-        Debug.Log("Activating Coin vacuum");
-        ActivateSkill(coinVacuum);
     }
 
     private void ActivateSkill(PlayerSkill skill)

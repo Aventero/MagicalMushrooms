@@ -1,29 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class CoinVacuum : PlayerSkill
+public class CoinVacuum : MonoBehaviour
 {
     [Header("Vacuum Settings")]
     public Transform vacuumCenter;   // The point towards which coins will be dragged
     public float vacuumRadius = 5f;  // The effective radius of the vacuum
     public float vacuumForce = 5f;   // The force/speed at which coins are pulled towards the vacuum center
     private HashSet<Coin> activeCoins = new();
+    private bool mouseHeld = false;
     [Range(0, 90)] public float angle = 45f; // Start angle for the vacuum zone (relative to forward direction)
-
-    public override void ShowPreview()
-    {
-        IsActivated = true;
-    }
-
-    public override void HidePreview()
-    {
-        IsActivated = false;
-    }
 
     private void Update()
     {
         // currently not holding lmb
-        if (!IsMouseHeld)
+        if (!mouseHeld)
         {
             List<Coin> coinsToRemove = new List<Coin>();
 
@@ -40,10 +32,28 @@ public class CoinVacuum : PlayerSkill
                 activeCoins.Remove(coin);
             }
         }
+        else
+        {
+            Execute();
+        }
     }
 
-    public override bool Execute()
+    public void Input(InputAction.CallbackContext callback)
     {
+        if (callback.started)
+        {
+            mouseHeld = true;
+        }
+        else if(callback.canceled)
+            mouseHeld = false;
+
+        Debug.Log("Input: " + callback.action);
+        
+    }
+
+    public void Execute()
+    {
+        Debug.Log("Execution lurp");
         // Find coins within the vacuum radius at the time of execution
         Collider[] hitColliders = Physics.OverlapSphere(vacuumCenter.position, vacuumRadius);
         foreach (Collider hitCollider in hitColliders)
@@ -67,13 +77,6 @@ public class CoinVacuum : PlayerSkill
         {
             coin.Jiggle(vacuumCenter, vacuumForce);
         }
-
-        return false;
-    }
-
-    public override bool CanBeHeld()
-    {
-        return true;
     }
 
     private void OnDrawGizmos()
