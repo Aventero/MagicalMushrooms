@@ -5,7 +5,9 @@ using UnityEngine;
 public class SaveData {
     // Player
     public Vector3 playerPos;
-    public Vector3 lastCheckpoint;
+    public Quaternion playerRotation;
+
+    public Checkpoint lastCheckpoint;
     public int coins;
 
     // Witch

@@ -8,7 +8,6 @@ public class SaveManager : MonoBehaviour
     private GameObject player;
     private GameObject witch;
 
-    // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -26,8 +25,9 @@ public class SaveManager : MonoBehaviour
     {
         SaveData data = new();
         data.playerPos = player.transform.position;
+        data.playerRotation = player.transform.rotation;
         data.coins = player.GetComponent<Stats>().CoinsCollected;
-        data.lastCheckpoint = GameObject.FindObjectOfType<CheckpointManager>().Checkpoint.transform.position;
+        data.lastCheckpoint = FindObjectOfType<CheckpointManager>().Checkpoint;
 
         data.witchPos = witch.transform.position;
 
