@@ -41,8 +41,19 @@ internal class AIStateChase : MonoBehaviour, IAIState
         // Chase player
         stateManager.Movement.agent.updateRotation = false; // !! This makes the agent not rotate on its own. !!
         ChasePoint.position = stateManager.Player.position;
-        //stateManager.Movement.SetWalkPoint(GetClosestPointNearPlayerOnLine(stateManager.Player.position));
-        stateManager.Movement.SetWalkPoint(stateManager.Player.position);
+
+        // If witch is close to player get a suitable point, otherwise get closer
+        Vector3 pos = GetClosestPointNearPlayerOnLine(stateManager.Player.position);
+        if (Vector3.Distance(pos, stateManager.Player.position) < 20)
+        {
+            Debug.Log("Using close point!");
+            stateManager.Movement.SetWalkPoint(GetClosestPointNearPlayerOnLine(stateManager.Player.position));
+        }
+        else
+        {
+            Debug.Log("Walk Point is too far away using player!");
+            stateManager.Movement.SetWalkPoint(stateManager.Player.position);
+        }
 
         stateManager.Movement.StartAgent();
     }
@@ -80,7 +91,6 @@ internal class AIStateChase : MonoBehaviour, IAIState
         }
     }
 
-
     public Vector3 GetClosestPointNearPlayerOnLine(Vector3 playerPosition)
     {
         Vector3 directionFromPlayer = (transform.position - playerPosition).normalized;
@@ -102,14 +112,5 @@ internal class AIStateChase : MonoBehaviour, IAIState
         }
         // Nothing found, just use the player
         return playerPosition;
-    }
-
-
-    private bool AgentReachedDestination()
-    {
-        if (!stateManager.Movement.agent.pathPending && stateManager.Movement.agent.remainingDistance < stateManager.Movement.agent.stoppingDistance)
-            return true;
-
-        return false;
     }
 }

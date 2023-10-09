@@ -7,9 +7,6 @@ public class AIMovement : MonoBehaviour
 {
     public NavMeshAgent agent { get; private set; }
     public Vector3 currentWalkPoint;
-    private Vector3 previousWalkPoint;
-    public List<Transform> walkPoints { get; private set; }
-    public GameObject WalkPointsParent;
 
     // Animation
     public Animator animator { get; private set; }
@@ -22,14 +19,11 @@ public class AIMovement : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.autoBraking = true;
         animator = GetComponent<Animator>();
-
-        walkPoints = new List<Transform>(WalkPointsParent.GetComponentsInChildren<Transform>().Where(point => point != WalkPointsParent.transform));
-        currentWalkPoint = previousWalkPoint = walkPoints[0].position;
+        currentWalkPoint = transform.position;
     }
 
     public void SetWalkPoint(Vector3 point)
     {
-        previousWalkPoint = currentWalkPoint;
         currentWalkPoint = point;
         agent.destination = currentWalkPoint;
     }
@@ -47,9 +41,6 @@ public class AIMovement : MonoBehaviour
 
     public void MoveToNextPoint()
     {
-        if (walkPoints.Count == 0)
-            return;
-
         // Choose a random point of interest
         List<Transform> points = stateManager.PlayerDetection.GetViewPointsAroundPlayerAndSome();
         int index = Random.Range(0, points.Count);
