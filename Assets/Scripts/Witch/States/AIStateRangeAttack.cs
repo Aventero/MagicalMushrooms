@@ -20,8 +20,8 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
     public Transform witchPivotTransform;
     public float AttackTime = 3f;
     private Vector3 initialScale;
-    private float InitialScale = 0.1f;
-    private float MaxScale = 5f;
+    private float InitialScaling = 0.1f;
+    private float MaxScaling = 5f;
 
     [Header("Actual Attack")]
     public GameObject AttackObject;
@@ -37,13 +37,16 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
     {
         InteractionZoneGimble.SetActive(true);
         stateManager.Movement.SetWalkPoint(stateManager.Player.position);
+        stateManager.DangerOverlay.SetState(DangerState.Attack);
         StartCoroutine(ScaleZone());
         initialWeight = RightHandAimConstraint.weight;
+        stateManager.WarnPulse.StartPulse();
     }
 
     public void ExitState()
     {
         InteractionZoneGimble.SetActive(false);
+        stateManager.WarnPulse.StopPulse();
     }
 
     public void UpdateState()
@@ -53,6 +56,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
 
     private IEnumerator ScaleZone()
     {
+
         GameObject magicProjectile = Instantiate(AttackObject, InteractionZoneGimble.transform.position, InteractionZoneGimble.transform.localRotation);
         TrailRenderer trailRenderer = magicProjectile.GetComponent<TrailRenderer>();
 
@@ -68,7 +72,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
             Tracking(magicProjectile);
 
             // Scale the Zone and Projectile
-            float scaleValue = Mathf.Lerp(InitialScale, MaxScale, attackTimeDelta / AttackTime);
+            float scaleValue = Mathf.Lerp(InitialScaling, MaxScaling, attackTimeDelta / AttackTime);
             InteractionZoneGimble.transform.localScale = new Vector3(scaleValue, initialScale.y, scaleValue);
             float magicProjectileScale = scaleValue / 2f;
             magicProjectile.transform.localScale = new Vector3(magicProjectileScale, magicProjectileScale, magicProjectileScale);
@@ -80,10 +84,10 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
 
         // Shoot Projectile towards the player direction
         Vector3 directionToPlayer = (stateManager.Player.position - witchPivotTransform.position).normalized;
-        StartCoroutine(ShootMagic(magicProjectile, directionToPlayer));
+        StartCoroutine(ShootMagicProjectile(magicProjectile, directionToPlayer));
     }
 
-    private IEnumerator ShootMagic(GameObject magicProjectile, Vector3 direction)
+    private IEnumerator ShootMagicProjectile(GameObject magicProjectile, Vector3 direction)
     {
         // Assuming the projectile won't live forever, we'll add a limit to its lifetime.
         float maxProjectileLifetime = 5f;
@@ -100,7 +104,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
             {
                 TrailRenderer trailRenderer = magicProjectile.GetComponent<TrailRenderer>();
                 trailRenderer.enabled = false;
-                StartCoroutine(ScaleUp(magicProjectile));
+                StartCoroutine(ScaleUpProjectile(magicProjectile));
                 yield break;
             }
 
@@ -109,10 +113,10 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
             projectileElapsedTime += Time.deltaTime;
             yield return null;
         }
-
+        StartCoroutine(ScaleDownZone());
         // Nothing hit!
         float deltaTime = 0;
-        while (deltaTime <= 1f)
+        while (deltaTime <= 2f)
         {
             // Move arm back down
             deltaTime += Time.deltaTime;
@@ -124,7 +128,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
         Destroy(magicProjectile);
     }
 
-    IEnumerator ScaleUp(GameObject magicProjectile)
+    IEnumerator ScaleUpProjectile(GameObject magicProjectile)
     {
         float deltaTime = 0;
         float maxTime = 0.2f;
@@ -139,6 +143,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
         }
 
         StartCoroutine(KeepPlayerAndMove(magicProjectile));
+        StartCoroutine(ScaleDownZone());
     }
 
     IEnumerator KeepPlayerAndMove(GameObject magicProjectile)
@@ -167,6 +172,23 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
         StateManager.Instance.RespawnPlayerEvent.Invoke();
         Destroy(magicProjectile);
         stateManager.TransitionToState(AIStates.IgnorePlayerIdle);
+    }
+
+
+    IEnumerator ScaleDownZone()
+    {
+        float scale = InteractionZoneGimble.transform.localScale.x;
+        float deltaTime = 0f;
+        float maxTime = 2f;
+        while (deltaTime <= maxTime)
+        {
+            deltaTime += Time.deltaTime;
+            
+            // Scale the Zone and Projectile
+            float scaleValue = Mathf.Lerp(scale, 0, deltaTime / maxTime);
+            InteractionZoneGimble.transform.localScale = new Vector3(scaleValue, initialScale.y, scaleValue);
+            yield return null;
+        }
     }
 
     private void Tracking(GameObject magicProjectile)

@@ -8,7 +8,8 @@ using UnityEngine.Rendering.Universal;
 
 public class DangerOverlay : MonoBehaviour
 {
-    public Material DangerMaterial;
+    public Material UIDangerMaterial;
+    public Material NormalDangerMaterial;
     public Outline WitchOutline;
 
     [ColorUsageAttribute(true, true)]
@@ -21,8 +22,8 @@ public class DangerOverlay : MonoBehaviour
     public Color WitchAttacking;
     [ColorUsageAttribute(true, true)]
     public Color Damage;
-    public float Intensity = 20f;
-    private float intensity = 0;
+    public float UIIntensity = 0f;
+    public float NormalIntensity = 0f;
     [ColorUsageAttribute(true, true)]
     public Color TargetColor;
     [ColorUsageAttribute(true, true)]
@@ -67,7 +68,7 @@ public class DangerOverlay : MonoBehaviour
                 WitchOutline.OutlineMode = Outline.Mode.OutlineVisible;
                 break;
         }
-        OldColor = DangerMaterial.color;
+        OldColor = UIDangerMaterial.color;
         fadeTimer = 0;
     }   
 
@@ -77,36 +78,22 @@ public class DangerOverlay : MonoBehaviour
         fadeTimer += Time.deltaTime;
         lerpPercent = Mathf.Clamp(fadeTimer / transitionDuration, 0, 1);
         FadeColor();
-
-
-        if ( lerpPercent < 0.5)
-        {
-            intensity = Mathf.Lerp(Intensity, 0, lerpPercent * 2);
-        } 
-        else
-        {
-            intensity = Mathf.Lerp(0, intensity, lerpPercent);
-        }
     }
-
-    private void FadeIntensity()
-    {
-
-    }   
 
     private void FadeColor()
     {
-        DangerMaterial.color = Color.Lerp(OldColor, TargetColor * Intensity, lerpPercent);
+        UIDangerMaterial.color = Color.Lerp(OldColor, TargetColor * UIIntensity, lerpPercent);
+        NormalDangerMaterial.color = Color.Lerp(OldColor, TargetColor * NormalIntensity, lerpPercent);
     }
 
     private void OnDisable()
     {
-        DangerMaterial.color = Nothing;
+        UIDangerMaterial.color = Nothing;
     }
 
     private void OnDestroy()
     {
-        DangerMaterial.color = Nothing;
+        UIDangerMaterial.color = Nothing;
     }
 }
 public enum DangerState

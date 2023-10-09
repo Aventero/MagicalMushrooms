@@ -36,6 +36,8 @@ public class AIStateManager : MonoBehaviour
 
     public WitchLocator WitchLocator { get; private set; }
 
+    public WarnPulse WarnPulse { get; private set; }
+
     void Awake()
     {
         PlayerDetection = GetComponent<PlayerDetection>();
@@ -44,6 +46,7 @@ public class AIStateManager : MonoBehaviour
         Vision = GetComponent<AIVision>();
         UIAnimation = GetComponent<WitchUIAnimation>();
         WitchLocator = GetComponent<WitchLocator>();
+        WarnPulse = GetComponent<WarnPulse>();
 
         // Get the Points from Parents
         WatchPoints = new List<Transform>(WatchPointsParent.GetComponentsInChildren<Transform>().Where(Point => Point != WatchPointsParent.transform));
