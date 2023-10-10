@@ -38,6 +38,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
         InteractionZoneGimble.SetActive(true);
         stateManager.Movement.SetWalkPoint(stateManager.Player.position);
         stateManager.DangerOverlay.SetState(DangerState.Attack);
+        stateManager.ToggleWitchLocator(true);
         StartCoroutine(ScaleZone());
         initialWeight = RightHandAimConstraint.weight;
         stateManager.WarnPulse.StartPulse();
@@ -45,6 +46,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
 
     public void ExitState()
     {
+        stateManager.ToggleWitchLocator(false);
         InteractionZoneGimble.SetActive(false);
         stateManager.WarnPulse.StopPulse();
     }

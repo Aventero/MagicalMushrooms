@@ -73,8 +73,15 @@ public class CoinCharger : MonoBehaviour
         // Only charge every 0.1 seconds, so its not instant
         if (currentChargeCooldown >= maxChargeCooldown)
         {
-            if (Stats.Instance.CoinsCollected <= 0) 
+            if (Stats.Instance.CoinsCollected <= 0)
+            {
+                Stats.Instance.MissingCoinsEffect();
                 return;
+            }
+
+            if (chargePoint.IsFullyCharged)
+                return;
+
             chargePoint.Charge(1);
             SpawnAndFlyObject();
             Stats.Instance.DecreaseCoinsCollected(1);

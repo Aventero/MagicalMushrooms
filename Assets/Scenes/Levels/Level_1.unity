@@ -2576,6 +2576,10 @@ PrefabInstance:
       value: SkillManager
       objectReference: {fileID: 0}
     - target: {fileID: 4858251474997619671, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
+      propertyPath: RechargeTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4858251474997619671, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
       propertyPath: lineRenderer
       value: 
       objectReference: {fileID: 1929049066}
@@ -2585,7 +2589,11 @@ PrefabInstance:
       objectReference: {fileID: 1660116463}
     - target: {fileID: 8145462567293915189, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
       propertyPath: PushForce
-      value: 1
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8145462567293915189, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
+      propertyPath: RechargeTime
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c43af6acc84bd5b43aeb8f1815c4a6c4, type: 3}
@@ -25313,28 +25321,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6123664023357433803, guid: 633dfc76d6c96434d80315968c1c2619, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 41.790012
-      objectReference: {fileID: 0}
-    - target: {fileID: 6123664023357433803, guid: 633dfc76d6c96434d80315968c1c2619, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 41.79
-      objectReference: {fileID: 0}
-    - target: {fileID: 6123664023357433803, guid: 633dfc76d6c96434d80315968c1c2619, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 41.790012
-      objectReference: {fileID: 0}
-    - target: {fileID: 6123664023357433803, guid: 633dfc76d6c96434d80315968c1c2619, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.17
+      value: 2.862
       objectReference: {fileID: 0}
     - target: {fileID: 6123664023357433803, guid: 633dfc76d6c96434d80315968c1c2619, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.53
+      value: 9.932
       objectReference: {fileID: 0}
     - target: {fileID: 6123664023357433803, guid: 633dfc76d6c96434d80315968c1c2619, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 24.87
+      value: 21.367
       objectReference: {fileID: 0}
     - target: {fileID: 6123664023357433803, guid: 633dfc76d6c96434d80315968c1c2619, type: 3}
       propertyPath: m_LocalRotation.w
@@ -25364,10 +25360,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6123664023357433803, guid: 633dfc76d6c96434d80315968c1c2619, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7106898074132927960, guid: 633dfc76d6c96434d80315968c1c2619, type: 3}
       propertyPath: m_Name
       value: Moving Platform
@@ -25385,7 +25377,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 690914077}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89d5ea1b7c9e59d438ff85c7ceba8fdf, type: 3}
   m_Name: 
@@ -25407,8 +25399,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 1
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 2
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -25495,6 +25487,47 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6123664023357433803, guid: 633dfc76d6c96434d80315968c1c2619, type: 3}
   m_PrefabInstance: {fileID: 1017394410}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1017394433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690914077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e748f68654d394a41bc058f4f2dcbd96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxChargeValue: 100
+  OnFullyCharged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1017394415}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1017394433}
+        m_TargetAssemblyTypeName: CoinChargePoint, Assembly-CSharp
+        m_MethodName: ChangeOutline
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  IsFullyCharged: 0
 --- !u!1001 &1019733305
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29851,6 +29884,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  IsFullyCharged: 0
 --- !u!1001 &1314829626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48817,7 +48851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToSpawn: {fileID: 7360445342254938796, guid: 3308ba2bb1f39ac4b9d72bb276014b6a, type: 3}
-  spawnRate: 1
+  spawnRate: 10
 --- !u!4 &2056074316
 Transform:
   m_ObjectHideFlags: 0

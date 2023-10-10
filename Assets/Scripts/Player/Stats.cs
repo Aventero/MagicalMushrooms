@@ -19,6 +19,7 @@ public class Stats : MonoBehaviour
     public float popDuration = 0.02f; // This determines how long the pop effect will last.
     public static Stats Instance { get; private set; }
     private Vector3 originalScale;
+    private bool missingCoinsRunning = false;
 
     private void Awake()
     {
@@ -40,6 +41,7 @@ public class Stats : MonoBehaviour
 
     public void IncreaseCoinsCollected(int value)
     {
+        counterText.color = Color.white;
         CoinsCollected += value;
 
         if (CoinsCollected > MaxCoins)
@@ -57,7 +59,10 @@ public class Stats : MonoBehaviour
         CoinsCollected -= value;
 
         if (CoinsCollected <= 0)
+        {
+            StartCoroutine(PopTextEffect());
             CoinsCollected = 0;
+        }
 
         counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
 
@@ -69,6 +74,47 @@ public class Stats : MonoBehaviour
     public float GetNormalizedCoins()
     {
         return (float)CoinsCollected / MaxCoins;
+    }
+
+    public void MissingCoinsEffect()
+    {
+        counterText.color = Color.red;
+        if (!missingCoinsRunning)
+        {
+            missingCoinsRunning = true;
+            StartCoroutine(PopMissing());
+        }
+    }
+
+    private IEnumerator PopMissing()
+    {
+        
+        float elapsedTime = 0;
+        float halfDuration = popDuration;
+
+        // Scale up
+        while (elapsedTime < halfDuration)
+        {
+            float percentage = elapsedTime / halfDuration;
+            counterText.transform.localScale = Vector3.Lerp(originalScale, originalScale * popScaleFactor, percentage);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        counterText.transform.localScale = originalScale * popScaleFactor;
+
+        elapsedTime = 0;
+
+        // Scale down
+        while (elapsedTime < halfDuration)
+        {
+            float percentage = elapsedTime / halfDuration;
+            counterText.transform.localScale = Vector3.Lerp(originalScale * popScaleFactor, originalScale, percentage);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        counterText.transform.localScale = originalScale;
+        counterText.color = Color.white;
+        missingCoinsRunning = false;
     }
 
     private IEnumerator PopTextEffect()
@@ -96,6 +142,6 @@ public class Stats : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        counterText.transform.localScale = originalScale; 
+        counterText.transform.localScale = originalScale;
     }
 }

@@ -12,7 +12,7 @@ class Coin : MonoBehaviour
     private Vector3 targetJigglePosition;
     private float currentJiggleAmount = 0f;
     public float MaxJiggleAmount = 1f;
-    private float maxJiggleDuration = 1f;
+    private float maxJiggleDuration = 0.5f;
     private float currentJiggleDuration = 0f;
     private float jiggleSpeed = 5f; // Adjust to control the speed of the jiggle movement
     private float timeToChangeDirection = 0.05f; // How often to change jiggle direction
