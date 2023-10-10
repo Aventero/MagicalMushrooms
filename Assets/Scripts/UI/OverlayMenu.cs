@@ -12,7 +12,6 @@ public class OverlayMenu : MonoBehaviour
     public GameObject Skillbar;
     public GameObject PoltergeistSkillObject;
     public GameObject SmokeBombObject;
-    public GameObject CoinVacuumObject;
 
     [Header("Interaction")]
     public Image InteractionPopup;
