@@ -87,7 +87,13 @@ public class Poltergeist : PlayerSkill
         if (lastFocusedObject == null)
             return false;
 
-        Rigidbody rigidbody = lastFocusedObject.GetComponent<Rigidbody>();
+        Rigidbody rigidbody;
+        if (!lastFocusedObject.TryGetComponent<Rigidbody>(out rigidbody))
+        {
+            Debug.Log("Failed to get Rigidbody");
+            rigidbody = lastFocusedObject.AddComponent<Rigidbody>();
+        }
+
         rigidbody.AddForce(mainCamera.transform.forward * PushForce, ForceMode.Impulse);
 
         HidePreview();
