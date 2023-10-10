@@ -37,6 +37,8 @@ public class OverlayMenu : MonoBehaviour
 
     // Animation
     public Animator mouseAnimator;
+    public Image LeftClickImage;
+    public Image RightClickImage;
 
     // Start is called before the first frame update
     void Start()
@@ -89,7 +91,29 @@ public class OverlayMenu : MonoBehaviour
         TMP_Text tooltipText = Tooltip.GetComponentInChildren<TMP_Text>(true);
         tooltipText.SetText(text);
         Tooltip.SetActive(true);
-        mouseAnimator.Play("LeftClick");
+
+        if (mouseButton == MouseSide.LeftClick)
+        {
+            LeftClickImage.enabled = true;
+            RightClickImage.enabled = false;
+            mouseAnimator.Play("LeftClick");
+        }
+
+        if (mouseButton == MouseSide.RightClick)
+        {
+            LeftClickImage.enabled = false;
+            RightClickImage.enabled = true;
+            mouseAnimator.Play("RightClick");
+        }
+    }
+
+    public void UpdateCurrentTooltip(string text)
+    {
+        if (Tooltip.activeSelf == true)
+        {
+            TMP_Text tooltipText = Tooltip.GetComponentInChildren<TMP_Text>(true);
+            tooltipText.SetText(text);
+        }
     }
 
     public void HideTooltip()

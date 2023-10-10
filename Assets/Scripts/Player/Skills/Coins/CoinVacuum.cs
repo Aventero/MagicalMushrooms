@@ -9,13 +9,19 @@ public class CoinVacuum : MonoBehaviour
     public float vacuumRadius = 5f;  // The effective radius of the vacuum
     public float vacuumForce = 5f;   // The force/speed at which coins are pulled towards the vacuum center
     private HashSet<Coin> activeCoins = new();
-    private bool mouseHeld = false;
+    private CoinCharger coinCharger;
+    public bool MouseHeld { get; private set; }
     [Range(0, 90)] public float angle = 45f; // Start angle for the vacuum zone (relative to forward direction)
+
+    private void Start()
+    {
+        coinCharger = GetComponent<CoinCharger>();
+    }
 
     private void Update()
     {
-        // currently not holding lmb
-        if (!mouseHeld)
+        // currently not holding rmb
+        if (!MouseHeld)
         {
             List<Coin> coinsToRemove = new List<Coin>();
 
@@ -33,16 +39,19 @@ public class CoinVacuum : MonoBehaviour
             }
         }
         else
+        {
             Execute();
+            coinCharger.Charge();
+        }
         
     }
 
     public void Input(InputAction.CallbackContext callback)
     {
         if (callback.started)
-            mouseHeld = true;
+            MouseHeld = true;
         else if(callback.canceled)
-            mouseHeld = false;
+            MouseHeld = false;
     }
 
     public void Execute()

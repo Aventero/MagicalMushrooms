@@ -52,6 +52,20 @@ public class Stats : MonoBehaviour
         StartCoroutine(PopTextEffect());
     }
 
+    public void DecreaseCoinsCollected(int value)
+    {
+        CoinsCollected -= value;
+
+        if (CoinsCollected <= 0)
+            CoinsCollected = 0;
+
+        counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
+
+        // Start the pop effect
+        StaffColoration.MagicReachedOrigin();
+        StartCoroutine(PopTextEffect());
+    }
+
     public float GetNormalizedCoins()
     {
         return (float)CoinsCollected / MaxCoins;

@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 505489142858320399}
   - component: {fileID: 8058886765146878854}
   - component: {fileID: 6450388997087105155}
+  - component: {fileID: 3201947770859081342}
+  - component: {fileID: 8223869360086279088}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -472,6 +474,35 @@ MonoBehaviour:
   StaffColoration: {fileID: 0}
   popScaleFactor: 1.2
   popDuration: 0.05
+--- !u!114 &3201947770859081342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857605709861750716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3c504ecfb75b040a1d2c4f93a3e037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vacuumCenter: {fileID: 7738794083320140937}
+  vacuumRadius: 5
+  vacuumForce: 10
+  angle: 10
+--- !u!114 &8223869360086279088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857605709861750716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d1ecdda0bd7dd2458edc4869a7826e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rayDistance: 100
 --- !u!1 &2857605710249577893
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,6 +1053,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+--- !u!4 &7738794083320140937 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8491356454779337462, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+  m_PrefabInstance: {fileID: 2212080520289234559}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7966217229246457580 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8088275675753105555, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
