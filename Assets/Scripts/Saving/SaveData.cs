@@ -7,9 +7,6 @@ public class SaveData {
     public Vector3 playerPos;
     public Quaternion playerRotation;
 
-    public Checkpoint lastCheckpoint;
+    public Vector3 lastCheckpointPos;
     public int coins;
-
-    // Witch
-    public Vector3 witchPos;
 }

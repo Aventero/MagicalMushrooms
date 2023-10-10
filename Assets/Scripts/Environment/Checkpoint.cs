@@ -34,6 +34,11 @@ public class Checkpoint : MonoBehaviour
         OnTriggerEnter(other);
     }
 
+    public void SetActivated(bool activated)
+    {
+        this.activated = activated;
+    }
+
     public Vector3 GetRespawnPoint()
     {
         return this.transform.position;
