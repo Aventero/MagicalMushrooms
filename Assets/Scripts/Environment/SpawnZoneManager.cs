@@ -37,7 +37,7 @@ public class SpawnZoneManager : MonoBehaviour
         else
             return;
 
-        GameObject spawned = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
+        GameObject spawned = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity, transform);
         spawnedObjects.Add(spawned);
 
         // Add the auto-destruct notifier to the spawned object

@@ -2366,7 +2366,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWalkPoint: {x: 0, y: 0, z: 0}
-  WalkPointsParent: {fileID: 0}
   AddedStopThreshold: 0.1
 --- !u!114 &8829789049218775547
 MonoBehaviour:
@@ -3468,7 +3467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8309740031629214536, guid: 0db75667ae3aca746af0bbeb3e235eb4, type: 3}
       propertyPath: m_LocalScale.z
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8309740031629214536, guid: 0db75667ae3aca746af0bbeb3e235eb4, type: 3}
       propertyPath: m_LocalPosition.x
