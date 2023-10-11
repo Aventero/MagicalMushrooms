@@ -16,6 +16,7 @@ public class DissolveController : MonoBehaviour
 
     void Start()
     {
+        GetComponent<Collider>().enabled = false;
         rend = GetComponent<Renderer>();
         propBlock = new MaterialPropertyBlock();
         originalShader = rend.material.shader;

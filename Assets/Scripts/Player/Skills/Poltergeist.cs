@@ -84,7 +84,12 @@ public class Poltergeist : PlayerSkill
     {
         Debug.Log("Execute Poltergeist!");
 
+
         if (lastFocusedObject == null)
+            return false;
+
+        // Cant use skill cause no money
+        if (Stats.Instance.CoinsCollected <= 0)
             return false;
 
         Rigidbody rigidbody;
@@ -94,7 +99,9 @@ public class Poltergeist : PlayerSkill
             rigidbody = lastFocusedObject.AddComponent<Rigidbody>();
         }
 
+        // Using
         rigidbody.AddForce(mainCamera.transform.forward * PushForce, ForceMode.Impulse);
+        Stats.Instance.DecreaseCoinsCollected(SkillCost);
 
         HidePreview();
         return true;

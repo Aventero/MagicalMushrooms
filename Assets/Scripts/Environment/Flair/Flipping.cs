@@ -22,7 +22,7 @@ public class Flipping : MonoBehaviour
 
     IEnumerator BetterFlip(Vector3 initialPosition)
     {
-        yield return new WaitForSeconds(FlipWaitTime);
+        yield return new WaitForSeconds(FlipWaitTime + Random.value * 10);
 
         float targetAngle = 180f;
         float currentAngle = 0f;

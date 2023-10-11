@@ -64,6 +64,10 @@ public class SmokeBomb : PlayerSkill
 
     public override bool Execute()
     {
+        if (Stats.Instance.CoinsCollected <= 0)
+            return false;
+        Stats.Instance.DecreaseCoinsCollected(SkillCost);
+
         IsActivated = false;
 
         GameObject throwGameObject = Instantiate(throwingObject);

@@ -7,6 +7,7 @@ public class PlayerSkill : MonoBehaviour
     [Header("Skill")]
     public float RechargeTime;
     public string TooltipText;
+    public int SkillCost;
 
     public bool IsActivated { get; internal set; }
     public bool IsMouseHeld { get; set; } = false;
