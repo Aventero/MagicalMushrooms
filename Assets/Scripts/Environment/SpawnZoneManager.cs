@@ -6,14 +6,17 @@ public class SpawnZoneManager : MonoBehaviour
     public GameObject objectToSpawn;
     public int spawnRate = 1; // Number of objects to spawn per second
     public int maxObjects = 100;
+    public float NoSpawnRange = 25f;
 
     private List<GameObject> spawnedObjects = new List<GameObject>();
     private Collider[] spawnZones;
+    private GameObject player;
 
     private void Start()
     {
         // Get all colliders attached to this GameObject
         spawnZones = GetComponents<Collider>();
+        player = GameObject.FindGameObjectWithTag("Player");
 
         InvokeRepeating(nameof(SpawnObject), 0, 1.0f / spawnRate);
     }
@@ -21,7 +24,7 @@ public class SpawnZoneManager : MonoBehaviour
     private void SpawnObject()
     {
         // If max object count is reached, exit early
-        if (spawnedObjects.Count >= maxObjects) 
+        if (spawnedObjects.Count >= maxObjects || Vector3.Distance(transform.position, player.transform.position) > NoSpawnRange) 
             return;
 
         // Randomly select one of the colliders to be the spawn zone
