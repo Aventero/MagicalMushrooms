@@ -15,10 +15,13 @@ public class GlassSlurpSpin : MonoBehaviour
     private float timeAnimating = 0.0f; // Time since the animation started
     private float currentRotation = 0.0f;
 
+    private ParticleSystem glowingHalo;
+
     private void Start()
     {
         initialPosition = transform.localPosition;
         initialRotation = transform.localRotation;
+        glowingHalo = transform.Find("GlowingHalo").GetComponent<ParticleSystem>();
     }
 
     private void Update()
@@ -53,11 +56,29 @@ public class GlassSlurpSpin : MonoBehaviour
         currentRotation = Quaternion.Angle(initialRotation, transform.localRotation);
 
         timeAnimating = 0.0f; // Reset the animation timer
+        StartGlowingHalo();
     }
     public void StopAnimating()
     {
         isAnimating = false;
         StartCoroutine(ReturnToInitialPosition());
+        StopGlowingHalo();
+    }
+
+    private void StartGlowingHalo()
+    {
+        if (glowingHalo)
+        {
+            glowingHalo.Play();
+        }
+    }
+
+    private void StopGlowingHalo()
+    {
+        if (glowingHalo)
+        {
+            glowingHalo.Stop();
+        }
     }
 
     private IEnumerator ReturnToInitialPosition()
