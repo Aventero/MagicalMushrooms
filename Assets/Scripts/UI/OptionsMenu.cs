@@ -23,7 +23,7 @@ public class OptionsMenu : MonoBehaviour
     private Resolution[] resolutions;
     private int currentResolutionPos;
     private bool settingsChanged;
-    private PauseMenu pauseMenu;
+    private UIMenu uiMenu;
 
     private bool fullscreen;
 
@@ -33,7 +33,7 @@ public class OptionsMenu : MonoBehaviour
         DialogMenu.SetActive(false);
 
         settingsChanged = false;
-        pauseMenu = this.GetComponentInParent<PauseMenu>();
+        uiMenu = this.GetComponentInParent<UIMenu>();
 
         SetupSettings();
     }
@@ -82,7 +82,7 @@ public class OptionsMenu : MonoBehaviour
         Debug.Log("Changed Master Volume Slider!");
 
         settingsChanged = true;
-        //AudioManager.Instance.SetMasterVolume(value);
+        AudioManager.Instance.SetMasterVolume(value);
     }
 
     public void ChangeMusicVolume(float value)
@@ -90,14 +90,14 @@ public class OptionsMenu : MonoBehaviour
         Debug.Log("Changed Music Volume Slider!");
 
         settingsChanged = true;
-        //AudioManager.Instance.SetMusicVolume(value);
+        AudioManager.Instance.SetMusicVolume(value);
     }
 
     public void ChangeEffectsVolume(float value)
     {
         Debug.Log("Changed Effects Volume Slider!");
         settingsChanged = true;
-        //AudioManager.Instance.SetEffectsVolume(value);
+        AudioManager.Instance.SetEffectsVolume(value);
     }
 
     public void SaveButton()
@@ -116,7 +116,7 @@ public class OptionsMenu : MonoBehaviour
         }
         else
         {
-            pauseMenu.TurnOnMenu();
+            uiMenu.TurnOnMenu();
             this.gameObject.SetActive(false);
         }
     }
@@ -135,7 +135,6 @@ public class OptionsMenu : MonoBehaviour
         {
             if (resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
             {
-                Debug.Log("FOUND Resolution: " + Screen.width + " x " + Screen.height);
                 currentResolutionPos = i;
                 break; 
             }

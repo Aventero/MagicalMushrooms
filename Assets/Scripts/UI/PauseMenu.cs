@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : MonoBehaviour, UIMenu
 {
     public GameObject OptionsMenu;
     public VolumeProfile volumeProfile;
