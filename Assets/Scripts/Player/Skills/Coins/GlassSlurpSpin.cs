@@ -5,14 +5,14 @@ using UnityEngine;
 public class GlassSlurpSpin : MonoBehaviour
 {
     private Vector3 initialPosition;
-    private Vector3 startingPosition; // This will store the position when the animation starts
+    private Vector3 startingPosition;
     private Quaternion initialRotation;
 
-    public float upwardMovementDuration = 2.0f; // How long it takes to move up
+    public float upwardMovementDuration = 2.0f;
     public float upwardMovementDistance = 1.0f;
-    public float rotationSpeed = 30f; // degrees per second
+    public float rotationSpeed = 30f;
     private bool isAnimating = false;
-    private float timeAnimating = 0.0f; // Time since the animation started
+    private float timeAnimating = 0.0f; 
     private float currentRotation = 0.0f;
 
     private ParticleSystem glowingHalo;
@@ -30,11 +30,11 @@ public class GlassSlurpSpin : MonoBehaviour
         {
             timeAnimating += Time.deltaTime;
 
-            // Spin
+            // Spin!
             currentRotation += rotationSpeed * Time.deltaTime;
             transform.localRotation = initialRotation * Quaternion.Euler(0, currentRotation, 0);
 
-            // Move upward
+            // Move upward!
             if (timeAnimating <= upwardMovementDuration)
             {
                 float upwardProgress = timeAnimating / upwardMovementDuration;
@@ -52,10 +52,10 @@ public class GlassSlurpSpin : MonoBehaviour
         isAnimating = true;
         startingPosition = transform.localPosition; // Store the position when the animation starts
 
-        // Get the current relative Y-rotation
+        // Current relative Y-rotation
         currentRotation = Quaternion.Angle(initialRotation, transform.localRotation);
 
-        timeAnimating = 0.0f; // Reset the animation timer
+        timeAnimating = 0.0f;
         StartGlowingHalo();
     }
     public void StopAnimating()
@@ -90,7 +90,6 @@ public class GlassSlurpSpin : MonoBehaviour
             yield return null;
         }
         // Snap to the exact initial position and rotation once close enough
-        transform.localPosition = initialPosition;
-        transform.localRotation = initialRotation;
+        transform.SetLocalPositionAndRotation(initialPosition, initialRotation);
     }
 }
