@@ -23,6 +23,8 @@ public class GlassSlurpSpin : MonoBehaviour
         initialPosition = transform.localPosition;
         initialRotation = transform.localRotation;
         glowingHalo = transform.Find("GlowingHalo").GetComponent<ParticleSystem>();
+        glowingHalo.Stop();
+        SlurpRadius.Stop();
     }
 
     private void Update()

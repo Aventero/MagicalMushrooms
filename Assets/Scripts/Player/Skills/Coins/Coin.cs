@@ -19,6 +19,12 @@ class Coin : MonoBehaviour
     private float directionChangeTimer = 0f;
     private TrailRenderer trailRenderer;
 
+    // Coloration
+    private MeshRenderer rend;
+    private MaterialPropertyBlock propBlock;
+    MeshFilter meshFilter;
+
+
     private void Awake()
     {
         initialPosition = transform.position;
@@ -26,6 +32,10 @@ class Coin : MonoBehaviour
         trailRenderer = GetComponent<TrailRenderer>();
         trailRenderer.enabled = false;
         trailRenderer.startWidth = transform.localScale.x;
+
+        rend = GetComponent<MeshRenderer>();
+        propBlock = new MaterialPropertyBlock();
+        meshFilter = GetComponent<MeshFilter>();
     }
 
     public void Jiggle(Transform origin, float slurpForce)
@@ -81,6 +91,10 @@ class Coin : MonoBehaviour
 
     public IEnumerator TheSlurp(Transform origin, float vacuumForce, Vector3 startDirection)
     {
+        rend.GetPropertyBlock(propBlock);
+        propBlock.SetVector("_Color", Color.blue);
+        rend.SetPropertyBlock(propBlock);
+        rend.material.color = Color.blue;
         // Management
         trailRenderer.enabled = true;
         GetComponent<Collider>().enabled = false;
