@@ -23,37 +23,37 @@ public class PlayerStateFactory
 
     public PlayerState Idle()
     {
-        Debug.Log("Idle");
+        //Debug.Log("Idle");
         return playerStates["Idle"];
     }
 
     public PlayerState Walk()
     {
-        Debug.Log("Walk");
+        //Debug.Log("Walk");
         return playerStates["Walk"];
     }
 
     public PlayerState Sneak()
     {
-        Debug.Log("Sneak");
+        //Debug.Log("Sneak");
         return playerStates["Sneak"];
     }
 
     public PlayerState Jump()
     {
-        Debug.Log("Rise");
+        //Debug.Log("Rise");
         return playerStates["Rise"];
     }
 
     public PlayerState Fall()
     {
-        Debug.Log("Fall");
+        //Debug.Log("Fall");
         return playerStates["Fall"];
     }
 
     public PlayerState Grounded()
     {
-        Debug.Log("Grounded");
+        //Debug.Log("Grounded");
         return playerStates["Grounded"];
     }
 }

@@ -14,9 +14,8 @@ public class DissolveController : MonoBehaviour
     [ColorUsageAttribute(true, true)]
     public Color color = new Color(1f, 1f, 1f);
 
-    void Start()
+    void Awake()
     {
-        GetComponent<Collider>().enabled = false;
         rend = GetComponent<Renderer>();
         propBlock = new MaterialPropertyBlock();
         originalShader = rend.material.shader;
@@ -29,6 +28,7 @@ public class DissolveController : MonoBehaviour
         seed =  (int)(Random.value * 1000);
         rend.material.shader = dissolveShader;
         rend.GetPropertyBlock(propBlock);
+        propBlock.SetFloat("_DissolveAmount", 0);
         propBlock.SetFloat("_DissolveScale", 50f);
         propBlock.SetFloat("_DissolveEdgeWidth", 0.01f);
         propBlock.SetColor("_Color", color);
@@ -56,5 +56,10 @@ public class DissolveController : MonoBehaviour
         rend.material.shader = originalShader;
         gameObject.SetActive(false);
         Destroy(this);
+    }
+
+    private void OnEnable()
+    {
+        Debug.Log("Enabled " + transform.name);
     }
 }

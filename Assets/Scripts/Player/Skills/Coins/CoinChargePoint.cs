@@ -1,28 +1,38 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class CoinChargePoint : MonoBehaviour
 {
     [SerializeField] private int maxChargeValue = 100;  
-    private int currentChargeValue = 0;
+    private int uiCharge = 0;
+    private int actualCharge = 0;
     public UnityEvent OnFullyCharged;
-    public bool IsFullyCharged = false;
+    public bool IsGonnaBeFull = false;
 
-    public void Charge(int chargeAmount)
+    public void ActualCharge(int chargeAmount)
     {
-        // Do nothing when already full
-        if (currentChargeValue >= maxChargeValue)
-            return;
-
-        currentChargeValue += chargeAmount;
+        actualCharge += chargeAmount;
 
         // Only called once when full!
-        if (currentChargeValue >= maxChargeValue)
+        if (actualCharge >= maxChargeValue)
         {
-            currentChargeValue = maxChargeValue;
+            actualCharge = maxChargeValue;
             OnFullyCharged?.Invoke();
-            IsFullyCharged = true;
+            Debug.Log("FULLY CHARGED!");
+        }
+    }
+
+    public void UICharge(int chargeAmount)
+    {
+        uiCharge += chargeAmount;
+
+        // Do nothing when already full
+        if (uiCharge >= maxChargeValue)
+        {
+            IsGonnaBeFull = true;
+            return;
         }
     }
 
@@ -33,7 +43,7 @@ public class CoinChargePoint : MonoBehaviour
 
     public float GetCurrentChargeValue()
     {
-        return currentChargeValue;
+        return uiCharge;
     }
 
     public float GetMaxChargeValue()

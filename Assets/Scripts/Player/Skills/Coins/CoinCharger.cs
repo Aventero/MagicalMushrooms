@@ -7,7 +7,7 @@ using UnityEngine;
 public class CoinCharger : MonoBehaviour
 {
     [SerializeField] private float rayDistance = 3f; // The distance the ray should travel
-    private float maxChargeCooldown = 0.02f;    
+    private float maxChargeCooldown = 0.1f;    
     private float currentChargeCooldown = 0f;
     public OverlayMenu OverlayMenu;
     public string ToolTipText = "Charge";
@@ -19,14 +19,15 @@ public class CoinCharger : MonoBehaviour
     public float spawnForce = 5f;         // Initial force applied when spawning the object
 
     // Function to spawn and start the flight of the object
-    public void SpawnAndFlyObject()
+    public void ChargeObject()
     {
         GameObject obj = Instantiate(magicCoinPrefab, vacuumCenter.position, Quaternion.identity);
         Coin coin = obj.GetComponent<Coin>();
 
         // Calculate a new target jiggle position around the initial position
         Vector3 jiggleDirection = GenerateRandomDirection(vacuumCenter.forward);
-        coin.ChargeRoutine(chargePoint.transform, 0.1f, jiggleDirection, new Vector3(0.001f, 0.001f, 0.001f));
+        coin.SetChargePoint(chargePoint);
+        coin.FlyAndCharge(chargePoint.transform, 0.1f, jiggleDirection, new Vector3(0.001f, 0.001f, 0.001f));
     }
 
     public Vector3 GenerateRandomDirection(Vector3 targetDirection, float maxAngleDeviation = 90f)
@@ -79,11 +80,10 @@ public class CoinCharger : MonoBehaviour
                 return;
             }
 
-            if (chargePoint.IsFullyCharged)
+            if (chargePoint.IsGonnaBeFull)
                 return;
 
-            chargePoint.Charge(1);
-            SpawnAndFlyObject();
+            ChargeObject();
             Stats.Instance.DecreaseCoinsCollected(1);
             currentChargeCooldown = 0f;
             OverlayMenu.UpdateCurrentTooltip("Charge: " + chargePoint.GetCurrentChargeValue().ToString() + " / " + chargePoint.GetMaxChargeValue().ToString());

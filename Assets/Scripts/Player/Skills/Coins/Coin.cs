@@ -22,8 +22,7 @@ class Coin : MonoBehaviour
     // Coloration
     private MeshRenderer rend;
     private MaterialPropertyBlock propBlock;
-    MeshFilter meshFilter;
-
+    private CoinChargePoint chargePoint;
 
     private void Awake()
     {
@@ -35,7 +34,6 @@ class Coin : MonoBehaviour
 
         rend = GetComponent<MeshRenderer>();
         propBlock = new MaterialPropertyBlock();
-        meshFilter = GetComponent<MeshFilter>();
     }
 
     public void Jiggle(Transform origin, float slurpForce)
@@ -157,12 +155,18 @@ class Coin : MonoBehaviour
     }
 
 
-    public void ChargeRoutine(Transform origin, float force, Vector3 startDirection, Vector3 startScale)
+    public void FlyAndCharge(Transform origin, float force, Vector3 startDirection, Vector3 startScale)
     {
-        StartCoroutine(CounterSlurp(origin, force, startDirection, startScale));
+        chargePoint.UICharge(CoinData.Value);
+        StartCoroutine(ChargeTowards(origin, force, startDirection, startScale));
     }
 
-    public IEnumerator CounterSlurp(Transform origin, float force, Vector3 startDirection, Vector3 startScale)
+    public void SetChargePoint(CoinChargePoint chargePoint)
+    {
+        this.chargePoint = chargePoint;
+    }
+
+    public IEnumerator ChargeTowards(Transform origin, float force, Vector3 startDirection, Vector3 startScale)
     {
         GetComponent<TrailRenderer>().enabled = true;
         GetComponent<Collider>().enabled = false;
@@ -220,6 +224,7 @@ class Coin : MonoBehaviour
             yield return null;
         }
 
+        chargePoint.ActualCharge(CoinData.Value);
         Destroy(gameObject);
     }
 }
