@@ -16,6 +16,7 @@ public class GlassSlurpSpin : MonoBehaviour
     private float currentRotation = 0.0f;
 
     private ParticleSystem glowingHalo;
+    public ParticleSystem SlurpRadius;
 
     private void Start()
     {
@@ -70,6 +71,7 @@ public class GlassSlurpSpin : MonoBehaviour
         if (glowingHalo)
         {
             glowingHalo.Play();
+            SlurpRadius.Play();
         }
     }
 
@@ -78,6 +80,7 @@ public class GlassSlurpSpin : MonoBehaviour
         if (glowingHalo)
         {
             glowingHalo.Stop();
+            SlurpRadius.Stop();
         }
     }
 
