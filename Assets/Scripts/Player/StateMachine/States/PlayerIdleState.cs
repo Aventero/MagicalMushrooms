@@ -31,7 +31,7 @@ public class PlayerIdleState : PlayerState
     public override void UpdateState()
     {
         CheckSwitchStates();
-        CameraWobble();
+        //CameraWobble();
         HeldObjectWobble();
     }
 

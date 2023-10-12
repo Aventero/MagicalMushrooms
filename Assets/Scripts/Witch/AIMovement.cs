@@ -43,6 +43,10 @@ public class AIMovement : MonoBehaviour
     {
         // Choose a random point of interest
         List<Transform> points = stateManager.PlayerDetection.GetViewPointsAroundPlayerAndSome();
+
+        if (points.Count <= 0)
+            return;
+
         int index = Random.Range(0, points.Count);
         agent.destination = points[index].position;
     }

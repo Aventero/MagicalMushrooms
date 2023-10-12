@@ -12,10 +12,12 @@ public class CoinVacuum : MonoBehaviour
     private CoinCharger coinCharger;
     public bool MouseHeld { get; private set; }
     [Range(0, 90)] public float angle = 45f; // Start angle for the vacuum zone (relative to forward direction)
+    private GlassSlurpSpin glassSlurpSpin;
 
     private void Start()
     {
         coinCharger = GetComponent<CoinCharger>();
+        glassSlurpSpin = GetComponentInChildren<GlassSlurpSpin>();
     }
 
     private void Update()
@@ -49,9 +51,15 @@ public class CoinVacuum : MonoBehaviour
     public void Input(InputAction.CallbackContext callback)
     {
         if (callback.started)
+        {
+            glassSlurpSpin.StartAnimating();
             MouseHeld = true;
+        }
         else if(callback.canceled)
+        {
+            glassSlurpSpin.StopAnimating();
             MouseHeld = false;
+        }
     }
 
     public void Execute()
@@ -63,9 +71,8 @@ public class CoinVacuum : MonoBehaviour
             Coin coin = hitCollider.GetComponent<Coin>();
             if (coin != null)
             {
-
                 Vector3 toCoin = coin.transform.position - vacuumCenter.position;
-                float angleToCoin = Vector3.Angle(vacuumCenter.forward, toCoin);
+                float angleToCoin = Vector3.Angle(Camera.main.transform.forward, toCoin);
 
                 // Assuming "angle" is half of the total angle of the cone
                 if (angleToCoin <= angle && toCoin.magnitude <= vacuumRadius)
@@ -78,46 +85,6 @@ public class CoinVacuum : MonoBehaviour
         foreach (Coin coin in activeCoins)
         {
             coin.Jiggle(vacuumCenter, vacuumForce);
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (vacuumCenter)
-        {
-            // Draw the circle for the base radius
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(vacuumCenter.position, vacuumRadius);
-
-            // Draw lines to represent the angles
-            Gizmos.color = Color.red;
-
-            // The direction of the start and end angles in the Y axis
-            Vector3 startDirY = Quaternion.Euler(0, -angle, 0) * vacuumCenter.forward.normalized;
-            Vector3 endDirY = Quaternion.Euler(0, angle, 0) * vacuumCenter.forward.normalized;
-
-            // The direction of the start and end angles in the X axis
-            Vector3 startDirX = Quaternion.Euler(-angle, 0, 0) * vacuumCenter.forward.normalized;
-            Vector3 endDirX = Quaternion.Euler(angle, 0, 0) * vacuumCenter.forward.normalized;
-
-            // Draw the Y rotation boundaries
-            Gizmos.DrawLine(vacuumCenter.position, vacuumCenter.position + startDirY * vacuumRadius);
-            Gizmos.DrawLine(vacuumCenter.position, vacuumCenter.position + endDirY * vacuumRadius);
-
-            // Draw the X rotation boundaries
-            Gizmos.DrawLine(vacuumCenter.position, vacuumCenter.position + startDirX * vacuumRadius);
-            Gizmos.DrawLine(vacuumCenter.position, vacuumCenter.position + endDirX * vacuumRadius);
-
-            // Draw a series of lines to represent the cone in the XZ and YZ planes
-            int segments = 10; // adjust this for more detailed visualization
-            for (int i = 1; i <= segments; i++)
-            {
-                Vector3 dirY = Quaternion.Euler(0, -angle + (2 * angle * i / segments), 0) * vacuumCenter.forward.normalized;
-                Vector3 dirX = Quaternion.Euler(-angle + (2 * angle * i / segments), 0, 0) * vacuumCenter.forward.normalized;
-
-                Gizmos.DrawLine(vacuumCenter.position, vacuumCenter.position + dirY * vacuumRadius);
-                Gizmos.DrawLine(vacuumCenter.position, vacuumCenter.position + dirX * vacuumRadius);
-            }
         }
     }
 }

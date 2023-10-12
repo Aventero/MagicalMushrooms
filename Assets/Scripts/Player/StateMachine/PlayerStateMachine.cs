@@ -54,15 +54,18 @@ public class PlayerStateMachine : MonoBehaviour
     private Vector2 mouseSensitivity = new Vector2(15f, 15f);
     private float xAxisClamp = 85f;
     private float xAxisRotation = 0;
-    public float rotationSpeed = 1.0f;
     public float smoothTime = 0.1f;
 
     // Object
     public float ObjectLerpSpeed = 2f;
-    public Transform heldObject; 
-    public float swayAmount = 0.002f; 
+    public Transform heldObject;
+    [Header("Rod Sway when moving camera")]
+    public float swayAmount = 0.002f;
+    [Header("Rod wobbling when moving")]
     public float walkWobbleAmount = 0.02f;
+    [Header("Rod y travel when jumping")]
     public float YInertiaStrength = 0.05f;
+    [Header("Rod rotational travel when jumping")]
     public float RotionalInertiaStrength = 0.05f;
     public Vector3 InitialHeldObjectPosition { get; private set; }
     public Quaternion InitialHeldObjectRotation { get; private set; }
@@ -92,8 +95,6 @@ public class PlayerStateMachine : MonoBehaviour
     public float SneakingSpeed { get => sneakingSpeed; }
     public float WalkingSpeed { get => walkingSpeed; }
     public float CurrentSpeed { get => currentSpeed; set => currentSpeed = value; }
-
-    public Vector3 ExternalMovement = Vector3.zero;
 
     private void Awake()
     {
@@ -139,8 +140,8 @@ public class PlayerStateMachine : MonoBehaviour
         if (CanMove)
         {
             // Move the player
+            characterController.Move(appliedMovement * Time.deltaTime);
             CurrentState.UpdateStates();
-            characterController.Move(appliedMovement * Time.deltaTime + ExternalMovement);
         }
     }
 
