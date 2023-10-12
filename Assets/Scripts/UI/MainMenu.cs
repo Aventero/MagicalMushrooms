@@ -5,15 +5,21 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : MonoBehaviour, UIMenu
 {
     private readonly string loadSave = "LoadSave";
 
     public GameObject ContinueButton;
+    public GameObject OptionsMenu;
+    public GameObject MainMenuObject;
+
     public void Awake()
     {
         Time.timeScale = 1.0f;
         Cursor.lockState = CursorLockMode.None;
+
+        MainMenuObject.SetActive(true);
+        OptionsMenu.SetActive(false);
 
         ContinueButton.GetComponent<Button>().interactable = CheckIfSavesExist();
     }
@@ -38,6 +44,12 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void Options()
+    {
+        MainMenuObject.SetActive(false);
+        OptionsMenu.SetActive(true);
+    }
+
     private void SetLoadSavePref(bool value)
     {
         PlayerPrefs.SetInt(loadSave, Convert.ToInt32(value));
@@ -53,5 +65,10 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("Quitting the game! Bye!");
         Application.Quit();
+    }
+
+    public void TurnOnMenu()
+    {
+        MainMenuObject.SetActive(true);
     }
 }

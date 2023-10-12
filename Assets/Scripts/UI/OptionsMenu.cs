@@ -23,7 +23,7 @@ public class OptionsMenu : MonoBehaviour
     private Resolution[] resolutions;
     private int currentResolutionPos;
     private bool settingsChanged;
-    private PauseMenu pauseMenu;
+    private UIMenu uiMenu;
 
     private bool fullscreen;
 
@@ -33,7 +33,7 @@ public class OptionsMenu : MonoBehaviour
         DialogMenu.SetActive(false);
 
         settingsChanged = false;
-        pauseMenu = this.GetComponentInParent<PauseMenu>();
+        uiMenu = this.GetComponentInParent<UIMenu>();
 
         SetupSettings();
     }
@@ -116,7 +116,7 @@ public class OptionsMenu : MonoBehaviour
         }
         else
         {
-            pauseMenu.TurnOnMenu();
+            uiMenu.TurnOnMenu();
             this.gameObject.SetActive(false);
         }
     }
