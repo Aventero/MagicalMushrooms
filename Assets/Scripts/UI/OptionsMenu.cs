@@ -82,7 +82,7 @@ public class OptionsMenu : MonoBehaviour
         Debug.Log("Changed Master Volume Slider!");
 
         settingsChanged = true;
-        //AudioManager.Instance.SetMasterVolume(value);
+        AudioManager.Instance.SetMasterVolume(value);
     }
 
     public void ChangeMusicVolume(float value)
@@ -90,14 +90,14 @@ public class OptionsMenu : MonoBehaviour
         Debug.Log("Changed Music Volume Slider!");
 
         settingsChanged = true;
-        //AudioManager.Instance.SetMusicVolume(value);
+        AudioManager.Instance.SetMusicVolume(value);
     }
 
     public void ChangeEffectsVolume(float value)
     {
         Debug.Log("Changed Effects Volume Slider!");
         settingsChanged = true;
-        //AudioManager.Instance.SetEffectsVolume(value);
+        AudioManager.Instance.SetEffectsVolume(value);
     }
 
     public void SaveButton()
@@ -135,7 +135,6 @@ public class OptionsMenu : MonoBehaviour
         {
             if (resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
             {
-                Debug.Log("FOUND Resolution: " + Screen.width + " x " + Screen.height);
                 currentResolutionPos = i;
                 break; 
             }
