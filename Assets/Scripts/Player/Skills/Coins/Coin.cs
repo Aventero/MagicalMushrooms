@@ -20,8 +20,6 @@ class Coin : MonoBehaviour
     private TrailRenderer trailRenderer;
 
     // Coloration
-    private MeshRenderer rend;
-    private MaterialPropertyBlock propBlock;
     private CoinChargePoint chargePoint;
 
     private void Awake()
@@ -31,9 +29,6 @@ class Coin : MonoBehaviour
         trailRenderer = GetComponent<TrailRenderer>();
         trailRenderer.enabled = false;
         trailRenderer.startWidth = transform.localScale.x;
-
-        rend = GetComponent<MeshRenderer>();
-        propBlock = new MaterialPropertyBlock();
     }
 
     public void Jiggle(Transform origin, float slurpForce)
@@ -89,17 +84,13 @@ class Coin : MonoBehaviour
 
     public IEnumerator TheSlurp(Transform origin, float vacuumForce, Vector3 startDirection)
     {
-        rend.GetPropertyBlock(propBlock);
-        propBlock.SetVector("_Color", Color.blue);
-        rend.SetPropertyBlock(propBlock);
-        rend.material.color = Color.blue;
         // Management
         trailRenderer.enabled = true;
         GetComponent<Collider>().enabled = false;
         IsSlurping = true;
 
         // Variables for acceleration and velocity
-        Vector3 velocity = startDirection * vacuumForce * 2f;
+        Vector3 velocity = 2f * vacuumForce * startDirection;
 
         // Initial scales
         Vector3 initialScale = transform.localScale;
@@ -126,7 +117,6 @@ class Coin : MonoBehaviour
             velocity += (origin.position - transform.position).normalized * vacuumForce;
             float dampingFactor = 0.05f + 0.9f * (1f - distanceFactor);
             velocity *= dampingFactor;
-            velocity = Vector3Extensions.ClampMagnitude(velocity, -100, 100);
 
             // Check if the coin is getting closer to the player
             if (distanceToOrigin < previousDistance)
@@ -139,7 +129,7 @@ class Coin : MonoBehaviour
             // If the coin hasn't made significant progress in 1 second, apply a stronger force
             if (timeSinceLastCloseApproach > 0.1f)
             {
-                velocity *= 0.25f; 
+                velocity = (origin.position - transform.position).normalized * vacuumForce;
                 timeSinceLastCloseApproach = 0f;
             }
 
@@ -147,6 +137,7 @@ class Coin : MonoBehaviour
             transform.position += velocity * Time.deltaTime;
 
             distanceToOrigin = Vector3.Distance(transform.position, origin.position);
+            distanceToOrigin = Mathf.Clamp(distanceToOrigin, 0, startDistance);
             yield return null;
         }
 
