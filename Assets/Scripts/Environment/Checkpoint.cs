@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-
     public bool ShowNotification = true;
 
+    private Vector3 respawnPosition;
     private bool activated = false;
     private Quaternion playerRotation;
     private GameObject player;
@@ -14,6 +12,9 @@ public class Checkpoint : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+
+        if (this.transform.childCount > 0)
+            respawnPosition = transform.GetChild(0).position;
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -41,11 +42,27 @@ public class Checkpoint : MonoBehaviour
 
     public Vector3 GetRespawnPoint()
     {
-        return this.transform.position;
+        if(this.transform.childCount == 0)
+            return this.transform.position;
+        else
+            return respawnPosition;
     }
 
     public Quaternion GetRotation()
     {
         return playerRotation;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector3 respawnPos;
+
+        if (transform.childCount == 0)
+            respawnPos = transform.position;
+        else
+            respawnPos = transform.GetChild(0).position;
+
+        Gizmos.DrawWireSphere(respawnPos, 0.2f);
     }
 }
