@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CoinCharger : MonoBehaviour
 {
     [SerializeField] private float rayDistance = 3f; // The distance the ray should travel
-    private float maxChargeCooldown = 0.1f;    
+    private float maxChargeCooldown = 0.05f;    
     private float currentChargeCooldown = 0f;
     public OverlayMenu OverlayMenu;
     public string ToolTipText = "Charge";
     public CoinChargePoint chargePoint;
     public Transform vacuumCenter;   // The point towards which coins will spawn
+    public bool MouseHeld { get; private set; }
 
     [Header("Flying Object Properties")]
     public GameObject magicCoinPrefab; // Prefab of the object you want to spawn and make it fly
     public float spawnForce = 5f;         // Initial force applied when spawning the object
+    public float OutlineWidth = 2f;
 
     // Function to spawn and start the flight of the object
     public void ChargeObject()
@@ -38,14 +41,60 @@ public class CoinCharger : MonoBehaviour
         return randomDirection.normalized;
     }
 
+    public void Input(InputAction.CallbackContext callback)
+    {
+        if (callback.started)
+        {
+            MouseHeld = true;
+        }
+        else if (callback.canceled)
+        {
+            MouseHeld = false;
+        }
+    }
+
     private void FixedUpdate()
     {
-        List<CoinChargePoint> targets = FindAllTargetsWithScript<CoinChargePoint>();
+        ToggleCharger();
 
-        if (targets.Count > 0 && chargePoint == null)
-            SetCharger(targets[0]);
-        else if (targets.Count == 0 && chargePoint != null)
+        if (chargePoint == null)
+            return;
+
+
+        if (MouseHeld)
+            Charge();
+
+        if (chargePoint.GetCurrentChargeValue() == chargePoint.GetMaxChargeValue())
+        {
+            OverlayMenu.ShowTooltip("Charged!");
+        }
+        else
+        {
+            OverlayMenu.UpdateCurrentTooltipText("Charging " + chargePoint.GetCurrentChargeValue().ToString() + " / " + chargePoint.GetMaxChargeValue().ToString());
+        }
+    }
+
+    private void ToggleCharger()
+    {
+        CoinChargePoint target = FindClosestTargetWithScript<CoinChargePoint>();
+
+        if (target != null)
+        {
+            if (chargePoint == null)
+            {
+                SetCharger(target);
+            }
+            else if (chargePoint != target)
+            {
+
+                LoseCharger();
+                SetCharger(target);
+            }
+        }
+        else if (chargePoint != null)
+        {
             LoseCharger();
+        }
     }
 
     private void SetCharger(CoinChargePoint chargePoint)
@@ -53,12 +102,14 @@ public class CoinCharger : MonoBehaviour
         if (chargePoint != null)
         {
             this.chargePoint = chargePoint;
-            OverlayMenu.ShowTooltip("Charge: " + chargePoint.GetCurrentChargeValue().ToString() + " / " + chargePoint.GetMaxChargeValue().ToString(), MouseSide.RightClick);
+            OverlayMenu.ShowTooltip("Charge: " + chargePoint.GetCurrentChargeValue().ToString() + " / " + chargePoint.GetMaxChargeValue().ToString(), MouseSide.LeftClick);
+            chargePoint.SetOutlineWidth(OutlineWidth);
         }
     }
 
     private void LoseCharger()
     {
+        chargePoint.ResetOutlineWidth();
         chargePoint = null;
         OverlayMenu.HideTooltip();
     }
@@ -86,24 +137,32 @@ public class CoinCharger : MonoBehaviour
             ChargeObject();
             Stats.Instance.DecreaseCoinsCollected(1);
             currentChargeCooldown = 0f;
-            OverlayMenu.UpdateCurrentTooltip("Charge: " + chargePoint.GetCurrentChargeValue().ToString() + " / " + chargePoint.GetMaxChargeValue().ToString());
         }
     }
 
 
 
-    private List<T> FindAllTargetsWithScript<T>() where T : MonoBehaviour
+    private T FindClosestTargetWithScript<T>() where T : MonoBehaviour
     {
         // Shoot raycast from center of screen and get the scripts with the T script
         Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         RaycastHit[] hits = Physics.RaycastAll(ray, rayDistance);
-        List<T> foundScripts = new();
+
+        T closestScript = null;
+        float minDistance = float.MaxValue; // Start with the maximum value so any distance will be less than this
+
         foreach (RaycastHit hit in hits)
         {
             if (hit.transform.TryGetComponent<T>(out var script))
-                foundScripts.Add(script);
+            {
+                if (hit.distance < minDistance)
+                {
+                    minDistance = hit.distance;
+                    closestScript = script;
+                }
+            }
         }
 
-        return foundScripts;
+        return closestScript;
     }
 }

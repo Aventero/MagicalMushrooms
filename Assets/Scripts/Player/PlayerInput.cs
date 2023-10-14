@@ -107,6 +107,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CoinCharge"",
+                    ""type"": ""Button"",
+                    ""id"": ""84b5051c-b0ff-4304-bc02-50236456b64d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -305,6 +314,17 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3d69cff9-97ed-4484-abcc-18076c1d7e6c"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""CoinCharge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -901,6 +921,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_CharacterControls_CoinVacuum = m_CharacterControls.FindAction("CoinVacuum", throwIfNotFound: true);
         m_CharacterControls_Action = m_CharacterControls.FindAction("Action", throwIfNotFound: true);
         m_CharacterControls_Escape = m_CharacterControls.FindAction("Escape", throwIfNotFound: true);
+        m_CharacterControls_CoinCharge = m_CharacterControls.FindAction("CoinCharge", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -981,6 +1002,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_CharacterControls_CoinVacuum;
     private readonly InputAction m_CharacterControls_Action;
     private readonly InputAction m_CharacterControls_Escape;
+    private readonly InputAction m_CharacterControls_CoinCharge;
     public struct CharacterControlsActions
     {
         private @PlayerInput m_Wrapper;
@@ -994,6 +1016,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @CoinVacuum => m_Wrapper.m_CharacterControls_CoinVacuum;
         public InputAction @Action => m_Wrapper.m_CharacterControls_Action;
         public InputAction @Escape => m_Wrapper.m_CharacterControls_Escape;
+        public InputAction @CoinCharge => m_Wrapper.m_CharacterControls_CoinCharge;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1030,6 +1053,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Escape.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnEscape;
                 @Escape.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnEscape;
                 @Escape.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnEscape;
+                @CoinCharge.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnCoinCharge;
+                @CoinCharge.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnCoinCharge;
+                @CoinCharge.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnCoinCharge;
             }
             m_Wrapper.m_CharacterControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -1061,6 +1087,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Escape.started += instance.OnEscape;
                 @Escape.performed += instance.OnEscape;
                 @Escape.canceled += instance.OnEscape;
+                @CoinCharge.started += instance.OnCoinCharge;
+                @CoinCharge.performed += instance.OnCoinCharge;
+                @CoinCharge.canceled += instance.OnCoinCharge;
             }
         }
     }
@@ -1226,6 +1255,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnCoinVacuum(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
+        void OnCoinCharge(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -110,7 +110,17 @@ public class OverlayMenu : MonoBehaviour
         }
     }
 
-    public void UpdateCurrentTooltip(string text)
+    public void ShowTooltip(string text)
+    {
+        TMP_Text tooltipText = Tooltip.GetComponentInChildren<TMP_Text>(true);
+        tooltipText.SetText(text);
+        Tooltip.SetActive(true);
+        LeftClickImage.enabled = false;
+        RightClickImage.enabled = false;
+    }
+
+
+    public void UpdateCurrentTooltipText(string text)
     {
         if (Tooltip.activeSelf == true)
         {

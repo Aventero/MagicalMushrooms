@@ -85,6 +85,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CoinCharge",
+                    "type": "Button",
+                    "id": "84b5051c-b0ff-4304-bc02-50236456b64d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -283,6 +292,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Escape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3d69cff9-97ed-4484-abcc-18076c1d7e6c",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CoinCharge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

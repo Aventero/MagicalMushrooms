@@ -43,9 +43,7 @@ public class CoinVacuum : MonoBehaviour
         else
         {
             Execute();
-            coinCharger.Charge();
         }
-        
     }
 
     public void Input(InputAction.CallbackContext callback)

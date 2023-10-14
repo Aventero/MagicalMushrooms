@@ -90,7 +90,7 @@ class Coin : MonoBehaviour
         IsSlurping = true;
 
         // Variables for acceleration and velocity
-        Vector3 velocity = 2f * vacuumForce * startDirection;
+        Vector3 velocity = vacuumForce * startDirection;
 
         // Initial scales
         Vector3 initialScale = transform.localScale;
@@ -164,7 +164,7 @@ class Coin : MonoBehaviour
         trailRenderer.time = 0.15f;
 
         // Variables for acceleration and velocity
-        Vector3 velocity = 10f * force * startDirection;
+        Vector3 velocity = 20f * force * startDirection;
 
         // Initial scales
         Vector3 initialScale = startScale;
