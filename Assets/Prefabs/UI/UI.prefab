@@ -658,7 +658,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5589677861188050065
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4518,7 +4518,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 15.3, y: -8.5}
-  m_SizeDelta: {x: -73.95, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7145735795693752925
 CanvasRenderer:
@@ -5171,7 +5171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8586144880520519324
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5217,10 +5217,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb4f1df91987742738bcdefba18b53b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DeactivatedSkillOpacity: 0.05
   SkillActivationColor: {r: 1, g: 0, b: 0, a: 1}
   Skillbar: {fileID: 1613233555173469856}
-  PoltergeistSkillObject: {fileID: 4686160859715690497}
+  PoltergeistObject: {fileID: 4686160859715690497}
+  PoltergeistLetter: {fileID: 7695143947078561611}
   SmokeBombObject: {fileID: 5160315568268093896}
+  SmokeBombLetter: {fileID: 7809010256081954434}
   InteractionPopup: {fileID: 6995351195651204454}
   InteractionText: {fileID: 2502398157682805545}
   Tooltip: {fileID: 4816264060304462795}
@@ -6032,6 +6035,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6224765046290201209, guid: 8864d7f004bc9d44da0f516fe7273d76, type: 3}
   m_PrefabInstance: {fileID: 1861699063722518680}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7809010256081954434 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8469362264791453210, guid: 8864d7f004bc9d44da0f516fe7273d76, type: 3}
+  m_PrefabInstance: {fileID: 1861699063722518680}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2252816575384215889
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6225,6 +6233,11 @@ GameObject:
 --- !u!224 &5269583650286361384 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6224765046290201209, guid: 8864d7f004bc9d44da0f516fe7273d76, type: 3}
+  m_PrefabInstance: {fileID: 2252816575384215889}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7695143947078561611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8469362264791453210, guid: 8864d7f004bc9d44da0f516fe7273d76, type: 3}
   m_PrefabInstance: {fileID: 2252816575384215889}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2652330101008013378

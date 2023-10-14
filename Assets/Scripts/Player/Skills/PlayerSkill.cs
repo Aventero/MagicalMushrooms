@@ -9,6 +9,11 @@ public class PlayerSkill : MonoBehaviour
     public string TooltipText;
     public int SkillCost;
 
+    [HideInInspector]
+    public bool activated;
+    [HideInInspector]
+    public bool isRecharging;
+
     public bool IsActivated { get; internal set; }
     public bool IsMouseHeld { get; set; } = false;
     public virtual bool CanBeHeld() { return false; }

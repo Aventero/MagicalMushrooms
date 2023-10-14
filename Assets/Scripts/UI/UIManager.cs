@@ -88,35 +88,21 @@ public class UIManager : MonoBehaviour
         overlayMenu.ShowMonolog(monolog, target);
     }
 
-    public void SkillActivated(PlayerSkill playerSkill)
-    {
-        overlayMenu.SkillActivated(playerSkill);
-    }
+    public void EnableSkill(PlayerSkill skill) => overlayMenu.EnableSkill(skill);
+    public void DisableSkill(PlayerSkill skill) => overlayMenu.DisableSkill(skill);
 
-    public void SkillDeactivated()
-    {
-        overlayMenu.SkillDeactivated();
-    }
-
-    public void SkillExecuted(PlayerSkill playerSkill)
-    {
-        overlayMenu.SkillExecuted(playerSkill);
-    }
+    public void SkillActivated(PlayerSkill playerSkill) => overlayMenu.SkillActivated(playerSkill);
+    public void SkillDeactivated() => overlayMenu.SkillDeactivated();
+    
+    public void SkillExecuted(PlayerSkill playerSkill) => overlayMenu.SkillExecuted(playerSkill);
 
     public void ShowMonolog(Monolog monolog)
-    {
-        overlayMenu.ShowMonolog(monolog);
-    }
+    => overlayMenu.ShowMonolog(monolog);
 
-    public void SetSkillBarVisibility(bool visible)
-    {
-        overlayMenu.SetSkillBarVisibility(visible);
-    }
+    public void SetSkillBarVisibility(bool visible) => overlayMenu.SetSkillBarVisibility(visible);
 
-    public void SetOverlayVisibility(bool visible)
-    {
-        OverlayMenu.SetActive(visible);
-    }
+    public void SetOverlayVisibility(bool visible) => OverlayMenu.SetActive(visible);
+    
 
     private void GameOver()
     {

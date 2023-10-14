@@ -8,20 +8,51 @@ public class PlayerSkillManager : MonoBehaviour
     private SmokeBomb smokeBomb;
     private Poltergeist poltergeist;
 
-    private bool lockSkill = false;
+    private bool lockSkills = false;
 
     private void Start()
     {
         smokeBomb = GetComponent<SmokeBomb>();
         poltergeist = GetComponent<Poltergeist>();
 
+        smokeBomb.activated = true;
+        poltergeist.activated = true;
+
         StateManager.Instance.PauseGameEvent.AddListener(this.OnPause);
         StateManager.Instance.ResumeGameEvent.AddListener(this.OnResume);
     }
 
+    private void Update()
+    {
+        CheckSkillCost(poltergeist);
+        CheckSkillCost(smokeBomb);
+    }
+
+    private void CheckSkillCost(PlayerSkill playerSkill)
+    {
+        if (playerSkill.isRecharging)
+            return;
+
+        int coins = Stats.Instance.CoinsCollected;
+
+        if (coins >= playerSkill.SkillCost && !playerSkill.activated)
+        {
+            Debug.Log("Activate " + playerSkill.name);
+            playerSkill.activated = true;
+            UIManager.Instance.EnableSkill(playerSkill);
+        }
+        else if (coins < playerSkill.SkillCost && playerSkill.activated)
+        {
+            Debug.Log("Deactivate " + playerSkill.name);
+
+            playerSkill.activated = false;
+            UIManager.Instance.DisableSkill(playerSkill);
+        }
+    }
+
     public void OnPause()
     {
-        lockSkill = true;
+        lockSkills = true;
         if (activeSkill != null)
         {
             UIManager.Instance.SkillDeactivated();
@@ -32,12 +63,12 @@ public class PlayerSkillManager : MonoBehaviour
 
     public void OnResume()
     {
-        lockSkill = false;
+        lockSkills = false;
     }
 
     public void SkillActivation(InputAction.CallbackContext callback)
     {
-        if (activeSkill == null || lockSkill)
+        if (activeSkill == null || lockSkills)
             return;
 
         // Check if the active skill can be held
@@ -46,32 +77,30 @@ public class PlayerSkillManager : MonoBehaviour
             if (!activeSkill.Execute())
                 return;
 
-            lockSkill = true;
+            activeSkill.isRecharging = true;
             UIManager.Instance.SkillExecuted(activeSkill);
-            StartCoroutine(this.LockSkillForSeconds(activeSkill.RechargeTime));
+            StartCoroutine(this.LockSkillForSeconds(activeSkill, activeSkill.RechargeTime));
             activeSkill = null;
         }
     }
 
     public void OnPoltergeist(InputAction.CallbackContext callback)
     {
-        if (!callback.performed || lockSkill)
+        if (!callback.performed || !poltergeist.activated || lockSkills)
             return;
         
-        Debug.Log("Activating Poltergeist");
-        ActivateSkill(poltergeist);
+        Preview(poltergeist);
     }
 
     public void OnSmokeBomb(InputAction.CallbackContext callback)
     {
-        if (!callback.performed || lockSkill)
+        if (!callback.performed || !smokeBomb.activated || lockSkills)
             return;
 
-        Debug.Log("Activating Smoke bomb");
-        ActivateSkill(smokeBomb);
+        Preview(smokeBomb);
     }
 
-    private void ActivateSkill(PlayerSkill skill)
+    private void Preview(PlayerSkill skill)
     {
         if (activeSkill == null)
         {
@@ -87,10 +116,11 @@ public class PlayerSkillManager : MonoBehaviour
         }
     }
 
-    private IEnumerator LockSkillForSeconds(float time)
+    private IEnumerator LockSkillForSeconds(PlayerSkill playerSkill, float time)
     {
+        playerSkill.activated = false;
         yield return new WaitForSeconds(time);
-        lockSkill = false;
-        Debug.Log("Skill unlocked!");
+
+        playerSkill.isRecharging = false;
     }
 }

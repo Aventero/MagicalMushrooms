@@ -7,11 +7,14 @@ using UnityEngine.UI;
 public class OverlayMenu : MonoBehaviour
 {
     [Header("Player Skill References")]
+    public float DeactivatedSkillOpacity = 0.05f;
     public Color SkillActivationColor;
 
     public GameObject Skillbar;
-    public GameObject PoltergeistSkillObject;
+    public GameObject PoltergeistObject;
+    public GameObject PoltergeistLetter;
     public GameObject SmokeBombObject;
+    public GameObject SmokeBombLetter;
 
     [Header("Interaction")]
     public Image InteractionPopup;
@@ -121,17 +124,48 @@ public class OverlayMenu : MonoBehaviour
         Tooltip.SetActive(false);
     }
 
+
+
+    private void SetSkillOpacity(float opacity, PlayerSkill playerSkill, bool turnOnSkillLetter)
+    {
+        GameObject skillObject = GetPlayerSkillObject(playerSkill);
+
+        Color skillColor = activeSkillColor;
+        skillColor.a = opacity;
+
+        GameObject skillLetter = GetPlayerSkillLetter(playerSkill);
+        skillLetter.SetActive(turnOnSkillLetter);
+
+        CutoutMask[] masks = skillObject.GetComponentsInChildren<CutoutMask>();
+        foreach (CutoutMask mask in masks)
+            mask.color = skillColor;
+
+        Image[] images = skillObject.GetComponentsInChildren<Image>();
+        foreach (Image image in images)
+        {
+            Color color = image.color;
+            color.a = opacity;
+
+            image.color = color;
+        }
+    }
+
+    public void EnableSkill(PlayerSkill playerSkill)
+    {
+        SetSkillOpacity(1.0f, playerSkill, true);
+    }
+
+    public void DisableSkill(PlayerSkill playerSkill)
+    {
+        SetSkillOpacity(DeactivatedSkillOpacity, playerSkill, false);
+    }
+
     public void SkillActivated(PlayerSkill playerSkill)
     {
         activeSkillObject = GetPlayerSkillObject(playerSkill);
 
-        if(activeSkillObject == null)
-        {
-            Debug.Log("ACTIVE SKILL OBJECT IS NULL!");
-            return;
-        }
         CutoutMask mask = activeSkillObject.GetComponentInChildren<CutoutMask>();
-        
+
         activeSkillColor = mask.color;
         mask.color = SkillActivationColor;
     }
@@ -147,7 +181,8 @@ public class OverlayMenu : MonoBehaviour
 
     public void SkillExecuted(PlayerSkill playerSkill)
     {
-        SkillDeactivated();
+        DisableSkill(playerSkill);
+        //SkillDeactivated();
     }
 
     public void SetSkillBarVisibility(bool visibility)
@@ -194,9 +229,19 @@ public class OverlayMenu : MonoBehaviour
         return playerSkill switch
         {
             SmokeBomb => SmokeBombObject,
-            Poltergeist => PoltergeistSkillObject,
+            Poltergeist => PoltergeistObject,
             _ => null,
         } ;
+    }
+
+    private GameObject GetPlayerSkillLetter(PlayerSkill playerSkill)
+    {
+        return playerSkill switch
+        {
+            SmokeBomb => SmokeBombLetter,
+            Poltergeist => PoltergeistLetter,
+            _ => null,
+        };
     }
 }
 
