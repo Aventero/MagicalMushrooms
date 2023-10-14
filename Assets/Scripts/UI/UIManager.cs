@@ -59,31 +59,44 @@ public class UIManager : MonoBehaviour
 
     public void HideInteractionText()
     {
+        if (overlayMenu == null)
+            return;
+
         overlayMenu.DisplayInteractionText(false, "");
     }
 
     public void ShowInteractionText(string text)
     {
+        if (overlayMenu == null)
+            return;
         overlayMenu.DisplayInteractionText(true, text);
     }
 
     public void ShowSkillTooltip(string text, MouseSide mouseSide)
     {
+        if (overlayMenu == null)
+            return;
         overlayMenu.ShowTooltip(text, mouseSide, ToolTipType.Skill);
     }
 
     public void ShowChargeTooltip(string text, MouseSide mouseSide)
     {
+        if (overlayMenu == null)
+            return;
         overlayMenu.ShowTooltip(text, mouseSide, ToolTipType.Charge);
     }
 
     public void ShowChargeTooltip(string text)
     {
+        if (overlayMenu == null)
+            return;
         overlayMenu.ShowTooltip(text, ToolTipType.Charge);
     }
 
     public void HideTooltip()
     {
+        if (overlayMenu == null)
+            return;
         overlayMenu.HideTooltip();
     }
 

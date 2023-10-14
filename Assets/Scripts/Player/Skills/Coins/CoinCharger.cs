@@ -69,7 +69,7 @@ public class CoinCharger : MonoBehaviour
         }
         else
         {
-            UIManager.Instance.ShowChargeTooltip("Charging " + chargePoint.GetCurrentChargeValue().ToString() + " / " + chargePoint.GetMaxChargeValue().ToString());
+            UIManager.Instance.ShowChargeTooltip("Charging " + chargePoint.GetCurrentChargeValue().ToString() + " / " + chargePoint.GetMaxChargeValue().ToString(), MouseSide.LeftClick);
         }
     }
 
