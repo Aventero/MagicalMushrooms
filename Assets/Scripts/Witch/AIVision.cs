@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
@@ -21,6 +22,7 @@ public class AIVision : MonoBehaviour
     public GameObject ViewCone;
     public GameObject HeadWatchTarget;
     public GameObject RaycastPoint;
+    public Light SpotLight;
     private Vector3 originalVisionScale;
     [ReadOnly]
     public float distanceToWatchPoint;
@@ -72,7 +74,7 @@ public class AIVision : MonoBehaviour
     public void WatchCurrentTarget()
     {
         TurnTowardsTarget();
-        ScaleVisionByDistance();
+        // ScaleVisionByDistance();
     }
 
     public void TurnTowardsTarget()
@@ -114,7 +116,6 @@ public class AIVision : MonoBehaviour
     public void ScaleVisionByDistance()
     {
         float distanceToWatchpoint = Vector3.Distance(ViewCone.transform.position, currentWatchTarget);
-
         // Lerp factor based on distance
         float maxDistance = 25.0f;
         float lerpFactor = Mathf.Clamp01(distanceToWatchpoint / maxDistance);
@@ -122,6 +123,8 @@ public class AIVision : MonoBehaviour
         // Additional scale for the Z-axis.
         float maxAdditionalScale = 30.0f;
         float additionalZScale = Mathf.Lerp(maxAdditionalScale, 0, lerpFactor);
+        SpotLight.innerSpotAngle = originalVisionScale.z + additionalZScale;
+        SpotLight.spotAngle = originalVisionScale.z + additionalZScale + 5f;
 
         targetScale = new Vector3(originalVisionScale.x, originalVisionScale.y, originalVisionScale.z - additionalZScale);
 
