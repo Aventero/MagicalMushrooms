@@ -10,7 +10,7 @@ public class PlayerSkillManager : MonoBehaviour
 
     private bool lockSkills = false;
 
-    private void Start()
+    public void Start()
     {
         smokeBomb = GetComponent<SmokeBomb>();
         poltergeist = GetComponent<Poltergeist>();

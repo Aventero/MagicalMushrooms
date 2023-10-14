@@ -42,9 +42,10 @@ public class OverlayMenu : MonoBehaviour
     public Animator mouseAnimator;
     public Image LeftClickImage;
     public Image RightClickImage;
-
-    // Start is called before the first frame update
-    void Start()
+    public ToolTipType activeToolTipType;
+    private TMP_Text tooltipText;
+    
+    public void Init()
     {
         // RegisterEvent
         StateManager.Instance.ItemPickupEvent += this.OnItemPickup;
@@ -55,6 +56,7 @@ public class OverlayMenu : MonoBehaviour
 
         dialogMenu = Dialog.GetComponent<DialogMenu>();
         monologMenu = Monolog.GetComponent<MonologMenu>();
+        tooltipText = Tooltip.GetComponentInChildren<TMP_Text>(true);
 
         HideTooltip();
     }
@@ -89,9 +91,12 @@ public class OverlayMenu : MonoBehaviour
         monologMenu.ShowMonolog(monolog);
     }
 
-    public void ShowTooltip(string text, MouseSide mouseButton)
+    public void ShowTooltip(string text, MouseSide mouseButton, ToolTipType type)
     {
-        TMP_Text tooltipText = Tooltip.GetComponentInChildren<TMP_Text>(true);
+        if (activeToolTipType == ToolTipType.Skill)
+            return;
+
+        activeToolTipType = type;
         tooltipText.SetText(text);
         Tooltip.SetActive(true);
 
@@ -110,31 +115,23 @@ public class OverlayMenu : MonoBehaviour
         }
     }
 
-    public void ShowTooltip(string text)
+    public void ShowTooltip(string text, ToolTipType type)
     {
-        TMP_Text tooltipText = Tooltip.GetComponentInChildren<TMP_Text>(true);
+        if (activeToolTipType == ToolTipType.Skill)
+            return;
+
+        activeToolTipType = type;
         tooltipText.SetText(text);
         Tooltip.SetActive(true);
         LeftClickImage.enabled = false;
         RightClickImage.enabled = false;
     }
 
-
-    public void UpdateCurrentTooltipText(string text)
-    {
-        if (Tooltip.activeSelf == true)
-        {
-            TMP_Text tooltipText = Tooltip.GetComponentInChildren<TMP_Text>(true);
-            tooltipText.SetText(text);
-        }
-    }
-
     public void HideTooltip()
     {
+        activeToolTipType = ToolTipType.None;
         Tooltip.SetActive(false);
     }
-
-
 
     private void SetSkillOpacity(float opacity, PlayerSkill playerSkill, bool turnOnSkillLetter)
     {
@@ -259,4 +256,11 @@ public enum MouseSide
 {
     LeftClick,
     RightClick
+}
+
+public enum ToolTipType
+{
+    Skill,
+    Charge,
+    None
 }

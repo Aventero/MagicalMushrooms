@@ -9,14 +9,12 @@ public class CoinVacuum : MonoBehaviour
     public float vacuumRadius = 5f;  // The effective radius of the vacuum
     public float vacuumForce = 5f;   // The force/speed at which coins are pulled towards the vacuum center
     private HashSet<Coin> activeCoins = new();
-    private CoinCharger coinCharger;
     public bool MouseHeld { get; private set; }
     [Range(0, 90)] public float angle = 45f; // Start angle for the vacuum zone (relative to forward direction)
     private GlassSlurpSpin glassSlurpSpin;
 
     private void Start()
     {
-        coinCharger = GetComponent<CoinCharger>();
         glassSlurpSpin = GetComponentInChildren<GlassSlurpSpin>();
     }
 

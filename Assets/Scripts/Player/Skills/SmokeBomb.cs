@@ -40,7 +40,7 @@ public class SmokeBomb : PlayerSkill
 
     public override void ShowPreview()
     {
-        UIManager.Instance.ShowTooltip(TooltipText, MouseSide.LeftClick);
+        UIManager.Instance.ShowSkillTooltip(TooltipText, MouseSide.LeftClick);
 
         lineRenderer.enabled = true;
         drawProjection = true;

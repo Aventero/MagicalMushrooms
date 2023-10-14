@@ -19,7 +19,9 @@ public class UIManager : MonoBehaviour
         if (Instance != null && Instance != this)
             Destroy(this);
         else
+        {
             Instance = this;
+        }
     }
 
     void Start()
@@ -31,6 +33,7 @@ public class UIManager : MonoBehaviour
         StateManager.Instance.GameOverEvent += this.GameOver;
 
         overlayMenu = OverlayMenu.GetComponent<OverlayMenu>();
+        overlayMenu.Init();
     }
 
     // User hit the escape key 
@@ -56,26 +59,37 @@ public class UIManager : MonoBehaviour
 
     public void HideInteractionText()
     {
-        if (OverlayMenu != null)
-            overlayMenu.DisplayInteractionText(false, "");
+        overlayMenu.DisplayInteractionText(false, "");
     }
 
     public void ShowInteractionText(string text)
     {
-        if (OverlayMenu != null)
-            overlayMenu.DisplayInteractionText(true, text);
+        overlayMenu.DisplayInteractionText(true, text);
     }
 
-    public void ShowTooltip(string text, MouseSide mouseSide)
+    public void ShowSkillTooltip(string text, MouseSide mouseSide)
     {
-        if (OverlayMenu != null)
-            overlayMenu.ShowTooltip(text, mouseSide);
+        overlayMenu.ShowTooltip(text, mouseSide, ToolTipType.Skill);
+    }
+
+    public void ShowChargeTooltip(string text, MouseSide mouseSide)
+    {
+        overlayMenu.ShowTooltip(text, mouseSide, ToolTipType.Charge);
+    }
+
+    public void ShowChargeTooltip(string text)
+    {
+        overlayMenu.ShowTooltip(text, ToolTipType.Charge);
     }
 
     public void HideTooltip()
     {
-        if (OverlayMenu != null)
-            overlayMenu.HideTooltip();
+        overlayMenu.HideTooltip();
+    }
+
+    public ToolTipType GetActiveToolTipType()
+    {
+        return overlayMenu.activeToolTipType;
     }
 
     public void ShowDialog(Dialog dialog)

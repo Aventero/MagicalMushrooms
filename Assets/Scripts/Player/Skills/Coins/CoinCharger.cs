@@ -10,7 +10,6 @@ public class CoinCharger : MonoBehaviour
     [SerializeField] private float rayDistance = 3f; // The distance the ray should travel
     private float maxChargeCooldown = 0.05f;    
     private float currentChargeCooldown = 0f;
-    public OverlayMenu OverlayMenu;
     public string ToolTipText = "Charge";
     public CoinChargePoint chargePoint;
     public Transform vacuumCenter;   // The point towards which coins will spawn
@@ -66,11 +65,11 @@ public class CoinCharger : MonoBehaviour
 
         if (chargePoint.GetCurrentChargeValue() == chargePoint.GetMaxChargeValue())
         {
-            OverlayMenu.ShowTooltip("Charged!");
+            UIManager.Instance.ShowChargeTooltip("Charged!");
         }
         else
         {
-            OverlayMenu.UpdateCurrentTooltipText("Charging " + chargePoint.GetCurrentChargeValue().ToString() + " / " + chargePoint.GetMaxChargeValue().ToString());
+            UIManager.Instance.ShowChargeTooltip("Charging " + chargePoint.GetCurrentChargeValue().ToString() + " / " + chargePoint.GetMaxChargeValue().ToString());
         }
     }
 
@@ -102,7 +101,7 @@ public class CoinCharger : MonoBehaviour
         if (chargePoint != null)
         {
             this.chargePoint = chargePoint;
-            OverlayMenu.ShowTooltip("Charge: " + chargePoint.GetCurrentChargeValue().ToString() + " / " + chargePoint.GetMaxChargeValue().ToString(), MouseSide.LeftClick);
+            UIManager.Instance.ShowChargeTooltip("Charge: " + chargePoint.GetCurrentChargeValue().ToString() + " / " + chargePoint.GetMaxChargeValue().ToString(), MouseSide.LeftClick);
             chargePoint.SetOutlineWidth(OutlineWidth);
         }
     }
@@ -111,7 +110,9 @@ public class CoinCharger : MonoBehaviour
     {
         chargePoint.ResetOutlineWidth();
         chargePoint = null;
-        OverlayMenu.HideTooltip();
+
+        if (UIManager.Instance.GetActiveToolTipType() == ToolTipType.Charge)
+            UIManager.Instance.HideTooltip();
     }
 
 
