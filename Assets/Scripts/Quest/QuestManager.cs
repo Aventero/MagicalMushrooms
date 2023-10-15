@@ -109,69 +109,62 @@ public class QuestManager : MonoBehaviour
 
     private void SetQuestIconPositionOnScreen()
     {
-        // Convert the world position of the quest to viewport position.
         Vector3 viewportPosition = mainCamera.WorldToViewportPoint(ActiveQuest.transform.position);
 
-        if (viewportPosition.z > 0f && viewportPosition.z < 3f)
-            QuestImage.color = new Color(QuestImage.color.r, QuestImage.color.g, QuestImage.color.b, viewportPosition.z);
-        if (viewportPosition.z < 0f && viewportPosition.z > -3f)
-            ArrowIcon.color = new Color(ArrowIcon.color.r, ArrowIcon.color.g, ArrowIcon.color.b, Mathf.Abs(viewportPosition.z));
+        float centerX = 0.5f;
+        float centerY = 0.5f;
 
-        // Check if the quest is behind the camera.
-        if (viewportPosition.z < 0)
+        float angleToQuest = Mathf.Atan2(viewportPosition.y - centerY, viewportPosition.x - centerX);
+
+        // Determine transparency 
+        if (viewportPosition.z > 0f && viewportPosition.z < 5f)
         {
+            float alpha = viewportPosition.z / 5;
+            QuestImage.color = new Color(QuestImage.color.r, QuestImage.color.g, QuestImage.color.b, alpha);
+        }
+        if (viewportPosition.z < 0f && viewportPosition.z > -5f)
+        {
+            float alpha = Mathf.Abs(viewportPosition.z) / 5;
+            ArrowIcon.color = new Color(ArrowIcon.color.r, ArrowIcon.color.g, ArrowIcon.color.b, alpha);
+        }
 
-
-            Vector2 directionFromCenterToQuest = new Vector2(0.5f - viewportPosition.x, 0.5f - viewportPosition.y).normalized;
-
-            // This clamps the arrow to the bottom instead of the top
-            //if (directionFromCenterToQuest.y > 0)
-            //    directionFromCenterToQuest.y = -directionFromCenterToQuest.y;
-
-            // Calculate the angle to rotate the arrow (Arrow pointing Up)
-            float angle = Mathf.Atan2(directionFromCenterToQuest.y, directionFromCenterToQuest.x) * Mathf.Rad2Deg - 90f;
-
-            ArrowIcon.rectTransform.rotation = Quaternion.Euler(0, 0, angle); // Apply the rotation
-
-            // Calculate arrow's position on the boundary of the TrackingArea
-            float boundaryFactor = Mathf.Min(
-                TrackingArea.rect.width * 0.5f / Mathf.Abs(directionFromCenterToQuest.x),
-                TrackingArea.rect.height * 0.5f / Mathf.Abs(directionFromCenterToQuest.y)
-            );
-
-            float arrowX = directionFromCenterToQuest.x * boundaryFactor;
-            float arrowY = directionFromCenterToQuest.y * boundaryFactor;
+        // Quest is behind the player
+        if (viewportPosition.z < 0) 
+        {
+            angleToQuest += Mathf.PI;
+            float arrowX = Mathf.Cos(angleToQuest) * (TrackingArea.rect.width * 0.5f);
+            float arrowY = Mathf.Sin(angleToQuest) * (TrackingArea.rect.height * 0.5f);
 
             ArrowIcon.rectTransform.anchoredPosition = new Vector2(arrowX, arrowY);
+            ArrowIcon.rectTransform.rotation = Quaternion.Euler(0, 0, angleToQuest * Mathf.Rad2Deg - 90f);
 
             ArrowIcon.enabled = true;
             QuestImage.enabled = false;
             return;
         }
-        else
+
+        float distanceFromCenter = Mathf.Sqrt((viewportPosition.x - centerX) * (viewportPosition.x - centerX) +
+                                              (viewportPosition.y - centerY) * (viewportPosition.y - centerY));
+
+        float iconX;
+        float iconY;
+        if (distanceFromCenter > 0.5f) 
         {
-            ArrowIcon.enabled = false;
-            QuestImage.enabled = true;
+            // Quest icon outside the screen
+            iconX = centerX + Mathf.Cos(angleToQuest) * (TrackingArea.rect.width * 0.5f);
+            iconY = centerY + Mathf.Sin(angleToQuest) * (TrackingArea.rect.height * 0.5f);
         }
-
-        // Calculate the x and y position for the icon based on the tracking area size.
-        float iconX = (viewportPosition.x - 0.5f) * TrackingArea.rect.width;
-        float iconY = (viewportPosition.y - 0.5f) * TrackingArea.rect.height;
-
-        // Check if the icon position is outside the boundary of the TrackingArea
-        if (Mathf.Abs(iconX) > TrackingArea.rect.width * 0.5f || Mathf.Abs(iconY) > TrackingArea.rect.height * 0.5f)
+        else 
         {
-            Vector2 directionFromCenter = new Vector2(iconX, iconY).normalized;
-            float boundaryFactor = Mathf.Min(
-                TrackingArea.rect.width * 0.5f / Mathf.Abs(directionFromCenter.x),
-                TrackingArea.rect.height * 0.5f / Mathf.Abs(directionFromCenter.y)
-            );
-
-            iconX = directionFromCenter.x * boundaryFactor;
-            iconY = directionFromCenter.y * boundaryFactor;
+            // Quest icon is inside the screen
+            iconX = (viewportPosition.x - centerX) * TrackingArea.rect.width;
+            iconY = (viewportPosition.y - centerY) * TrackingArea.rect.height;
         }
 
         QuestImage.rectTransform.anchoredPosition = new Vector2(iconX, iconY);
+        QuestImage.enabled = true;
+        ArrowIcon.enabled = false;
     }
+
 
 }
