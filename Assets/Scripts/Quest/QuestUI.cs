@@ -16,7 +16,7 @@ public class QuestUI : MonoBehaviour
     {
         questObjects = new List<GameObject>();
         questManager = FindObjectOfType<QuestManager>();
-        CreateQuests(questManager.Quests);
+       // CreateQuests(questManager.Quests);
     }
 
     private void CreateQuests(List<Quest> quests)
@@ -45,7 +45,7 @@ public class QuestUI : MonoBehaviour
             {
                 if (questObject.name.Equals(quest.Name))
                 {
-                    questObject.GetComponentInChildren<Toggle>().isOn = quest.isFinished;
+                    questObject.GetComponentInChildren<Toggle>().isOn = quest.IsCompleted;
                     break;
                 }
 

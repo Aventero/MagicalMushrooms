@@ -53,7 +53,7 @@ public class QuestIcons : MonoBehaviour
         {
             if (questSprites.TryGetValue(quest, out GameObject questIcon))
             {
-                Vector3 position = quest.QuestGameObject.transform.position;
+                Vector3 position = quest.transform.position;
                 Vector3 screenPosition = Camera.main.WorldToScreenPoint(position);
 
                 // Icon is behind the camera so dont draw it
