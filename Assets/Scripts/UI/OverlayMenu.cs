@@ -188,8 +188,10 @@ public class OverlayMenu : MonoBehaviour
 
     public void SkillExecuted(PlayerSkill playerSkill)
     {
-        DisableSkill(playerSkill);
-        //SkillDeactivated();
+        SkillDeactivated();
+
+        SkillRecharger skill = GetPlayerSkillObject(playerSkill).GetComponent<SkillRecharger>();
+        skill.ChargeSkill(playerSkill.RechargeTime);
     }
 
     public void SetSkillBarVisibility(bool visibility)
