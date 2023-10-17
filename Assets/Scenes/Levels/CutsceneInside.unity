@@ -1348,23 +1348,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e545fcf09264148269bec09a6f6b48a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Quests:
-  - Name: WateringCan
-    DisplayName: Pick up a Watering can!
-    isFinished: 0
-    QuestGameObject: {fileID: 0}
-    QuestType: 0
-    item:
-      Name: WateringCan
-      Icon: {fileID: 21300000, guid: 25c1c3c7b976dbf4c961600be510bf11, type: 3}
-  - Name: WaterPlant
-    DisplayName: Water the plant u scum!
-    isFinished: 0
-    QuestGameObject: {fileID: 0}
-    QuestType: 1
-    item:
-      Name: WateringCan
-      Icon: {fileID: 21300000, guid: 25c1c3c7b976dbf4c961600be510bf11, type: 3}
+  QuestImage: {fileID: 0}
+  ArrowIcon: {fileID: 0}
+  TrackingArea: {fileID: 0}
 --- !u!114 &121842043
 MonoBehaviour:
   m_ObjectHideFlags: 0

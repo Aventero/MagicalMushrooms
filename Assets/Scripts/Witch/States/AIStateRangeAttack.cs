@@ -18,7 +18,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
     [Header("Attack Zone")]
     public GameObject InteractionZoneGimble;
     public Transform witchPivotTransform;
-    public float AttackTime = 3f;
+    public float AttackTime = 1f;
     private Vector3 initialScale;
     private float InitialScaling = 0.1f;
     private float MaxScaling = 5f;

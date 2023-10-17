@@ -4359,7 +4359,6 @@ GameObject:
   m_Component:
   - component: {fileID: 121842041}
   - component: {fileID: 121842042}
-  - component: {fileID: 121842043}
   m_Layer: 0
   m_Name: QuestManager
   m_TagString: Untagged
@@ -4389,29 +4388,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 121842040}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e545fcf09264148269bec09a6f6b48a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  QuestImage: {fileID: 0}
-  ArrowIcon: {fileID: 0}
-  TrackingArea: {fileID: 0}
---- !u!114 &121842043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 121842040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dcef2afb5bff0b468225c53bf2f4ee4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OverlayCanvas: {fileID: 0}
-  QuestManager: {fileID: 121842042}
-  QuestSprite: {fileID: 21300000, guid: 2cbe8823f0bcca748a7120601ffd3b8d, type: 3}
+  QuestImage: {fileID: 2112172470}
+  ArrowIcon: {fileID: 493366235}
+  TrackingArea: {fileID: 493366234}
 --- !u!1001 &123912656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16920,15 +16904,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2857605709861750656, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.3
+      value: 21.68
       objectReference: {fileID: 0}
     - target: {fileID: 2857605709861750656, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.19
+      value: 10.87
       objectReference: {fileID: 0}
     - target: {fileID: 2857605709861750656, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 76.2
+      value: 30.9
       objectReference: {fileID: 0}
     - target: {fileID: 2857605709861750656, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -23948,27 +23932,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3306658363530518917, guid: f08dc8f9ba725cc4aa9bb8843523fc15, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.52849525
+      value: 0.20150468
       objectReference: {fileID: 0}
     - target: {fileID: 3306658363530518917, guid: f08dc8f9ba725cc4aa9bb8843523fc15, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.52849525
+      value: 0.28613663
       objectReference: {fileID: 0}
     - target: {fileID: 3306658363530518917, guid: f08dc8f9ba725cc4aa9bb8843523fc15, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.52849525
+      value: 0.20150468
       objectReference: {fileID: 0}
     - target: {fileID: 3306658363530518917, guid: f08dc8f9ba725cc4aa9bb8843523fc15, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.2838
+      value: 1.4906
       objectReference: {fileID: 0}
     - target: {fileID: 3306658363530518917, guid: f08dc8f9ba725cc4aa9bb8843523fc15, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7944
+      value: 0.577
       objectReference: {fileID: 0}
     - target: {fileID: 3306658363530518917, guid: f08dc8f9ba725cc4aa9bb8843523fc15, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.4198
+      value: 7.6788
       objectReference: {fileID: 0}
     - target: {fileID: 3306658363530518917, guid: f08dc8f9ba725cc4aa9bb8843523fc15, type: 3}
       propertyPath: m_LocalRotation.w
@@ -86320,6 +86304,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1064245912, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: Speed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064245912, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: AttackTime
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1824091702, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: WalkPointsParent
       value: 
