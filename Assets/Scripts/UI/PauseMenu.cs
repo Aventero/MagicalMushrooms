@@ -7,18 +7,17 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour, UIMenu
 {
     public GameObject OptionsMenu;
+    public Volume GamePostVolume;
     public VolumeProfile volumeProfile;
     public GameObject Menu;
 
     private VolumeProfile standardProfile;
-    private Volume volume;
 
     private bool activeMenu = false;
 
     private void Awake()
     {
-        volume = GameObject.FindObjectOfType<Volume>();
-        standardProfile = volume.profile;
+        standardProfile = GamePostVolume.profile;
     }
 
     public void ShowMenu()
@@ -35,7 +34,7 @@ public class PauseMenu : MonoBehaviour, UIMenu
 
         Debug.Log("Starting Pause menu");
         Menu.SetActive(true);
-        volume.profile = volumeProfile;
+        GamePostVolume.profile = volumeProfile;
         OptionsMenu.SetActive(false);
         StateManager.Instance.PauseGameEvent.Invoke();
     }
@@ -43,7 +42,7 @@ public class PauseMenu : MonoBehaviour, UIMenu
     public void Resume()
     {
         activeMenu = false;
-        volume.profile = standardProfile;
+        GamePostVolume.profile = standardProfile;
         StateManager.Instance.ResumeGameEvent.Invoke();
         UIManager.Instance.SetOverlayVisibility(true);
         this.gameObject.SetActive(false);

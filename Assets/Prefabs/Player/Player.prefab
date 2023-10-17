@@ -323,6 +323,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e34ee604-b571-4ed0-92f6-aea4e2368065
     m_ActionName: CharacterControls/Escape[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 84b5051c-b0ff-4304-bc02-50236456b64d
+    m_ActionName: CharacterControls/CoinCharge[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: CharacterControls
@@ -514,12 +518,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rayDistance: 5
-  OverlayMenu: {fileID: 0}
   ToolTipText: Charge
   chargePoint: {fileID: 0}
   vacuumCenter: {fileID: 7738794083320140937}
   magicCoinPrefab: {fileID: 7360445342254938796, guid: 3308ba2bb1f39ac4b9d72bb276014b6a, type: 3}
   spawnForce: 5
+  OutlineWidth: 2
 --- !u!1 &2857605710249577893
 GameObject:
   m_ObjectHideFlags: 0
