@@ -21,13 +21,18 @@ public class DialogMenu: MonoBehaviour
 
     private int currentTextPos = 0;
 
+    [Header("Dialog effect")]
+    public float GrowDuration = 0.05f;
+    public float WaitForNextLetter = 0.01f;
+
+
     public void ShowDialog(Dialog conversation)
     {
         UIManager.Instance.SetSkillBarVisibility(false);
         StateManager.Instance.PauseGameEvent.Invoke();
 
         SetUp(conversation);
-        UpdateText();
+        ShowTextOverTime();
     }
 
     private void SetUp(Dialog conversation)
@@ -38,12 +43,14 @@ public class DialogMenu: MonoBehaviour
         CharacterName.GetComponent<TMP_Text>().text = conversation.characterName;
     }
 
-    public void UpdateText()
+    public void ShowTextOverTime()
     {
         if (currentTextPos < 0 || currentTextPos >= texts.Count)
             return;
-        
-        DialogText.GetComponent<TMP_Text>().text = texts[currentTextPos];
+
+        StopAllCoroutines(); // Stop the typing effect if it's still going on
+        StartCoroutine(TypeText(DialogText.GetComponent<TMP_Text>(), texts[currentTextPos]));
+
         DialogProgressText.GetComponent<TMP_Text>().text = (currentTextPos + 1) + "/" + texts.Count;
 
         UpdateButtons();
@@ -80,7 +87,7 @@ public class DialogMenu: MonoBehaviour
             return;
 
         currentTextPos++;
-        UpdateText();
+        ShowTextOverTime();
     }
 
     public void PrevText()
@@ -89,7 +96,7 @@ public class DialogMenu: MonoBehaviour
             return;
 
         currentTextPos--;
-        UpdateText();
+        ShowTextOverTime();
     }
 
     public void EndDialog()
@@ -99,4 +106,30 @@ public class DialogMenu: MonoBehaviour
         StateManager.Instance.ResumeGameEvent.Invoke();
         this.gameObject.SetActive(false);
     }
+
+    private IEnumerator TypeText(TMP_Text textField, string fullText)
+    {
+        textField.text = "";
+        float growDuration = GrowDuration; 
+        for (int i = 0; i < fullText.Length; i++)
+        {
+            string currentText = fullText.Substring(0, i);
+            string growingLetter = $"<size=60%>{fullText[i]}</size>"; // Start the letter at 60% of its original size
+            textField.text = currentText + growingLetter;
+
+            // Animate the growth of the character
+            for (float t = 0; t < growDuration; t += Time.deltaTime)
+            {
+                float progress = Mathf.Clamp01(t / growDuration);
+                float sizePercent = Mathf.Lerp(60, 100, progress); // Lerp from 60% to 100%
+                growingLetter = $"<size={sizePercent}%>{fullText[i]}</size>";
+                textField.text = currentText + growingLetter;
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(WaitForNextLetter); // Delay after the letter has fully appeared
+        }
+    }
+
+
 }
