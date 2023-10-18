@@ -118,7 +118,7 @@ public class DialogMenu: MonoBehaviour
             textField.text = currentText + growingLetter;
 
             // Animate the growth of the character
-            for (float t = 0; t < growDuration; t += Time.deltaTime)
+            for (float t = 0; t < growDuration; t += Time.unscaledDeltaTime)
             {
                 float progress = Mathf.Clamp01(t / growDuration);
                 float sizePercent = Mathf.Lerp(60, 100, progress); // Lerp from 60% to 100%
