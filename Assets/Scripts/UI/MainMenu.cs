@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -33,7 +34,7 @@ public class MainMenu : MonoBehaviour, UIMenu
     {
         SetLoadSavePref(true);
         SetCursor();
-        SceneManager.LoadScene(1);
+        SceneLoader.Instance.LoadScene("Level_1");
     }
 
     public void NewGame()
@@ -41,7 +42,7 @@ public class MainMenu : MonoBehaviour, UIMenu
 
         SetLoadSavePref(false);
         SetCursor();
-        SceneManager.LoadScene(1);
+        SceneLoader.Instance.LoadScene("CutsceneOutside");
     }
 
     public void Options()

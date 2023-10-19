@@ -25882,7 +25882,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 658335966}
   m_LocalRotation: {x: -0, y: -0.7473797, z: -0, w: -0.66439724}
-  m_LocalPosition: {x: 20.86, y: 12.064, z: 30.04}
+  m_LocalPosition: {x: 22.38, y: 10.02, z: 27.66}
   m_LocalScale: {x: 0.14154011, y: 0.14154, z: 0.14154011}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -87640,6 +87640,10 @@ PrefabInstance:
     - target: {fileID: 4244404287786195179, guid: 90ac20b6948a39e49be14fe20810cc59, type: 3}
       propertyPath: m_Name
       value: DialogBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244404287786195179, guid: 90ac20b6948a39e49be14fe20810cc59, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90ac20b6948a39e49be14fe20810cc59, type: 3}
