@@ -11,6 +11,7 @@ public class SceneLoader : MonoBehaviour
     public static List<string> Scenes = new List<string>();
 
     public Image fadeImage;
+    public Animator SceneAnimator;
     public float fadeDuration = 1f;
 
     private void Awake()
@@ -19,7 +20,6 @@ public class SceneLoader : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -29,6 +29,7 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
+        Debug.Log("Trying to load: " + sceneName);
         StartCoroutine(LoadSceneAsync(sceneName));
     }
 
@@ -36,9 +37,10 @@ public class SceneLoader : MonoBehaviour
     {
         // Pause, Fade, unpause to let the scene load.
         Time.timeScale = 0;
-        yield return StartCoroutine(FadeImageTo(1f));
+        SceneAnimator.Play("StartFade");
         Time.timeScale = 1;
 
+        yield return new WaitForSeconds(1);
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
         asyncOperation.allowSceneActivation = false;
 
@@ -51,13 +53,6 @@ public class SceneLoader : MonoBehaviour
         }
 
         asyncOperation.allowSceneActivation = true;
-
-        // Wait for the new scene to actually load
-        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == sceneName);
-
-        Time.timeScale = 0;
-        yield return StartCoroutine(FadeImageTo(0f));
-        Time.timeScale = 1;
     }
 
     private IEnumerator FadeImageTo(float targetAlpha)
