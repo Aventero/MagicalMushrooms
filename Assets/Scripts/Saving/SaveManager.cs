@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SaveManager : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class SaveManager : MonoBehaviour
         Debug.Log("Saving Game!");
         string json = JsonUtility.ToJson(SetupSaveData());
         WriteToFile(json);
+
+        PlayerPrefs.SetString("LastSavedScene", SceneManager.GetActiveScene().name);
+        PlayerPrefs.Save();
     }
 
     private SaveData SetupSaveData()

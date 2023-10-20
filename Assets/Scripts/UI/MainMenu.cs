@@ -34,7 +34,9 @@ public class MainMenu : MonoBehaviour, UIMenu
     {
         SetLoadSavePref(true);
         SetCursor();
-        SceneLoader.Instance.LoadScene("Level_1");
+
+        if (PlayerPrefs.HasKey("LastSavedScene"))
+            SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("LastSavedScene"));
     }
 
     public void NewGame()

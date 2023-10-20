@@ -28,7 +28,6 @@ public class DialogMenu: MonoBehaviour
 
     public void ShowDialog(Dialog conversation)
     {
-        UIManager.Instance.SetSkillBarVisibility(false);
         StateManager.Instance.PauseGameEvent.Invoke();
 
         SetUp(conversation);
