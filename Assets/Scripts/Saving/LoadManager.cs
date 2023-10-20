@@ -15,15 +15,15 @@ public class LoadManager : MonoBehaviour
 
     public void LoadSave()
     {
-        Debug.Log("Loading Dings");
+        Debug.Log("Loading Save");
         SaveData saveData = JsonUtility.FromJson<SaveData>(ReadFile());
 
-        FindObjectOfType<Stats>().CoinsCollected = saveData.coins;
+        FindObjectOfType<Stats>().IncreaseCoinsCollected(saveData.coins);
 
         CheckpointManager checkpointManager = FindObjectOfType<CheckpointManager>();
         Checkpoint checkpoint = FindCheckpoint(saveData.lastCheckpointPos);
         if (checkpoint == null)
-            Debug.LogError("Checkpoint is null");
+            Debug.LogError("No checkpoints");
         else
         {
             checkpoint.SetActivated(true);
