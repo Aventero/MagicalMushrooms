@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEngine.InputSystem.InputAction;
 
 public class UIManager : MonoBehaviour
@@ -8,8 +9,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject OverlayMenu;
     [SerializeField] private GameObject GameOverMenu;
     [SerializeField] private GameObject PauseMenu;
+    [SerializeField] private GameObject DialogMenu;
 
     private OverlayMenu overlayMenu;
+    private DialogMenu dialogMenu;
 
     public static UIManager Instance { get; private set; }
 
@@ -29,11 +32,14 @@ public class UIManager : MonoBehaviour
         OverlayMenu.SetActive(true);
         GameOverMenu.SetActive(false);
         PauseMenu.SetActive(false);
+        DialogMenu.SetActive(false);
 
         StateManager.Instance.GameOverEvent += this.GameOver;
 
         overlayMenu = OverlayMenu.GetComponent<OverlayMenu>();
         overlayMenu.Init();
+
+        dialogMenu = DialogMenu.GetComponent<DialogMenu>();
     }
 
     // User hit the escape key 
@@ -107,7 +113,9 @@ public class UIManager : MonoBehaviour
 
     public void ShowDialog(Dialog dialog)
     {
-        overlayMenu.ShowDialog(dialog);
+        DialogMenu.SetActive(true);
+        dialogMenu.ShowDialog(dialog);
+        SetOverlayVisibility(false);
     }
 
     public void ShowMonolog(Monolog monolog, GameObject target)

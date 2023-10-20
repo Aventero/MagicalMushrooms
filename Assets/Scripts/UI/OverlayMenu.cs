@@ -23,7 +23,6 @@ public class OverlayMenu : MonoBehaviour
     [Header("UI References")]
     public GameObject Tooltip;
     public GameObject IconParent;
-    public GameObject Dialog;
     public GameObject Monolog;
     public GameObject CheckpointText;
 
@@ -35,7 +34,6 @@ public class OverlayMenu : MonoBehaviour
     private GameObject activeSkillObject = null;
     private Color activeSkillColor = Color.white;
 
-    private DialogMenu dialogMenu;
     private MonologMenu monologMenu;
 
     // Animation
@@ -53,8 +51,6 @@ public class OverlayMenu : MonoBehaviour
         StateManager.Instance.NewCheckpointEvent.AddListener(ShowCheckpointText);
 
         pickedUpItemsSprites = new List<Sprite>();
-
-        dialogMenu = Dialog.GetComponent<DialogMenu>();
         monologMenu = Monolog.GetComponent<MonologMenu>();
         tooltipText = Tooltip.GetComponentInChildren<TMP_Text>(true);
 
@@ -71,12 +67,6 @@ public class OverlayMenu : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         CheckpointText.SetActive(false);
-    }
-
-    public void ShowDialog(Dialog conversation)
-    {
-        Dialog.SetActive(true);
-        dialogMenu.ShowDialog(conversation);
     }
 
     public void ShowMonolog(Monolog monolog, GameObject target)
