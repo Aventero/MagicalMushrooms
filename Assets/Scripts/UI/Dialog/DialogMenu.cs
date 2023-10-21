@@ -28,8 +28,9 @@ public class DialogMenu: MonoBehaviour
 
     public void ShowDialog(Dialog conversation)
     {
-        StateManager.Instance.PauseGameEvent.Invoke();
-
+        StateManager.Instance.IsAllowedToSeePlayer = false;
+        StateManager.Instance.PausePlayerMovementEvent.Invoke();
+        StateManager.Instance.PausePlayerCameraEvent.Invoke();
         SetUp(conversation);
         ShowTextOverTime();
     }
@@ -102,7 +103,9 @@ public class DialogMenu: MonoBehaviour
     {
         UIManager.Instance.SetOverlayVisibility(true);
         currentTextPos = 0;
-        StateManager.Instance.ResumeGameEvent.Invoke();
+        StateManager.Instance.IsAllowedToSeePlayer = true;
+        StateManager.Instance.ResumePlayerMovementEvent.Invoke();
+        StateManager.Instance.ResumePlayerCameraEvent.Invoke();
         this.gameObject.SetActive(false);
     }
 
@@ -126,9 +129,19 @@ public class DialogMenu: MonoBehaviour
                 yield return null;
             }
 
-            yield return new WaitForSeconds(WaitForNextLetter); // Delay after the letter has fully appeared
+            yield return new WaitForSecondsRealtime(WaitForNextLetter); // Delay after the letter has fully appeared
         }
     }
 
+    private void OnEnable()
+    {
+        if (StateManager.Instance != null)
+            StateManager.Instance.UnlockMouse();
+    }
 
+    private void OnDisable()
+    {
+        if (StateManager.Instance != null)
+            StateManager.Instance.LockMouse();
+    }
 }

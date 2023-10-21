@@ -39,7 +39,7 @@ public class AIStateCapture : MonoBehaviour, IAIState
         // Spawn Cage
         spawnedCage = Instantiate(CagePrefab, playerTransform.position + Vector3.up * CageHeight, Quaternion.identity);
         isCapturing = true;
-        StateManager.Instance.PauseMovementEvent.Invoke();
+        StateManager.Instance.PausePlayerMovementEvent.Invoke();
         spawnedCage.transform.position = playerTransform.position + Vector3.up;
         startPosition = playerTransform.position;
     }
@@ -52,7 +52,7 @@ public class AIStateCapture : MonoBehaviour, IAIState
             Destroy(spawnedCage);
         }
         isCapturing = false;
-        StateManager.Instance.ResumeMovementEvent.Invoke();
+        StateManager.Instance.ResumePlayerMovementEvent.Invoke();
         StateManager.Instance.RespawnPlayerEvent.Invoke();
         stateManager.ToggleWitchLocator(false);
     }

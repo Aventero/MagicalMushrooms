@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MainMenu : MonoBehaviour, UIMenu
+public class MainMenu : MonoBehaviour, IUIMenu
 {
     private readonly string loadSave = "LoadSave";
 
@@ -14,10 +14,10 @@ public class MainMenu : MonoBehaviour, UIMenu
     public GameObject OptionsMenu;
     public GameObject MainMenuObject;
 
-    public void Awake()
+    public void Start()
     {
         Time.timeScale = 1.0f;
-        Cursor.lockState = CursorLockMode.None;
+        StateManager.Instance.UnlockMouse();
 
         MainMenuObject.SetActive(true);
         OptionsMenu.SetActive(false);
@@ -33,7 +33,7 @@ public class MainMenu : MonoBehaviour, UIMenu
     public void Continue()
     {
         SetLoadSavePref(true);
-        SetCursor();
+        StateManager.Instance.LockMouse();
 
         if (PlayerPrefs.HasKey("LastSavedScene"))
             SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("LastSavedScene"));
@@ -41,9 +41,8 @@ public class MainMenu : MonoBehaviour, UIMenu
 
     public void NewGame()
     {
-
         SetLoadSavePref(false);
-        SetCursor();
+        StateManager.Instance.LockMouse();
         SceneLoader.Instance.LoadScene("CutsceneOutside");
     }
 
@@ -57,11 +56,6 @@ public class MainMenu : MonoBehaviour, UIMenu
     {
         PlayerPrefs.SetInt(loadSave, Convert.ToInt32(value));
         PlayerPrefs.Save();
-    }
-
-    private void SetCursor()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void Quit()

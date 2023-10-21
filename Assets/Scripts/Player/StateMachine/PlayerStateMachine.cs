@@ -118,10 +118,14 @@ public class PlayerStateMachine : MonoBehaviour
         CharacterController.Move(appliedMovement * Time.deltaTime);
 
         // Register Events
-        StateManager.Instance.PauseMovementEvent.AddListener(PauseMovement);
-        StateManager.Instance.ResumeMovementEvent.AddListener(ResumeMovement);
-        StateManager.Instance.PauseGameEvent.AddListener(Pause);
-        StateManager.Instance.ResumeGameEvent.AddListener(Resume);
+        StateManager.Instance.PausePlayerMovementEvent.AddListener(PauseMovement);
+        StateManager.Instance.ResumePlayerMovementEvent.AddListener(ResumeMovement);
+        StateManager.Instance.PausePlayerCameraEvent.AddListener(PauseCamera);
+        StateManager.Instance.ResumePlayerCameraEvent.AddListener(ResumeCamera);
+        StateManager.Instance.PauseGameEvent.AddListener(PauseMovement);
+        StateManager.Instance.PauseGameEvent.AddListener(PauseCamera);
+        StateManager.Instance.ResumeGameEvent.AddListener(ResumeMovement);
+        StateManager.Instance.ResumeGameEvent.AddListener(ResumeCamera);
     }
 
     private void Update()
@@ -207,17 +211,27 @@ public class PlayerStateMachine : MonoBehaviour
         CanMove = true;
     }
 
-    private void Pause()
+    private void PauseCamera()
     {
-        Cursor.lockState = CursorLockMode.None;
+        CanRotate = false;
+    }
+
+    private void ResumeCamera()
+    {
+        CanRotate = true;
+    }
+
+    private void PausePlayer()
+    {
+        StateManager.Instance.UnlockMouse();
         CanMove = false;
         CanRotate = false;
         OnDisable();
     }
 
-    private void Resume()
+    private void ResumePlayer()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        StateManager.Instance.LockMouse();
         CanMove = true;
         CanRotate = true;
         OnEnable();

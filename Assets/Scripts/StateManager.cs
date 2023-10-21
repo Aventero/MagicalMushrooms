@@ -10,30 +10,25 @@ public class StateManager : MonoBehaviour
 
     private void Awake()
     {
-        // If there is an instance, and it's not me, delete myself.
-        if (Instance != null && Instance != this)
+        // Singleton
+        if (Instance == null)
         {
-            Destroy(gameObject);
+            Instance = this;
         }
         else
         {
-            Instance = this;
+            Destroy(gameObject);
         }
     }
 
     private void Start()
     {
         PauseGameEvent.AddListener(StopTime);
+        PauseGameEvent.AddListener(UnlockMouse);
+
         ResumeGameEvent.AddListener(StartTime);
-        Init();
-        //OverlayMenu.ShowDialog();
+        ResumeGameEvent.AddListener(LockMouse);
     }
-
-    private void Init()
-    {
-        ResumeGameEvent.Invoke();
-    }
-
 
     private void StartTime()
     {
@@ -45,6 +40,18 @@ public class StateManager : MonoBehaviour
     {
         StartCoroutine(TogglePauseResume(0.1f, 0));
         IsPaused = true;
+    }
+
+    public void LockMouse()
+    {
+        Debug.Log("Locking Mouse");
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void UnlockMouse()
+    {
+        Debug.Log("UNlocking Mouse");
+        Cursor.lockState = CursorLockMode.None;
     }
 
     // Can hopefully help with NaN calculations (deviding by 0)
@@ -74,6 +81,7 @@ public class StateManager : MonoBehaviour
 
     public bool OnElevator = false;
     public bool IsVisionConeOnPlayer = false;
+    public bool IsAllowedToSeePlayer = true;
     public bool isLockedOnWitchHead = false;
     public bool IsPaused = false;
 
@@ -83,9 +91,13 @@ public class StateManager : MonoBehaviour
     [HideInInspector]
     public UnityAction GameOverEvent;
     [HideInInspector]
-    public UnityEvent ResumeMovementEvent;
+    public UnityEvent ResumePlayerMovementEvent;
     [HideInInspector]
-    public UnityEvent PauseMovementEvent;
+    public UnityEvent ResumePlayerCameraEvent;
+    [HideInInspector]
+    public UnityEvent PausePlayerMovementEvent;
+    [HideInInspector]
+    public UnityEvent PausePlayerCameraEvent;
     [HideInInspector]
     public UnityEvent PauseGameEvent;
     [HideInInspector]

@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     private DialogMenu dialogMenu;
 
     public static UIManager Instance { get; private set; }
+    public bool IsCutscene = false;
 
     private void Awake()
     {
@@ -40,6 +41,14 @@ public class UIManager : MonoBehaviour
         overlayMenu.Init();
 
         dialogMenu = DialogMenu.GetComponent<DialogMenu>();
+
+        if (IsCutscene)
+        {
+            OverlayMenu.SetActive(false);
+            GameOverMenu.SetActive(false);
+            PauseMenu.SetActive(false);
+            DialogMenu.SetActive(false);
+        }
     }
 
     // User hit the escape key 
@@ -49,6 +58,7 @@ public class UIManager : MonoBehaviour
             return;
 
         OverlayMenu.SetActive(false);
+        DialogMenu.SetActive(false);
         PauseMenu.SetActive(true);
         PauseMenu.GetComponent<PauseMenu>().ShowMenu();
     }
@@ -134,9 +144,17 @@ public class UIManager : MonoBehaviour
     public void ShowMonolog(Monolog monolog)
     => overlayMenu.ShowMonolog(monolog);
 
-    public void SetSkillBarVisibility(bool visible) => overlayMenu.SetSkillBarVisibility(visible);
+    public void SetSkillBarVisibility(bool visible)
+    {
+        if (!IsCutscene)
+            overlayMenu.SetSkillBarVisibility(visible);
+    }
 
-    public void SetOverlayVisibility(bool visible) => OverlayMenu.SetActive(visible);
+    public void SetOverlayVisibility(bool visible)
+    {
+        if (!IsCutscene)
+            OverlayMenu.SetActive(visible);
+    } 
     
 
     private void GameOver()

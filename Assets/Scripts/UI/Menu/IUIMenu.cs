@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface UIMenu
+public interface IUIMenu
 {
 	public void TurnOnMenu();
 }

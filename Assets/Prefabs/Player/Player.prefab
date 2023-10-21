@@ -20,7 +20,6 @@ GameObject:
   - component: {fileID: 8724591020215935875}
   - component: {fileID: 8568340027608994498}
   - component: {fileID: 505489142858320399}
-  - component: {fileID: 8058886765146878854}
   - component: {fileID: 6450388997087105155}
   - component: {fileID: 3201947770859081342}
   - component: {fileID: 8223869360086279088}
@@ -459,18 +458,6 @@ MonoBehaviour:
   DraggingSpeed: 15
   AvoidanceDistance: 1
   MaxVelocity: 10
---- !u!114 &8058886765146878854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2857605709861750716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75eda86e6de9c24f91d38d9a382c256, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6450388997087105155
 MonoBehaviour:
   m_ObjectHideFlags: 0

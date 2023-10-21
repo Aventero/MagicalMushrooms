@@ -54,22 +54,4 @@ public class SceneLoader : MonoBehaviour
 
         asyncOperation.allowSceneActivation = true;
     }
-
-    private IEnumerator FadeImageTo(float targetAlpha)
-    {
-        Time.timeScale = 0;
-        Color color = fadeImage.color;
-        float startAlpha = color.a;
-
-        for (float t = 0; t < fadeDuration; t += Time.unscaledDeltaTime)
-        {
-            float normalizedTime = t / fadeDuration;
-            color.a = Mathf.Lerp(startAlpha, targetAlpha, normalizedTime);
-            fadeImage.color = color;
-            yield return null;
-        }
-
-        color.a = targetAlpha;
-        fadeImage.color = color;
-    }
 }

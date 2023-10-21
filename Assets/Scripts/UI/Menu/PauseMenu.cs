@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour, UIMenu
+public class PauseMenu : MonoBehaviour, IUIMenu
 {
     public GameObject OptionsMenu;
     public Volume GamePostVolume;
@@ -45,12 +45,12 @@ public class PauseMenu : MonoBehaviour, UIMenu
         GamePostVolume.profile = standardProfile;
         StateManager.Instance.ResumeGameEvent.Invoke();
         UIManager.Instance.SetOverlayVisibility(true);
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void Save()
     {
-        GameObject.FindObjectOfType<SaveManager>().SaveGame();
+        FindObjectOfType<SaveManager>().SaveGame();
     }
 
     public void Options()

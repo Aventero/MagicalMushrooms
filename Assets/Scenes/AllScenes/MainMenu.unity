@@ -21636,6 +21636,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OptionMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 5046385502002776881, guid: dda04c772f0cc420b9e42a60576b2b50, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6159303001726348126, guid: dda04c772f0cc420b9e42a60576b2b50, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -44366,6 +44370,80 @@ PrefabInstance:
     - {fileID: 3945182583169748090, guid: f0f64804d351cc14f8d2351c99ef0018, type: 3}
     - {fileID: 920103975902898422, guid: f0f64804d351cc14f8d2351c99ef0018, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f0f64804d351cc14f8d2351c99ef0018, type: 3}
+--- !u!1 &2078266536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2078266538}
+  - component: {fileID: 2078266537}
+  m_Layer: 0
+  m_Name: StateManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2078266537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078266536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d44a9739ec0b90843ab53b24dabb5ecd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverlayMenu: {fileID: 0}
+  OnElevator: 0
+  IsVisionConeOnPlayer: 0
+  IsAllowedToSeePlayer: 1
+  isLockedOnWitchHead: 0
+  IsPaused: 0
+  ResumePlayerMovementEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  ResumePlayerCameraEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  PausePlayerMovementEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  PausePlayerCameraEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  PauseGameEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  ResumeGameEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  RespawnPlayerEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  NewCheckpointEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &2078266538
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078266536}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.38, y: 10.02, z: 27.66}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2080626027 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5595529246203935248, guid: 40b4d895269c25945ae892b444253a80, type: 3}

@@ -31,6 +31,7 @@ public class AIVision : MonoBehaviour
     private Transform Player;
     private bool PlayerIsVisible = false;
 
+
     [Header("Chase to Attack")]
     public float AttackAfterSeconds = 5f;
     public float ChaseTime { get; set; }
@@ -74,7 +75,6 @@ public class AIVision : MonoBehaviour
     public void WatchCurrentTarget()
     {
         TurnTowardsTarget();
-        // ScaleVisionByDistance();
     }
 
     public void TurnTowardsTarget()
@@ -159,15 +159,18 @@ public class AIVision : MonoBehaviour
         return false;
     }
 
-
-
     private bool PlayerVisible()
     {
+
         if (!StateManager.Instance.IsVisionConeOnPlayer)
         {
             ObjectPlayerIsHidingBehind = null;
             return false;
         }
+
+        if (!StateManager.Instance.IsAllowedToSeePlayer)
+            return false;
+
 
         if (Physics.Linecast(ViewCone.transform.position, RaycastPoint.transform.position, out RaycastHit hitInfo, lookAtMask))
         {

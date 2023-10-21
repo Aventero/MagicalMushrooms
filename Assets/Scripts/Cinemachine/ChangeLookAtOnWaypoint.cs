@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.Events;
 
 public class ChangeLookAtOnWaypoint : MonoBehaviour
 {
     [System.Serializable]
     public class WaypointLookAtPair
     {
-        public float waypointPosition; // Position on the dolly track (0 to 1)
-        public Transform lookAtTarget; // Target to look at when reaching this waypoint
+        public float waypointPosition;  // Position on the dolly track (0 to 1)
+        public Transform lookAtTarget;  // Target to look at when reaching this waypoint
         public bool stopAtThisWaypoint; // Should the cart stop at this waypoint?
-        public float stopDuration; // Duration for which the cart should stop
+        public float stopDuration;      // Duration for which the cart should stop
+        public UnityEvent onWaypointReached; 
     }
 
     public CinemachineVirtualCamera vCam;
@@ -37,11 +39,14 @@ public class ChangeLookAtOnWaypoint : MonoBehaviour
                 // Set the LookAt target for the vCam
                 vCam.LookAt = waypointLookAtPairs[currentIndex].lookAtTarget;
 
+                waypointLookAtPairs[currentIndex].onWaypointReached?.Invoke();
+
                 // Check if we should stop at this waypoint
                 if (waypointLookAtPairs[currentIndex].stopAtThisWaypoint)
                 {
                     dollyCart.m_Speed = 0f; // Stop the dolly cart
                     StartCoroutine(ResumeAfterDelay(waypointLookAtPairs[currentIndex].stopDuration)); // Resume motion after specified delay
+
                 }
 
                 // Move on to the next waypoint
