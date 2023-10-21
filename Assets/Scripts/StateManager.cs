@@ -106,6 +106,11 @@ public class StateManager : MonoBehaviour
     public UnityEvent RespawnPlayerEvent;
     [HideInInspector]
     public UnityEvent NewCheckpointEvent;
+    [HideInInspector]
+    public UnityEvent StartedDialogEvent;
+    [HideInInspector]
+    public UnityEvent EndedDialogEvent;
+
 
     public delegate void DealDamageCallBack(int damage);
     public DealDamageCallBack DealDamageEvent;

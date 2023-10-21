@@ -29,6 +29,7 @@ public class DialogMenu: MonoBehaviour
     public void ShowDialog(Dialog conversation)
     {
         StateManager.Instance.IsAllowedToSeePlayer = false;
+        StateManager.Instance.StartedDialogEvent.Invoke();
         StateManager.Instance.PausePlayerMovementEvent.Invoke();
         StateManager.Instance.PausePlayerCameraEvent.Invoke();
         SetUp(conversation);
@@ -106,6 +107,7 @@ public class DialogMenu: MonoBehaviour
         StateManager.Instance.IsAllowedToSeePlayer = true;
         StateManager.Instance.ResumePlayerMovementEvent.Invoke();
         StateManager.Instance.ResumePlayerCameraEvent.Invoke();
+        StateManager.Instance.EndedDialogEvent.Invoke();
         this.gameObject.SetActive(false);
     }
 

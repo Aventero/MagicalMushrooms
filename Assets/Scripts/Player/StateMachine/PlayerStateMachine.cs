@@ -220,32 +220,4 @@ public class PlayerStateMachine : MonoBehaviour
     {
         CanRotate = true;
     }
-
-    private void PausePlayer()
-    {
-        StateManager.Instance.UnlockMouse();
-        CanMove = false;
-        CanRotate = false;
-        OnDisable();
-    }
-
-    private void ResumePlayer()
-    {
-        StateManager.Instance.LockMouse();
-        CanMove = true;
-        CanRotate = true;
-        OnEnable();
-    }
-
-    private void OnEnable()
-    {
-    }
-
-    private void OnDisable()
-    {
-    }
-    
-    private void OnDrawGizmos()
-    {
-    }
 }
