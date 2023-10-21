@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,13 +26,49 @@ public class SaveManager : MonoBehaviour
 
     private SaveData SetupSaveData()
     {
-        SaveData data = new();
-        data.playerPos = player.transform.position;
-        data.playerRotation = player.transform.rotation;
-        data.coins = player.GetComponent<Stats>().CoinsCollected;
-        data.lastCheckpointPos = FindObjectOfType<CheckpointManager>().Checkpoint.GetRespawnPoint();
+        Checkpoint currentCheckpoint = FindObjectOfType<CheckpointManager>().Checkpoint;
+        
+        return new()
+        {
+            coins = player.GetComponent<Stats>().CoinsCollected,
+            lastCheckpointPos = currentCheckpoint.GetRespawnPoint(),
+            playerCheckpointRotation = currentCheckpoint.GetRotation(),
+            visitedCheckpointPositions = GetVisitedCheckpoints(),
+            activatedCoinChargers = GetActivatedMovablePlatforms()
+        };
+    }
 
-        return data;
+    private List<Vector3> GetVisitedCheckpoints()
+    {
+        Checkpoint[] checkpoints = FindObjectsOfType<Checkpoint>();
+        List<Vector3> checkpointPositions = new();
+
+        foreach (Checkpoint checkpoint in checkpoints)
+        {
+            if (checkpoint.activated)
+                checkpointPositions.Add(checkpoint.GetRespawnPoint());
+        }
+
+        return checkpointPositions;
+    }
+
+    private List<ChargePointData> GetActivatedMovablePlatforms()
+    {
+        CoinChargePoint[] coinChargers = FindObjectsOfType<CoinChargePoint>();
+        List<ChargePointData> activatedCoinCharger = new();
+
+        foreach (CoinChargePoint coinChargePoint in coinChargers)
+        {
+            if( coinChargePoint.GetCurrentChargeValue() > 0)
+            {
+                activatedCoinCharger.Add(new ChargePointData(){
+                    ChargePointID = coinChargePoint.GetID(),
+                    CoinValue = coinChargePoint.GetCurrentChargeValue()
+                });
+            }
+        }
+
+        return activatedCoinCharger;
     }
 
     private void WriteToFile(string json)

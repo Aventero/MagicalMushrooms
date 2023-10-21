@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SaveData {
-    // Player
-    public Vector3 playerPos;
-    public Quaternion playerRotation;
-
+    public List<Vector3> visitedCheckpointPositions;
     public Vector3 lastCheckpointPos;
+    public Quaternion playerCheckpointRotation;
+
     public int coins;
+
+    public List<ChargePointData> activatedCoinChargers;
 }

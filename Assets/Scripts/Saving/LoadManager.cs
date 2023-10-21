@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -19,28 +20,48 @@ public class LoadManager : MonoBehaviour
         SaveData saveData = JsonUtility.FromJson<SaveData>(ReadFile());
 
         FindObjectOfType<Stats>().IncreaseCoinsCollected(saveData.coins);
-
-        CheckpointManager checkpointManager = FindObjectOfType<CheckpointManager>();
-        Checkpoint checkpoint = FindCheckpoint(saveData.lastCheckpointPos);
-        if (checkpoint == null)
-            Debug.LogError("No checkpoints");
-        else
-        {
-            checkpoint.SetActivated(true);
-            checkpointManager.Checkpoint = checkpoint;
-            checkpointManager.RespawnPlayer();
-        }        
+        LoadVisitedCheckpoints(saveData.visitedCheckpointPositions, saveData.lastCheckpointPos, saveData.playerCheckpointRotation);
+        LoadActivatedCoinCharger(saveData.activatedCoinChargers);
     }
 
-    private Checkpoint FindCheckpoint(Vector3 checkpointPosition)
+    private void LoadActivatedCoinCharger(List<ChargePointData> activatedCoinCharger)
     {
-        Checkpoint[] checkpoints = GameObject.FindObjectsOfType<Checkpoint>();
-        foreach(Checkpoint checkpoint in checkpoints) {
-            if (checkpoint.GetRespawnPoint().Equals(checkpointPosition))
-                return checkpoint;
-        }
+        CoinChargePoint[] coinChargers = FindObjectsOfType<CoinChargePoint>();
 
-        return null;
+        foreach(ChargePointData savedChargedPoint in activatedCoinCharger)
+        {
+            foreach(CoinChargePoint chargePoint in coinChargers)
+            {
+                if (savedChargedPoint.ChargePointID.Equals(chargePoint.GetID()))
+                {
+                    chargePoint.ActualCharge(savedChargedPoint.CoinValue);
+                }
+            }
+        }
+    }
+
+    private void LoadVisitedCheckpoints(List<Vector3> visitedCheckpoints, Vector3 activeCheckpoint, Quaternion playerRotation)
+    {
+        CheckpointManager checkpointManager = FindObjectOfType<CheckpointManager>();
+        Checkpoint[] checkpoints = GameObject.FindObjectsOfType<Checkpoint>();
+        foreach(Checkpoint checkpoint in checkpoints)
+        {
+            foreach(Vector3 checkpointPos in visitedCheckpoints)
+            {
+                if (checkpoint.GetRespawnPoint().Equals(checkpointPos))
+                {
+                    if(checkpoint.GetRespawnPoint().Equals(activeCheckpoint))
+                    {
+                        checkpoint.SetRotation(playerRotation);
+                        checkpointManager.Checkpoint = checkpoint;
+                        checkpointManager.RespawnPlayer();
+                    }
+
+                    checkpoint.SetActivated(true);
+                }
+            }
+            
+        }
     }
 
     private string ReadFile()

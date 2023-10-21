@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(Outline))]
 public class CoinChargePoint : MonoBehaviour
@@ -10,8 +7,10 @@ public class CoinChargePoint : MonoBehaviour
     [SerializeField] private int maxChargeValue = 100;
     private int uiCharge = 0;
     private int actualCharge = 0;
+    
     public UnityEvent OnFullyCharged;
     public bool IsGonnaBeFull = false;
+    public string CoinChargerID;
 
     private Renderer rend;
     private MaterialPropertyBlock propBlock;
@@ -37,6 +36,9 @@ public class CoinChargePoint : MonoBehaviour
         // Color Set to "Off"
         propBlock.SetColor("_BaseColor", new Color(0.3f, 0.3f, 0.3f, 1f)); ;
         rend.SetPropertyBlock(propBlock);
+
+        if (string.IsNullOrEmpty(CoinChargerID))
+            Debug.LogError("The CoinChargerID is null for this object: " + gameObject.name);
     }
 
     public void ActualCharge(int chargeAmount)
@@ -83,13 +85,18 @@ public class CoinChargePoint : MonoBehaviour
         outline.OutlineWidth = width;
     }
 
-    public float GetCurrentChargeValue()
+    public int GetCurrentChargeValue()
     {
         return actualCharge;
     }
 
-    public float GetMaxChargeValue()
+    public int GetMaxChargeValue()
     {
         return maxChargeValue;
+    }
+
+    public string GetID()
+    {
+        return CoinChargerID;
     }
 }

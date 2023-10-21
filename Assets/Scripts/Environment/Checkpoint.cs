@@ -3,9 +3,9 @@ using UnityEngine;
 public class Checkpoint : MonoBehaviour
 {
     public bool ShowNotification = true;
+    [HideInInspector] public bool activated = false;
 
     private Vector3 respawnPosition;
-    private bool activated = false;
     private Quaternion playerRotation;
     private GameObject player;
 
@@ -46,6 +46,11 @@ public class Checkpoint : MonoBehaviour
             return this.transform.position;
         else
             return respawnPosition;
+    }
+
+    public void SetRotation(Quaternion rotation)
+    {
+        this.playerRotation = rotation;
     }
 
     public Quaternion GetRotation()
