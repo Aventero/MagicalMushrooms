@@ -30,20 +30,18 @@ public class PlayerSkillManager : MonoBehaviour
 
     private void CheckSkillCost(PlayerSkill playerSkill)
     {
-        if (playerSkill.isRecharging)
+        if (playerSkill.isRecharging || lockSkills)
             return;
 
         int coins = Stats.Instance.CoinsCollected;
 
         if (coins >= playerSkill.SkillCost && !playerSkill.activated)
         {
-            //Debug.Log("Activate " + playerSkill.name);
             playerSkill.activated = true;
             UIManager.Instance.EnableSkill(playerSkill);
         }
         else if (coins < playerSkill.SkillCost && playerSkill.activated)
         {
-            //Debug.Log("Deactivate " + playerSkill.name);
             playerSkill.activated = false;
             UIManager.Instance.DisableSkill(playerSkill);
         }
@@ -61,6 +59,26 @@ public class PlayerSkillManager : MonoBehaviour
     }
 
     public void OnResume()
+    {
+        lockSkills = false;
+    }
+
+    public bool AreSkillsLocked()
+    {
+        return lockSkills;
+    }
+
+    public void LockSkills()
+    {
+        lockSkills = true;
+
+        smokeBomb.activated = false;
+        poltergeist.activated = false;
+
+        UIManager.Instance.DisableSkill(poltergeist);
+        UIManager.Instance.DisableSkill(smokeBomb);
+    }
+    public void UnlockSkills()
     {
         lockSkills = false;
     }

@@ -11,11 +11,14 @@ public class CoinVacuum : MonoBehaviour
     private HashSet<Coin> activeCoins = new();
     public bool MouseHeld { get; private set; }
     [Range(0, 90)] public float angle = 45f; // Start angle for the vacuum zone (relative to forward direction)
+    
     private GlassSlurpSpin glassSlurpSpin;
+    private PlayerSkillManager skillManager;
 
     private void Start()
     {
         glassSlurpSpin = GetComponentInChildren<GlassSlurpSpin>();
+        skillManager = GameObject.FindObjectOfType<PlayerSkillManager>();
     }
 
     private void Update()
@@ -23,6 +26,9 @@ public class CoinVacuum : MonoBehaviour
         // currently not holding rmb
         if (!MouseHeld)
         {
+            if (skillManager.AreSkillsLocked())
+                skillManager.UnlockSkills();
+
             List<Coin> coinsToRemove = new List<Coin>();
 
             // Unjiggle coins
@@ -41,6 +47,9 @@ public class CoinVacuum : MonoBehaviour
         else
         {
             Execute();
+
+            if(!skillManager.AreSkillsLocked())
+                skillManager.LockSkills();
         }
     }
 
