@@ -37,14 +37,13 @@ public class PlayerSkillManager : MonoBehaviour
 
         if (coins >= playerSkill.SkillCost && !playerSkill.activated)
         {
-            Debug.Log("Activate " + playerSkill.name);
+            //Debug.Log("Activate " + playerSkill.name);
             playerSkill.activated = true;
             UIManager.Instance.EnableSkill(playerSkill);
         }
         else if (coins < playerSkill.SkillCost && playerSkill.activated)
         {
-            Debug.Log("Deactivate " + playerSkill.name);
-
+            //Debug.Log("Deactivate " + playerSkill.name);
             playerSkill.activated = false;
             UIManager.Instance.DisableSkill(playerSkill);
         }

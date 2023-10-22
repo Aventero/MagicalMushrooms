@@ -57,9 +57,4 @@ public class DissolveController : MonoBehaviour
         gameObject.SetActive(false);
         Destroy(this);
     }
-
-    private void OnEnable()
-    {
-        Debug.Log("Enabled " + transform.name);
-    }
 }

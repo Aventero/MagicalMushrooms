@@ -141,7 +141,6 @@ public class OptionsMenu : MonoBehaviour
 
         if (currentResolutionPos == -1)
         {
-            Debug.Log("No Resolution Found: " + Screen.width + " x " + Screen.height);
             currentResolutionPos = 0; 
         }
     }

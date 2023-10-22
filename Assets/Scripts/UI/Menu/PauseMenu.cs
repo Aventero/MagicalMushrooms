@@ -32,11 +32,11 @@ public class PauseMenu : MonoBehaviour, IUIMenu
             activeMenu = true;
         }
 
-        Debug.Log("Starting Pause menu");
         Menu.SetActive(true);
         GamePostVolume.profile = volumeProfile;
         OptionsMenu.SetActive(false);
         StateManager.Instance.PauseGameEvent.Invoke();
+        Debug.Log("Pause?");
     }
 
     public void Resume()

@@ -35,7 +35,8 @@ public class Poltergeist : PlayerSkill
             movableObject.FocusMaterial = FocusMaterial;
             movableObjectsList.Add(movableObject);
 
-            gameObject.AddComponent<Outline>();
+            if (gameObject.GetComponent<Outline>() == null)
+                gameObject.AddComponent<Outline>();
         }
     }
 

@@ -81,19 +81,16 @@ public class AudioManager : MonoBehaviour
     public void SetMasterVolume(float volume)
     {
         SetMixerValue("MasterVolume", volume);
-        Debug.Log("Master Volume: " + volume);
     }
 
     public void SetMusicVolume(float volume)
     {
         SetMixerValue("MusicVolume", volume);
-        Debug.Log("Music Volume: " + volume);
     }
 
     public void SetEffectsVolume(float volume)
     {
         SetMixerValue("EffectVolume", volume);
-        Debug.Log("Effects Volume: " + volume);
     }
 
     private void SetMixerValue(string mixer, float volume)
@@ -116,7 +113,6 @@ public class AudioManager : MonoBehaviour
 
     private void LoadSoundSettings()
     {
-        Debug.Log("Loading Sound Settings!");
         // Loading Sound volumes
         float volume;
 
