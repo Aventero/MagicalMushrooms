@@ -20,6 +20,7 @@ public class ChangeLookAtOnWaypoint : MonoBehaviour
     public CinemachineDollyCart dollyCart;
     public List<Waypoint> waypoints = new List<Waypoint>();
     public float dollySpeed = 5f; // Set the default speed of the dolly cart here
+    public Transform proxyTarget; 
 
     private int index = 0;
 
@@ -41,8 +42,7 @@ public class ChangeLookAtOnWaypoint : MonoBehaviour
         if (HasPassedWaypoint())
         {
             if (waypoints[index].lookAtTarget != null)
-                vCam.LookAt = waypoints[index].lookAtTarget;
-
+                StartCoroutine(MoveProxyTowards(waypoints[index].lookAtTarget));
             // Waypoint contains a Reached Method
             waypoints[index].onWaypointReached?.Invoke();
 
@@ -79,4 +79,21 @@ public class ChangeLookAtOnWaypoint : MonoBehaviour
         yield return new WaitForSeconds(delay);
         dollyCart.m_Speed = dollySpeed; // Resume speed after delay
     }
+
+    IEnumerator MoveProxyTowards(Transform target)
+    {
+        float duration = 1f; // duration over which the proxy moves
+        float elapsedTime = 0f;
+        Vector3 startingPosition = proxyTarget.position;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float percentage = elapsedTime / duration;
+            proxyTarget.position = Vector3.Lerp(startingPosition, target.position, percentage);
+            yield return null;
+        }
+        proxyTarget.position = target.position;
+    }
+
+
 }
