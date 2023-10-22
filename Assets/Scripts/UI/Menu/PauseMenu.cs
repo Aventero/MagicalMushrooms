@@ -6,14 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour, IUIMenu
 {
-    public GameObject OptionsMenu;
+    [Header("Volume")]
     public Volume GamePostVolume;
     public VolumeProfile volumeProfile;
-    public GameObject Menu;
 
-    private VolumeProfile standardProfile;
+    [Header("Gameobjects")]
+    public GameObject Menu;
+    public GameObject OptionsMenu;
+    public GameObject SkipCutsceneButton;
+    public GameObject SaveButton;
 
     private bool activeMenu = false;
+    private VolumeProfile standardProfile;
 
     private void Awake()
     {
@@ -37,6 +41,11 @@ public class PauseMenu : MonoBehaviour, IUIMenu
         OptionsMenu.SetActive(false);
         StateManager.Instance.PauseGameEvent.Invoke();
         Debug.Log("Pause?");
+
+        if (!UIManager.Instance.IsCutscene)
+            SkipCutsceneButton.SetActive(false);
+        else
+            SaveButton.SetActive(false);
     }
 
     public void Resume()
@@ -67,5 +76,10 @@ public class PauseMenu : MonoBehaviour, IUIMenu
     public void ReturnToMainMenu()
     {
         SceneLoader.Instance.LoadScene("MainMenu");
+    }
+
+    public void SkipCutscene()
+    {
+        SceneLoader.Instance.LoadScene(UIManager.Instance.SkippingCutsceneName);
     }
 }

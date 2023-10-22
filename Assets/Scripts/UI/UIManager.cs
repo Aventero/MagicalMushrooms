@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
 
     public static UIManager Instance { get; private set; }
     public bool IsCutscene = false;
+    public string SkippingCutsceneName;
 
     private void Awake()
     {
