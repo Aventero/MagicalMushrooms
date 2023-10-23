@@ -49,6 +49,15 @@ public class AIStateIdle : MonoBehaviour, IAIState
         stateManager.Watch(stateManager.Vision.HeadWatchTarget.transform.position);
         yield return new WaitUntil(() => stateManager.Vision.HasReachedTarget());
 
+        // Shuffle the list of visible points
+        for (int i = 0; i < visiblePoints.Count; i++)
+        {
+            Transform temp = visiblePoints[i];
+            int randomIndex = Random.Range(i, visiblePoints.Count);
+            visiblePoints[i] = visiblePoints[randomIndex];
+            visiblePoints[randomIndex] = temp;
+        }
+
         int times = 0;
         foreach (Transform point in visiblePoints)
         {

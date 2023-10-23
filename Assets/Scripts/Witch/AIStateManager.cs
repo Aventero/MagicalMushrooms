@@ -129,7 +129,7 @@ public class AIStateManager : MonoBehaviour
             if (angle <= viewAngle)
             {
                 visibleWatchPoints.Add(watchPoint);
-                Debug.DrawLine(transform.position, watchPoint.position, Color.magenta, 4f);
+                Debug.DrawLine(transform.position, watchPoint.position, Color.green, 4f);
             }
         }
 

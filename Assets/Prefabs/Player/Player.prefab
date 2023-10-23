@@ -323,7 +323,19 @@ MonoBehaviour:
     m_ActionId: e34ee604-b571-4ed0-92f6-aea4e2368065
     m_ActionName: CharacterControls/Escape[/Keyboard/escape]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8223869360086279088}
+        m_TargetAssemblyTypeName: CoinCharger, Assembly-CSharp
+        m_MethodName: Input
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 84b5051c-b0ff-4304-bc02-50236456b64d
     m_ActionName: CharacterControls/CoinCharge[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
@@ -490,7 +502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vacuumCenter: {fileID: 627444295598941293}
   vacuumRadius: 5
-  vacuumForce: 10
+  vacuumForce: 8
   angle: 10
 --- !u!114 &8223869360086279088
 MonoBehaviour:
@@ -510,7 +522,7 @@ MonoBehaviour:
   vacuumCenter: {fileID: 7738794083320140937}
   magicCoinPrefab: {fileID: 7360445342254938796, guid: 3308ba2bb1f39ac4b9d72bb276014b6a, type: 3}
   spawnForce: 5
-  OutlineWidth: 2
+  OutlineWidth: 10
 --- !u!1 &2857605710249577893
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,7 +584,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 1000
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -610,7 +622,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 33
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
@@ -977,11 +989,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5742788540285728192, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.0566
       objectReference: {fileID: 0}
     - target: {fileID: 5742788540285728192, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 5742788540285728192, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
       propertyPath: m_LocalRotation.x

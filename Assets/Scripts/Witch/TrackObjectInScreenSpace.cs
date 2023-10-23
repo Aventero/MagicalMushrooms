@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class TrackObjectInScreenSpace : MonoBehaviour
 {
-    [Header("The object thats tracked relative to the rotating source")]
+    [Header("Tracked Object")]
     public Transform pointToTrack;
 
     [Header("The object limiting the Icons movement")]
