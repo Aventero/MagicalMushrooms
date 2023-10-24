@@ -90,6 +90,11 @@ public class CoinChargePoint : MonoBehaviour
         return actualCharge;
     }
 
+    public int GetUIChargeValue()
+    {
+        return uiCharge;
+    }
+
     public int GetMaxChargeValue()
     {
         return maxChargeValue;

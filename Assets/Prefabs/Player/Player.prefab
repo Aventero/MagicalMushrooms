@@ -500,10 +500,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3c504ecfb75b040a1d2c4f93a3e037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vacuumCenter: {fileID: 627444295598941293}
-  vacuumRadius: 5
-  vacuumForce: 8
-  angle: 10
+  vacuumOrigin: {fileID: 627444295598941293}
+  vacuumSearchRadius: 3
+  vacuumForce: 5
+  angle: 12
 --- !u!114 &8223869360086279088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1102,6 +1102,10 @@ PrefabInstance:
     - target: {fileID: 8088275675753105555, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625346511249934219, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 8657986359489926862, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
       propertyPath: m_RenderingLayerMask

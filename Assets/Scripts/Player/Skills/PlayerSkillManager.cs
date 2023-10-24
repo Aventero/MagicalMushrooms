@@ -20,6 +20,8 @@ public class PlayerSkillManager : MonoBehaviour
 
         StateManager.Instance.PauseGameEvent.AddListener(this.OnPause);
         StateManager.Instance.ResumeGameEvent.AddListener(this.OnResume);
+        StateManager.Instance.StartSlurpingEvent.AddListener(this.OnPause);
+        StateManager.Instance.EndSlurpingEvent.AddListener(this.OnResume);
     }
 
     private void Update()

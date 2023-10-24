@@ -67,46 +67,6 @@ public class QuestManager : MonoBehaviour
         ActiveQuest.MarkAsCompleted();
     }
 
-    private void UpdateCurrentQuestIcon()
-    {
-        if (ActiveQuest == null)
-            return;
-
-        Vector3 directionToQuest = (ActiveQuest.transform.position - Camera.main.transform.position).normalized;
-
-        // Get the angle on the horizontal plane (to determine left or right)
-        float horizontalAngle = Vector3.SignedAngle(Camera.main.transform.forward, directionToQuest, Camera.main.transform.up);
-
-        // Get the angle on the vertical plane (to determine up or down)
-        float verticalAngle = Vector3.SignedAngle(Camera.main.transform.forward, directionToQuest, Camera.main.transform.right);
-
-        // Convert angles to a range between -1 and 1
-        float normalizedHorizontal = Mathf.Sin(horizontalAngle * Mathf.Deg2Rad);
-        float normalizedVertical = Mathf.Sin(verticalAngle * Mathf.Deg2Rad);
-
-        // Determine the position on the boundary of the circle
-        Vector2 positionOnCircleBoundary;
-        float magnitude = Mathf.Sqrt(normalizedHorizontal * normalizedHorizontal + normalizedVertical * normalizedVertical);
-        if (magnitude > 1)
-        {
-            positionOnCircleBoundary = new Vector2(normalizedHorizontal, normalizedVertical) / magnitude;
-        }
-        else
-        {
-            positionOnCircleBoundary = new Vector2(normalizedHorizontal, normalizedVertical);
-        }
-
-        // Convert to screen space
-        Vector3 screenPosition = new Vector3(
-            positionOnCircleBoundary.x * Screen.width * 0.5f + Screen.width * 0.5f,
-            positionOnCircleBoundary.y * Screen.height * 0.5f + Screen.height * 0.5f,
-            0
-        );
-
-        // Update the icon position
-        QuestImage.rectTransform.position = screenPosition;
-    }
-
     private void SetQuestIconPositionOnScreen()
     {
         Vector3 viewportPosition = mainCamera.WorldToViewportPoint(ActiveQuest.transform.position);

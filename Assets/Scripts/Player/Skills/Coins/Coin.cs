@@ -31,12 +31,18 @@ class Coin : MonoBehaviour
         trailRenderer.startWidth = transform.localScale.x;
     }
 
+    private void Start()
+    {
+        gameObject.isStatic = true;
+    }
+
     public void Jiggle(Transform origin, float slurpForce)
     {
         if (CanBeSuckedIn) 
             return;
 
         InInitialPosition = false;
+        gameObject.isStatic = false;
 
         // Increment the jiggle duration
         currentJiggleDuration += Time.deltaTime;
@@ -79,6 +85,7 @@ class Coin : MonoBehaviour
         {
             currentJiggleDuration = 0f;
             InInitialPosition = true;
+            gameObject.isStatic = true;
         }
     }
 

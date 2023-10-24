@@ -7,9 +7,13 @@ using UnityEngine.InputSystem;
 
 public class CoinCharger : MonoBehaviour
 {
-    [SerializeField] private float rayDistance = 3f; // The distance the ray should travel
-    private float maxChargeCooldown = 0.05f;    
+    private float initialMaxChargeCooldown = 0.1f; // Starting value
+    private float maxChargeCooldown = 0.1f; // Starting value
     private float currentChargeCooldown = 0f;
+    private float minChargeCooldown = 0.01f; // Minimum value
+    private float cooldownDecreaseRate = 0.05f; // Amount to decrease cooldown by per second
+
+    [SerializeField] private float rayDistance = 3f; // The distance the ray should travel
     public string ToolTipText = "Charge";
     public CoinChargePoint chargePoint;
     public Transform vacuumCenter;   // The point towards which coins will spawn
@@ -54,26 +58,29 @@ public class CoinCharger : MonoBehaviour
 
     private void FixedUpdate()
     {
-        ToggleCharger();
+        FindCharger();
 
         if (chargePoint == null)
             return;
 
-
         if (MouseHeld)
-            Charge();
-
-        if (chargePoint.GetCurrentChargeValue() == chargePoint.GetMaxChargeValue())
         {
-            UIManager.Instance.ShowChargeTooltip("Charged!");
+            Charge();
+            DecreaseCooldown();
         }
         else
         {
-            UIManager.Instance.ShowChargeTooltip("Charging " + chargePoint.GetCurrentChargeValue().ToString() + " / " + chargePoint.GetMaxChargeValue().ToString(), MouseSide.LeftClick);
+            maxChargeCooldown = initialMaxChargeCooldown;
         }
+
+
+        if (chargePoint.GetCurrentChargeValue() == chargePoint.GetMaxChargeValue())
+            UIManager.Instance.ShowChargeTooltip("Charged!");
+        else
+            UIManager.Instance.ShowChargeTooltip("Charging " + chargePoint.GetUIChargeValue().ToString() + " / " + chargePoint.GetMaxChargeValue().ToString(), MouseSide.LeftClick);
     }
 
-    private void ToggleCharger()
+    private void FindCharger()
     {
         CoinChargePoint target = FindClosestTargetWithScript<CoinChargePoint>();
 
@@ -122,8 +129,8 @@ public class CoinCharger : MonoBehaviour
             return;
 
         currentChargeCooldown += Time.deltaTime;
-        
-        // Only charge every 0.1 seconds, so its not instant
+
+
         if (currentChargeCooldown >= maxChargeCooldown)
         {
             if (Stats.Instance.CoinsCollected <= 0)
@@ -141,6 +148,12 @@ public class CoinCharger : MonoBehaviour
         }
     }
 
+    private void DecreaseCooldown()
+    {
+        maxChargeCooldown -= cooldownDecreaseRate * Time.deltaTime;
+        if (maxChargeCooldown < minChargeCooldown)
+            maxChargeCooldown = minChargeCooldown;
+    }
 
 
     private T FindClosestTargetWithScript<T>() where T : MonoBehaviour
