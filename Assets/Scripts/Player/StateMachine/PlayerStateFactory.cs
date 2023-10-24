@@ -21,6 +21,11 @@ public class PlayerStateFactory
         playerStates.Add(state.Name, playerState);
     }
 
+    public PlayerState GetState(string stateName)
+    {
+        return playerStates[stateName];
+    }
+
     public PlayerState Idle()
     {
         //Debug.Log("Idle");

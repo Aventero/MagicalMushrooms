@@ -56,9 +56,7 @@ public class AIVision : MonoBehaviour
     private Vector3 targetScale;
     void Start()
     {
-        lookAtMask = LayerMask.GetMask("Prop");
-        lookAtMask |= LayerMask.GetMask("Player");
-        lookAtMask |= LayerMask.GetMask("Interactable");
+        lookAtMask = LayerMask.GetMask("Prop", "Player", "Interactable", "Default");
         originalVisionScale = ViewCone.transform.localScale;
         stateManager = GetComponent<AIStateManager>();
         Player = stateManager.Player;

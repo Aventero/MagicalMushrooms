@@ -110,6 +110,11 @@ public class StateManager : MonoBehaviour
     public UnityEvent StartedDialogEvent;
     [HideInInspector]
     public UnityEvent EndedDialogEvent;
+    [HideInInspector]
+    public UnityEvent StartSlurpingEvent;
+    [HideInInspector]
+    public UnityEvent EndSlurpingEvent;
+
 
 
     public delegate void DealDamageCallBack(int damage);

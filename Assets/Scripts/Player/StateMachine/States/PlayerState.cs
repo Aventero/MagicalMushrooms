@@ -29,7 +29,7 @@ public abstract class PlayerState
             currentSubState.UpdateStates();
     }
 
-    protected void SwitchState(PlayerState newState) 
+    public void SwitchState(PlayerState newState) 
     {
         // Exit current state
         ExitState();

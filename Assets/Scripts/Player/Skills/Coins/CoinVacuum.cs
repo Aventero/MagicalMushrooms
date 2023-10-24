@@ -10,7 +10,7 @@ public class CoinVacuum : MonoBehaviour
     public float vacuumForce = 5f;   // The force/speed at which coins are pulled towards the vacuum center
     private HashSet<Coin> activeCoins = new();
     public bool MouseHeld { get; private set; }
-    [Range(0, 90)] public float angle = 45f; // Start angle for the vacuum zone (relative to forward direction)
+    [Range(1, 10)] public float slurpRadius = 1f; // Start angle for the vacuum zone (relative to forward direction)
     
     private GlassSlurpSpin glassSlurpSpin;
     private PlayerSkillManager skillManager;
@@ -57,11 +57,13 @@ public class CoinVacuum : MonoBehaviour
     {
         if (callback.started)
         {
+            StateManager.Instance.StartSlurpingEvent.Invoke();
             glassSlurpSpin.StartAnimating();
             MouseHeld = true;
         }
         else if(callback.canceled)
         {
+            StateManager.Instance.EndSlurpingEvent.Invoke();
             glassSlurpSpin.StopAnimating();
             MouseHeld = false;
         }
@@ -73,14 +75,14 @@ public class CoinVacuum : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(vacuumCenter.position, vacuumRadius);
         foreach (Collider hitCollider in hitColliders)
         {
+
+            // Slurp
             Coin coin = hitCollider.GetComponent<Coin>();
             if (coin != null)
             {
                 Vector3 toCoin = coin.transform.position - vacuumCenter.position;
-                float angleToCoin = Vector3.Angle(Camera.main.transform.forward, toCoin);
 
-                // Assuming "angle" is half of the total angle of the cone
-                if (angleToCoin <= angle && toCoin.magnitude <= vacuumRadius)
+                if (IsWithinCylinder(toCoin, vacuumCenter.forward, slurpRadius))
                 {
                     activeCoins.Add(coin);
                 }
@@ -92,4 +94,22 @@ public class CoinVacuum : MonoBehaviour
             coin.Jiggle(vacuumCenter, vacuumForce);
         }
     }
+
+    bool IsWithinCylinder(Vector3 toTarget, Vector3 forwardDirection, float radius)
+    {
+        // Check if the target is directly in front of the origin (in the cylinder)
+        RaycastHit hit;
+        if (Physics.Raycast(vacuumCenter.position, toTarget.normalized, out hit, radius))
+        {
+            if (hit.transform.GetComponent<Coin>() != null)
+            {
+                // Check if the target is within the cylindrical radius
+                Vector3 crossProduct = Vector3.Cross(toTarget.normalized, forwardDirection);
+                float distanceFromCenter = crossProduct.magnitude * toTarget.magnitude;
+                return distanceFromCenter <= radius;
+            }
+        }
+        return false;
+    }
+
 }

@@ -12,6 +12,7 @@ public class PlayerStateMachine : MonoBehaviour
     // Movement
     private readonly float sneakingSpeed = 1.5f;
     private readonly float walkingSpeed = 3.0f;
+    private readonly float slurpSpeed = 1.0f;
     private float currentSpeed; 
     private Vector2 currentMovementInput;
     private Vector3 currentMovement;
@@ -72,6 +73,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private bool CanMove = true;
     private bool CanRotate = true;
+    private bool IsSlurping = false;
 
     // Player States
     PlayerState currentState;
@@ -93,8 +95,15 @@ public class PlayerStateMachine : MonoBehaviour
     public bool IsMovementPressed { get => isMovementPressed; }
     public bool IsSneakPressed { get => isSneakPressed; }
     public float SneakingSpeed { get => sneakingSpeed; }
-    public float WalkingSpeed { get => walkingSpeed; }
+
+    public float SlurpSpeed { get => slurpSpeed; }
+    public float WalkingSpeed { get => IsSlurping ? SlurpSpeed : walkingSpeed; }
     public float CurrentSpeed { get => currentSpeed; set => currentSpeed = value; }
+
+    public void ExternalSwitchStates(string stateToSwitchTo)
+    {
+        CurrentState.SwitchState(states.GetState(stateToSwitchTo));
+    }
 
     private void Awake()
     {
@@ -118,14 +127,16 @@ public class PlayerStateMachine : MonoBehaviour
         CharacterController.Move(appliedMovement * Time.deltaTime);
 
         // Register Events
-        StateManager.Instance.PausePlayerMovementEvent.AddListener(PauseMovement);
-        StateManager.Instance.ResumePlayerMovementEvent.AddListener(ResumeMovement);
-        StateManager.Instance.PausePlayerCameraEvent.AddListener(PauseCamera);
-        StateManager.Instance.ResumePlayerCameraEvent.AddListener(ResumeCamera);
-        StateManager.Instance.PauseGameEvent.AddListener(PauseMovement);
-        StateManager.Instance.PauseGameEvent.AddListener(PauseCamera);
-        StateManager.Instance.ResumeGameEvent.AddListener(ResumeMovement);
-        StateManager.Instance.ResumeGameEvent.AddListener(ResumeCamera);
+        StateManager.Instance.PausePlayerMovementEvent.AddListener(() => CanMove = false);
+        StateManager.Instance.ResumePlayerMovementEvent.AddListener(() => CanMove = true);
+        StateManager.Instance.PausePlayerCameraEvent.AddListener(() => CanRotate = false);
+        StateManager.Instance.ResumePlayerCameraEvent.AddListener(() => CanRotate = true);
+        StateManager.Instance.PauseGameEvent.AddListener(() => CanMove = false);
+        StateManager.Instance.PauseGameEvent.AddListener(() => CanRotate = false);
+        StateManager.Instance.ResumeGameEvent.AddListener(() => CanMove = true);
+        StateManager.Instance.ResumeGameEvent.AddListener(() => CanRotate = true);
+        StateManager.Instance.StartSlurpingEvent.AddListener(() => IsSlurping = true);
+        StateManager.Instance.EndSlurpingEvent.AddListener(() => IsSlurping = false);
     }
 
     private void Update()
@@ -199,25 +210,5 @@ public class PlayerStateMachine : MonoBehaviour
     {
         currentMouseInput = context.ReadValue<Vector2>();
         currentMouseVector = currentMouseInput * mouseSensitivity * Time.deltaTime;
-    }
-
-    private void PauseMovement()
-    {
-        CanMove = false;
-    }
-
-    private void ResumeMovement()
-    {
-        CanMove = true;
-    }
-
-    private void PauseCamera()
-    {
-        CanRotate = false;
-    }
-
-    private void ResumeCamera()
-    {
-        CanRotate = true;
     }
 }
