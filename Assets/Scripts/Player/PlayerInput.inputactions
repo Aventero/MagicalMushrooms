@@ -60,6 +60,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Dragging",
+                    "type": "Button",
+                    "id": "cd823ce2-d0ad-4299-98d4-9c129fa25b6e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "CoinVacuum",
                     "type": "Button",
                     "id": "44ad7703-59ae-4564-a8ec-17a1b0e4b180",
@@ -303,6 +312,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "CoinCharge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "545bb101-7d2c-41d9-812a-3bfc19207345",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Dragging",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

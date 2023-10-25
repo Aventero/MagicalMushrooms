@@ -12,7 +12,7 @@ public class Poltergeist : PlayerSkill
     public Material HighlightMaterial;
     public Material FocusMaterial;
 
-    private readonly List<PoltergeistMovableObject> movableObjectsList = new();
+    private readonly List<DraggableObject> movableObjectsList = new();
     private bool showHighlighting = false;
     private GameObject lastFocusedObject = null;
     private Camera mainCamera;
@@ -29,7 +29,7 @@ public class Poltergeist : PlayerSkill
     {
         foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Draggable"))
         {
-            PoltergeistMovableObject movableObject = gameObject.AddComponent<PoltergeistMovableObject>();
+            DraggableObject movableObject = gameObject.AddComponent<DraggableObject>();
             movableObject.HighlightMaterial = HighlightMaterial;
             movableObject.HighlightDistance = HighlightDistance;
             movableObject.FocusMaterial = FocusMaterial;
@@ -53,7 +53,7 @@ public class Poltergeist : PlayerSkill
                 return;
 
             lastFocusedObject = hit.collider.gameObject;
-            lastFocusedObject.GetComponent<PoltergeistMovableObject>().ShowFocus();
+            lastFocusedObject.GetComponent<DraggableObject>().ShowFocus();
         }
         else
             HideCurrentFocusedObject();
@@ -77,7 +77,7 @@ public class Poltergeist : PlayerSkill
         if(lastFocusedObject == null)
             return;
 
-        lastFocusedObject.GetComponent<PoltergeistMovableObject>().HideFocus();
+        lastFocusedObject.GetComponent<DraggableObject>().HideFocus();
         lastFocusedObject = null;
     }
 
@@ -114,7 +114,7 @@ public class Poltergeist : PlayerSkill
         IsActivated = true;
         showHighlighting = true;
         
-        foreach (PoltergeistMovableObject movableObject in movableObjectsList)
+        foreach (DraggableObject movableObject in movableObjectsList)
         {
             movableObject.TurnOnHighlighting();
         }
@@ -124,7 +124,7 @@ public class Poltergeist : PlayerSkill
     {
         UIManager.Instance.HideTooltip();
 
-        foreach (PoltergeistMovableObject movableObject in movableObjectsList)
+        foreach (DraggableObject movableObject in movableObjectsList)
         {
             movableObject.TurnOffHighlighting();
         }

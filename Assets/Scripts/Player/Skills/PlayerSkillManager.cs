@@ -6,6 +6,7 @@ public class PlayerSkillManager : MonoBehaviour
 {
     private PlayerSkill activeSkill = null;
     private SmokeBomb smokeBomb;
+    private Dragging dragging;
     private Poltergeist poltergeist;
 
     private bool lockSkills = false;
@@ -14,6 +15,7 @@ public class PlayerSkillManager : MonoBehaviour
     {
         smokeBomb = GetComponent<SmokeBomb>();
         poltergeist = GetComponent<Poltergeist>();
+        dragging = GetComponent<Dragging>();
 
         smokeBomb.activated = true;
         poltergeist.activated = true;
@@ -117,6 +119,14 @@ public class PlayerSkillManager : MonoBehaviour
             return;
 
         Preview(smokeBomb);
+    }
+
+    public void OnDragging(InputAction.CallbackContext callback)
+    {
+        if (!callback.performed || !dragging.activated || lockSkills)
+            return;
+
+        Preview(dragging);
     }
 
     private void Preview(PlayerSkill skill)

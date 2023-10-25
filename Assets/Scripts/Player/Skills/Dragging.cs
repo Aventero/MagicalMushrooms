@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dragging : MonoBehaviour
+public class Dragging : PlayerSkill
 {
-    public LayerMask clippingAvoidanceLayerMask;
+    //public LayerMask clippingAvoidanceLayerMask;
     public LayerMask draggingLayerMask;
 
     [ReadOnly]
@@ -18,9 +18,43 @@ public class Dragging : MonoBehaviour
     public float MaxVelocity = 10f;
     private Camera mainCamera;
     // Start is called before the first frame update
-    void Start()
+
+    // Skill
+    private readonly List<DraggableObject> movableObjectsList = new();
+    private bool showHighlighting = false;
+    private GameObject lastFocusedObject = null;
+    private LayerMask allowedLayers;
+
+    [Header("Values")]
+    public float PushForce = 10;
+    public float HighlightDistance;
+
+    [Header("References")]
+    public Material HighlightMaterial;
+    public Material FocusMaterial;
+
+    private void Start()
     {
+        allowedLayers = LayerMask.GetMask("Default", "Prop");
         mainCamera = Camera.main;
+        SetupGameobjects();
+    }
+
+
+    private void SetupGameobjects()
+    {
+        foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Draggable"))
+        {
+            DraggableObject movableObject = gameObject.AddComponent<DraggableObject>();
+            movableObject.HighlightMaterial = HighlightMaterial;
+            movableObject.HighlightDistance = HighlightDistance;
+            movableObject.FocusMaterial = FocusMaterial;
+
+            movableObjectsList.Add(movableObject);
+
+            if (gameObject.GetComponent<Outline>() == null)
+                gameObject.AddComponent<Outline>();
+        }
     }
 
     // Update is called once per frame
@@ -88,6 +122,36 @@ public class Dragging : MonoBehaviour
             draggingObject = null;
             draggingBody = null;
         }
+    }
+
+    public override void ShowPreview()
+    {
+        UIManager.Instance.ShowSkillTooltip(TooltipText, MouseSide.LeftClick);
+        IsActivated = true;
+        showHighlighting = true;
+
+        foreach (DraggableObject movableObject in movableObjectsList)
+        {
+            movableObject.TurnOnHighlighting();
+        }
+    }
+
+    public override void HidePreview()
+    {
+        UIManager.Instance.HideTooltip();
+
+        foreach (DraggableObject movableObject in movableObjectsList)
+        {
+            movableObject.TurnOffHighlighting();
+        }
+
+        showHighlighting = false;
+        IsActivated = false;
+    }
+
+    public override bool Execute()
+    {
+        return base.Execute();
 
     }
 }

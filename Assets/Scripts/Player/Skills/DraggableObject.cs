@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoltergeistMovableObject : MonoBehaviour
+public class DraggableObject : MonoBehaviour
 {
     [HideInInspector]
     public Material HighlightMaterial;

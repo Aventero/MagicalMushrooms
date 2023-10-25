@@ -82,6 +82,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Dragging"",
+                    ""type"": ""Button"",
+                    ""id"": ""cd823ce2-d0ad-4299-98d4-9c129fa25b6e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""CoinVacuum"",
                     ""type"": ""Button"",
                     ""id"": ""44ad7703-59ae-4564-a8ec-17a1b0e4b180"",
@@ -325,6 +334,17 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""CoinCharge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""545bb101-7d2c-41d9-812a-3bfc19207345"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Dragging"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -918,6 +938,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_CharacterControls_Move = m_CharacterControls.FindAction("Move", throwIfNotFound: true);
         m_CharacterControls_SmokeBomb = m_CharacterControls.FindAction("SmokeBomb", throwIfNotFound: true);
         m_CharacterControls_Poltergeist = m_CharacterControls.FindAction("Poltergeist", throwIfNotFound: true);
+        m_CharacterControls_Dragging = m_CharacterControls.FindAction("Dragging", throwIfNotFound: true);
         m_CharacterControls_CoinVacuum = m_CharacterControls.FindAction("CoinVacuum", throwIfNotFound: true);
         m_CharacterControls_Action = m_CharacterControls.FindAction("Action", throwIfNotFound: true);
         m_CharacterControls_Escape = m_CharacterControls.FindAction("Escape", throwIfNotFound: true);
@@ -999,6 +1020,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_CharacterControls_Move;
     private readonly InputAction m_CharacterControls_SmokeBomb;
     private readonly InputAction m_CharacterControls_Poltergeist;
+    private readonly InputAction m_CharacterControls_Dragging;
     private readonly InputAction m_CharacterControls_CoinVacuum;
     private readonly InputAction m_CharacterControls_Action;
     private readonly InputAction m_CharacterControls_Escape;
@@ -1013,6 +1035,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_CharacterControls_Move;
         public InputAction @SmokeBomb => m_Wrapper.m_CharacterControls_SmokeBomb;
         public InputAction @Poltergeist => m_Wrapper.m_CharacterControls_Poltergeist;
+        public InputAction @Dragging => m_Wrapper.m_CharacterControls_Dragging;
         public InputAction @CoinVacuum => m_Wrapper.m_CharacterControls_CoinVacuum;
         public InputAction @Action => m_Wrapper.m_CharacterControls_Action;
         public InputAction @Escape => m_Wrapper.m_CharacterControls_Escape;
@@ -1044,6 +1067,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Poltergeist.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPoltergeist;
                 @Poltergeist.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPoltergeist;
                 @Poltergeist.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPoltergeist;
+                @Dragging.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnDragging;
+                @Dragging.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnDragging;
+                @Dragging.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnDragging;
                 @CoinVacuum.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnCoinVacuum;
                 @CoinVacuum.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnCoinVacuum;
                 @CoinVacuum.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnCoinVacuum;
@@ -1078,6 +1104,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Poltergeist.started += instance.OnPoltergeist;
                 @Poltergeist.performed += instance.OnPoltergeist;
                 @Poltergeist.canceled += instance.OnPoltergeist;
+                @Dragging.started += instance.OnDragging;
+                @Dragging.performed += instance.OnDragging;
+                @Dragging.canceled += instance.OnDragging;
                 @CoinVacuum.started += instance.OnCoinVacuum;
                 @CoinVacuum.performed += instance.OnCoinVacuum;
                 @CoinVacuum.canceled += instance.OnCoinVacuum;
@@ -1252,6 +1281,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnSmokeBomb(InputAction.CallbackContext context);
         void OnPoltergeist(InputAction.CallbackContext context);
+        void OnDragging(InputAction.CallbackContext context);
         void OnCoinVacuum(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
