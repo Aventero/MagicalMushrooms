@@ -21,13 +21,15 @@ public class Bomb : MonoBehaviour
     private MaterialPropertyBlock propBlock;
 
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
+
         if (collision.collider.CompareTag("Player"))
             return;
 
         CollisionUtil.Side collisionSide = CollisionUtil.CalculateCollisionSideSphere(collision);
-        
+        Debug.Log(collisionSide);
+
         // Start Growing 
         if (collisionSide == CollisionUtil.Side.Bottom)
         {
@@ -46,10 +48,6 @@ public class Bomb : MonoBehaviour
         } else
         {
             // Dont Start yet!
-            // Stop the movement -> let the ball fall downwards
-            Rigidbody rb = GetComponent<Rigidbody>();
-            float verticalVelocity = rb.velocity.y;
-            rb.velocity = new Vector3(0, verticalVelocity, 0);
         }
     }
 

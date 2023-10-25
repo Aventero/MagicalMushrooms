@@ -55,7 +55,7 @@ public class PlayerSkillManager : MonoBehaviour
 
     public void OnPause()
     {
-        lockSkills = true;
+        LockSkills();
         if (activeSkill != null)
         {
             UIManager.Instance.SkillDeactivated();
