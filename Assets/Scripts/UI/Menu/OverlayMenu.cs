@@ -15,6 +15,8 @@ public class OverlayMenu : MonoBehaviour
     public GameObject PoltergeistLetter;
     public GameObject SmokeBombObject;
     public GameObject SmokeBombLetter;
+    public GameObject DraggingObject;
+    public GameObject DraggingLetter;
 
     [Header("Interaction")]
     public Image InteractionPopup;
@@ -229,6 +231,7 @@ public class OverlayMenu : MonoBehaviour
         {
             SmokeBomb => SmokeBombObject,
             Poltergeist => PoltergeistObject,
+            Dragging => DraggingObject,
             _ => null,
         } ;
     }
@@ -239,6 +242,7 @@ public class OverlayMenu : MonoBehaviour
         {
             SmokeBomb => SmokeBombLetter,
             Poltergeist => PoltergeistLetter,
+            Dragging => DraggingLetter,
             _ => null,
         };
     }

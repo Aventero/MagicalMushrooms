@@ -19,6 +19,7 @@ public class PlayerSkillManager : MonoBehaviour
 
         smokeBomb.activated = true;
         poltergeist.activated = true;
+        dragging.activated = true;
 
         StateManager.Instance.PauseGameEvent.AddListener(this.OnPause);
         StateManager.Instance.ResumeGameEvent.AddListener(this.OnResume);
@@ -30,6 +31,7 @@ public class PlayerSkillManager : MonoBehaviour
     {
         CheckSkillCost(poltergeist);
         CheckSkillCost(smokeBomb);
+        CheckSkillCost(dragging);
     }
 
     private void CheckSkillCost(PlayerSkill playerSkill)
@@ -78,9 +80,11 @@ public class PlayerSkillManager : MonoBehaviour
 
         smokeBomb.activated = false;
         poltergeist.activated = false;
+        dragging.activated = false;
 
         UIManager.Instance.DisableSkill(poltergeist);
         UIManager.Instance.DisableSkill(smokeBomb);
+        UIManager.Instance.DisableSkill(dragging);
     }
     public void UnlockSkills()
     {

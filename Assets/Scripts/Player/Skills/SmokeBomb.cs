@@ -32,6 +32,9 @@ public class SmokeBomb : PlayerSkill
     private bool drawProjection = false;
     private Vector3 lastHit;
 
+    [Header("Particles")]
+    public ParticleSystem smokeParticleSystem;
+
     private void Start()
     {
         allowedLayers = LayerMask.GetMask("Default", "Prop");
@@ -42,6 +45,7 @@ public class SmokeBomb : PlayerSkill
     {
         UIManager.Instance.ShowSkillTooltip(TooltipText, MouseSide.LeftClick);
 
+        smokeParticleSystem.Play();
         lineRenderer.enabled = true;
         drawProjection = true;
 
@@ -54,6 +58,7 @@ public class SmokeBomb : PlayerSkill
     public override void HidePreview()
     {
         UIManager.Instance.HideTooltip();
+        smokeParticleSystem.Stop();
 
         IsActivated = false;
         drawProjection = false;

@@ -17,49 +17,14 @@ public class Dragging : PlayerSkill
     public float AvoidanceDistance = 1f;
     public float MaxVelocity = 10f;
     private Camera mainCamera;
-    // Start is called before the first frame update
 
-    // Skill
-    private readonly List<DraggableObject> movableObjectsList = new();
-    private bool showHighlighting = false;
-    private GameObject lastFocusedObject = null;
-    private LayerMask allowedLayers;
-
-    [Header("Values")]
-    public float PushForce = 10;
-    public float HighlightDistance;
-
-    [Header("References")]
-    public Material HighlightMaterial;
-    public Material FocusMaterial;
-
-    private void Start()
-    {
-        allowedLayers = LayerMask.GetMask("Default", "Prop");
-        mainCamera = Camera.main;
-        SetupGameobjects();
-    }
-
-
-    private void SetupGameobjects()
-    {
-        foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Draggable"))
-        {
-            DraggableObject movableObject = gameObject.AddComponent<DraggableObject>();
-            movableObject.HighlightMaterial = HighlightMaterial;
-            movableObject.HighlightDistance = HighlightDistance;
-            movableObject.FocusMaterial = FocusMaterial;
-
-            movableObjectsList.Add(movableObject);
-
-            if (gameObject.GetComponent<Outline>() == null)
-                gameObject.AddComponent<Outline>();
-        }
-    }
+    [Header("Particles")]
+    public ParticleSystem draggingParticleSystem;
 
     // Update is called once per frame
     void Update()
     {
+        if (true) return;
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -127,31 +92,20 @@ public class Dragging : PlayerSkill
     public override void ShowPreview()
     {
         UIManager.Instance.ShowSkillTooltip(TooltipText, MouseSide.LeftClick);
+        draggingParticleSystem.Play();
         IsActivated = true;
-        showHighlighting = true;
-
-        foreach (DraggableObject movableObject in movableObjectsList)
-        {
-            movableObject.TurnOnHighlighting();
-        }
     }
 
     public override void HidePreview()
     {
         UIManager.Instance.HideTooltip();
-
-        foreach (DraggableObject movableObject in movableObjectsList)
-        {
-            movableObject.TurnOffHighlighting();
-        }
-
-        showHighlighting = false;
+        draggingParticleSystem.Stop();
         IsActivated = false;
     }
 
     public override bool Execute()
     {
-        return base.Execute();
-
+        HidePreview();
+        return true;
     }
 }

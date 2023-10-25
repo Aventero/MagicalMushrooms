@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4858251474997619657}
   - component: {fileID: 4858251474997619671}
   - component: {fileID: 8145462567293915189}
+  - component: {fileID: 3318749415525888032}
   m_Layer: 0
   m_Name: SkillManager
   m_TagString: Untagged
@@ -60,6 +61,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RechargeTime: 0
   TooltipText: Smoke
+  SkillCost: 0
+  activated: 0
+  isRecharging: 0
   mass: 3
   throwStrength: 15
   cameraAngleAdjustment: {x: 0, y: 0.8, z: 0}
@@ -87,7 +91,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RechargeTime: 0
   TooltipText: Poltergeist
+  SkillCost: 0
+  activated: 0
+  isRecharging: 0
   PushForce: 50
   HighlightDistance: 10
   HighlightMaterial: {fileID: -6506959758786184616, guid: 8bc94b639fe7b464c8745b7dc2280b5f, type: 3}
   FocusMaterial: {fileID: 2100000, guid: f4e195ac1e204eff960149d1cb34e18c, type: 2}
+--- !u!114 &3318749415525888032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858251474997619659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f24a4c149e662749a26be604ffc0c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RechargeTime: 0
+  TooltipText: 
+  SkillCost: 0
+  activated: 0
+  isRecharging: 0
+  draggingLayerMask:
+    serializedVersion: 2
+    m_Bits: 3969
+  draggingObject: {fileID: 0}
+  IsDragging: 0
+  DistanceFromCamera: 3
+  DraggingSpeed: 2
+  AvoidanceDistance: 1
+  MaxVelocity: 10

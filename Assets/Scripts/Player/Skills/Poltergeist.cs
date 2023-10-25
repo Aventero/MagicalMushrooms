@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Poltergeist : PlayerSkill
@@ -12,96 +13,21 @@ public class Poltergeist : PlayerSkill
     public Material HighlightMaterial;
     public Material FocusMaterial;
 
-    private readonly List<DraggableObject> movableObjectsList = new();
-    private bool showHighlighting = false;
-    private GameObject lastFocusedObject = null;
-    private Camera mainCamera;
-    private LayerMask allowedLayers;
-
-    private void Start()
-    {
-        allowedLayers = LayerMask.GetMask("Default", "Prop");
-        mainCamera = Camera.main;
-        SetupGameobjects();
-    }
-
-    private void SetupGameobjects()
-    {
-        foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Draggable"))
-        {
-            DraggableObject movableObject = gameObject.AddComponent<DraggableObject>();
-            movableObject.HighlightMaterial = HighlightMaterial;
-            movableObject.HighlightDistance = HighlightDistance;
-            movableObject.FocusMaterial = FocusMaterial;
-            movableObjectsList.Add(movableObject);
-
-            if (gameObject.GetComponent<Outline>() == null)
-                gameObject.AddComponent<Outline>();
-        }
-    }
-
-    private void Update()
-    {
-        if (!showHighlighting)
-            return;
-
-        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out RaycastHit hit, 50, allowedLayers))
-        {
-            CheckCurrentFocusObject(hit);
-
-            if (!hit.collider.CompareTag("Draggable") || hit.distance > HighlightDistance)
-                return;
-
-            lastFocusedObject = hit.collider.gameObject;
-            lastFocusedObject.GetComponent<DraggableObject>().ShowFocus();
-        }
-        else
-            HideCurrentFocusedObject();
-
-    }
-
-    private void CheckCurrentFocusObject(RaycastHit hit)
-    {
-        if(lastFocusedObject == null) 
-            return;
-
-        if (hit.distance > HighlightDistance && hit.collider.gameObject.Equals(lastFocusedObject) )
-            HideCurrentFocusedObject(); // The same object was hit and is out of range
-        else
-            HideCurrentFocusedObject(); // Other gameobject was hit
-        
-    }
-
-    private void HideCurrentFocusedObject()
-    {
-        if(lastFocusedObject == null)
-            return;
-
-        lastFocusedObject.GetComponent<DraggableObject>().HideFocus();
-        lastFocusedObject = null;
-    }
-
+    [Header("Particles")]
+    public ParticleSystem poltergeistParticleSystem;
     public override bool Execute()
     {
-        Debug.Log("Execute Poltergeist!");
-
-
-        if (lastFocusedObject == null)
+        if (DraggableManager.Instance.DraggableObject == null)
             return false;
 
-        // Cant use skill cause no money
         if (Stats.Instance.CoinsCollected <= 0)
             return false;
 
-        Rigidbody rigidbody;
-        if (!lastFocusedObject.TryGetComponent<Rigidbody>(out rigidbody))
-        {
-            Debug.Log("Failed to get Rigidbody");
-            rigidbody = lastFocusedObject.AddComponent<Rigidbody>();
-        }
+        if (!DraggableManager.Instance.DraggableObject.TryGetComponent<Rigidbody>(out var rb))
+            rb = DraggableManager.Instance.DraggableObject.AddComponent<Rigidbody>();
 
         // Using
-        rigidbody.AddForce(mainCamera.transform.forward * PushForce, ForceMode.Impulse);
+        rb.AddForce(Camera.main.transform.forward * PushForce, ForceMode.Impulse);
         Stats.Instance.DecreaseCoinsCollected(SkillCost);
 
         HidePreview();
@@ -110,26 +36,16 @@ public class Poltergeist : PlayerSkill
 
     public override void ShowPreview()
     {
-        UIManager.Instance.ShowSkillTooltip(TooltipText, MouseSide.LeftClick);
+        DraggableManager.Instance.EnableSearch();
+        poltergeistParticleSystem.Play();
         IsActivated = true;
-        showHighlighting = true;
-        
-        foreach (DraggableObject movableObject in movableObjectsList)
-        {
-            movableObject.TurnOnHighlighting();
-        }
     }
 
     public override void HidePreview()
     {
+        DraggableManager.Instance.DisableSearch();
+        poltergeistParticleSystem.Stop();
         UIManager.Instance.HideTooltip();
-
-        foreach (DraggableObject movableObject in movableObjectsList)
-        {
-            movableObject.TurnOffHighlighting();
-        }
-
-        showHighlighting = false;
         IsActivated = false;
     }
 }

@@ -23,47 +23,58 @@ public class DraggableObject : MonoBehaviour
         outline = GetComponent<Outline>();
         outline.enabled = false;
 
-        meshRenderer = GetComponent<MeshRenderer>();
+        //meshRenderer = GetComponent<MeshRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
 
-        objectMaterial = meshRenderer.material;
+        //objectMaterial = meshRenderer.material;
     }
 
-    public void TurnOnHighlighting()
+    public void ShowSelected()
     {
-        highlighting = true;
-    }
-
-    public void TurnOffHighlighting()
-    {
-        highlighting = false;
-        isFocused = false;
-        outline.enabled = false;
-        meshRenderer.material = objectMaterial;
-    }
-
-    public void ShowFocus()
-    {
-        isFocused = true;
-        meshRenderer.material = FocusMaterial;
         outline.enabled = true;
     }
 
-    public void HideFocus()
+    public void HideSelected()
     {
-        meshRenderer.material = objectMaterial;
-        isFocused = false;
         outline.enabled = false;
     }
 
-    private void Update()
-    {
-        if (!highlighting || isFocused)
-            return;
 
-        if (Vector3.Distance(this.transform.position, player.transform.position) <= HighlightDistance)
-            meshRenderer.material = HighlightMaterial;
-        else
-            meshRenderer.material = objectMaterial;
-    }
+    //public void TurnOnHighlighting()
+    //{
+    //    highlighting = true;
+    //}
+
+    //public void TurnOffHighlighting()
+    //{
+    //    highlighting = false;
+    //    isFocused = false;
+    //    outline.enabled = false;
+    //    meshRenderer.material = objectMaterial;
+    //}
+
+    //public void ShowFocus()
+    //{
+    //    isFocused = true;
+    //    meshRenderer.material = FocusMaterial;
+    //    outline.enabled = true;
+    //}
+
+    //public void HideFocus()
+    //{
+    //    meshRenderer.material = objectMaterial;
+    //    isFocused = false;
+    //    outline.enabled = false;
+    //}
+
+    //private void Update()
+    //{
+    //    if (!highlighting || isFocused)
+    //        return;
+
+    //    if (Vector3.Distance(this.transform.position, player.transform.position) <= HighlightDistance)
+    //        meshRenderer.material = HighlightMaterial;
+    //    else
+    //        meshRenderer.material = objectMaterial;
+    //}
 }

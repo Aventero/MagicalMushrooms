@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class ShockWave : MonoBehaviour
 {
-    public string targetTag = "Draggable"; // Replace "YourTag" with the tag you're looking for
-    public float radius = 5f; // Adjust the radius as needed
+    public string targetTag = "Draggable"; 
+    public float radius = 5f; 
     public float LevitationTime = 3f;
     public float LevitationHeight = 2f;
     Collider[] colliders;
 
     private void OnEnable()
     {
-        Vector3 center = transform.position; // You can use any position as the center
+        Vector3 center = transform.position;
         colliders = Physics.OverlapSphere(center, radius);
 
         // Iterate through the colliders and check their tags
@@ -20,8 +20,6 @@ public class ShockWave : MonoBehaviour
         {
             if (collider.CompareTag(targetTag))
             {
-                // If the collider has the desired tag, you can access its components
-                // Example: Get the Rigidbody component
                 Rigidbody rb = collider.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
