@@ -14,6 +14,7 @@ public class Dragging : PlayerSkill
     public float DraggingSpeed = 2.0f;
     public float AvoidanceDistance = 1f;
     public float MaxVelocity = 10f;
+    public float ShootForce = 10f;
 
     [Header("Particles")]
     public ParticleSystem draggingParticleSystem;
@@ -40,7 +41,6 @@ public class Dragging : PlayerSkill
 
         // Activly looking at an object
         UIManager.Instance.ShowSkillTooltip("Shoot!", MouseSide.LeftClick);
-
         DraggingLogic();
     }
 
@@ -62,35 +62,6 @@ public class Dragging : PlayerSkill
         velocity.y = Mathf.Clamp(velocity.y, -MaxVelocity, MaxVelocity);
         velocity.z = Mathf.Clamp(velocity.z, -MaxVelocity, MaxVelocity);
         draggingBody.velocity = velocity;
-
-        //if (IsDragging && draggingObject != null && Input.GetMouseButton(1))
-        //{
-        //    draggingBody.transform.rotation = Quaternion.identity;
-        //    draggingBody.rotation = Quaternion.identity;
-        //    draggingBody.angularVelocity = Vector3.zero;
-        //    Debug.Log("Right Mouse button on draggign");
-        //}
-
-        //if (IsDragging && Input.GetMouseButtonDown(0))
-        //{
-        //    Outline outline = draggingBody.gameObject.AddComponent<Outline>();
-        //    outline.OutlineMode = Outline.Mode.OutlineAll;
-        //    outline.enabled = true;
-        //    outline.OutlineColor = Color.white;
-        //    outline.OutlineWidth = 1;
-        //}
-
-        //if (IsDragging && Input.GetMouseButtonUp(0))
-        //{
-        //    Outline outline = draggingBody.GetComponent<Outline>();
-        //    outline.enabled = false;
-        //    Destroy(outline);
-        //    draggingBody.interpolation = RigidbodyInterpolation.None;
-        //    draggingBody.isKinematic = false;
-        //    IsDragging = false;
-        //    draggingObject = null;
-        //    draggingBody = null;
-        //}
     }
 
     public override void ShowPreview()
@@ -144,7 +115,10 @@ public class Dragging : PlayerSkill
         IsDragging = false;
         isReadyToShoot = false;
         HidePreview();
+
         PlayerSkillManager.Instance.SkillCompleted();
         PlayerSkillManager.Instance.UnlockSkills();
+        draggingBody.GetComponent<DraggableObject>().IsFlying = true;
+        draggingBody.AddForce(Camera.main.transform.forward * ShootForce, ForceMode.Impulse);
     }
 }

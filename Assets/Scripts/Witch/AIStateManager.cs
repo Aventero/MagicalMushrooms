@@ -113,7 +113,7 @@ public class AIStateManager : MonoBehaviour
 
     public void TransitionToState(AIStates stateName)
     {
-        //Debug.LogWarning("New State: " + stateName);
+        Debug.LogWarning("New State: " + stateName);
         previousState = currentState;
         currentState.ExitState();
         currentState = states[stateName];

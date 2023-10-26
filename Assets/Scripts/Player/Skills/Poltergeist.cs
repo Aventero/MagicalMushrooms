@@ -21,7 +21,7 @@ public class Poltergeist : PlayerSkill
         // Activly looking at an object
         if (IsActivated && DraggableManager.Instance.DraggableObject != null)
         {
-            UIManager.Instance.ShowSkillTooltip("Push!", MouseSide.LeftClick);
+            UIManager.Instance.ShowSkillTooltip("Alert!", MouseSide.LeftClick);
         }
     }
 

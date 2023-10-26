@@ -17,6 +17,7 @@ public class OverlayMenu : MonoBehaviour
     public GameObject SmokeBombLetter;
     public GameObject DraggingObject;
     public GameObject DraggingLetter;
+    public GameObject InteractRing;
 
     [Header("Interaction")]
     public Image InteractionPopup;
@@ -65,7 +66,7 @@ public class OverlayMenu : MonoBehaviour
         StateManager.Instance.ItemPickupEvent += this.OnItemPickup;
         StateManager.Instance.UsedItemEvent += this.UsedItem;
         StateManager.Instance.NewCheckpointEvent.AddListener(ShowCheckpointText);
-
+        InteractRing.SetActive(false);
         pickedUpItemsSprites = new List<Sprite>();
         monologMenu = Monolog.GetComponent<MonologMenu>();
         tooltipText = Tooltip.GetComponentInChildren<TMP_Text>(true);
@@ -105,6 +106,7 @@ public class OverlayMenu : MonoBehaviour
         activeToolTipType = type;
         tooltipText.SetText(text);
         Tooltip.SetActive(true);
+        InteractRing.SetActive(true);
 
         if (mouseButton == MouseSide.LeftClick)
         {
@@ -129,6 +131,7 @@ public class OverlayMenu : MonoBehaviour
         activeToolTipType = type;
         tooltipText.SetText(text);
         Tooltip.SetActive(true);
+        InteractRing.SetActive(true);
         LeftClickImage.enabled = false;
         RightClickImage.enabled = false;
     }
@@ -137,6 +140,7 @@ public class OverlayMenu : MonoBehaviour
     {
         activeToolTipType = ToolTipType.None;
         Tooltip.SetActive(false);
+        InteractRing.SetActive(false);
     }
 
     private void SetSkillOpacity(float opacity, PlayerSkill playerSkill, bool turnOnSkillLetter)
@@ -218,6 +222,7 @@ public class OverlayMenu : MonoBehaviour
         InteractionPopup.gameObject.SetActive(active);
         InteractionText.gameObject.SetActive(active);
         InteractionText.SetText(text);
+        InteractRing.SetActive(active);
     }
 
     public void UsedItem(ItemData usedItem)
