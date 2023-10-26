@@ -104,7 +104,6 @@ public class PlayerSkillManager : MonoBehaviour
 
     public void LockSkills()
     {
-        Debug.Log("Locking skills!");
         lockSkills = true;
         UIManager.Instance.DisableSkillVisual(poltergeist);
         UIManager.Instance.DisableSkillVisual(smokeBomb);
@@ -116,7 +115,6 @@ public class PlayerSkillManager : MonoBehaviour
         if (activeSkill != null)
             return;
 
-        Debug.Log("Unlocking skills!");
         lockSkills = false;
         UIManager.Instance.EnableSkillVisual(poltergeist);
         UIManager.Instance.EnableSkillVisual(smokeBomb);
@@ -172,17 +170,36 @@ public class PlayerSkillManager : MonoBehaviour
 
     private void Preview(PlayerSkill skill)
     {
+        // Show new one
         if (activeSkill == null)
         {
             activeSkill = skill;
             activeSkill.ShowPreview();
             UIManager.Instance.SkillActivated(skill);
+            return;
         }
-        else if (activeSkill == skill)
+
+        // Hide old skill
+        if (activeSkill == skill)
         {
             activeSkill.HidePreview();
             activeSkill = null;
             UIManager.Instance.SkillDeactivated();
+            return;
+        }
+
+        if (activeSkill != skill)
+        {
+            // Hide old skill
+            activeSkill.HidePreview();
+            activeSkill = null;
+            UIManager.Instance.SkillDeactivated();
+
+            // Show new one
+            activeSkill = skill;
+            activeSkill.ShowPreview();
+            UIManager.Instance.SkillActivated(skill);
+            return;
         }
     }
 

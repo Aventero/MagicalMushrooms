@@ -47,13 +47,11 @@ public class StateManager : MonoBehaviour
 
     public void LockMouse()
     {
-        Debug.Log("Locking Mouse");
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void UnlockMouse()
     {
-        Debug.Log("UNlocking Mouse");
         Cursor.lockState = CursorLockMode.None;
     }
 

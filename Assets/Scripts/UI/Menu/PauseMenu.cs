@@ -40,7 +40,6 @@ public class PauseMenu : MonoBehaviour, IUIMenu
         GamePostVolume.profile = volumeProfile;
         OptionsMenu.SetActive(false);
         StateManager.Instance.PauseGameEvent.Invoke();
-        Debug.Log("Pause?");
 
         if (!UIManager.Instance.IsCutscene)
             SkipCutsceneButton.SetActive(false);

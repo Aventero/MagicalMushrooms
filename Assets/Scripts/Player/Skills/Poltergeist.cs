@@ -15,6 +15,16 @@ public class Poltergeist : PlayerSkill
 
     [Header("Particles")]
     public ParticleSystem poltergeistParticleSystem;
+
+    private void Update()
+    {
+        // Activly looking at an object
+        if (IsActivated && DraggableManager.Instance.DraggableObject != null)
+        {
+            UIManager.Instance.ShowSkillTooltip("Push!", MouseSide.LeftClick);
+        }
+    }
+
     public override bool Execute()
     {
         if (DraggableManager.Instance.DraggableObject == null)

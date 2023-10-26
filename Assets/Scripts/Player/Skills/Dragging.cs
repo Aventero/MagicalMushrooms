@@ -31,8 +31,23 @@ public class Dragging : PlayerSkill
     // Update is called once per frame
     void Update()
     {
+        // Activly looking at an object
+        if (IsActivated && DraggableManager.Instance.DraggableObject != null && !IsDragging)
+            UIManager.Instance.ShowSkillTooltip("Grab!", MouseSide.LeftClick);
+
         if (!IsDragging)
             return;
+
+        // Activly looking at an object
+        UIManager.Instance.ShowSkillTooltip("Shoot!", MouseSide.LeftClick);
+
+        DraggingLogic();
+    }
+
+    private void DraggingLogic()
+    {
+        // Activly Dragging
+
         // Dragging the object
         draggingBody.isKinematic = false;
         draggingBody.interpolation = RigidbodyInterpolation.Interpolate;
@@ -80,7 +95,6 @@ public class Dragging : PlayerSkill
 
     public override void ShowPreview()
     {
-        UIManager.Instance.ShowSkillTooltip(TooltipText, MouseSide.LeftClick);
         DraggableManager.Instance.EnableSearch();
         draggingParticleSystem.Play();
         IsActivated = true;
@@ -101,7 +115,6 @@ public class Dragging : PlayerSkill
             return false;
 
         // Activate the skill!
-        Debug.Log("Executing Dragging");
         if (DraggableManager.Instance.DraggableObject.GetComponent<Rigidbody>() == null)
             DraggableManager.Instance.DraggableObject.AddComponent<Rigidbody>();
 
@@ -111,6 +124,7 @@ public class Dragging : PlayerSkill
         IsDragging = true;
         StartCoroutine(DelayedShootEnable());
         PlayerSkillManager.Instance.LockSkills();
+        UIManager.Instance.HideTooltip();
         return false;
     }
 
@@ -125,7 +139,6 @@ public class Dragging : PlayerSkill
     {
         if (!callback.performed || !isReadyToShoot)
             return;
-        Debug.Log("OnDraggingShoot Performed");
 
         // Performed
         IsDragging = false;

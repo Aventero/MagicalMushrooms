@@ -161,8 +161,6 @@ public class OverlayMenu : MonoBehaviour
 
             image.color = color;
         }
-
-        Debug.Log("Setting opacity");
     }
 
     public void EnableSkillVisually(PlayerSkill playerSkill)
@@ -183,7 +181,6 @@ public class OverlayMenu : MonoBehaviour
 
         activeSkillColor = mask.color;
         mask.color = SkillActivationColor;
-        Debug.Log("Setting activation color " + mask.color);
     }
 
     public void SkillDeactivated()
@@ -193,7 +190,6 @@ public class OverlayMenu : MonoBehaviour
 
         activeSkillObject.GetComponentInChildren<CutoutMask>().color = activeSkillColor;
         activeSkillObject = null;
-        Debug.Log("Deactivation coloring ");
     }
 
     public void SkillExecuted(PlayerSkill playerSkill)

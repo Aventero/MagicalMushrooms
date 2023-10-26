@@ -36,9 +36,6 @@ public class DraggableManager : MonoBehaviour
     {
         if (shouldSearchDraggables)
             SelectDraggable();
-
-        if (DraggableObject != null)
-            UIManager.Instance.ShowSkillTooltip("Use!", MouseSide.LeftClick);
     }
 
     public void EnableSearch()
@@ -84,7 +81,6 @@ public class DraggableManager : MonoBehaviour
             }
             else if (DraggableObject != target)
             {
-
                 LoseDraggable();
                 SetDraggable(target);
             }
