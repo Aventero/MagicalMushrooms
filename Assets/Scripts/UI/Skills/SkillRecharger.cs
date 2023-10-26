@@ -21,7 +21,8 @@ public class SkillRecharger : MonoBehaviour
 	public void ChargeSkill(float chargingTime)
 	{
 		RechargingObject.SetActive(true);
-		this.chargingTime = chargingTime;
+        image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
+        this.chargingTime = chargingTime;
 		recharging = true;
 	}
 

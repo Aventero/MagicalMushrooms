@@ -8,10 +8,7 @@ public class PlayerSkill : MonoBehaviour
     public float RechargeTime;
     public string TooltipText;
     public int SkillCost;
-
-    [HideInInspector]
     public bool activated;
-    [HideInInspector]
     public bool isRecharging;
 
     public bool IsActivated { get; internal set; }

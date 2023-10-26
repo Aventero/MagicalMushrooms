@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerStateMachine : MonoBehaviour
 {
-    private PlayerInput playerInput;
     private CharacterController characterController;
 
     // Movement

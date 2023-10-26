@@ -103,6 +103,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DraggingShoot",
+                    "type": "Button",
+                    "id": "8d1c52c5-32c1-4c9a-ab56-1513fdb88427",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -262,17 +271,6 @@
                 },
                 {
                     "name": "",
-                    "id": "5d77ca99-ec57-43e1-b20e-f55cac7ed7ba",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "CoinVacuum",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "7bd0e80e-cdd4-4468-ad9c-3484d28c8399",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
@@ -323,6 +321,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Dragging",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "19e2eaa8-0638-45bf-b90d-cee5811191f8",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DraggingShoot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -134,8 +134,8 @@ public class UIManager : MonoBehaviour
         overlayMenu.ShowMonolog(monolog, target);
     }
 
-    public void EnableSkill(PlayerSkill skill) => overlayMenu.EnableSkill(skill);
-    public void DisableSkill(PlayerSkill skill) => overlayMenu.DisableSkill(skill);
+    public void EnableSkillVisual(PlayerSkill skill) => overlayMenu.EnableSkillVisually(skill);
+    public void DisableSkillVisual(PlayerSkill skill) => overlayMenu.DisableSkillVisually(skill);
 
     public void SkillActivated(PlayerSkill playerSkill) => overlayMenu.SkillActivated(playerSkill);
     public void SkillDeactivated() => overlayMenu.SkillDeactivated();

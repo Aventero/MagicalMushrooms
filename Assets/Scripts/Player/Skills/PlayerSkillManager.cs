@@ -8,8 +8,22 @@ public class PlayerSkillManager : MonoBehaviour
     private SmokeBomb smokeBomb;
     private Dragging dragging;
     private Poltergeist poltergeist;
+    public static PlayerSkillManager Instance { get; private set; }
 
     private bool lockSkills = false;
+
+    private void Awake()
+    {
+        // Singleton
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     public void Start()
     {
@@ -44,12 +58,12 @@ public class PlayerSkillManager : MonoBehaviour
         if (coins >= playerSkill.SkillCost && !playerSkill.activated)
         {
             playerSkill.activated = true;
-            UIManager.Instance.EnableSkill(playerSkill);
+            UIManager.Instance.EnableSkillVisual(playerSkill);
         }
-        else if (coins < playerSkill.SkillCost && playerSkill.activated)
+        else if (coins < playerSkill.SkillCost)
         {
             playerSkill.activated = false;
-            UIManager.Instance.DisableSkill(playerSkill);
+            UIManager.Instance.DisableSkillVisual(playerSkill);
         }
     }
 
@@ -64,9 +78,14 @@ public class PlayerSkillManager : MonoBehaviour
         }
     }
 
+    public bool HasActiveSkill()
+    {
+        return activeSkill != null;
+    }
+
     public void OnResume()
     {
-        lockSkills = false;
+        UnlockSkills();
     }
 
     public bool AreSkillsLocked()
@@ -74,21 +93,34 @@ public class PlayerSkillManager : MonoBehaviour
         return lockSkills;
     }
 
-    public void LockSkills()
+    public void DisableAllSkills()
     {
-        lockSkills = true;
-
+        Debug.Log("Disabling skills!");
+        LockSkills();
         smokeBomb.activated = false;
         poltergeist.activated = false;
         dragging.activated = false;
-
-        UIManager.Instance.DisableSkill(poltergeist);
-        UIManager.Instance.DisableSkill(smokeBomb);
-        UIManager.Instance.DisableSkill(dragging);
     }
+
+    public void LockSkills()
+    {
+        Debug.Log("Locking skills!");
+        lockSkills = true;
+        UIManager.Instance.DisableSkillVisual(poltergeist);
+        UIManager.Instance.DisableSkillVisual(smokeBomb);
+        UIManager.Instance.DisableSkillVisual(dragging);
+    }
+
     public void UnlockSkills()
     {
+        if (activeSkill != null)
+            return;
+
+        Debug.Log("Unlocking skills!");
         lockSkills = false;
+        UIManager.Instance.EnableSkillVisual(poltergeist);
+        UIManager.Instance.EnableSkillVisual(smokeBomb);
+        UIManager.Instance.EnableSkillVisual(dragging);
     }
 
     public void SkillActivation(InputAction.CallbackContext callback)
@@ -102,11 +134,16 @@ public class PlayerSkillManager : MonoBehaviour
             if (!activeSkill.Execute())
                 return;
 
-            activeSkill.isRecharging = true;
-            UIManager.Instance.SkillExecuted(activeSkill);
-            StartCoroutine(this.LockSkillForSeconds(activeSkill, activeSkill.RechargeTime));
-            activeSkill = null;
+            SkillCompleted();
         }
+    }
+
+    public void SkillCompleted()
+    {
+        activeSkill.isRecharging = true;
+        UIManager.Instance.SkillExecuted(activeSkill);
+        StartCoroutine(LockSkillForSeconds(activeSkill, activeSkill.RechargeTime));
+        activeSkill = null;
     }
 
     public void OnPoltergeist(InputAction.CallbackContext callback)
@@ -153,7 +190,6 @@ public class PlayerSkillManager : MonoBehaviour
     {
         playerSkill.activated = false;
         yield return new WaitForSeconds(time);
-
         playerSkill.isRecharging = false;
     }
 }

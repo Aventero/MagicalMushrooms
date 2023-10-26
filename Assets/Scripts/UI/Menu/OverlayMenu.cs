@@ -44,7 +44,21 @@ public class OverlayMenu : MonoBehaviour
     public Image RightClickImage;
     public ToolTipType activeToolTipType;
     private TMP_Text tooltipText;
-    
+    public static OverlayMenu Instance { get; private set; }
+
+    private void Awake()
+    {
+        // Singleton
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void Init()
     {
         // RegisterEvent
@@ -147,14 +161,16 @@ public class OverlayMenu : MonoBehaviour
 
             image.color = color;
         }
+
+        Debug.Log("Setting opacity");
     }
 
-    public void EnableSkill(PlayerSkill playerSkill)
+    public void EnableSkillVisually(PlayerSkill playerSkill)
     {
         SetSkillOpacity(1.0f, playerSkill, true);
     }
 
-    public void DisableSkill(PlayerSkill playerSkill)
+    public void DisableSkillVisually(PlayerSkill playerSkill)
     {
         SetSkillOpacity(DeactivatedSkillOpacity, playerSkill, false);
     }
@@ -167,6 +183,7 @@ public class OverlayMenu : MonoBehaviour
 
         activeSkillColor = mask.color;
         mask.color = SkillActivationColor;
+        Debug.Log("Setting activation color " + mask.color);
     }
 
     public void SkillDeactivated()
@@ -176,6 +193,7 @@ public class OverlayMenu : MonoBehaviour
 
         activeSkillObject.GetComponentInChildren<CutoutMask>().color = activeSkillColor;
         activeSkillObject = null;
+        Debug.Log("Deactivation coloring ");
     }
 
     public void SkillExecuted(PlayerSkill playerSkill)

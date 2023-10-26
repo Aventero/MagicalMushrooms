@@ -26,8 +26,8 @@ public class CoinVacuum : MonoBehaviour
         // currently not holding rmb
         if (!MouseHeld)
         {
-            if (skillManager.AreSkillsLocked())
-                skillManager.UnlockSkills();
+            //if (skillManager.AreSkillsLocked())
+            //    skillManager.UnlockSkills();
 
             List<Coin> coinsToRemove = new List<Coin>();
 
@@ -55,6 +55,9 @@ public class CoinVacuum : MonoBehaviour
 
     public void Input(InputAction.CallbackContext callback)
     {
+        if (skillManager.HasActiveSkill())
+            return;
+
         if (callback.started)
         {
             StateManager.Instance.StartSlurpingEvent.Invoke();

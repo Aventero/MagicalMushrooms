@@ -7,22 +7,21 @@ using UnityEngine.Rendering;
 
 public class Dragging : PlayerSkill
 {
-    //public LayerMask clippingAvoidanceLayerMask;
     public LayerMask draggingLayerMask;
 
-    [ReadOnly]
-    public GameObject draggingObject = null;
-    private Rigidbody draggingBody = null;
-    [ReadOnly]
     public bool IsDragging = false;
     public float DistanceFromCamera = 3.0f;
     public float DraggingSpeed = 2.0f;
     public float AvoidanceDistance = 1f;
     public float MaxVelocity = 10f;
-    private Camera mainCamera;
 
     [Header("Particles")]
     public ParticleSystem draggingParticleSystem;
+
+    public GameObject draggingObject = null;
+    private Rigidbody draggingBody = null;
+    private Camera mainCamera;
+    private bool isReadyToShoot = false;
 
     private void Start()
     {
@@ -34,7 +33,6 @@ public class Dragging : PlayerSkill
     {
         if (!IsDragging)
             return;
-        Debug.Log("Dragging");
         // Dragging the object
         draggingBody.isKinematic = false;
         draggingBody.interpolation = RigidbodyInterpolation.Interpolate;
@@ -98,27 +96,42 @@ public class Dragging : PlayerSkill
 
     public override bool Execute()
     {
-        if (DraggableManager.Instance.DraggableObject == null)
+        // No object -> Stop the skill Or already dragging
+        if (DraggableManager.Instance.DraggableObject == null || IsDragging)
             return false;
 
-        IsDragging = true;
-
+        // Activate the skill!
+        Debug.Log("Executing Dragging");
         if (DraggableManager.Instance.DraggableObject.GetComponent<Rigidbody>() == null)
             DraggableManager.Instance.DraggableObject.AddComponent<Rigidbody>();
 
         draggingObject = DraggableManager.Instance.DraggableObject.gameObject;
         draggingBody = draggingObject.GetComponent<Rigidbody>();
 
+        IsDragging = true;
+        StartCoroutine(DelayedShootEnable());
+        PlayerSkillManager.Instance.LockSkills();
         return false;
+    }
+
+    IEnumerator DelayedShootEnable()
+    {
+        isReadyToShoot = false;
+        yield return new WaitForSeconds(0.2f); // Wait for 200ms
+        isReadyToShoot = true;
     }
 
     public void OnDraggingShoot(InputAction.CallbackContext callback)
     {
-        if (!callback.performed || IsDragging == false)
+        if (!callback.performed || !isReadyToShoot)
             return;
         Debug.Log("OnDraggingShoot Performed");
 
         // Performed
-        //IsDragging = false;
+        IsDragging = false;
+        isReadyToShoot = false;
+        HidePreview();
+        PlayerSkillManager.Instance.SkillCompleted();
+        PlayerSkillManager.Instance.UnlockSkills();
     }
 }

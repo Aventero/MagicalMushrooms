@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class StateManager : MonoBehaviour
 {
     public static StateManager Instance { get; private set; }
     public OverlayMenu OverlayMenu;
+    public PlayerInput PlayerInput;
+
 
     private void Awake()
     {
