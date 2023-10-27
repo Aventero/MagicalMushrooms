@@ -2332,7 +2332,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 563568405}
-  m_LocalRotation: {x: 0.007169584, y: 0.9873431, z: -0.046762347, w: 0.15137903}
+  m_LocalRotation: {x: 0.0071695806, y: 0.9873431, z: -0.046762336, w: 0.151379}
   m_LocalPosition: {x: -10.464783, y: 13.676765, z: -18.945251}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3224,14 +3224,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 740865305}
-  m_LocalRotation: {x: 0.007169584, y: 0.9873431, z: -0.046762347, w: 0.15137903}
-  m_LocalPosition: {x: 214.78366, y: -468.127, z: 1657.1106}
-  m_LocalScale: {x: 3.0236225, y: 3.023622, z: 3.0236225}
+  m_LocalRotation: {x: 0.0071695806, y: 0.9873431, z: -0.046762336, w: 0.151379}
+  m_LocalPosition: {x: 388.53522, y: 23.676765, z: 548.05475}
+  m_LocalScale: {x: 1.741733, y: 1.7417321, z: 1.7417331}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 763341027}
-  m_Father: {fileID: 2055240980}
-  m_RootOrder: 6
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: -2.052, y: 0, z: 0}
 --- !u!114 &740865310
 MonoBehaviour:
@@ -3639,8 +3639,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 5
-      minScalar: 0.5
+      scalar: 10
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4015,7 +4015,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 18
+    type: 5
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -4023,7 +4023,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 150, y: 150, z: 0}
+    m_Scale: {x: 243.41248, y: 150, z: 152.62764}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -4221,7 +4221,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 200
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -8101,14 +8101,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 763341024}
-  m_LocalRotation: {x: 0.6923059, y: 0.15402824, z: -0.14245525, w: 0.6904305}
-  m_LocalPosition: {x: 26.5, y: 37.8, z: 69.8}
+  m_LocalRotation: {x: 0.70307356, y: 0.07008965, z: -0.041019414, w: 0.70646477}
+  m_LocalPosition: {x: 6, y: 27.8, z: 75.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 740865309}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90.95, y: -68.69299, z: -92.897}
+  m_LocalEulerAnglesHint: {x: 92.37201, y: -92.147, z: -101.16101}
 --- !u!1001 &778481286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11591,6 +11591,12 @@ MonoBehaviour:
   EndedDialogEvent:
     m_PersistentCalls:
       m_Calls: []
+  StartSlurpingEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  EndSlurpingEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1405089723
 Transform:
   m_ObjectHideFlags: 0
@@ -12362,6 +12368,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 29c07819-107b-4db8-be27-38ec8697b598
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cd823ce2-d0ad-4299-98d4-9c129fa25b6e
+    m_ActionName: CharacterControls/Dragging[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8d1c52c5-32c1-4c9a-ab56-1513fdb88427
+    m_ActionName: CharacterControls/DraggingShoot[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: CharacterControls
@@ -14768,7 +14782,6 @@ RectTransform:
   - {fileID: 549402434}
   - {fileID: 162474018}
   - {fileID: 1961353879}
-  - {fileID: 740865309}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

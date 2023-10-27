@@ -4284,8 +4284,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 388464454}
-  m_LocalRotation: {x: 0.35018465, y: 0.75539315, z: -0.5099846, w: -0.21602693}
-  m_LocalPosition: {x: -9.782288, y: 18.85242, z: 4.6885843}
+  m_LocalRotation: {x: -0.40097535, y: -0.5327399, z: 0.08784437, w: 0.7400611}
+  m_LocalPosition: {x: 2.2962956, y: -15.715275, z: -9.723189}
   m_LocalScale: {x: 0.9999999, y: 0.9999999, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4547,7 +4547,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: Level_1
+            m_StringArgument: Production_Level_1
             m_BoolArgument: 0
           m_CallState: 2
   dollySpeed: 3
@@ -4799,8 +4799,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410396101}
-  m_LocalRotation: {x: -0.41472137, y: 0.06641647, z: 0.030368157, w: 0.9070132}
-  m_LocalPosition: {x: -9.782288, y: 18.85242, z: 4.6885843}
+  m_LocalRotation: {x: -0.28883114, y: -0.66623324, z: -0.31482565, w: 0.611224}
+  m_LocalPosition: {x: 2.2962956, y: -15.715275, z: -9.723189}
   m_LocalScale: {x: 1, y: 0.9999999, z: 0.9999999}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4823,7 +4823,7 @@ MonoBehaviour:
   m_UpdateMethod: 0
   m_PositionUnits: 1
   m_Speed: 3
-  m_Position: 51.81
+  m_Position: 0
 --- !u!1001 &412856982
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5495,7 +5495,7 @@ MonoBehaviour:
   PauseMenu: {fileID: 822607479}
   DialogMenu: {fileID: 4244404286879975911}
   IsCutscene: 1
-  SkippingCutsceneName: Level_1
+  SkippingCutsceneName: Production_Level_1
 --- !u!114 &449856352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21294,8 +21294,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629310158}
-  m_LocalRotation: {x: -0.02547021, y: 0.9708806, z: -0.20561734, w: -0.12026481}
-  m_LocalPosition: {x: 4.8998566, y: 15.447176, z: 9.6353655}
+  m_LocalRotation: {x: 0.12314579, y: -0.65204024, z: 0.10847727, w: 0.74021035}
+  m_LocalPosition: {x: 32.28284, y: 15.999515, z: -18.620329}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21666,6 +21666,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 29c07819-107b-4db8-be27-38ec8697b598
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cd823ce2-d0ad-4299-98d4-9c129fa25b6e
+    m_ActionName: CharacterControls/Dragging[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8d1c52c5-32c1-4c9a-ab56-1513fdb88427
+    m_ActionName: CharacterControls/DraggingShoot[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: CharacterControls
@@ -22805,6 +22813,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   EndedDialogEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  StartSlurpingEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  EndSlurpingEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &1746331762
