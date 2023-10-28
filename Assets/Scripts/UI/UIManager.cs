@@ -103,11 +103,11 @@ public class UIManager : MonoBehaviour
         overlayMenu.ShowTooltip(text, mouseSide, ToolTipType.Charge);
     }
 
-    public void ShowChargeTooltip(string text)
+    public void ShowSimpleTooltip(string text)
     {
         if (overlayMenu == null)
             return;
-        overlayMenu.ShowTooltip(text, ToolTipType.Charge);
+        overlayMenu.ShowSimpleTooltip(text);
     }
 
     public void HideTooltip()

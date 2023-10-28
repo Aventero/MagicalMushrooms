@@ -41,6 +41,7 @@ public class OverlayMenu : MonoBehaviour
 
     // Animation
     public Animator mouseAnimator;
+    public Image Mouse;
     public Image LeftClickImage;
     public Image RightClickImage;
     public ToolTipType activeToolTipType;
@@ -103,6 +104,7 @@ public class OverlayMenu : MonoBehaviour
         if (activeToolTipType == ToolTipType.Skill)
             return;
 
+        Mouse.enabled = true;
         activeToolTipType = type;
         tooltipText.SetText(text);
         Tooltip.SetActive(true);
@@ -121,19 +123,28 @@ public class OverlayMenu : MonoBehaviour
             RightClickImage.enabled = true;
             mouseAnimator.Play("RightClick");
         }
+
+        if (mouseButton == MouseSide.None)
+        {
+            LeftClickImage.enabled = false;
+            RightClickImage.enabled = false;
+            Mouse.enabled = false;
+            InteractRing.SetActive(false);
+        }
     }
 
-    public void ShowTooltip(string text, ToolTipType type)
+    public void ShowSimpleTooltip(string text)
     {
         if (activeToolTipType == ToolTipType.Skill)
             return;
 
-        activeToolTipType = type;
+        activeToolTipType = ToolTipType.None;
         tooltipText.SetText(text);
         Tooltip.SetActive(true);
-        InteractRing.SetActive(true);
+        InteractRing.SetActive(false);
         LeftClickImage.enabled = false;
         RightClickImage.enabled = false;
+        Mouse.enabled = false;
     }
 
     public void HideTooltip()
@@ -270,7 +281,8 @@ public class OverlayMenu : MonoBehaviour
 public enum MouseSide
 {
     LeftClick,
-    RightClick
+    RightClick,
+    None
 }
 
 public enum ToolTipType

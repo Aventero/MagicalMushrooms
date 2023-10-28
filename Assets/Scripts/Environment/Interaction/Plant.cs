@@ -22,7 +22,7 @@ public class Plant : Interactable
             return;
 
         inventory.RemoveItem(neededItemName);
-        UIManager.Instance.HideInteractionText();
+        UIManager.Instance.HideTooltip();
         GrownPlant.SetActive(true);
         gameObject.SetActive(false);
 
@@ -30,16 +30,16 @@ public class Plant : Interactable
 
     public override void InPlayerSight()
     {
-        UIManager.Instance.ShowInteractionText(InteractionText);
+        UIManager.Instance.ShowSimpleTooltip(InteractionText);
     }
 
     public override void OutOfPlayerSight()
     {
-        UIManager.Instance.HideInteractionText();
+        UIManager.Instance.HideTooltip();
     }
 
     private void OnDestroy()
     {
-        UIManager.Instance.HideInteractionText();
+        UIManager.Instance.HideTooltip();
     }
 }

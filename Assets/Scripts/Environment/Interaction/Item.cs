@@ -47,6 +47,6 @@ public class Item : Interactable
 
     private void OnDestroy()
     {
-        UIManager.Instance.HideInteractionText();
+        UIManager.Instance.HideTooltip();
     }
 }

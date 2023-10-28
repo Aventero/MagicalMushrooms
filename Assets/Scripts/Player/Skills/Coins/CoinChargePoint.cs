@@ -7,7 +7,10 @@ public class CoinChargePoint : MonoBehaviour
     [SerializeField] private int maxChargeValue = 100;
     private int uiCharge = 0;
     private int actualCharge = 0;
-    
+    public string FullyChargedText = "Fully Charged.";
+    public string ChargingTextBeforeValue = "Currently has ";
+    public string ChargingTextAfterValue = " charged.";
+
     public UnityEvent OnFullyCharged;
     public bool IsGonnaBeFull = false;
     public string CoinChargerID;
@@ -54,6 +57,7 @@ public class CoinChargePoint : MonoBehaviour
         if (actualCharge >= maxChargeValue)
         {
             actualCharge = maxChargeValue;
+            outline.enabled = false;
             OnFullyCharged?.Invoke();
         }
     }

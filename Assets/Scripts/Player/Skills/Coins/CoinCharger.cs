@@ -75,9 +75,12 @@ public class CoinCharger : MonoBehaviour
 
 
         if (chargePoint.GetCurrentChargeValue() == chargePoint.GetMaxChargeValue())
-            UIManager.Instance.ShowChargeTooltip("Charged!");
+            UIManager.Instance.ShowSimpleTooltip(chargePoint.FullyChargedText);
         else
-            UIManager.Instance.ShowChargeTooltip("Charging " + chargePoint.GetUIChargeValue().ToString() + " / " + chargePoint.GetMaxChargeValue().ToString(), MouseSide.LeftClick);
+        {
+            string chargeToolTip = $"{chargePoint.ChargingTextBeforeValue} {chargePoint.GetUIChargeValue()} / {chargePoint.GetMaxChargeValue()} {chargePoint.ChargingTextAfterValue}";
+            UIManager.Instance.ShowChargeTooltip(chargeToolTip, MouseSide.LeftClick);
+        }
     }
 
     private void FindCharger()
@@ -92,7 +95,6 @@ public class CoinCharger : MonoBehaviour
             }
             else if (chargePoint != target)
             {
-
                 LoseCharger();
                 SetCharger(target);
             }
@@ -118,7 +120,7 @@ public class CoinCharger : MonoBehaviour
         chargePoint.ResetOutlineWidth();
         chargePoint = null;
 
-        if (UIManager.Instance.GetActiveToolTipType() == ToolTipType.Charge)
+        if (UIManager.Instance.GetActiveToolTipType() != ToolTipType.Skill)
             UIManager.Instance.HideTooltip();
     }
 

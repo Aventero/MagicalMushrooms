@@ -29,7 +29,7 @@ public class Interactable : MonoBehaviour
                 return;
 
             if (!string.IsNullOrEmpty(InteractionText))
-                UIManager.Instance.ShowInteractionText(InteractionText);
+                UIManager.Instance.ShowSimpleTooltip(InteractionText);
         }
     }
 
@@ -44,7 +44,7 @@ public class Interactable : MonoBehaviour
             return;
 
         if (!string.IsNullOrEmpty(InteractionText))
-            UIManager.Instance.HideInteractionText();
+            UIManager.Instance.HideTooltip();
     }
 
     public virtual void Interact()
@@ -54,21 +54,21 @@ public class Interactable : MonoBehaviour
 
     public virtual void InPlayerSight()
     {
-        UIManager.Instance.ShowInteractionText(InteractionText);
+        UIManager.Instance.ShowSimpleTooltip(InteractionText);
 
     }
     public virtual void OutOfPlayerSight()
     {
-        UIManager.Instance.HideInteractionText();
+        UIManager.Instance.HideTooltip();
     }
 
     private void OnDisable()
     {
-        UIManager.Instance.HideInteractionText();
+        UIManager.Instance.HideTooltip();
     }
 
     private void OnDestroy()
     {
-        UIManager.Instance.HideInteractionText();
+        UIManager.Instance.HideTooltip();
     }
 }

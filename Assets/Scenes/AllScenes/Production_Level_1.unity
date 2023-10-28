@@ -15735,6 +15735,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &449865554 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1671111300329569319, guid: a8e34100fcffd604bb3c2fb749135d8d, type: 3}
+  m_PrefabInstance: {fileID: 2093898068}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &453961090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77653,6 +77664,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 449856355}
     m_Modifications:
+    - target: {fileID: 621487565408619127, guid: a8e34100fcffd604bb3c2fb749135d8d, type: 3}
+      propertyPath: Mouse
+      value: 
+      objectReference: {fileID: 449865554}
     - target: {fileID: 1368088019749361627, guid: a8e34100fcffd604bb3c2fb749135d8d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -80436,6 +80451,18 @@ PrefabInstance:
     - target: {fileID: 6909847920806281622, guid: 102ffb32083f1f54e8a632c3e543861b, type: 3}
       propertyPath: maxChargeValue
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6909847920806281622, guid: 102ffb32083f1f54e8a632c3e543861b, type: 3}
+      propertyPath: FullyChargedText
+      value: Respawn set.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6909847920806281622, guid: 102ffb32083f1f54e8a632c3e543861b, type: 3}
+      propertyPath: ChargingTextAfterValue
+      value: of fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 6909847920806281622, guid: 102ffb32083f1f54e8a632c3e543861b, type: 3}
+      propertyPath: ChargingTextBeforeValue
+      value: 'Charged '
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 102ffb32083f1f54e8a632c3e543861b, type: 3}

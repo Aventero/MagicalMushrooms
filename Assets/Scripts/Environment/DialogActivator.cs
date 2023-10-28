@@ -24,7 +24,7 @@ public class DialogActivator : Interactable
         // TODO: Remove the Line
         MonologManager.Instance.DisplayMonolog(WitchType.ANGRY);
 
-        UIManager.Instance.HideInteractionText();
+        UIManager.Instance.HideTooltip();
         UIManager.Instance.ShowDialog(conversation);
 
         if(DestroyIfDone)
