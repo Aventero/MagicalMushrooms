@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +7,14 @@ public class DraggableManager : MonoBehaviour
 {
     public static DraggableManager Instance { get; private set; }
 
-    [Header("Outline")]
-    public float outlineWidth = 2f;
-    public Color outlineColor = Color.white;
-    public DraggableObject DraggableObject { get; private set; }
+    public DraggableObject SelectedObject { get; private set; }
 
     [SerializeField] private float rayDistance = 15f;
     private bool shouldSearchDraggables = false;
+    private Transform player;
+
+    private readonly HashSet<DraggableObject> draggables = new();
+    private readonly HashSet<DraggableObject> markedDraggables = new();
 
     private void Awake()
     {
@@ -30,12 +32,76 @@ public class DraggableManager : MonoBehaviour
     void Start()
     {
         InstantiateDraggables();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     private void FixedUpdate()
     {
         if (shouldSearchDraggables)
+        {
+            FindPotentialDraggablesInRange();
             SelectDraggable();
+        }
+        else
+        {
+            if (markedDraggables.Count > 0)
+                HideSuitableDraggables();
+        }
+    }
+
+    private void FindPotentialDraggablesInRange()
+    {
+        List<DraggableObject> toAdd = new List<DraggableObject>();
+        List<DraggableObject> toRemove = new List<DraggableObject>();
+
+        float squaredRayDistance = rayDistance * rayDistance;
+
+        foreach (var draggable in draggables)
+        {
+            if (draggable == SelectedObject)
+                continue;
+
+            float squaredDistanceToPlayer = (player.position - draggable.transform.position).sqrMagnitude;
+
+            if (squaredDistanceToPlayer <= squaredRayDistance)
+            {
+                if (!markedDraggables.Contains(draggable))
+                {
+                    toAdd.Add(draggable);
+                }
+                draggable.ShowMarked();
+            }
+            else
+            {
+                if (markedDraggables.Contains(draggable))
+                {
+                    toRemove.Add(draggable);
+                }
+                draggable.HideMarked();
+            }
+        }
+
+        // Now, safely modify the markedDraggables collection outside the loop
+        foreach (var item in toAdd)
+        {
+            markedDraggables.Add(item);
+        }
+
+        foreach (var item in toRemove)
+        {
+            markedDraggables.Remove(item);
+        }
+    }
+
+
+    private void HideSuitableDraggables()
+    {
+        foreach (var draggable in markedDraggables)
+        {
+            draggable.HideMarked();
+        }
+
+        markedDraggables.Clear();
     }
 
     public void EnableSearch()
@@ -49,23 +115,27 @@ public class DraggableManager : MonoBehaviour
         LoseDraggable();
     }
 
+    public void RemoveDraggableFromList(DraggableObject draggable)
+    {
+        draggables.Remove(draggable);
+    }
+
     private void InstantiateDraggables()
     {
         foreach (GameObject draggableGo in GameObject.FindGameObjectsWithTag("Draggable"))
         {
             // Add Draggable 
-            if (draggableGo.GetComponent<DraggableObject>() == null)
-                draggableGo.AddComponent<DraggableObject>();
+            DraggableObject draggableObject = draggableGo.GetComponent<DraggableObject>();
+            if (draggableObject == null)
+                draggableObject = draggableGo.AddComponent<DraggableObject>();
 
             // Add Outline
             Outline outline = draggableGo.GetComponent<Outline>();
             if (outline == null)
                 outline = draggableGo.AddComponent<Outline>();
-
             outline.enabled = false;
-            outline.OutlineWidth = outlineWidth;
-            outline.OutlineColor = outlineColor;
-            outline.OutlineMode = Outline.Mode.OutlineVisible;
+
+            draggables.Add(draggableObject);
         }
     }
 
@@ -75,17 +145,17 @@ public class DraggableManager : MonoBehaviour
 
         if (target != null)
         {
-            if (DraggableObject == null)
+            if (SelectedObject == null)
             {
                 SetDraggable(target);
             }
-            else if (DraggableObject != target)
+            else if (SelectedObject != target)
             {
                 LoseDraggable();
                 SetDraggable(target);
             }
         }
-        else if (DraggableObject != null)
+        else if (SelectedObject != null)
         {
             LoseDraggable();
         }
@@ -95,17 +165,17 @@ public class DraggableManager : MonoBehaviour
     {
         if (draggable != null)
         {
-            DraggableObject = draggable;
-            draggable.ShowSelected();
+            SelectedObject = draggable;
+            draggable.ShowActivelySelected();
         }
     }
 
     private void LoseDraggable()
     {
-        if (DraggableObject != null)
+        if (SelectedObject != null)
         {
-            DraggableObject.HideSelected();
-            DraggableObject = null;
+            SelectedObject.HideMarked();
+            SelectedObject = null;
         }
 
         if (UIManager.Instance.GetActiveToolTipType() == ToolTipType.Skill)

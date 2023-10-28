@@ -33555,8 +33555,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9818c6417af2de4e956e4d5706265e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineWidth: 3
-  outlineColor: {r: 1, g: 0, b: 0.9176221, a: 1}
   rayDistance: 10
 --- !u!1001 &903482988
 PrefabInstance:
@@ -44200,7 +44198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5898887583264655083, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5907211780347766185, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: m_LocalRotation.w

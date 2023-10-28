@@ -30,6 +30,7 @@ public class AIStatePanicSearch : MonoBehaviour, IAIState
 
     public void ExitState()
     {
+        StopAllCoroutines();
         if (searchRoutine != null)
             StopCoroutine(searchRoutine);
     }

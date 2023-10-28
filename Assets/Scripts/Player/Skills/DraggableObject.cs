@@ -5,10 +5,6 @@ using UnityEngine;
 public class DraggableObject : MonoBehaviour
 {
     [HideInInspector]
-    public Material HighlightMaterial;
-    [HideInInspector]
-    public Material FocusMaterial;
-    [HideInInspector]
     public float HighlightDistance;
 
     private Outline outline;
@@ -17,15 +13,25 @@ public class DraggableObject : MonoBehaviour
     void Start()
     {
         outline = GetComponent<Outline>();
-        outline.enabled = false;
     }
 
-    public void ShowSelected()
+    public void ShowMarked()
     {
         outline.enabled = true;
+        outline.OutlineWidth = 2f;
+        outline.OutlineColor = Color.white;
+        outline.OutlineMode = Outline.Mode.OutlineVisible;
     }
 
-    public void HideSelected()
+    public void ShowActivelySelected()
+    {
+        outline.enabled = true;
+        outline.OutlineWidth = 5f;
+        outline.OutlineColor = Color.magenta;
+        outline.OutlineMode = Outline.Mode.OutlineAll;
+    }
+
+    public void HideMarked()
     {
         outline.enabled = false;
     }
@@ -38,8 +44,14 @@ public class DraggableObject : MonoBehaviour
         if (other.gameObject.CompareTag("Hitbox"))
         {
             AIStateManager aIStateManager = other.GetComponentInParent<AIStateManager>();
-            aIStateManager.TransitionToState(AIStates.LostPlayer);
+            aIStateManager.TransitionToState(AIStates.Stun);
             IsFlying = false;
+            Destroy(gameObject); // destroy myself
         }
+    }
+
+    private void OnDestroy()
+    {
+        DraggableManager.Instance.RemoveDraggableFromList(this);
     }
 }

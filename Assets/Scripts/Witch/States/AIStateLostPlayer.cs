@@ -40,6 +40,7 @@ public class AIStateLostPlayer : MonoBehaviour, IAIState
 
     public void ExitState()
     {
+        StopAllCoroutines();
         watchingTimer = 0;
         if (searchRoutine != null)
             StopCoroutine(searchRoutine);

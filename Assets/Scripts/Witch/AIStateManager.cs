@@ -63,6 +63,7 @@ public class AIStateManager : MonoBehaviour
         states.Add(AIStates.SpottetPlayer, GetComponent<AIStateSpottedPlayer>());
         states.Add(AIStates.PanicSearch, GetComponent<AIStatePanicSearch>());
         states.Add(AIStates.Turn, GetComponent<AIStateTurn>());
+        states.Add(AIStates.Stun, GetComponent<AIStateStun>());
 
         foreach (var state in states)
             state.Value.InitState(this);
@@ -173,5 +174,6 @@ public enum AIStates
     Patrol,
     RangeAttack,
     SpottetPlayer,
-    Turn
+    Turn,
+    Stun
 }

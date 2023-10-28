@@ -19,7 +19,7 @@ public class Poltergeist : PlayerSkill
     private void Update()
     {
         // Activly looking at an object
-        if (IsActivated && DraggableManager.Instance.DraggableObject != null)
+        if (IsActivated && DraggableManager.Instance.SelectedObject != null)
         {
             UIManager.Instance.ShowSkillTooltip("Alert!", MouseSide.LeftClick);
         }
@@ -27,14 +27,14 @@ public class Poltergeist : PlayerSkill
 
     public override bool Execute()
     {
-        if (DraggableManager.Instance.DraggableObject == null)
+        if (DraggableManager.Instance.SelectedObject == null)
             return false;
 
         if (Stats.Instance.CoinsCollected <= 0)
             return false;
 
-        if (!DraggableManager.Instance.DraggableObject.TryGetComponent<Rigidbody>(out var rb))
-            rb = DraggableManager.Instance.DraggableObject.AddComponent<Rigidbody>();
+        if (!DraggableManager.Instance.SelectedObject.TryGetComponent<Rigidbody>(out var rb))
+            rb = DraggableManager.Instance.SelectedObject.AddComponent<Rigidbody>();
 
         // Using
         rb.AddForce(Camera.main.transform.forward * PushForce, ForceMode.Impulse);

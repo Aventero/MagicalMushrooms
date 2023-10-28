@@ -33,7 +33,7 @@ public class Dragging : PlayerSkill
     void Update()
     {
         // Activly looking at an object
-        if (IsActivated && DraggableManager.Instance.DraggableObject != null && !IsDragging)
+        if (IsActivated && DraggableManager.Instance.SelectedObject != null && !IsDragging)
             UIManager.Instance.ShowSkillTooltip("Grab!", MouseSide.LeftClick);
 
         if (!IsDragging)
@@ -82,14 +82,14 @@ public class Dragging : PlayerSkill
     public override bool Execute()
     {
         // No object -> Stop the skill Or already dragging
-        if (DraggableManager.Instance.DraggableObject == null || IsDragging)
+        if (DraggableManager.Instance.SelectedObject == null || IsDragging)
             return false;
 
         // Activate the skill!
-        if (DraggableManager.Instance.DraggableObject.GetComponent<Rigidbody>() == null)
-            DraggableManager.Instance.DraggableObject.AddComponent<Rigidbody>();
+        if (DraggableManager.Instance.SelectedObject.GetComponent<Rigidbody>() == null)
+            DraggableManager.Instance.SelectedObject.AddComponent<Rigidbody>();
 
-        draggingObject = DraggableManager.Instance.DraggableObject.gameObject;
+        draggingObject = DraggableManager.Instance.SelectedObject.gameObject;
         draggingBody = draggingObject.GetComponent<Rigidbody>();
 
         IsDragging = true;
