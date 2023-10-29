@@ -1864,6 +1864,7 @@ GameObject:
   - component: {fileID: 1064245912}
   - component: {fileID: 1980294620}
   - component: {fileID: 7633978194452376394}
+  - component: {fileID: 2309763934441422444}
   m_Layer: 0
   m_Name: Brigit
   m_TagString: Witch
@@ -2062,12 +2063,11 @@ MonoBehaviour:
   SpotLight: {fileID: 0}
   distanceToWatchPoint: 0
   AttackAfterSeconds: 5
-  RelaxedSmoothTime: 1
-  PatrolSmoothTime: 0.25
-  ChaseSmoothTime: 0.25
-  LostPlayerSmoothTime: 1
-  PanicSearchSmoothTime: 1
-  SpottetPlayerSmoothTime: 0.5
+  VerySlowSmoothTime: 0.25
+  SlowSmoothTime: 1.5
+  FastSmoothTime: 0.5
+  VeryFastSmoothTime: 1
+  InstantSmoothTime: 2
   ObjectPlayerIsHidingBehind: {fileID: 0}
 --- !u!114 &3658052457786925148
 MonoBehaviour:
@@ -2461,6 +2461,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxStunTime: 4
+--- !u!114 &2309763934441422444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4469095328606076453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e8ec683ba8f7584393e65830bca462d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5140360957779315687
 GameObject:
   m_ObjectHideFlags: 0

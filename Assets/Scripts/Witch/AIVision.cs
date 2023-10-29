@@ -41,12 +41,11 @@ public class AIVision : MonoBehaviour
     private Vector3 smoothingPosition;
 
     [Header("Vision Smoothing")]
-    public float RelaxedSmoothTime = 1.5f;
-    public float PatrolSmoothTime = 0.25f;
-    public float ChaseSmoothTime = 1.0f;
-    public float LostPlayerSmoothTime = 2.0f;
-    public float PanicSearchSmoothTime = 0.5f;
-    public float SpottetPlayerSmoothTime = 0.5f;
+    public float VerySlowSmoothTime = 0.25f;
+    public float SlowSmoothTime = 1.5f;
+    public float FastSmoothTime = 0.5f;
+    public float VeryFastSmoothTime = 1.0f;
+    public float InstantSmoothTime = 2.0f;
     private float currentSmoothTime = 0f;
 
     private AIStateManager stateManager;
@@ -61,7 +60,7 @@ public class AIVision : MonoBehaviour
         stateManager = GetComponent<AIStateManager>();
         Player = stateManager.Player;
         Watch(stateManager.WatchPoints[0].position);
-        SetWatchingMode(WatchingMode.Relaxed);
+        SetWatchingMode(WatchingMode.Slow);
         smoothingPosition = currentWatchTarget;
     }
 
@@ -88,7 +87,7 @@ public class AIVision : MonoBehaviour
 
     public bool HasReachedTarget()
     {
-        float threshold = 0.25f;
+        float threshold = 2.5f;
         return Vector3.Distance(smoothingPosition, currentWatchTarget) < threshold;
     }
 
@@ -96,13 +95,12 @@ public class AIVision : MonoBehaviour
     {
         currentSmoothTime = watchSpeed switch
         {
-            WatchingMode.Relaxed => RelaxedSmoothTime,
-            WatchingMode.Patrol => PatrolSmoothTime,
-            WatchingMode.SpottedPlayer => SpottetPlayerSmoothTime,
-            WatchingMode.Chasing => ChaseSmoothTime,
-            WatchingMode.LostPlayer => LostPlayerSmoothTime,
-            WatchingMode.Paniced => PanicSearchSmoothTime,
-            _ => RelaxedSmoothTime,
+            WatchingMode.VerySlow => VerySlowSmoothTime,
+            WatchingMode.Slow => SlowSmoothTime,
+            WatchingMode.Fast => FastSmoothTime,
+            WatchingMode.VeryFast => VeryFastSmoothTime,
+            WatchingMode.Instant => InstantSmoothTime,
+            _ => SlowSmoothTime,
         };
     }
 
@@ -126,6 +124,17 @@ public class AIVision : MonoBehaviour
 
         targetScale = new Vector3(originalVisionScale.x, originalVisionScale.y, originalVisionScale.z - additionalZScale);
 
+        // Interpolate towards the target scale.
+        float lerpSpeed = 0.1f;
+        ViewCone.transform.localScale = Vector3.Lerp(ViewCone.transform.localScale, targetScale, lerpSpeed);
+    }
+
+    public void ScaleVision(float scale)
+    {
+        targetScale = new Vector3(originalVisionScale.x, originalVisionScale.y, originalVisionScale.z - scale);
+
+        SpotLight.innerSpotAngle = originalVisionScale.z + scale;
+        SpotLight.spotAngle = originalVisionScale.z + scale + 5f;
         // Interpolate towards the target scale.
         float lerpSpeed = 0.1f;
         ViewCone.transform.localScale = Vector3.Lerp(ViewCone.transform.localScale, targetScale, lerpSpeed);
@@ -228,10 +237,9 @@ public class AIVision : MonoBehaviour
 
 public enum WatchingMode
 {
-    Relaxed,
-    Patrol,
-    SpottedPlayer,
-    Chasing,
-    LostPlayer,
-    Paniced
+    VerySlow,
+    Slow,
+    Fast,
+    VeryFast,
+    Instant
 }

@@ -21,6 +21,7 @@ public class AIStateManager : MonoBehaviour
     public GameObject WatchPointsParent;
     public GameObject VisionCone;
     public GameObject StandardWatchpoint;
+    public Vector3 PointOfInterest;
     public List<Transform> WatchPoints { get; private set; }
 
     // Watching
@@ -33,10 +34,10 @@ public class AIStateManager : MonoBehaviour
     // Animation
     public WitchUIAnimation UIAnimation { get; private set; }
     public PlayerDetection PlayerDetection { get; private set; }
-
     public WitchLocator WitchLocator { get; private set; }
-
     public WarnPulse WarnPulse { get; private set; }
+
+    public float VisionScaling = 0f;
 
     void Awake()
     {
@@ -64,6 +65,7 @@ public class AIStateManager : MonoBehaviour
         states.Add(AIStates.PanicSearch, GetComponent<AIStatePanicSearch>());
         states.Add(AIStates.Turn, GetComponent<AIStateTurn>());
         states.Add(AIStates.Stun, GetComponent<AIStateStun>());
+        states.Add(AIStates.Alert, GetComponent<AIStateAlert>());
 
         foreach (var state in states)
             state.Value.InitState(this);
@@ -87,6 +89,7 @@ public class AIStateManager : MonoBehaviour
             return;
         currentState.UpdateState();
         Vision.WatchCurrentTarget();
+        Vision.ScaleVision(VisionScaling);
         Movement.AnimateWitch();
         DangerOverlay.UpdateColors();
         UIAnimation.UpdateAnimationStates();
@@ -175,5 +178,6 @@ public enum AIStates
     RangeAttack,
     SpottetPlayer,
     Turn,
-    Stun
+    Stun,
+    Alert
 }

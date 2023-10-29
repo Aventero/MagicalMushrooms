@@ -54,16 +54,16 @@ public class DraggableManager : MonoBehaviour
         List<DraggableObject> toAdd = new List<DraggableObject>();
         List<DraggableObject> toRemove = new List<DraggableObject>();
 
-        float squaredRayDistance = rayDistance * rayDistance;
+        float distance = rayDistance;
 
         foreach (var draggable in draggables)
         {
             if (draggable == SelectedObject)
                 continue;
 
-            float squaredDistanceToPlayer = (player.position - draggable.transform.position).sqrMagnitude;
+            float distanceToPlayer = (player.position - draggable.transform.position).magnitude;
 
-            if (squaredDistanceToPlayer <= squaredRayDistance)
+            if (distanceToPlayer <= distance)
             {
                 if (!markedDraggables.Contains(draggable))
                 {

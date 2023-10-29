@@ -22,7 +22,7 @@ public class AIStateIdle : MonoBehaviour, IAIState
     public void EnterState()
     {
         stateManager.DangerOverlay.SetState(DangerState.Nothing);
-        stateManager.Vision.SetWatchingMode(WatchingMode.Relaxed);
+        stateManager.Vision.SetWatchingMode(WatchingMode.Slow);
         stateManager.Movement.StopAgent();
         List<Transform> visiblePointsAroundPlayer = stateManager.VisiblePointsAroundPlayer(transform.position, transform.forward, 75f);
         StartCoroutine(LookAround(WaitTimeInBetween, visiblePointsAroundPlayer));

@@ -46,7 +46,7 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
     {
         completedWalk = false;
         stateManager.DangerOverlay.SetState(DangerState.Nothing);
-        stateManager.Vision.SetWatchingMode(WatchingMode.Patrol);
+        stateManager.Vision.SetWatchingMode(WatchingMode.Slow);
         stateManager.Movement.StopAgent();
         //Transform walkPoint = stateManager.Movement.FindNewWalkpoint();
         //stateManager.Movement.SetWalkPoint(walkPoint.position);

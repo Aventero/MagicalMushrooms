@@ -25,7 +25,7 @@ public class AIStateLostPlayer : MonoBehaviour, IAIState
     public void EnterState()
     {
         stateManager.DangerOverlay.SetState(DangerState.Safe);
-        stateManager.Vision.SetWatchingMode(WatchingMode.LostPlayer);
+        stateManager.Vision.SetWatchingMode(WatchingMode.Instant);
         stateManager.Watch(stateManager.Player.position);
         stateManager.Movement.StopAgent();
         stateManager.UIAnimation.PlayPupilExpand(vision.AttackAfterSeconds, true);

@@ -17,7 +17,7 @@ public class AIStateStun : MonoBehaviour, IAIState
 
     public void EnterState()
     {
-        stateManager.Vision.SetWatchingMode(WatchingMode.Chasing);
+        stateManager.Vision.SetWatchingMode(WatchingMode.Slow);
         stateManager.DangerOverlay.SetState(DangerState.Safe);
         stateManager.UIAnimation.PlayEyeClose();
         stateManager.ToggleWitchLocator(false);
@@ -33,7 +33,12 @@ public class AIStateStun : MonoBehaviour, IAIState
         LookDown();
 
         if (currentStunTime > MaxStunTime)
-            stateManager.TransitionToState(AIStates.LostPlayer);
+        {
+            stateManager.VisionCone.SetActive(true);
+            stateManager.Vision.Watch(stateManager.StandardWatchpoint.transform.position);
+            if (stateManager.Vision.HasReachedTarget())
+                stateManager.TransitionToState(AIStates.PanicSearch);
+        }
     }
 
     private void LookDown()
@@ -44,6 +49,6 @@ public class AIStateStun : MonoBehaviour, IAIState
 
     public void ExitState()
     {
-        stateManager.VisionCone.SetActive(true);
+
     }
 }

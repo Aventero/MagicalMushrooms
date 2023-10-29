@@ -18,7 +18,7 @@ internal class AIStateTurn : MonoBehaviour, IAIState
     }
     public void EnterState()
     {
-        stateManager.Vision.SetWatchingMode(WatchingMode.Relaxed);
+        stateManager.Vision.SetWatchingMode(WatchingMode.Slow);
         stateManager.DangerOverlay.SetState(DangerState.Nothing);
         stateManager.Movement.StopAgent();
         stateManager.Movement.agent.updateRotation = false; // Let me do the rotation!

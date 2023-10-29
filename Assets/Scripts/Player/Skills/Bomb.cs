@@ -51,6 +51,18 @@ public class Bomb : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && !isFlying)
+            UIManager.Instance.ShowSmokeFrame(true);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player") && !isFlying)
+            UIManager.Instance.ShowSmokeFrame(false);
+    }
+
     private void Update()
     {
         if (isFlying)

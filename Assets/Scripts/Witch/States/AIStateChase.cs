@@ -35,7 +35,7 @@ internal class AIStateChase : MonoBehaviour, IAIState
         stateManager.WarnPulse.StartPulse();
 
         // Watching
-        vision.SetWatchingMode(WatchingMode.Chasing);
+        vision.SetWatchingMode(WatchingMode.VeryFast);
         stateManager.Watch(stateManager.Player.position);
 
         // Chase player

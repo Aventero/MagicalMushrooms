@@ -39,7 +39,9 @@ public class Poltergeist : PlayerSkill
         // Using
         rb.AddForce(Camera.main.transform.forward * PushForce, ForceMode.Impulse);
         Stats.Instance.DecreaseCoinsCollected(SkillCost);
-
+        AIStateManager aIStateManager = FindObjectOfType<AIStateManager>();;
+        aIStateManager.PointOfInterest = DraggableManager.Instance.SelectedObject.transform.position;
+        aIStateManager.TransitionToState(AIStates.Alert);
         HidePreview();
         return true;
     }

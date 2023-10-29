@@ -18,6 +18,7 @@ public class OverlayMenu : MonoBehaviour
     public GameObject DraggingObject;
     public GameObject DraggingLetter;
     public GameObject InteractRing;
+    public GameObject SmokeFrame;
 
     [Header("Interaction")]
     public Image InteractionPopup;
@@ -226,6 +227,17 @@ public class OverlayMenu : MonoBehaviour
 
         pickedUpItemsSprites.Add(item.Icon);
         UpdateItemSprites();
+    }
+
+    public void ShowSmokeFrame(bool visible)
+    {
+        if (SmokeFrame.TryGetComponent<SmokeFrame>(out var smokeFrame))
+        {
+            if (visible)
+                smokeFrame.Reveal();
+            else
+                smokeFrame.Hide();
+        }
     }
 
     public void DisplayInteractionText(bool active, string text)

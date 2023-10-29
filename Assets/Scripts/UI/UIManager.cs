@@ -158,6 +158,11 @@ public class UIManager : MonoBehaviour
     } 
     
 
+    public void ShowSmokeFrame(bool visible)
+    {
+        overlayMenu.ShowSmokeFrame(visible);
+    }
+
     private void GameOver()
     {
         PauseGame();
