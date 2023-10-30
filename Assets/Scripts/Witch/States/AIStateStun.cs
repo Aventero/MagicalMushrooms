@@ -49,6 +49,6 @@ public class AIStateStun : MonoBehaviour, IAIState
 
     public void ExitState()
     {
-
+        stateManager.VisionCone.SetActive(true);
     }
 }

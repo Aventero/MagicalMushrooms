@@ -16,6 +16,8 @@ public class Poltergeist : PlayerSkill
     [Header("Particles")]
     public ParticleSystem poltergeistParticleSystem;
 
+
+
     private void Update()
     {
         // Activly looking at an object

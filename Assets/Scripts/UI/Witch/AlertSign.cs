@@ -11,7 +11,7 @@ public class AlertSign : MonoBehaviour
     private void Update()
     {
         // Convert the world position to viewport point
-        Vector3 viewportPoint = Camera.main.WorldToViewportPoint(tracking.position);
+        Vector3 viewportPoint = Camera.main.WorldToViewportPoint(tracking.position + new Vector3(offset.x, offset.y, 0));
 
         // Check if the point is behind the camera
         if (viewportPoint.z < 0)
@@ -27,7 +27,6 @@ public class AlertSign : MonoBehaviour
         }
 
         Vector2 screenPoint = new Vector2(viewportPoint.x * Screen.width, viewportPoint.y * Screen.height);
-        screenPoint += offset;
         movedIconParent.position = screenPoint;
     }
 

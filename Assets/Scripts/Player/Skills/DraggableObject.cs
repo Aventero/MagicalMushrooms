@@ -36,7 +36,7 @@ public class DraggableObject : MonoBehaviour
         outline.enabled = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (!IsFlying)
             return;
@@ -46,7 +46,7 @@ public class DraggableObject : MonoBehaviour
             AIStateManager aIStateManager = other.GetComponentInParent<AIStateManager>();
             aIStateManager.TransitionToState(AIStates.Stun);
             IsFlying = false;
-            Destroy(gameObject); // destroy myself
+            Destroy(gameObject);
         }
     }
 

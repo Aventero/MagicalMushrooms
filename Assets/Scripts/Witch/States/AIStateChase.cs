@@ -29,6 +29,7 @@ internal class AIStateChase : MonoBehaviour, IAIState
     public void EnterState()
     {
         // UI
+        stateManager.WitchExclamationSign.SetActive(true);
         stateManager.DangerOverlay.SetState(DangerState.Danger);
         stateManager.UIAnimation.PlayPupilExpand(vision.AttackAfterSeconds, false);
         stateManager.ToggleWitchLocator(true);
@@ -64,6 +65,7 @@ internal class AIStateChase : MonoBehaviour, IAIState
         stateManager.Movement.StopAgent();
         stateManager.ToggleWitchLocator(false);
         stateManager.WarnPulse.StopPulse();
+        stateManager.WitchExclamationSign.SetActive(false);
     }
 
     public void UpdateState()

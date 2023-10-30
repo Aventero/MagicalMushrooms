@@ -18,6 +18,7 @@ public class AIStateSpottedPlayer : MonoBehaviour, IAIState
     public void EnterState()
     {
         spottingTimer = 0;
+        stateManager.WitchExclamationSign.SetActive(true);
         stateManager.Watch(stateManager.Player.position);
         stateManager.Vision.SetWatchingMode(WatchingMode.Fast);
         stateManager.DangerOverlay.SetState(DangerState.Danger);
@@ -40,5 +41,6 @@ public class AIStateSpottedPlayer : MonoBehaviour, IAIState
     {
         spottingTimer = 0;
         stateManager.ToggleWitchLocator(false);
+        stateManager.WitchExclamationSign.SetActive(false);
     }
 }

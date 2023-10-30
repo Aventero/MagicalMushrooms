@@ -39,6 +39,10 @@ public class AIStateManager : MonoBehaviour
 
     public float VisionScaling = 0f;
 
+    [Header("UI")]
+    public GameObject WitchQuestionSign;
+    public GameObject WitchExclamationSign;
+
     void Awake()
     {
         PlayerDetection = GetComponent<PlayerDetection>();
@@ -117,7 +121,7 @@ public class AIStateManager : MonoBehaviour
 
     public void TransitionToState(AIStates stateName)
     {
-        Debug.LogWarning("New State: " + stateName);
+        Debug.Log("New State: " + stateName);
         previousState = currentState;
         currentState.ExitState();
         currentState = states[stateName];

@@ -12,8 +12,6 @@ public class AIStateAlert : MonoBehaviour, IAIState
     public float currentWatchTime = 0f;
     public bool pointOfInterestReached = false;
 
-    [Header("UI")]
-    public GameObject WitchAlertSign;
 
     public void InitState(AIStateManager stateManager)
     {
@@ -22,7 +20,7 @@ public class AIStateAlert : MonoBehaviour, IAIState
 
     public void EnterState()
     {
-        WitchAlertSign.SetActive(true);
+        stateManager.WitchQuestionSign.SetActive(true);
         stateManager.VisionScaling = -30f;
         StateManager.Instance.IsAllowedToSeePlayer = false;
         Vector3 dirToPlayer = (stateManager.Player.position - transform.position).normalized;
@@ -38,7 +36,7 @@ public class AIStateAlert : MonoBehaviour, IAIState
 
     public void ExitState()
     {
-        WitchAlertSign.SetActive(false);
+        stateManager.WitchQuestionSign.SetActive(false);
         StateManager.Instance.IsAllowedToSeePlayer = true;
         stateManager.VisionScaling = 0f;
     }
