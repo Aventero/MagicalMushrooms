@@ -50,6 +50,8 @@ public class UIManager : MonoBehaviour
             PauseMenu.SetActive(false);
             DialogMenu.SetActive(false);
         }
+
+        Canvas.ForceUpdateCanvases();
     }
 
     // User hit the escape key 

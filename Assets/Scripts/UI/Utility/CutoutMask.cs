@@ -6,11 +6,19 @@ using UnityEngine.UI;
 
 public class CutoutMask : Image
 {
+    new IEnumerator Start()
+    {
+        yield return null;
+        OnDisable();
+        yield return null;
+        OnEnable();
+    }
+
     public override Material materialForRendering
     {
         get
         {
-            Material material = new Material(base.materialForRendering);
+            Material material = new(base.materialForRendering);
             material.SetInt("_StencilComp", (int)CompareFunction.NotEqual); 
             return material;
         }
