@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ball
+  m_Name: MagicLiquid
   m_Shader: {fileID: -6465566751694194690, guid: d6932f6dd90e4be44903beb0a055ba3e, type: 3}
   m_ValidKeywords:
   - _ALPHATEST_ON
@@ -58,7 +58,7 @@ Material:
     - _CastShadows: 1
     - _Cull: 0
     - _DstBlend: 0
-    - _FresnelPower: 2
+    - _FresnelPower: 2.58
     - _Height: 0.581
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -75,8 +75,8 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.3867925, g: 0.2244126, b: 0.2244126, a: 0}
     - _EmissionColor: {r: 0, g: 0.05415542, b: 0.4245283, a: 0}
-    - _FresnelColor: {r: 1.2231565, g: 0, b: 77.87429, a: 0}
-    - _LiquidColor: {r: 0.31598854, g: 0, b: 0.5764706, a: 0}
+    - _FresnelColor: {r: 0, g: 4.9182386, b: 18.164822, a: 0}
+    - _LiquidColor: {r: 0, g: 0.36191186, b: 0.6320754, a: 0}
     - _ObjectBounds: {r: 0.84, g: 0.12, b: 0, a: 0}
-    - _SurfaceColor: {r: 16.062746, g: 0, b: 766.9961, a: 0}
+    - _SurfaceColor: {r: 0, g: 15.449657, b: 59.017693, a: 0}
   m_BuildTextureStacks: []
