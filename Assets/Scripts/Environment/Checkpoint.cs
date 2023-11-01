@@ -9,7 +9,7 @@ public class Checkpoint : MonoBehaviour
     private Quaternion playerRotation;
     private GameObject player;
 
-    private void Start()
+    private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
