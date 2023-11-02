@@ -29122,6 +29122,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3308ba2bb1f39ac4b9d72bb276014b6a, type: 3}
+--- !u!4 &1067978665 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3476712562730145901, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+  m_PrefabInstance: {fileID: 1211175935}
+  m_PrefabAsset: {fileID: 0}
 --- !u!198 &1068358611 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 7544239732353628389, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
@@ -31932,6 +31937,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1064245912, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: AttackTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064245912, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: AttackZone
+      value: 
+      objectReference: {fileID: 1736508280}
+    - target: {fileID: 1064245912, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: attackZone
+      value: 
+      objectReference: {fileID: 1736508281}
+    - target: {fileID: 1064245912, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: witchTransform
+      value: 
+      objectReference: {fileID: 1067978665}
+    - target: {fileID: 1064245912, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: targetTransform
+      value: 
+      objectReference: {fileID: 2032131219}
+    - target: {fileID: 1064245912, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: witchShootOrigin
+      value: 
+      objectReference: {fileID: 1067978665}
+    - target: {fileID: 1064245912, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: attackLineRenderer
+      value: 
+      objectReference: {fileID: 1695989303}
     - target: {fileID: 1980294620, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: volume
       value: 
@@ -31944,6 +31977,14 @@ PrefabInstance:
       propertyPath: WitchLocatorInUI
       value: 
       objectReference: {fileID: 989626762}
+    - target: {fileID: 3300542226372243922, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: m_Name
+      value: AttackZone
+      objectReference: {fileID: 0}
+    - target: {fileID: 3300542226372243922, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3658052457786925148, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: ChasePoint
       value: 
@@ -31968,6 +32009,10 @@ PrefabInstance:
       propertyPath: WitchExclamationSign
       value: 
       objectReference: {fileID: 2093898072}
+    - target: {fileID: 3658052457786925151, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: m_Radius
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3841212219368694943, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -32015,6 +32060,10 @@ PrefabInstance:
     - target: {fileID: 4469095328606076453, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: m_Name
       value: Brigit
+      objectReference: {fileID: 0}
+    - target: {fileID: 5256732522252716399, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6260247174605872889, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: eyeAnimatorInUI
@@ -45944,6 +45993,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3308ba2bb1f39ac4b9d72bb276014b6a, type: 3}
+--- !u!120 &1695989303 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 3943998762555213043, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+  m_PrefabInstance: {fileID: 1211175935}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1696366919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46871,6 +46925,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3308ba2bb1f39ac4b9d72bb276014b6a, type: 3}
+--- !u!1 &1736508280 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3300542226372243922, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+  m_PrefabInstance: {fileID: 1211175935}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1736508281 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9083470424619625675, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+  m_PrefabInstance: {fileID: 1211175935}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1741767517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54268,7 +54332,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2857605709861750656, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.9
+      value: -0.55
       objectReference: {fileID: 0}
     - target: {fileID: 2857605709861750656, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -54276,7 +54340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2857605709861750656, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -30.2
+      value: -17.14
       objectReference: {fileID: 0}
     - target: {fileID: 2857605709861750656, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_LocalRotation.w

@@ -16,8 +16,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
     private float initialWeight;
 
     [Header("Attack Zone")]
-    public GameObject InteractionZoneGimble;
-    public Transform witchPivotTransform;
+    public GameObject AttackZone;
     public float AttackTime = 1f;
     private Vector3 initialScale;
     private float InitialScaling = 0.1f;
@@ -27,39 +26,53 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
     public GameObject AttackObject;
     public float Speed;
 
+
+    [Header("Line Renderer")]
+    [SerializeField] private LineRenderer attackLineRenderer;
+    [SerializeField] private Transform witchShootOrigin; // The transform component of the witch
+    [SerializeField] private float lineDrawDuration = 1f; // How long it takes to draw the line
+    private Vector3 initialPlayerPosition;
+
     public void InitState(AIStateManager stateManager)
     {
         this.stateManager = stateManager;
-        initialScale = InteractionZoneGimble.transform.localScale;
+        initialScale = AttackZone.transform.localScale;
     }
 
     public void EnterState()
     {
-        InteractionZoneGimble.SetActive(true);
+        AttackZone.SetActive(true);
         stateManager.Movement.SetWalkPoint(stateManager.Player.position);
         stateManager.DangerOverlay.SetState(DangerState.Attack);
         stateManager.ToggleWitchLocator(true);
         StartCoroutine(ScaleZone());
         initialWeight = RightHandAimConstraint.weight;
         stateManager.WarnPulse.StartPulse();
+        initialPlayerPosition = stateManager.Player.position;
+        attackLineRenderer.enabled = true;
     }
 
     public void ExitState()
     {
+        StopAllCoroutines();
         stateManager.ToggleWitchLocator(false);
-        InteractionZoneGimble.SetActive(false);
+        AttackZone.SetActive(false);
         stateManager.WarnPulse.StopPulse();
+        attackLineRenderer.enabled = false;
     }
 
     public void UpdateState()
     {
         stateManager.Watch(stateManager.Player.position);
+        attackLineRenderer.SetPosition(0, witchShootOrigin.position);
+        attackLineRenderer.SetPosition(1, initialPlayerPosition);
     }
+
 
     private IEnumerator ScaleZone()
     {
 
-        GameObject magicProjectile = Instantiate(AttackObject, InteractionZoneGimble.transform.position, InteractionZoneGimble.transform.localRotation);
+        GameObject magicProjectile = Instantiate(AttackObject, AttackZone.transform.position, AttackZone.transform.localRotation);
         TrailRenderer trailRenderer = magicProjectile.GetComponent<TrailRenderer>();
 
         float attackTimeDelta = 0f;
@@ -70,23 +83,24 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
             attackTimeDelta += Time.deltaTime;
             rigTimeDelta += Time.deltaTime;
 
+            // Rig
             RightHandAimConstraint.weight = Mathf.Lerp(initialWeight, 1f, rigTimeDelta / WeightTime);
-            Tracking(magicProjectile);
 
-            // Scale the Zone and Projectile
+            // Zone
             float scaleValue = Mathf.Lerp(InitialScaling, MaxScaling, attackTimeDelta / AttackTime);
-            InteractionZoneGimble.transform.localScale = new Vector3(scaleValue, initialScale.y, scaleValue);
+            AttackZone.transform.localScale = new Vector3(scaleValue, initialScale.y, scaleValue);
+            AttackZone.transform.position = initialPlayerPosition;
+
+            // Projectile
             float magicProjectileScale = scaleValue / 2f;
+            magicProjectile.transform.position = witchShootOrigin.position;
             magicProjectile.transform.localScale = new Vector3(magicProjectileScale, magicProjectileScale, magicProjectileScale);
-            
-            // Set Projectile Trail
             trailRenderer.startWidth = magicProjectileScale;
             yield return null;
         }
 
         // Shoot Projectile towards the player direction
-        Vector3 directionToPlayer = (stateManager.Player.position - witchPivotTransform.position).normalized;
-        StartCoroutine(ShootMagicProjectile(magicProjectile, directionToPlayer));
+        StartCoroutine(ShootMagicProjectile(magicProjectile, (initialPlayerPosition - witchShootOrigin.position).normalized));
     }
 
     private IEnumerator ShootMagicProjectile(GameObject magicProjectile, Vector3 direction)
@@ -106,6 +120,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
             {
                 TrailRenderer trailRenderer = magicProjectile.GetComponent<TrailRenderer>();
                 trailRenderer.enabled = false;
+                attackLineRenderer.enabled = false;
                 StartCoroutine(ScaleUpProjectile(magicProjectile));
                 yield break;
             }
@@ -116,6 +131,8 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
             yield return null;
         }
         StartCoroutine(ScaleDownZone());
+        attackLineRenderer.enabled = false;
+
         // Nothing hit!
         float deltaTime = 0;
         while (deltaTime <= 2f)
@@ -179,7 +196,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
 
     IEnumerator ScaleDownZone()
     {
-        float scale = InteractionZoneGimble.transform.localScale.x;
+        float scale = AttackZone.transform.localScale.x;
         float deltaTime = 0f;
         float maxTime = 2f;
         while (deltaTime <= maxTime)
@@ -188,14 +205,8 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
             
             // Scale the Zone and Projectile
             float scaleValue = Mathf.Lerp(scale, 0, deltaTime / maxTime);
-            InteractionZoneGimble.transform.localScale = new Vector3(scaleValue, initialScale.y, scaleValue);
+            AttackZone.transform.localScale = new Vector3(scaleValue, initialScale.y, scaleValue);
             yield return null;
         }
-    }
-
-    private void Tracking(GameObject magicProjectile)
-    {
-        InteractionZoneGimble.transform.position = stateManager.Player.position;
-        magicProjectile.transform.position = witchPivotTransform.position;
     }
 }

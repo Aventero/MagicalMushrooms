@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 1551701411041244856}
   - component: {fileID: 2538463740800984497}
   - component: {fileID: 404505527462007768}
+  - component: {fileID: 7561416599878029429}
   m_Layer: 0
-  m_Name: FlashProjectile
+  m_Name: AttackBallProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -221,6 +222,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollidedWithPlayer: 0
+  pushBackDistance: 0.2
+--- !u!114 &7561416599878029429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551701411041244857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &1551701411323560758
 GameObject:
   m_ObjectHideFlags: 0
