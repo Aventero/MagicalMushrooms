@@ -4396,6 +4396,7 @@ MonoBehaviour:
   QuestImage: {fileID: 5078596153481795380}
   ArrowIcon: {fileID: 5772586464475238484}
   TrackingArea: {fileID: 406924275019640060}
+  maxQuestTrackingDistance: 100
 --- !u!1001 &123912656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18565,6 +18566,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxChargeValue: 100
+  FullyChargedText: Fully Charged.
+  ChargingTextBeforeValue: 'Currently has '
+  ChargingTextAfterValue: ' charged.'
   OnFullyCharged:
     m_PersistentCalls:
       m_Calls:
@@ -24091,6 +24095,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxChargeValue: 100
+  FullyChargedText: Fully Charged.
+  ChargingTextBeforeValue: 'Currently has '
+  ChargingTextAfterValue: ' charged.'
   OnFullyCharged:
     m_PersistentCalls:
       m_Calls:
@@ -25780,12 +25787,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94fca49137291f742b30d0d7549f34bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Outline: {fileID: 0}
-  InteractionText: 
-  CanInteract: 1
   conversation: {fileID: 11400000, guid: c330435ba17cfc743bf65cf7dbe59c64, type: 2}
-  InteractionNecessary: 0
-  DestroyIfDone: 1
+  CanInteractWith: 0
+  ShouldDestoryOnComplete: 0
+  OnDialogComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  LookAt: {fileID: 0}
+  scriptedSequenceCam: {fileID: 0}
 --- !u!114 &658335969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33704,6 +33713,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxChargeValue: 100
+  FullyChargedText: Fully Charged.
+  ChargingTextBeforeValue: 'Currently has '
+  ChargingTextAfterValue: ' charged.'
   OnFullyCharged:
     m_PersistentCalls:
       m_Calls:
@@ -38113,6 +38125,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxChargeValue: 100
+  FullyChargedText: Fully Charged.
+  ChargingTextBeforeValue: 'Currently has '
+  ChargingTextAfterValue: ' charged.'
   OnFullyCharged:
     m_PersistentCalls:
       m_Calls:
@@ -41061,6 +41076,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxChargeValue: 50
+  FullyChargedText: Fully Charged.
+  ChargingTextBeforeValue: 'Currently has '
+  ChargingTextAfterValue: ' charged.'
   OnFullyCharged:
     m_PersistentCalls:
       m_Calls:
@@ -50196,6 +50214,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxChargeValue: 10
+  FullyChargedText: Fully Charged.
+  ChargingTextBeforeValue: 'Currently has '
+  ChargingTextAfterValue: ' charged.'
   OnFullyCharged:
     m_PersistentCalls:
       m_Calls:
@@ -50434,6 +50455,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxChargeValue: 2
+  FullyChargedText: Fully Charged.
+  ChargingTextBeforeValue: 'Currently has '
+  ChargingTextAfterValue: ' charged.'
   OnFullyCharged:
     m_PersistentCalls:
       m_Calls:
@@ -59513,8 +59537,9 @@ MonoBehaviour:
   OnElevator: 0
   IsVisionConeOnPlayer: 0
   IsAllowedToSeePlayer: 1
-  isLockedOnWitchHead: 0
+  IsLockedOnWitchHead: 0
   IsPaused: 0
+  IsInCutscene: 0
   ResumePlayerMovementEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -59525,6 +59550,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   PausePlayerCameraEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  StartCutsceneEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  EndCutsceneEvent:
     m_PersistentCalls:
       m_Calls: []
   PauseGameEvent:
@@ -63680,6 +63711,7 @@ MonoBehaviour:
   QuestImage: {fileID: 5078596153481795380}
   ArrowIcon: {fileID: 5772586464475238484}
   TrackingArea: {fileID: 406924275019640060}
+  maxQuestTrackingDistance: 100
 --- !u!4 &1549011602 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3023994083016291481, guid: 3308ba2bb1f39ac4b9d72bb276014b6a, type: 3}
@@ -70261,6 +70293,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxChargeValue: 100
+  FullyChargedText: Fully Charged.
+  ChargingTextBeforeValue: 'Currently has '
+  ChargingTextAfterValue: ' charged.'
   OnFullyCharged:
     m_PersistentCalls:
       m_Calls:
@@ -73927,6 +73962,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxChargeValue: 100
+  FullyChargedText: Fully Charged.
+  ChargingTextBeforeValue: 'Currently has '
+  ChargingTextAfterValue: ' charged.'
   OnFullyCharged:
     m_PersistentCalls:
       m_Calls: []
@@ -74065,6 +74103,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxChargeValue: 100
+  FullyChargedText: Fully Charged.
+  ChargingTextBeforeValue: 'Currently has '
+  ChargingTextAfterValue: ' charged.'
   OnFullyCharged:
     m_PersistentCalls:
       m_Calls:

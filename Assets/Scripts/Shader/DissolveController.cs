@@ -5,6 +5,7 @@ public class DissolveController : MonoBehaviour
     private string dissolveShaderPath = "Shaders/Dissolve";
     public Shader dissolveShader;
     public float dissolveSpeed = 0.5f;
+    public float dissolveScale = 50f;
 
     private float dissolveAmount = 0f;
     private Renderer rend;
@@ -14,7 +15,7 @@ public class DissolveController : MonoBehaviour
     [ColorUsageAttribute(true, true)]
     public Color color = new Color(1f, 1f, 1f);
 
-    void Awake()
+    void Start()
     {
         rend = GetComponent<Renderer>();
         propBlock = new MaterialPropertyBlock();
@@ -29,7 +30,7 @@ public class DissolveController : MonoBehaviour
         rend.material.shader = dissolveShader;
         rend.GetPropertyBlock(propBlock);
         propBlock.SetFloat("_DissolveAmount", 0);
-        propBlock.SetFloat("_DissolveScale", 50f);
+        propBlock.SetFloat("_DissolveScale", dissolveScale);
         propBlock.SetFloat("_DissolveEdgeWidth", 0.01f);
         propBlock.SetColor("_Color", color);
         propBlock.SetFloat("_Seed", seed);
