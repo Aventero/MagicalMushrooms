@@ -30,7 +30,7 @@ public class Plant : Interactable
 
     public override void InPlayerSight()
     {
-        UIManager.Instance.ShowSimpleTooltip(InteractionText);
+        UIManager.Instance.ShowInteractionTooltip(InteractionText);
     }
 
     public override void OutOfPlayerSight()

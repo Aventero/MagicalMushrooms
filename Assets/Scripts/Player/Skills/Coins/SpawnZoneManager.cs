@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.AI;
 
 public class SpawnZoneManager : MonoBehaviour
 {
@@ -31,7 +32,6 @@ public class SpawnZoneManager : MonoBehaviour
         Collider selectedZone = spawnZones[Random.Range(0, spawnZones.Length)];
         Vector3 spawnPosition;
 
-        // Depending on collider type, get a random spawn position
         if (selectedZone is BoxCollider box)
             spawnPosition = GetRandomPositionInsideBox(box);
         else

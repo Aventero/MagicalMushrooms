@@ -9,7 +9,6 @@ public class DialogInteract : Interactable
 {
     [Header("Dialog")]
     public Dialog conversation;
-    public bool CanInteractWith = false;
     public bool ShouldDestoryOnComplete = false;
     public UnityEvent OnDialogComplete;
 
@@ -19,6 +18,9 @@ public class DialogInteract : Interactable
 
     public override void Interact()
     {
+        if (!CanInteract)
+            return;
+
         UIManager.Instance.HideTooltip();
         UIManager.Instance.ShowDialog(conversation);
         scriptedSequenceCam.Priority = 20;
@@ -36,7 +38,7 @@ public class DialogInteract : Interactable
 
     public override void InPlayerSight()
     {
-        UIManager.Instance.ShowSimpleTooltip(InteractionText);
+        UIManager.Instance.ShowInteractionTooltip(InteractionText);
     }
 
     public override void OutOfPlayerSight()

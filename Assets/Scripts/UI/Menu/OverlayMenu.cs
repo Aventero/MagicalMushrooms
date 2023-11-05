@@ -134,7 +134,21 @@ public class OverlayMenu : MonoBehaviour
         }
     }
 
-    public void ShowSimpleTooltip(string text)
+    public void ShowInteractionTooltip(string text)
+    {
+        if (activeToolTipType == ToolTipType.Skill)
+            return;
+
+        activeToolTipType = ToolTipType.None;
+        tooltipText.SetText("<color=yellow>[E]</color> - " + text);
+        Tooltip.SetActive(true);
+        InteractRing.SetActive(true);
+        LeftClickImage.enabled = false;
+        RightClickImage.enabled = false;
+        Mouse.enabled = false;
+    }
+
+    public void ShowSimpleTextTooltip(string text)
     {
         if (activeToolTipType == ToolTipType.Skill)
             return;

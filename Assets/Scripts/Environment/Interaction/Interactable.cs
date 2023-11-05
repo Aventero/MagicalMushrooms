@@ -6,7 +6,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Outline))]
 public class Interactable : MonoBehaviour
 {
-    public Outline Outline;
+    public Outline Outline { get; private set; }
     public string InteractionText;
     protected GameObject player;
     public bool CanInteract = true;
@@ -23,7 +23,7 @@ public class Interactable : MonoBehaviour
 
         if (ShouldHaveOutline)
         {
-            Outline.enabled = true;
+            Outline.enabled = false;
             Outline.OutlineWidth = 1;
             Outline.OutlineMode = Outline.Mode.OutlineAll;
         }
@@ -37,7 +37,7 @@ public class Interactable : MonoBehaviour
                 return;
 
             if (!string.IsNullOrEmpty(InteractionText))
-                UIManager.Instance.ShowSimpleTooltip(InteractionText);
+                UIManager.Instance.ShowInteractionTooltip(InteractionText);
         }
     }
 
@@ -62,7 +62,7 @@ public class Interactable : MonoBehaviour
 
     public virtual void InPlayerSight()
     {
-        UIManager.Instance.ShowSimpleTooltip(InteractionText);
+        UIManager.Instance.ShowInteractionTooltip(InteractionText);
 
     }
     public virtual void OutOfPlayerSight()

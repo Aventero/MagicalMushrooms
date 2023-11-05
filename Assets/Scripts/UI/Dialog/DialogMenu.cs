@@ -114,7 +114,7 @@ public class DialogMenu: MonoBehaviour
     private IEnumerator TypeText(TMP_Text textField, string fullText)
     {
         textField.text = "";
-        float growDuration = GrowDuration; 
+        float growDuration = GrowDuration;
         for (int i = 0; i < fullText.Length; i++)
         {
             string currentText = fullText.Substring(0, i);
@@ -131,9 +131,14 @@ public class DialogMenu: MonoBehaviour
                 yield return null;
             }
 
-            yield return new WaitForSecondsRealtime(WaitForNextLetter); // Delay after the letter has fully appeared
+            textField.text = currentText + fullText[i]; // Set the letter to full size without tags
+            yield return new WaitForEndOfFrame(); // Ensure the frame is rendered after growth
+
+            // Delay after the letter has fully appeared
+            yield return new WaitForSecondsRealtime(WaitForNextLetter);
         }
     }
+
 
     private void OnEnable()
     {

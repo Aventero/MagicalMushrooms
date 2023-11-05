@@ -19,37 +19,37 @@ public class QuestUI : MonoBehaviour
        // CreateQuests(questManager.Quests);
     }
 
-    private void CreateQuests(List<Quest> quests)
-    {
-        int i = 0;
-        foreach (Quest quest in quests)
-        {
-            GameObject questObject = Instantiate(QuestPrefab, this.transform);
+    //private void CreateQuests(List<Quest> quests)
+    //{
+    //    int i = 0;
+    //    foreach (Quest quest in quests)
+    //    {
+    //        GameObject questObject = Instantiate(QuestPrefab, this.transform);
 
-            questObject.name = quest.Name;
-            questObject.GetComponentInChildren<TMP_Text>().text = quest.DisplayName;
+    //        questObject.name = quest.Name;
+    //        questObject.GetComponentInChildren<TMP_Text>().text = quest.DisplayName;
 
-            RectTransform transform = questObject.GetComponent<RectTransform>();
-            transform.localPosition = new Vector2(0, i * transform.rect.height + i * horizontalPadding) * -1;
+    //        RectTransform transform = questObject.GetComponent<RectTransform>();
+    //        transform.localPosition = new Vector2(0, i * transform.rect.height + i * horizontalPadding) * -1;
 
-            questObjects.Add(questObject);
-            i++;
-        }
-    }
+    //        questObjects.Add(questObject);
+    //        i++;
+    //    }
+    //}
 
-    public void UpdateQuests(List<Quest> quests)
-    {
-        foreach (GameObject questObject in questObjects)
-        {
-            foreach (Quest quest in quests)
-            {
-                if (questObject.name.Equals(quest.Name))
-                {
-                    questObject.GetComponentInChildren<Toggle>().isOn = quest.IsCompleted;
-                    break;
-                }
+    //public void UpdateQuests(List<Quest> quests)
+    //{
+    //    foreach (GameObject questObject in questObjects)
+    //    {
+    //        foreach (Quest quest in quests)
+    //        {
+    //            if (questObject.name.Equals(quest.Name))
+    //            {
+    //                questObject.GetComponentInChildren<Toggle>().isOn = quest.IsCompleted;
+    //                break;
+    //            }
 
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
 }

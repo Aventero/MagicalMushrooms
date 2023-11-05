@@ -49,7 +49,7 @@ public class QuestIcons : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (Quest quest in QuestManager.ActiveQuests)
+        foreach (Quest quest in QuestManager.InCompletedQuests)
         {
             if (questSprites.TryGetValue(quest, out GameObject questIcon))
             {

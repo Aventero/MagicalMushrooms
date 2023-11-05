@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
     {
         // If there is an instance, and it's not me, delete myself.
         if (Instance != null && Instance != this)
-            Destroy(this);
+            Destroy(gameObject);
         else
         {
             Instance = this;
@@ -108,11 +108,18 @@ public class UIManager : MonoBehaviour
         overlayMenu.ShowTooltip(text, mouseSide, ToolTipType.Charge);
     }
 
-    public void ShowSimpleTooltip(string text)
+    public void ShowInteractionTooltip(string text)
     {
         if (overlayMenu == null)
             return;
-        overlayMenu.ShowSimpleTooltip(text);
+        overlayMenu.ShowInteractionTooltip(text);
+    }
+
+    public void ShowSimpleTextTooltip(string text)
+    {
+        if (overlayMenu == null)
+            return;
+        overlayMenu.ShowSimpleTextTooltip(text);
     }
 
     public void HideTooltip()

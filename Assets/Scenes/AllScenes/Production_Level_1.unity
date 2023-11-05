@@ -3111,6 +3111,7 @@ MonoBehaviour:
   QuestImage: {fileID: 12047644}
   ArrowIcon: {fileID: 2018630849}
   TrackingArea: {fileID: 824314243}
+  maxQuestTrackingDistance: 100
 --- !u!1001 &159220589
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20795,12 +20796,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94fca49137291f742b30d0d7549f34bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Outline: {fileID: 0}
-  InteractionText: 
-  CanInteract: 1
   conversation: {fileID: 11400000, guid: c330435ba17cfc743bf65cf7dbe59c64, type: 2}
-  InteractionNecessary: 0
-  DestroyIfDone: 1
+  CanInteractWith: 0
+  ShouldDestoryOnComplete: 0
+  OnDialogComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  LookAt: {fileID: 0}
+  scriptedSequenceCam: {fileID: 0}
 --- !u!114 &780616380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47119,8 +47122,9 @@ MonoBehaviour:
   OnElevator: 0
   IsVisionConeOnPlayer: 0
   IsAllowedToSeePlayer: 1
-  isLockedOnWitchHead: 0
+  IsLockedOnWitchHead: 0
   IsPaused: 0
+  IsInCutscene: 0
   ResumePlayerMovementEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -47131,6 +47135,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   PausePlayerCameraEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  StartCutsceneEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  EndCutsceneEvent:
     m_PersistentCalls:
       m_Calls: []
   PauseGameEvent:

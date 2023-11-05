@@ -26,7 +26,6 @@ public class PlayerGroundedState : PlayerState, IRootState
     public override void EnterState()
     {
         // Player has fallen and hit the ground
-        context.GetComponent<CircleSpawner>().SpawnAndGrow(context.JumpRingLifetime, context.JumpRingSize);
         fakeGroundedTimer = 0;
         InitializeSubState(); 
         HandleGravity();
@@ -62,10 +61,6 @@ public class PlayerGroundedState : PlayerState, IRootState
 
         if (distanceToNextStep >= context.StepDistance)
         {
-            if (context.IsSneakPressed) 
-                context.GetComponent<CircleSpawner>().SpawnAndGrow(context.SneakRingLifetime, context.SneakRingSize);
-            else
-                context.GetComponent<CircleSpawner>().SpawnAndGrow(context.WalkRingLifetime, context.WalkRingSize);
             distanceToNextStep = 0;
         }
     }

@@ -6,87 +6,94 @@ using UnityEngine.UI;
 
 public class QuestManager : MonoBehaviour
 {
-    private static QuestManager _instance;
+    public static QuestManager Instance { get; private set; }
 
-    // Singleton
-    public static QuestManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<QuestManager>();
-                if (_instance == null)
-                {
-                    GameObject obj = new GameObject();
-                    _instance = obj.AddComponent<QuestManager>();
-                }
-            }
-            return _instance;
-        }
-    }
-
-    private List<Quest> Quests = new List<Quest>();
-    private Quest ActiveQuest;
+    [Header("Quest UI")]
     public Image QuestImage;
     public Image ArrowIcon;
-
-    public List<Quest> ActiveQuests { get; private set; } = new List<Quest>();
-    public List<Quest> CompletedQuests { get; private set; } = new List<Quest>();
     public RectTransform TrackingArea;
     private Camera mainCamera;
 
+    [Header("Quests")]
+    private Quest VisibleQuest; 
+    private List<Quest> AllQuests = new();
+    public List<Quest> InCompletedQuests { get; private set; } = new List<Quest>();
+
+    [Header("Settings")]
+    public float maxQuestTrackingDistance = 100f;
+
     private void Awake()
     {
-        // Singleton per scene
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
             Destroy(gameObject);
         else
         {
-            _instance = this;
+            Instance = this;
             mainCamera = Camera.main;
         }
     }
 
     public void AddQuest(Quest quest)
     {
-        Quests.Add(quest);
-
-        if (Quests.Count == 1)
-            ActiveQuest = quest;
+        AllQuests.Add(quest);
+        InCompletedQuests.Add(quest);
     }
 
-    public void Update()
+    private void Update()
     {
+        FindClosestQuestInRange();
+
+        if (VisibleQuest == null)
+            return;
+
         SetQuestIconPositionOnScreen();
     }
-
-
-    public void MarkQuestAsCompleted()
+    private void FindClosestQuestInRange()
     {
-        ActiveQuest.MarkAsCompleted();
+        Quest closestQuest = null;
+        float closestDistanceSqr = maxQuestTrackingDistance * maxQuestTrackingDistance;
+
+        foreach (Quest quest in InCompletedQuests)
+        {
+            float distanceSqr = (quest.transform.position - mainCamera.transform.position).sqrMagnitude;
+            if (distanceSqr < closestDistanceSqr)
+            {
+                closestDistanceSqr = distanceSqr;
+                closestQuest = quest;
+            }
+        }
+
+        if (closestQuest != null)
+            VisibleQuest = closestQuest; 
+        else
+        {
+            VisibleQuest = null;
+            Debug.Log("No quest in range");
+            ArrowIcon.enabled = false;
+            QuestImage.enabled = false;
+        }
+    }
+
+    public void RemoveQuest(Quest quest)
+    {
+        InCompletedQuests.Remove(quest);
+        if (VisibleQuest == quest)
+            VisibleQuest = null;
+    }
+
+    public void CompletedQuest(Quest quest)
+    {
+        quest.CompletedQuest();
     }
 
     private void SetQuestIconPositionOnScreen()
     {
-        Vector3 viewportPosition = mainCamera.WorldToViewportPoint(ActiveQuest.transform.position);
+        Vector3 viewportPosition = mainCamera.WorldToViewportPoint(VisibleQuest.transform.position);
 
         float centerX = 0.5f;
         float centerY = 0.5f;
 
         float angleToQuest = Mathf.Atan2(viewportPosition.y - centerY, viewportPosition.x - centerX);
-
-        // Determine transparency 
-        if (viewportPosition.z > 0f && viewportPosition.z < 5f)
-        {
-            float alpha = viewportPosition.z / 5;
-            QuestImage.color = new Color(QuestImage.color.r, QuestImage.color.g, QuestImage.color.b, alpha);
-        }
-        if (viewportPosition.z < 0f && viewportPosition.z > -5f)
-        {
-            float alpha = Mathf.Abs(viewportPosition.z) / 5;
-            ArrowIcon.color = new Color(ArrowIcon.color.r, ArrowIcon.color.g, ArrowIcon.color.b, alpha);
-        }
 
         // Quest is behind the player
         if (viewportPosition.z < 0) 
@@ -125,6 +132,4 @@ public class QuestManager : MonoBehaviour
         QuestImage.enabled = true;
         ArrowIcon.enabled = false;
     }
-
-
 }

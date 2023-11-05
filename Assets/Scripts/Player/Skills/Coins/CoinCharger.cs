@@ -75,7 +75,7 @@ public class CoinCharger : MonoBehaviour
 
 
         if (chargePoint.GetCurrentChargeValue() == chargePoint.GetMaxChargeValue())
-            UIManager.Instance.ShowSimpleTooltip(chargePoint.FullyChargedText);
+            UIManager.Instance.ShowSimpleTextTooltip(chargePoint.FullyChargedText);
         else
         {
             string chargeToolTip = $"{chargePoint.ChargingTextBeforeValue} {chargePoint.GetUIChargeValue()} / {chargePoint.GetMaxChargeValue()} {chargePoint.ChargingTextAfterValue}";
