@@ -10,15 +10,23 @@ public class Interactable : MonoBehaviour
     public string InteractionText;
     protected GameObject player;
     public bool CanInteract = true;
+    public bool ShouldHaveOutline = true;
 
     protected void Start()
     {
         this.gameObject.layer = LayerMask.NameToLayer("Interactable");
         player = GameObject.FindGameObjectWithTag("Player");
+
         Outline = GetComponent<Outline>();
-        Outline.enabled = true;
-        Outline.OutlineWidth = 1;
-        Outline.OutlineMode = Outline.Mode.OutlineAll;
+        if (Outline == null)
+            Outline = gameObject.AddComponent<Outline>();
+
+        if (ShouldHaveOutline)
+        {
+            Outline.enabled = true;
+            Outline.OutlineWidth = 1;
+            Outline.OutlineMode = Outline.Mode.OutlineAll;
+        }
     }
 
     public virtual void OnTriggerEnter(Collider other)

@@ -70,7 +70,7 @@ public class NewPlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (StateManager.Instance.isLockedOnWitchHead || pauseMovement)
+        if (StateManager.Instance.IsLockedOnWitchHead || pauseMovement)
             return;
 
         readMouseInput();

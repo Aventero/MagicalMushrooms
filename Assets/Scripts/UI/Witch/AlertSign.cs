@@ -17,8 +17,7 @@ public class AlertSign : MonoBehaviour
     private void Update()
     {
         Vector3 viewportPoint = mainCamera.WorldToViewportPoint(tracking.position + offset);
-
-        Debug.Log(viewportPoint.z);
+        
         // Check if the tracked object is behind the camera
         if (viewportPoint.z <= 0)
         {

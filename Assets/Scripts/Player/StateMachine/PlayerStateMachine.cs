@@ -136,20 +136,16 @@ public class PlayerStateMachine : MonoBehaviour
         StateManager.Instance.ResumeGameEvent.AddListener(() => CanRotate = true);
         StateManager.Instance.StartSlurpingEvent.AddListener(() => IsSlurping = true);
         StateManager.Instance.EndSlurpingEvent.AddListener(() => IsSlurping = false);
+        StateManager.Instance.EndCutsceneEvent.AddListener(() => LockMouseInput());
     }
 
     private void Update()
     {
-        if (StateManager.Instance.isLockedOnWitchHead)
+        if (StateManager.Instance.IsLockedOnWitchHead)
             return;
 
-
-        if (CanRotate)
-        {
-            // Move Camera
-            HandleRotation();
-            HandleHeldObjectSway();
-        }
+        if (StateManager.Instance.IsInCutscene)
+            return;
 
         if (CanMove)
         {
@@ -159,10 +155,34 @@ public class PlayerStateMachine : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        if (StateManager.Instance.IsLockedOnWitchHead)
+            return;
+
+        if (StateManager.Instance.IsInCutscene)
+            return;
+
+        if (CanRotate)
+        {
+            // Rotate Camera
+            HandleRotation();
+            HandleHeldObjectSway();
+        }
+    }
+
+    void LockMouseInput()
+    {
+        currentMouseInput = Vector2.zero;
+        currentMouseVector = Vector2.zero;
+        xAxisRotation = 0;
+    }
+
     void HandleRotation()
     {
         // Rotate Player around the Y-Axis
         transform.Rotate(Vector3.up, currentMouseVector.x);
+
         // Rotate the camera around X-Axis
         xAxisRotation -= currentMouseVector.y;
         xAxisRotation = Mathf.Clamp(xAxisRotation, -xAxisClamp, xAxisClamp);
@@ -207,6 +227,9 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void OnMouse(InputAction.CallbackContext context)
     {
+        if (StateManager.Instance.IsInCutscene)
+            return;
+
         currentMouseInput = context.ReadValue<Vector2>();
         currentMouseVector = currentMouseInput * mouseSensitivity * Time.deltaTime;
     }

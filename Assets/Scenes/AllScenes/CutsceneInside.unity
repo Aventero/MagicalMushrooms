@@ -4284,7 +4284,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 388464454}
-  m_LocalRotation: {x: -0.40097535, y: -0.5327399, z: 0.08784437, w: 0.7400611}
+  m_LocalRotation: {x: -0.40097535, y: -0.5327399, z: 0.08784439, w: 0.7400611}
   m_LocalPosition: {x: 2.2962956, y: -15.715275, z: -9.723189}
   m_LocalScale: {x: 0.9999999, y: 0.9999999, z: 1}
   m_ConstrainProportionsScale: 0
@@ -21294,7 +21294,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629310158}
-  m_LocalRotation: {x: 0.12314579, y: -0.65204024, z: 0.10847727, w: 0.74021035}
+  m_LocalRotation: {x: 0.1231458, y: -0.65204024, z: 0.10847728, w: 0.74021035}
   m_LocalPosition: {x: 32.28284, y: 15.999515, z: -18.620329}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -22783,8 +22783,9 @@ MonoBehaviour:
   OnElevator: 0
   IsVisionConeOnPlayer: 0
   IsAllowedToSeePlayer: 1
-  isLockedOnWitchHead: 0
+  IsLockedOnWitchHead: 0
   IsPaused: 1
+  IsInCutscene: 0
   ResumePlayerMovementEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -22795,6 +22796,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   PausePlayerCameraEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  StartCutsceneEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  EndCutsceneEvent:
     m_PersistentCalls:
       m_Calls: []
   PauseGameEvent:

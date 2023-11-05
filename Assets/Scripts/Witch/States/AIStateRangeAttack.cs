@@ -20,17 +20,17 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
     public float AttackTime = 1f;
     private Vector3 initialScale;
     private float InitialScaling = 0.1f;
-    private float MaxScaling = 5f;
+    private float MaxScaling = 15f;
 
     [Header("Actual Attack")]
     public GameObject AttackObject;
+    public GameObject RunSign;
     public float Speed;
 
 
     [Header("Line Renderer")]
     [SerializeField] private LineRenderer attackLineRenderer;
     [SerializeField] private Transform witchShootOrigin; // The transform component of the witch
-    [SerializeField] private float lineDrawDuration = 1f; // How long it takes to draw the line
     private Vector3 initialPlayerPosition;
 
     public void InitState(AIStateManager stateManager)
@@ -50,6 +50,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
         stateManager.WarnPulse.StartPulse();
         initialPlayerPosition = stateManager.Player.position;
         attackLineRenderer.enabled = true;
+        RunSign.SetActive(true);
     }
 
     public void ExitState()
@@ -59,6 +60,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
         AttackZone.SetActive(false);
         stateManager.WarnPulse.StopPulse();
         attackLineRenderer.enabled = false;
+        RunSign.SetActive(false);
     }
 
     public void UpdateState()
@@ -67,7 +69,6 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
         attackLineRenderer.SetPosition(0, witchShootOrigin.position);
         attackLineRenderer.SetPosition(1, initialPlayerPosition);
     }
-
 
     private IEnumerator ScaleZone()
     {
@@ -92,7 +93,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
             AttackZone.transform.position = initialPlayerPosition;
 
             // Projectile
-            float magicProjectileScale = scaleValue / 2f;
+            float magicProjectileScale = scaleValue / 3f;
             magicProjectile.transform.position = witchShootOrigin.position;
             magicProjectile.transform.localScale = new Vector3(magicProjectileScale, magicProjectileScale, magicProjectileScale);
             trailRenderer.startWidth = magicProjectileScale;

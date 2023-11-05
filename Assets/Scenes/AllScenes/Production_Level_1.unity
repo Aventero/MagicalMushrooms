@@ -7040,6 +7040,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WatchTime: 2
+--- !u!1 &326886613 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7837372031940643003, guid: a8e34100fcffd604bb3c2fb749135d8d, type: 3}
+  m_PrefabInstance: {fileID: 2093898068}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &328146282
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31938,6 +31943,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1064245912, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
+      propertyPath: RunSign
+      value: 
+      objectReference: {fileID: 326886613}
+    - target: {fileID: 1064245912, guid: 4776a6bb297b40345874ed3a54e61a29, type: 3}
       propertyPath: AttackTime
       value: 3
       objectReference: {fileID: 0}
@@ -56500,6 +56509,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7837372031940643003, guid: a8e34100fcffd604bb3c2fb749135d8d, type: 3}
+      propertyPath: m_Name
+      value: WitchRunSign
+      objectReference: {fileID: 0}
     - target: {fileID: 8520820220502640497, guid: a8e34100fcffd604bb3c2fb749135d8d, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -58410,7 +58423,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4136623949335932787, guid: 0c616f30614829f4dbc9cb213b21e090, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c616f30614829f4dbc9cb213b21e090, type: 3}

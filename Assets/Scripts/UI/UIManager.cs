@@ -60,6 +60,9 @@ public class UIManager : MonoBehaviour
         if (!context.performed)
             return;
 
+        if (dialogMenu.isActiveAndEnabled)
+            return;
+
         OverlayMenu.SetActive(false);
         DialogMenu.SetActive(false);
         PauseMenu.SetActive(true);

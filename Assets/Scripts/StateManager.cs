@@ -83,8 +83,9 @@ public class StateManager : MonoBehaviour
     public bool OnElevator = false;
     public bool IsVisionConeOnPlayer = false;
     public bool IsAllowedToSeePlayer = true;
-    public bool isLockedOnWitchHead = false;
+    public bool IsLockedOnWitchHead = false;
     public bool IsPaused = false;
+    public bool IsInCutscene = false;
 
     // Custom Events
     [HideInInspector]
@@ -99,6 +100,10 @@ public class StateManager : MonoBehaviour
     public UnityEvent PausePlayerMovementEvent;
     [HideInInspector]
     public UnityEvent PausePlayerCameraEvent;
+    [HideInInspector]
+    public UnityEvent StartCutsceneEvent;
+    [HideInInspector]
+    public UnityEvent EndCutsceneEvent;
     [HideInInspector]
     public UnityEvent PauseGameEvent;
     [HideInInspector]
