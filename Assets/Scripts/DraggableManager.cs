@@ -130,6 +130,12 @@ public class DraggableManager : MonoBehaviour
                 draggableObject = draggableGo.AddComponent<DraggableObject>();
 
             // Add Outline
+            if (draggableGo.isStatic)
+            {
+                Debug.LogError("Draggable object is static: " + draggableGo.name + " cannot add outline.");
+                continue;
+            }
+
             Outline outline = draggableGo.GetComponent<Outline>();
             if (outline == null)
                 outline = draggableGo.AddComponent<Outline>();
