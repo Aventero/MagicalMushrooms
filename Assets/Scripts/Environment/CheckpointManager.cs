@@ -32,6 +32,7 @@ public class CheckpointManager : MonoBehaviour
         controller = player.GetComponent<CharacterController>();
     }
 
+    // This respawns the player at the last checkpoint
     public void RespawnPlayer()
     {
         controller.enabled = false;
