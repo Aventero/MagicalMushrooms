@@ -48,8 +48,9 @@ public class AIMovement : MonoBehaviour
             return;
 
         int index = Random.Range(0, points.Count);
-        agent.destination = points[index].position;
+        SetWalkPoint(points[index].position); // Use SetWalkPoint to ensure currentWalkPoint is updated
     }
+
 
     public void AnimateWitch()
     {
@@ -57,6 +58,17 @@ public class AIMovement : MonoBehaviour
             animator.SetBool("Stay", true);
         else
             animator.SetBool("Stay", false);
+    }
+
+    void OnDrawGizmos()
+    {
+        // Check if the agent has a path and a destination
+        if (agent != null && agent.hasPath)
+        {
+            // Draw a yellow sphere at the agent's destination
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(agent.destination, 0.5f); // Change the 0.5f to whatever radius you want for the sphere
+        }
     }
 }
 

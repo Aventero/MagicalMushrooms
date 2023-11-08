@@ -33,7 +33,7 @@ public class AIStateManager : MonoBehaviour
 
     // Animation
     public WitchUIAnimation UIAnimation { get; private set; }
-    public PlayerDetection PlayerDetection { get; private set; }
+    public WitchPlayerDetection PlayerDetection { get; private set; }
     public WitchLocator WitchLocator { get; private set; }
     public WarnPulse WarnPulse { get; private set; }
 
@@ -45,7 +45,7 @@ public class AIStateManager : MonoBehaviour
 
     void Awake()
     {
-        PlayerDetection = GetComponent<PlayerDetection>();
+        PlayerDetection = GetComponent<WitchPlayerDetection>();
         Movement = GetComponent<AIMovement>();
         DangerOverlay = GetComponent<DangerOverlay>();
         Vision = GetComponent<AIVision>();

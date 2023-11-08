@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDetection : MonoBehaviour
+public class WitchPlayerDetection : MonoBehaviour
 {
     // Collects the watchpoints that are watchable
     // Only the ones in the radius count

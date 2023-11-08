@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 601380462631214204}
   - component: {fileID: 6585389875778134149}
   - component: {fileID: 3860921687345484884}
+  - component: {fileID: 4084366666919330816}
   m_Layer: 0
   m_Name: P_PROP_plant_interior_04
   m_TagString: Untagged
@@ -93,8 +94,21 @@ MeshCollider:
   m_GameObject: {fileID: 4852865267441046617}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 5352574054883922594, guid: 01f759c30ddb5934ea7110689dbaba84, type: 3}
+--- !u!65 &4084366666919330816
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4852865267441046617}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.35326782, y: 0.384363, z: 0.34332433}
+  m_Center: {x: -0.0074898642, y: 0.1921815, z: 0.024830865}

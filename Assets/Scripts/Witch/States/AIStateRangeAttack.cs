@@ -18,6 +18,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
     [Header("Attack Zone")]
     public GameObject AttackZone;
     public float AttackTime = 1f;
+    public float EndTime = 1f;
     private Vector3 initialScale;
     private float InitialScaling = 0.1f;
     private float MaxScaling = 15f;
@@ -136,7 +137,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
 
         // Nothing hit!
         float deltaTime = 0;
-        while (deltaTime <= 2f)
+        while (deltaTime <= EndTime)
         {
             // Move arm back down
             deltaTime += Time.deltaTime;
@@ -144,7 +145,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
             yield return null;
         }
 
-        stateManager.TransitionToState(AIStates.IgnorePlayerIdle);
+        stateManager.TransitionToState(AIStates.Idle);
         Destroy(magicProjectile);
     }
 
@@ -169,7 +170,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
     IEnumerator KeepPlayerAndMove(GameObject magicProjectile)
     {
         float deltaTime = 0;
-        float maxTime = 5f;
+        float maxTime = 3f;
         Vector3 startPosition = magicProjectile.transform.position;
         while (deltaTime <= maxTime)
         {
@@ -199,7 +200,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
     {
         float scale = AttackZone.transform.localScale.x;
         float deltaTime = 0f;
-        float maxTime = 2f;
+        float maxTime = EndTime / 2f;
         while (deltaTime <= maxTime)
         {
             deltaTime += Time.deltaTime;
