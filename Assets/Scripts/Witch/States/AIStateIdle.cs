@@ -25,8 +25,15 @@ public class AIStateIdle : MonoBehaviour, IAIState
         stateManager.Vision.SetWatchingMode(WatchingMode.Slow);
         stateManager.UIAnimation.PlayEyeClose();
         stateManager.Movement.StopAgent();
-        List<Transform> visiblePointsAroundPlayer = stateManager.VisiblePointsAroundPlayer(transform.position, transform.forward, 75f);
-        StartCoroutine(LookAround(WaitTimeInBetween, visiblePointsAroundPlayer));
+        List<Transform> visiblePoints = stateManager.VisiblePointsAroundPlayer(transform.position, transform.forward, 75f);
+
+        // No points around player, so just find points in front of the witch
+        if (visiblePoints.Count <= 0)
+        {
+            visiblePoints = stateManager.VisiblePointsFromWitchView(transform.position, transform.forward, 75f);
+        }
+
+        StartCoroutine(LookAround(WaitTimeInBetween, visiblePoints));
     }
 
     public void ExitState()
@@ -47,8 +54,8 @@ public class AIStateIdle : MonoBehaviour, IAIState
     IEnumerator LookAround(float waitTimeInBetween, List<Transform> visiblePoints)
     {
         // First keep watching the current point for a bit
-        stateManager.Watch(stateManager.Vision.HeadWatchTarget.transform.position);
-        yield return new WaitUntil(() => stateManager.Vision.HasReachedTarget());
+        //stateManager.Watch(stateManager.Vision.HeadWatchTarget.transform.position);
+        //yield return new WaitUntil(() => stateManager.Vision.HasReachedTarget());
 
         // Shuffle the list of visible points
         for (int i = 0; i < visiblePoints.Count; i++)

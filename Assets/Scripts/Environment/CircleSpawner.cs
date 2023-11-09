@@ -9,21 +9,18 @@ public sealed class CircleSpawner : MonoBehaviour
     // Singleton instance
     private static CircleSpawner _instance;
 
-    // Public static property to access the instance
     public static CircleSpawner Instance
     {
         get
         {
             if (_instance == null)
             {
-                // Find an active CircleSpawner instance or create a new one if none exists
                 _instance = FindObjectOfType<CircleSpawner>() ?? new GameObject("CircleSpawner").AddComponent<CircleSpawner>();
             }
             return _instance;
         }
     }
 
-    // Ensure that the instance is unique
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -40,7 +37,7 @@ public sealed class CircleSpawner : MonoBehaviour
     public GameObject Spawn(Vector3 position, float circleSize)
     {
         GameObject newCircle = Instantiate(circlePrefab, position, Quaternion.identity);
-        newCircle.transform.localScale = new Vector3(circleSize, circleSize, 1);
+        newCircle.transform.localScale = new Vector3(circleSize, circleSize, circleSize);
 
         return newCircle;
     }

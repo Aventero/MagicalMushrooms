@@ -48,8 +48,6 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
         stateManager.DangerOverlay.SetState(DangerState.Nothing);
         stateManager.Vision.SetWatchingMode(WatchingMode.Slow);
         stateManager.Movement.StopAgent();
-        //Transform walkPoint = stateManager.Movement.FindNewWalkpoint();
-        //stateManager.Movement.SetWalkPoint(walkPoint.position);
         stateManager.Movement.MoveToNextPoint();
     }
 
@@ -66,7 +64,7 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
 
         if (visiblePoints.Count == 0)
         {
-            return stateManager.StandardWatchpoint.transform;
+            visiblePoints = stateManager.VisiblePointsFromWitchView(stateManager.Movement.currentWalkPoint, forwardToWalkpoint, 75f);
         }
 
         return visiblePoints[Random.Range(0, visiblePoints.Count)];
@@ -84,8 +82,6 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
 
     private IEnumerator TurnThenWalk()
     {
-        //stateManager.Watch(HeadHasToTurn() ? stateManager.StandardWatchpoint.transform.position : patrolWatchPoint.position);
-        //yield return new WaitUntil(() => stateManager.Vision.ReachedWatchTarget);
         yield return null;
         stateManager.Movement.StartAgent();
         StartCoroutine(WalkWatching());
@@ -104,7 +100,7 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
 
     private void WatchBasedOnConditions()
     {
-        if (HeadHasToTurn() || !stateManager.Vision.HasReachedTarget())
+        if (HeadHasToTurn())// || !stateManager.Vision.HasReachedTarget())
         {
             stateManager.Watch(stateManager.StandardWatchpoint.transform.position);
         }
@@ -118,9 +114,6 @@ internal class AIStatePatrol : MonoBehaviour, IAIState
     private void FinalizePatrolWalk()
     {
         stateManager.Movement.StopAgent();
-        //stateManager.Vision.SetWatchingMode(WatchingMode.Relaxed);
-        //stateManager.Watch(patrolWatchPoint.position);
-        //StartCoroutine(WatchFinalPatrolpoint());
         completedWalk = true;
     }
 

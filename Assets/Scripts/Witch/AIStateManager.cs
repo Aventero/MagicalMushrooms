@@ -7,6 +7,7 @@ using UnityEngine.AI;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using static Unity.VisualScripting.Member;
 
 public class AIStateManager : MonoBehaviour
 {
@@ -85,7 +86,7 @@ public class AIStateManager : MonoBehaviour
 
     private IEnumerator StartDelayed()
     {
-        yield return new WaitForSecondsRealtime(5.1f);
+        yield return new WaitForSecondsRealtime(0.1f);
         currentState.EnterState();
     }
 
@@ -151,11 +152,15 @@ public class AIStateManager : MonoBehaviour
         List<Transform> visibleWatchPoints = new List<Transform>();
         foreach (Transform watchPoint in WatchPoints)
         {
+
             float angle = EasyAngle(desiredPoint, forward, watchPoint.position);
             if (angle <= viewAngle)
             {
-                visibleWatchPoints.Add(watchPoint);
-                Debug.DrawLine(transform.position, watchPoint.position, Color.magenta, 4f);
+                if (Vector3.Distance(desiredPoint, watchPoint.position) <= 25f)
+                {
+                    visibleWatchPoints.Add(watchPoint);
+                    Debug.DrawLine(transform.position, watchPoint.position, Color.magenta, 4f);
+                }
             }
         }
 
