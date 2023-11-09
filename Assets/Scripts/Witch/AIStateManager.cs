@@ -39,6 +39,8 @@ public class AIStateManager : MonoBehaviour
 
     public float VisionScaling = 0f;
 
+    public bool ShouldStayIdle = false;
+
     [Header("UI")]
     public GameObject WitchQuestionSign;
     public GameObject WitchExclamationSign;

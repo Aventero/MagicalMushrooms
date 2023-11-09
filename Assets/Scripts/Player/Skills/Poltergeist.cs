@@ -39,9 +39,13 @@ public class Poltergeist : PlayerSkill
             rb = DraggableManager.Instance.SelectedObject.AddComponent<Rigidbody>();
 
         // Using
-        rb.AddForce(Camera.main.transform.forward * PushForce, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * PushForce, ForceMode.Impulse);
         Stats.Instance.DecreaseCoinsCollected(SkillCost);
         AIStateManager aIStateManager = FindObjectOfType<AIStateManager>();;
+        CircleSpawner.Instance.SpawnAndGrow(3f, 0.5f, rb.transform.position + Vector3.up * 0.1f, Vector3.up);
+        CircleSpawner.Instance.SpawnAndGrow(3f, 0.2f, rb.transform.position + Vector3.up * 0.1f, Vector3.up);
+        CircleSpawner.Instance.SpawnAndGrow(3f, 0.5f, rb.transform.position, Vector3.forward);
+        CircleSpawner.Instance.SpawnAndGrow(3f, 0.2f, rb.transform.position, Vector3.forward);
 
         if (aIStateManager == null)
             Debug.LogError("Could not find AIStateManager");

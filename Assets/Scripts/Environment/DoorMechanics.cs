@@ -15,7 +15,7 @@ public class DoorMechanics : MonoBehaviour
         StateManager.Instance.AllItemsCollectedEvent += OpenDoor;
     }
 
-    private void OpenDoor()
+    public void OpenDoor()
     {
         StopAllCoroutines();
         Animator.enabled = true;

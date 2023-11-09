@@ -23,6 +23,7 @@ public class AIStateIdle : MonoBehaviour, IAIState
     {
         stateManager.DangerOverlay.SetState(DangerState.Nothing);
         stateManager.Vision.SetWatchingMode(WatchingMode.Slow);
+        stateManager.UIAnimation.PlayEyeClose();
         stateManager.Movement.StopAgent();
         List<Transform> visiblePointsAroundPlayer = stateManager.VisiblePointsAroundPlayer(transform.position, transform.forward, 75f);
         StartCoroutine(LookAround(WaitTimeInBetween, visiblePointsAroundPlayer));
@@ -72,7 +73,10 @@ public class AIStateIdle : MonoBehaviour, IAIState
             yield return new WaitForSeconds(waitTimeInBetween);
         }
 
-        stateManager.TransitionToState(AIStates.Patrol);
+        if (stateManager.ShouldStayIdle)
+            stateManager.TransitionToState(AIStates.Idle);
+        else
+            stateManager.TransitionToState(AIStates.Patrol);
 
         yield return null;
     }

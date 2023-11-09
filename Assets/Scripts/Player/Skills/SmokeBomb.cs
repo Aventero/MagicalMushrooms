@@ -27,7 +27,6 @@ public class SmokeBomb : PlayerSkill
 
     private LayerMask allowedLayers;
     private GameObject smokeCircle;
-    private CircleSpawner circleSpawner;
 
     private bool drawProjection = false;
     private Vector3 lastHit;
@@ -38,7 +37,6 @@ public class SmokeBomb : PlayerSkill
     private void Start()
     {
         allowedLayers = LayerMask.GetMask("Default", "Prop");
-        circleSpawner = GameObject.FindGameObjectWithTag("Player").GetComponent<CircleSpawner>();
     }
 
     public override void ShowPreview()
@@ -115,7 +113,7 @@ public class SmokeBomb : PlayerSkill
                 lineRenderer.positionCount = lineIndex + 1;
 
                 lastHit = hit.point + new Vector3(0, 0.01f, 0);
-                smokeCircle = circleSpawner.Spawn(lastHit, circleSize);
+                smokeCircle = CircleSpawner.Instance.Spawn(lastHit, circleSize);
 
                 return;
             }
