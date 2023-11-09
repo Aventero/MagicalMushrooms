@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2052721788190794388}
   - component: {fileID: 7000772126225340578}
   - component: {fileID: 3610536990611989595}
+  - component: {fileID: 704754602192727403}
   m_Layer: 0
   m_Name: P_PROP_pillow_interior_01
   m_TagString: Untagged
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &704754602192727403
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3037645305840914567}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7263140157953678286, guid: b236234805342764aa021f6dd4155b57, type: 3}

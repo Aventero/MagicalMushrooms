@@ -9,7 +9,7 @@ public class EscapeInteractable : Interactable
     {
         if (!CanInteract)
             return;
-        SceneLoader.Instance.LoadScene("MainMenu");
+        SceneLoader.Instance.LoadScene("Production_Level_1");
     }
 
     public override void InPlayerSight()
