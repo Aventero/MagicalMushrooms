@@ -13,6 +13,7 @@ public class PlayerStateFactory
         AddPlayerState(new PlayerRiseState(context, this, "Rise"));
         AddPlayerState(new PlayerFallState(context, this, "Fall"));
         AddPlayerState(new PlayerGroundedState(context, this, "Grounded"));
+        AddPlayerState(new PlayerElevateState(context, this, "Elevate"));
     }
 
     private void AddPlayerState(PlayerState playerState)
@@ -60,5 +61,11 @@ public class PlayerStateFactory
     {
         //Debug.Log("Grounded");
         return playerStates["Grounded"];
+    }
+
+    public PlayerState Elevate()
+    {
+        //Debug.Log("Elevate");
+        return playerStates["Elevate"];
     }
 }

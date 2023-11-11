@@ -171,6 +171,11 @@ public class PlayerStateMachine : MonoBehaviour
         }
     }
 
+    public void SwitchStateExternally(string stateName)
+    {
+        CurrentState.SwitchState(states.GetState(stateName));
+    }
+
     void LockMouseInput()
     {
         currentMouseInput = Vector2.zero;

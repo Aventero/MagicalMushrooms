@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 352568565359046107}
   - component: {fileID: 8772894980826912749}
   - component: {fileID: 3063323964420205332}
+  - component: {fileID: 374883744661439096}
   m_Layer: 0
   m_Name: P_PROP_spoon_interior
   m_TagString: Untagged
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &374883744661439096
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3656864515643350984}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.06753501, y: 0.03239378, z: 0.2380431}
+  m_Center: {x: -0.000050006434, y: -0.015756698, z: -0.03135374}

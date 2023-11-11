@@ -68,7 +68,6 @@ public class QuestManager : MonoBehaviour
         else
         {
             VisibleQuest = null;
-            Debug.Log("No quest in range");
             ArrowIcon.enabled = false;
             QuestImage.enabled = false;
         }

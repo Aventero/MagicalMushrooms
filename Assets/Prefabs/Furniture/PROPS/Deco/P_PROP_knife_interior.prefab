@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1753839998040140483}
   - component: {fileID: 7281725282959151349}
   - component: {fileID: 3905021081010383884}
+  - component: {fileID: 4695246030977546613}
   m_Layer: 0
   m_Name: P_PROP_knife_interior
   m_TagString: Untagged
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4695246030977546613
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3318517370936039632}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.04313339, y: 0.010282812, z: 0.2955817}
+  m_Center: {x: 0.00049194926, y: -0.000000059604645, z: -0.04378364}

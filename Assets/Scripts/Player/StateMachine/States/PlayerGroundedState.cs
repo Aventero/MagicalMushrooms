@@ -25,6 +25,7 @@ public class PlayerGroundedState : PlayerState, IRootState
 
     public override void EnterState()
     {
+        Debug.Log("Enter Grounded");
         // Player has fallen and hit the ground
         fakeGroundedTimer = 0;
         InitializeSubState(); 
@@ -33,6 +34,7 @@ public class PlayerGroundedState : PlayerState, IRootState
 
     public override void ExitState()
     {
+        Debug.Log("Exit Grounded");
         fakeGroundedTimer = 0;
     }
 

@@ -33,7 +33,6 @@ public abstract class PlayerState
     {
         // Exit current state
         ExitState();
-
         newState.EnterState();
 
         if (isRootState)
