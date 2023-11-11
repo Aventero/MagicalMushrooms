@@ -116,6 +116,7 @@ public class OptionsMenu : MonoBehaviour
         else
         {
             uiMenu.TurnOnMenu();
+            Menu.SetActive(true);
             gameObject.SetActive(false);
         }
     }
