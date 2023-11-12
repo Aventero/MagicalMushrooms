@@ -22,13 +22,22 @@ public class CoinChargePoint : MonoBehaviour
 
     private void Awake()
     {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
         // Outline
+        actualCharge = 0;
+        uiCharge = 0;
+        IsGonnaBeFull = false;
         outline = GetComponent<Outline>();
         if (outline == null)
             outline = gameObject.AddComponent<Outline>();
         outline.OutlineColor = Color.white;
         outline.OutlineMode = Outline.Mode.OutlineVisible;
         outline.OutlineWidth = 1;
+        outline.enabled = true;
 
         // Color & Material block
         rend = GetComponent<Renderer>();
