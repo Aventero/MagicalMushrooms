@@ -21,8 +21,8 @@ public class PlayerElevateState : PlayerState
     {
         Debug.Log("Enter Elevate");
         InitializeSubState();
-        context.CurrentMovementY = context.CurrentMovementY * 0.5f;
-        context.AppliedMovementY = context.AppliedMovementY * 0.5f;
+        context.CurrentMovementY = Mathf.Max(context.CurrentMovementY * 0.5f, -3);
+        context.AppliedMovementY = Mathf.Max(context.AppliedMovementY * 0.5f, -3);
     }
 
     public override void ExitState()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GlobeSpin : MonoBehaviour
 {
-    public float Speed = 5f;
+    public float Speed = 15f;
 
     void Update()
     {

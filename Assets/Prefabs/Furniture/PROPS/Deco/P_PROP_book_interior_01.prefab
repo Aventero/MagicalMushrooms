@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5672209692335313769}
   - component: {fileID: 2128854359824887696}
   - component: {fileID: 1427259503357990231}
-  - component: {fileID: 2774712646862414154}
   m_Layer: 8
   m_Name: P_PROP_book_interior_01
   m_TagString: Untagged
@@ -98,39 +97,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.075906396, y: 0.34822378, z: 0.2578147}
   m_Center: {x: 0.0008260515, y: 0.010247767, z: -0.021863045}
---- !u!114 &2774712646862414154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 412048366482316108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e148b3dc2bcb4ab4897b1021b7a7b28e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxLevitationTime: 3
-  UpwardsLevitationAmount: 1.5
-  SidewayLevitationAmount: 1.5
-  Speed: 30
-  Radius: 2
-  ResetPosition: 0
-  levitationCurveX:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  levitationCurveY:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  levitationCurveZ:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
