@@ -19,6 +19,7 @@ public class CoinChargePoint : MonoBehaviour
     private MaterialPropertyBlock propBlock;
     private Color initialColor;
     private Outline outline;
+    public bool ShouldEnableOutline = true;
 
     private void Awake()
     {
@@ -37,7 +38,14 @@ public class CoinChargePoint : MonoBehaviour
         outline.OutlineColor = Color.white;
         outline.OutlineMode = Outline.Mode.OutlineVisible;
         outline.OutlineWidth = 1;
-        outline.enabled = true;
+
+        if (ShouldEnableOutline) { 
+            outline.enabled = true;
+        }
+        else
+        {
+            outline.enabled = false;
+        }
 
         // Color & Material block
         rend = GetComponent<Renderer>();
@@ -91,10 +99,12 @@ public class CoinChargePoint : MonoBehaviour
     public void ResetOutlineWidth()
     {
         outline.OutlineWidth = 1f;
+        outline.enabled = false;
     }
 
     public void SetOutlineWidth(float width)
     {
+        outline.enabled = true;
         outline.OutlineWidth = width;
     }
 

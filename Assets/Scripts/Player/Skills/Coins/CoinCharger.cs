@@ -24,6 +24,14 @@ public class CoinCharger : MonoBehaviour
     public float spawnForce = 5f;         // Initial force applied when spawning the object
     public float OutlineWidth = 2f;
 
+    List<CoinChargePoint> chargePoints;
+    public float OutlineDistance = 15f;
+
+    private void Start()
+    {
+        chargePoints = FindObjectsOfType<CoinChargePoint>().ToList();
+    }
+
     // Function to spawn and start the flight of the object
     public void ChargeObject()
     {
@@ -58,6 +66,8 @@ public class CoinCharger : MonoBehaviour
 
     private void FixedUpdate()
     {
+        ToggleChargePointOutlineInDistance();
+
         FindCharger();
 
         if (chargePoint == null)
@@ -180,5 +190,21 @@ public class CoinCharger : MonoBehaviour
         }
 
         return closestScript;
+    }
+
+    private void ToggleChargePointOutlineInDistance()
+    {
+        // Find charge points in distance
+        foreach (CoinChargePoint chargePoint in chargePoints)
+        {
+            if (Vector3.Distance(transform.position, chargePoint.transform.position) <= OutlineDistance)
+            {
+                chargePoint.GetComponent<Outline>().enabled = true;
+            }
+            else
+            {
+                chargePoint.GetComponent<Outline>().enabled = false;
+            }
+        }
     }
 }

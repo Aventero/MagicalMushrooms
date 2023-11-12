@@ -14,6 +14,7 @@ public class DissolveController : MonoBehaviour
     private int seed = 0;
     [ColorUsageAttribute(true, true)]
     public Color color = new Color(1f, 1f, 1f);
+    public bool ShouldDestroy = false;
 
     void Start()
     {
@@ -57,5 +58,8 @@ public class DissolveController : MonoBehaviour
         rend.material.shader = originalShader;
         gameObject.SetActive(false);
         Destroy(this);
+
+        if (ShouldDestroy)
+            Destroy(gameObject);
     }
 }
