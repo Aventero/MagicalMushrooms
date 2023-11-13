@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    public bool ShowNotification = true;
-    [HideInInspector] public bool activated = false;
+    public bool activated = false;
 
     private Vector3 respawnPosition;
     private Quaternion playerRotation;
@@ -19,20 +18,14 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (!collider.CompareTag("Player") || activated == true)
+        if (!collider.CompareTag("Player"))
             return;
 
-        if (ShowNotification)
-            StateManager.Instance.NewCheckpointEvent.Invoke();
+        StateManager.Instance.NewCheckpointEvent.Invoke();
 
         activated = true;
         playerRotation = player.transform.rotation;
         CheckpointManager.Instance.Checkpoint = this;
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        OnTriggerEnter(other);
     }
 
     public void SetActivated(bool activated)

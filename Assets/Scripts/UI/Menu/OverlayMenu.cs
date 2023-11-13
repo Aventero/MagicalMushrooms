@@ -76,15 +76,40 @@ public class OverlayMenu : MonoBehaviour
         HideTooltip();
     }
 
+    // Call this method to show the checkpoint text
     public void ShowCheckpointText()
     {
         CheckpointText.SetActive(true);
-        StartCoroutine(HideCheckpointTextAfterSeconds(CheckpointNotificationDuration));
+        StartCoroutine(FadeTextToFullAlpha(CheckpointNotificationDuration, CheckpointText.GetComponentInParent<CanvasGroup>()));
     }
 
-    private IEnumerator HideCheckpointTextAfterSeconds(float seconds)
+    private IEnumerator FadeTextToFullAlpha(float time, CanvasGroup canvasGroup)
     {
-        yield return new WaitForSeconds(seconds);
+        canvasGroup.alpha = 0;
+
+        while (canvasGroup.alpha < 1)
+        {
+            canvasGroup.alpha += Time.unscaledDeltaTime / time;
+            yield return null;
+        }
+
+        StartCoroutine(HideCheckpointTextAfterSeconds(CheckpointNotificationDuration, canvasGroup));
+    }
+
+    private IEnumerator HideCheckpointTextAfterSeconds(float seconds, CanvasGroup canvasGroup)
+    {
+        yield return new WaitForSecondsRealtime(seconds);
+        StartCoroutine(FadeTextToZeroAlpha(seconds, canvasGroup));
+    }
+
+    private IEnumerator FadeTextToZeroAlpha(float time, CanvasGroup canvasGroup)
+    {
+        while (canvasGroup.alpha > 0)
+        {
+            canvasGroup.alpha -= Time.unscaledDeltaTime / time;
+            yield return null;
+        }
+
         CheckpointText.SetActive(false);
     }
 
