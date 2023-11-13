@@ -20,6 +20,7 @@ public class CoinChargePoint : MonoBehaviour
     private Color initialColor;
     private Outline outline;
     public bool ShouldEnableOutline = true;
+    public bool IsFullyCharged { get; private set; }
 
     private void Awake()
     {
@@ -31,6 +32,7 @@ public class CoinChargePoint : MonoBehaviour
         // Outline
         actualCharge = 0;
         uiCharge = 0;
+        IsFullyCharged = false;
         IsGonnaBeFull = false;
         outline = GetComponent<Outline>();
         if (outline == null)
@@ -54,7 +56,7 @@ public class CoinChargePoint : MonoBehaviour
         initialColor = rend.material.GetColor("_BaseColor");
 
         // Color Set to "Off"
-        propBlock.SetColor("_BaseColor", new Color(0.3f, 0.3f, 0.3f, 1f)); ;
+        //propBlock.SetColor("_BaseColor", new Color(0.3f, 0.3f, 0.3f, 1f)); ;
         rend.SetPropertyBlock(propBlock);
 
         if (string.IsNullOrEmpty(CoinChargerID))
@@ -66,9 +68,9 @@ public class CoinChargePoint : MonoBehaviour
         actualCharge += chargeAmount;
 
         // Restore the initial color
-        Color lerpColor = Color.Lerp(Color.grey, initialColor, (float)actualCharge / maxChargeValue);
-        propBlock.SetColor("_BaseColor", lerpColor);
-        rend.SetPropertyBlock(propBlock);
+        //Color lerpColor = Color.Lerp(Color.grey, initialColor, (float)actualCharge / maxChargeValue);
+        //propBlock.SetColor("_BaseColor", lerpColor);
+        //rend.SetPropertyBlock(propBlock);
 
         // Only called once when full!
         if (actualCharge >= maxChargeValue)
@@ -76,6 +78,7 @@ public class CoinChargePoint : MonoBehaviour
             actualCharge = maxChargeValue;
             outline.enabled = false;
             OnFullyCharged?.Invoke();
+            IsFullyCharged = true;
         }
     }
 
@@ -99,12 +102,10 @@ public class CoinChargePoint : MonoBehaviour
     public void ResetOutlineWidth()
     {
         outline.OutlineWidth = 1f;
-        outline.enabled = false;
     }
 
     public void SetOutlineWidth(float width)
     {
-        outline.enabled = true;
         outline.OutlineWidth = width;
     }
 

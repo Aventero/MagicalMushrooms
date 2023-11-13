@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
+using static Quest;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class QuestManager : MonoBehaviour
 {
@@ -10,12 +12,15 @@ public class QuestManager : MonoBehaviour
 
     [Header("Quest UI")]
     public Image QuestImage;
-    public Image ArrowIcon;
+    public Image CollectibleImage;
+    public Image QuestArrowIcon; 
+    public Image CollectibleArrowIcon; 
     public RectTransform TrackingArea;
     private Camera mainCamera;
 
     [Header("Quests")]
-    private Quest VisibleQuest; 
+    private Quest VisibleQuest; // Closest 'ReachDestination' quest
+    private Quest VisibleCollectible; // Closest 'Collectible' quest
     private List<Quest> AllQuests = new();
     public List<Quest> InCompletedQuests { get; private set; } = new List<Quest>();
 
@@ -41,20 +46,35 @@ public class QuestManager : MonoBehaviour
 
     private void Update()
     {
-        FindClosestQuestInRange();
+        FindClosestQuestsInRange();
 
-        if (VisibleQuest == null)
-            return;
+        if (VisibleQuest != null)
+            SetQuestIconPositionOnScreen(VisibleQuest, QuestImage, QuestArrowIcon);
+        else
+            QuestImage.enabled = false;
 
-        SetQuestIconPositionOnScreen();
+        if (VisibleCollectible != null)
+            SetQuestIconPositionOnScreen(VisibleCollectible, CollectibleImage, CollectibleArrowIcon);
+        else
+            CollectibleImage.enabled = false;
     }
-    private void FindClosestQuestInRange()
+
+    private void FindClosestQuestsInRange()
+    {
+        VisibleQuest = FindClosestQuestByType(QuestType.ReachDestination);
+        VisibleCollectible = FindClosestQuestByType(QuestType.Collect);
+    }
+
+    private Quest FindClosestQuestByType(QuestType questType)
     {
         Quest closestQuest = null;
         float closestDistanceSqr = maxQuestTrackingDistance * maxQuestTrackingDistance;
 
         foreach (Quest quest in InCompletedQuests)
         {
+            if (quest.Type != questType)
+                continue;
+
             float distanceSqr = (quest.transform.position - mainCamera.transform.position).sqrMagnitude;
             if (distanceSqr < closestDistanceSqr)
             {
@@ -63,14 +83,7 @@ public class QuestManager : MonoBehaviour
             }
         }
 
-        if (closestQuest != null)
-            VisibleQuest = closestQuest; 
-        else
-        {
-            VisibleQuest = null;
-            ArrowIcon.enabled = false;
-            QuestImage.enabled = false;
-        }
+        return closestQuest;
     }
 
     public void RemoveQuest(Quest quest)
@@ -85,9 +98,14 @@ public class QuestManager : MonoBehaviour
         quest.CompletedQuest();
     }
 
-    private void SetQuestIconPositionOnScreen()
+    private void SetQuestIconPositionOnScreen(Quest quest, Image icon, Image arrowIcon)
     {
-        Vector3 viewportPosition = mainCamera.WorldToViewportPoint(VisibleQuest.transform.position);
+        UpdateIconPosition(icon, quest.transform.position, arrowIcon);
+    }
+
+    private void UpdateIconPosition(Image icon, Vector3 position, Image correspondingArrowIcon)
+    {
+        Vector3 viewportPosition = mainCamera.WorldToViewportPoint(position);
 
         float centerX = 0.5f;
         float centerY = 0.5f;
@@ -95,17 +113,17 @@ public class QuestManager : MonoBehaviour
         float angleToQuest = Mathf.Atan2(viewportPosition.y - centerY, viewportPosition.x - centerX);
 
         // Quest is behind the player
-        if (viewportPosition.z < 0) 
+        if (viewportPosition.z < 0)
         {
             angleToQuest += Mathf.PI;
             float arrowX = Mathf.Cos(angleToQuest) * (TrackingArea.rect.width * 0.5f);
             float arrowY = Mathf.Sin(angleToQuest) * (TrackingArea.rect.height * 0.5f);
 
-            ArrowIcon.rectTransform.anchoredPosition = new Vector2(arrowX, arrowY);
-            ArrowIcon.rectTransform.rotation = Quaternion.Euler(0, 0, angleToQuest * Mathf.Rad2Deg - 90f);
+            correspondingArrowIcon.rectTransform.anchoredPosition = new Vector2(arrowX, arrowY);
+            correspondingArrowIcon.rectTransform.rotation = Quaternion.Euler(0, 0, angleToQuest * Mathf.Rad2Deg - 90f);
 
-            ArrowIcon.enabled = true;
-            QuestImage.enabled = false;
+            correspondingArrowIcon.enabled = true;
+            icon.enabled = false;
             return;
         }
 
@@ -114,21 +132,21 @@ public class QuestManager : MonoBehaviour
 
         float iconX;
         float iconY;
-        if (distanceFromCenter > 0.5f) 
+        if (distanceFromCenter > 0.5f)
         {
             // Quest icon outside the screen
             iconX = centerX + Mathf.Cos(angleToQuest) * (TrackingArea.rect.width * 0.5f);
             iconY = centerY + Mathf.Sin(angleToQuest) * (TrackingArea.rect.height * 0.5f);
         }
-        else 
+        else
         {
             // Quest icon is inside the screen
             iconX = (viewportPosition.x - centerX) * TrackingArea.rect.width;
             iconY = (viewportPosition.y - centerY) * TrackingArea.rect.height;
         }
 
-        QuestImage.rectTransform.anchoredPosition = new Vector2(iconX, iconY);
-        QuestImage.enabled = true;
-        ArrowIcon.enabled = false;
+        icon.rectTransform.anchoredPosition = new Vector2(iconX, iconY);
+        icon.enabled = true;
+        correspondingArrowIcon.enabled = false;
     }
 }

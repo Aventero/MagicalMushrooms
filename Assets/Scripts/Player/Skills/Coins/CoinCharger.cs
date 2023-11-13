@@ -199,7 +199,8 @@ public class CoinCharger : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, chargePoint.transform.position) <= OutlineDistance)
             {
-                chargePoint.GetComponent<Outline>().enabled = true;
+                if (!chargePoint.IsFullyCharged)
+                    chargePoint.GetComponent<Outline>().enabled = true;
             }
             else
             {

@@ -1,13 +1,25 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Stats : MonoBehaviour
 {
-    public int CoinsCollected = 0;
-    public int MaxCoins = 100;
+    [Header("Mushrooms")]
+    public int MushroomsCollected = 0;
+    public int MaxMushrooms { get; private set;}
+    public TMP_Text CollectedText;
 
-    [Header("Text")]
+    [Header("Floating Text")]
+    public Canvas UI;
+    public GameObject textPrefab;
+    public GameObject floatingTextOrigin;
+    public float moveSpeed = 1f;
+    public float fadeDuration = 1f;
+
+    [Header("Coins")]
+    public int CoinsCollected = 0;
+    public int MaxCoins = 25;
     public GameObject CoinCounterGameObject;
     private TMP_Text counterText;
 
@@ -15,10 +27,10 @@ public class Stats : MonoBehaviour
     public MagicLiquid StaffColoration;
 
     [Header("Pop")]
-    public float popScaleFactor = 1.1f; // This determines how big the pop effect will be.
-    public float popDuration = 0.02f; // This determines how long the pop effect will last.
+    private bool IsPopping = false;
     public static Stats Instance { get; private set; }
     private Vector3 originalScale;
+    private Color originialColor;
     private bool missingCoinsRunning = false;
 
     private void Awake()
@@ -37,6 +49,19 @@ public class Stats : MonoBehaviour
         counterText = CoinCounterGameObject.GetComponentInChildren<TMP_Text>();
         counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
         originalScale = counterText.transform.localScale;
+        originialColor = counterText.color;
+        MaxMushrooms = FindObjectsOfType<MushroomCollectable>().Length;
+        CollectedText.SetText("0" + " / " + MaxMushrooms);
+
+    }
+
+    public void IncreaseMushroomsCollected()
+    {
+        MushroomsCollected++;
+        MaxCoins += 25;
+        counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
+        CollectedText.SetText(Stats.Instance.MushroomsCollected + " / " + Stats.Instance.MaxMushrooms);
+        CreateFloatingText("+25 Max", floatingTextOrigin.transform.position, Color.yellow, 2f, 1.5f);
     }
 
     public void IncreaseCoinsCollected(int value)
@@ -48,10 +73,8 @@ public class Stats : MonoBehaviour
             CoinsCollected = MaxCoins;
 
         counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
-
-        // Start the pop effect
+        CreateFloatingText("+" + value, floatingTextOrigin.transform.position, Color.cyan, 0.1f, 1.1f);
         StaffColoration.MagicReachedOrigin();
-        StartCoroutine(PopTextEffect());
     }
 
     public void DecreaseCoinsCollected(int value)
@@ -60,15 +83,13 @@ public class Stats : MonoBehaviour
 
         if (CoinsCollected <= 0)
         {
-            StartCoroutine(PopTextEffect());
+            StartCoroutine(PopEffect(0.5f, 1.2f, Color.red));
             CoinsCollected = 0;
         }
 
         counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
-
-        // Start the pop effect
+        CreateFloatingText("-" + value, floatingTextOrigin.transform.position, new Color(0.7f, 0f, 0f, 1f), 0.2f, 0.9f);
         StaffColoration.MagicReachedOrigin();
-        StartCoroutine(PopTextEffect());
     }
 
     public float GetNormalizedCoins()
@@ -78,29 +99,31 @@ public class Stats : MonoBehaviour
 
     public void MissingCoinsEffect()
     {
-        counterText.color = Color.red;
         if (!missingCoinsRunning)
         {
             missingCoinsRunning = true;
-            StartCoroutine(PopMissing());
+            StartCoroutine(PopEffect(0.5f, 1.2f, Color.red));
         }
     }
 
-    private IEnumerator PopMissing()
+    private IEnumerator PopEffect(float popDuration, float popScale, Color? color = null)
     {
-        
         float elapsedTime = 0;
-        float halfDuration = popDuration;
+        float halfDuration = popDuration / 2f;
+        if (color.HasValue)
+        {
+            counterText.color = color.Value;
+        }
 
         // Scale up
         while (elapsedTime < halfDuration)
         {
             float percentage = elapsedTime / halfDuration;
-            counterText.transform.localScale = Vector3.Lerp(originalScale, originalScale * popScaleFactor, percentage);
+            counterText.transform.localScale = Vector3.Lerp(originalScale, originalScale * popScale, percentage);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        counterText.transform.localScale = originalScale * popScaleFactor;
+        counterText.transform.localScale = originalScale * popScale;
 
         elapsedTime = 0;
 
@@ -108,40 +131,57 @@ public class Stats : MonoBehaviour
         while (elapsedTime < halfDuration)
         {
             float percentage = elapsedTime / halfDuration;
-            counterText.transform.localScale = Vector3.Lerp(originalScale * popScaleFactor, originalScale, percentage);
+            counterText.transform.localScale = Vector3.Lerp(originalScale * popScale, originalScale, percentage);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         counterText.transform.localScale = originalScale;
-        counterText.color = Color.white;
+        counterText.color = originialColor;
         missingCoinsRunning = false;
+        IsPopping = false;
     }
 
-    private IEnumerator PopTextEffect()
+    public void CreateFloatingText(string text, Vector3 position, Color color, float popDuration, float popScale)
     {
-        float elapsedTime = 0;
-        float halfDuration = popDuration / 2f;
-
-        // Scale up
-        while (elapsedTime < halfDuration)
-        {
-            float percentage = elapsedTime / halfDuration;
-            counterText.transform.localScale = Vector3.Lerp(originalScale, originalScale * popScaleFactor, percentage);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        counterText.transform.localScale = originalScale * popScaleFactor;
-
-        elapsedTime = 0; 
-
-        // Scale down
-        while (elapsedTime < halfDuration)
-        {
-            float percentage = elapsedTime / halfDuration;
-            counterText.transform.localScale = Vector3.Lerp(originalScale * popScaleFactor, originalScale, percentage);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        counterText.transform.localScale = originalScale;
+        GameObject textObj = Instantiate(textPrefab, position, Quaternion.identity, UI.transform);
+        TMP_Text txt = textObj.GetComponent<TMP_Text>();
+        txt.SetText(text);
+        txt.color = color;
+        StartCoroutine(MoveAndFade(textObj, color, popDuration, popScale));
     }
+
+    private IEnumerator MoveAndFade(GameObject textObj, Color color, float popDuration, float popScale)
+    {
+        float elapsed = 0;
+        CanvasGroup canvasGroup = textObj.GetComponent<CanvasGroup>();
+        Vector3 startPosition = textObj.transform.position;
+
+        float arcHeight = 50f;
+        float arcWidth = 30f;
+
+        // Random starting direction: 1 for right, -1 for left
+        float directionMultiplier = Random.Range(-3f, 3f);
+
+        while (elapsed < fadeDuration)
+        {
+            float t = elapsed / fadeDuration;
+
+            float x = Mathf.Lerp(0, arcWidth * directionMultiplier, t);
+            float y = Mathf.Sin(Mathf.PI * t) * arcHeight;
+
+            textObj.transform.position = startPosition + new Vector3(x, y, 0);
+            canvasGroup.alpha = 1 - t;
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        if (!IsPopping)
+        {
+            IsPopping = true;
+            StartCoroutine(PopEffect(popDuration, popScale, color));
+        }
+        Destroy(textObj);
+    }
+
 }

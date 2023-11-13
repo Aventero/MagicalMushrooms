@@ -13,7 +13,7 @@ public class MovingPlatform : MonoBehaviour
     private float ElapsedTime = 0;
     private float TimeToDestination = 0;
     private float distance;
-    private bool canMove = true;
+    private bool canMove = false;
 
     private void Awake()
     {
@@ -51,6 +51,12 @@ public class MovingPlatform : MonoBehaviour
         return percentageTraveled;
     }
 
+    IEnumerator WaitThenStart()
+    {
+        yield return new WaitForSeconds(3f);
+        canMove = true;
+    }
+
     IEnumerator WaitThenSwap()
     {
         yield return new WaitForSeconds(WaitTime);
@@ -81,5 +87,10 @@ public class MovingPlatform : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             player.transform.SetParent(null);
+    }
+
+    private void OnEnable()
+    {
+        StartCoroutine(WaitThenStart());
     }
 }

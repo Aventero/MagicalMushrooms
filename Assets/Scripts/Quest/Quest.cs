@@ -10,9 +10,8 @@ public class Quest : MonoBehaviour
 {
     public enum QuestType
     {
-        Interact,
         ReachDestination,
-        Charge
+        Collect
     }
 
     public QuestType Type;
