@@ -6,6 +6,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class Stats : MonoBehaviour
 {
     [Header("Mushrooms")]
+    public int MushroomValue = 25;
     public int MushroomsCollected = 0;
     public int MaxMushrooms { get; private set;}
     public TMP_Text CollectedText;
@@ -19,8 +20,9 @@ public class Stats : MonoBehaviour
 
     [Header("Coins")]
     public int CoinsCollected = 0;
-    public int MaxCoins = 25;
     public GameObject CoinCounterGameObject;
+    public int MaxCoins { get; private set; }
+    public int StartMaxCoins { get; private set; }
     private TMP_Text counterText;
 
     [Header("Coloration")]
@@ -46,6 +48,8 @@ public class Stats : MonoBehaviour
 
     private void Start()
     {
+        StartMaxCoins = MushroomValue;
+        MaxCoins = StartMaxCoins;
         counterText = CoinCounterGameObject.GetComponentInChildren<TMP_Text>();
         counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
         originalScale = counterText.transform.localScale;
@@ -58,10 +62,10 @@ public class Stats : MonoBehaviour
     public void IncreaseMushroomsCollected()
     {
         MushroomsCollected++;
-        MaxCoins += 25;
+        MaxCoins += MushroomValue;
         counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
         CollectedText.SetText(Stats.Instance.MushroomsCollected + " / " + Stats.Instance.MaxMushrooms);
-        CreateFloatingText("+25 Max", floatingTextOrigin.transform.position, Color.yellow, 2f, 1.5f);
+        CreateFloatingText("+" + MushroomValue + " Max", floatingTextOrigin.transform.position, Color.yellow, 2f, 1.5f);
     }
 
     public void IncreaseCoinsCollected(int value)

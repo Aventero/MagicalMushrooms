@@ -6,10 +6,12 @@ using UnityEngine.Events;
 public class SimpleTrigger : MonoBehaviour
 {
     public UnityEvent OnTrigger;
+    public bool DestroyOnTrigger = true;
 
     private void OnTriggerEnter(Collider other)
     {
         OnTrigger.Invoke();
-        Destroy(gameObject);
+        if (DestroyOnTrigger)
+            Destroy(gameObject);
     }
 }
