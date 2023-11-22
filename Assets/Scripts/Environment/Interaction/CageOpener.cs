@@ -24,7 +24,7 @@ public class CageOpener : Interactable
         float deltaTime = 0f;
         while (deltaTime < MaxTime)
         {
-            deltaTime += Time.deltaTime;
+            deltaTime += Time.unscaledDeltaTime;
             float t = deltaTime / MaxTime;
             transform.localRotation = Quaternion.AngleAxis(t * Degrees, transform.up);
             yield return null;

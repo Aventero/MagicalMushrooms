@@ -76,6 +76,12 @@ public class OverlayMenu : MonoBehaviour
         HideTooltip();
     }
 
+    private void OnEnable()
+    {
+        if (CheckpointText.activeSelf)
+            StartCoroutine(FadeTextToZeroAlpha(CheckpointNotificationDuration, CheckpointText.GetComponentInParent<CanvasGroup>()));
+    }
+
     // Call this method to show the checkpoint text
     public void ShowCheckpointText()
     {

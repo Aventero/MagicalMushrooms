@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 588620327344752737}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.000004, z: 0}
+  m_LocalPosition: {x: 0, y: 5.9999847, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -449,13 +449,37 @@ MonoBehaviour:
     m_ActionId: 84b5051c-b0ff-4304-bc02-50236456b64d
     m_ActionName: CharacterControls/CoinCharge[/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: PlayerSkillManager, Assembly-CSharp
+        m_MethodName: OnDragging
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: cd823ce2-d0ad-4299-98d4-9c129fa25b6e
     m_ActionName: CharacterControls/Dragging[/Keyboard/q]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Dragging, Assembly-CSharp
+        m_MethodName: OnDraggingShoot
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 8d1c52c5-32c1-4c9a-ab56-1513fdb88427
-    m_ActionName: CharacterControls/DraggingShoot[/Mouse/leftButton]
+    m_ActionName: CharacterControls/DraggingShoot[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: CharacterControls
@@ -503,7 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef4cad7d1e2a14c6799a4743ecb9db7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxRayDistance: 1
+  MaxRayDistance: 4
   BoxRaySize: 0.05
   layerMask:
     serializedVersion: 2
@@ -604,12 +628,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07942c366faf3b24ebcbfe21e691e7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CoinsCollected: 0
-  MaxCoins: 500
+  MushroomValue: 25
+  MushroomsCollected: 0
+  CollectedText: {fileID: 0}
+  UI: {fileID: 0}
+  textPrefab: {fileID: 6749160668602965361, guid: 5ce794944317c3a44933d9d2c336cab6, type: 3}
+  floatingTextOrigin: {fileID: 0}
+  moveSpeed: 1
+  fadeDuration: 1
+  CoinsCollected: 100
   CoinCounterGameObject: {fileID: 0}
   StaffColoration: {fileID: 209440368996516111}
-  popScaleFactor: 1.2
-  popDuration: 0.1
 --- !u!114 &3201947770859081342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,8 +652,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vacuumOrigin: {fileID: 627444295598941293}
-  vacuumSearchRadius: 3
-  vacuumForce: 5
+  vacuumSearchRadius: 6
+  vacuumForce: 10
   angle: 12
 --- !u!114 &8223869360086279088
 MonoBehaviour:
@@ -645,6 +674,7 @@ MonoBehaviour:
   magicCoinPrefab: {fileID: 7360445342254938796, guid: 3308ba2bb1f39ac4b9d72bb276014b6a, type: 3}
   spawnForce: 5
   OutlineWidth: 10
+  OutlineDistance: 15
 --- !u!1 &2857605710249577893
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,8 +702,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2857605710249577893}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.000004, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 5.9999847, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1357,6 +1387,18 @@ PrefabInstance:
       propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[0].outWeight
       value: 0.1832579
       objectReference: {fileID: 0}
+    - target: {fileID: 6683480959832291357, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0097
+      objectReference: {fileID: 0}
+    - target: {fileID: 6683480959832291357, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0359
+      objectReference: {fileID: 0}
+    - target: {fileID: 6683480959832291357, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0082
+      objectReference: {fileID: 0}
     - target: {fileID: 7144860516592957211, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -1405,6 +1447,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8502907781080536730, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+      propertyPath: NoiseModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8502907781080536730, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+      propertyPath: NoiseModule.frequency
+      value: 3.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 8502907781080536730, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 8502907781080536730, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+      propertyPath: NoiseModule.scrollSpeed.scalar
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 8502907781080536730, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8502907781080536730, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8502907781080536730, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].time
+      value: 0.5373313
+      objectReference: {fileID: 0}
+    - target: {fileID: 8502907781080536730, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].value
+      value: 0.7570086
+      objectReference: {fileID: 0}
     - target: {fileID: 8625346511249934219, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 1000
@@ -1417,6 +1491,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 9200165240068647242, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ea08e5bbaf2d13740a243899cb660e1e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32f18b254aeb3dd49be7b16e047931e3, type: 3}
 --- !u!114 &209440368996516111 stripped

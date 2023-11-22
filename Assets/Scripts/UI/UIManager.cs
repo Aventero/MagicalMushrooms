@@ -31,15 +31,15 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        overlayMenu = OverlayMenu.GetComponent<OverlayMenu>();
+        overlayMenu.Init();
+
         OverlayMenu.SetActive(true);
         GameOverMenu.SetActive(false);
         PauseMenu.SetActive(false);
         DialogMenu.SetActive(false);
 
         StateManager.Instance.GameOverEvent += this.GameOver;
-
-        overlayMenu = OverlayMenu.GetComponent<OverlayMenu>();
-        overlayMenu.Init();
 
         dialogMenu = DialogMenu.GetComponent<DialogMenu>();
 
