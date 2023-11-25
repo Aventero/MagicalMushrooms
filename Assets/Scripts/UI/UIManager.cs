@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
     public bool IsCutscene = false;
     public string SkippingCutsceneName;
+    public string[] fallenTexts;
+    public string[] catchedTexts;
 
     private void Awake()
     {
@@ -41,7 +43,7 @@ public class UIManager : MonoBehaviour
         PauseMenu.SetActive(false);
         DialogMenu.SetActive(false);
 
-        StateManager.Instance.PlayerDiedEvent += this.PlayerDied;
+        StateManager.Instance.PlayerHasFallenEvent += this.PlayerHasFallen;
 
         dialogMenu = DialogMenu.GetComponent<DialogMenu>();
 
@@ -177,33 +179,48 @@ public class UIManager : MonoBehaviour
         overlayMenu.ShowSmokeFrame(visible);
     }
 
-    private void PlayerDied()
+    private void PlayerHasFallen()
     {
         OverlayMenu.SetActive(false);
         PlayerDiedMenu.SetActive(true);
 
-        StartCoroutine(FadePlayerDied());
+        OverlayMenu.SetActive(false);
+        CanvasGroup canvasGroup = PlayerDiedMenu.GetComponent<CanvasGroup>();
+        string text = "<i>" + fallenTexts[Random.Range(0, fallenTexts.Length)] + "</i>\n"
+            + "<b><color=#FFFFFF>You dropped <color=#DD2B2B>" + Stats.Instance.CoinsCollected / 2 + "</color> magic.</color></b>";
+        Stats.Instance.DecreaseCoinsCollected(Stats.Instance.CoinsCollected / 2);
+        PlayerDiedMenu.GetComponentInChildren<TMP_Text>().text = text;
+        StartCoroutine(FadeCanvasGroup(1f, canvasGroup));
     }
 
-    IEnumerator FadePlayerDied()
+    private IEnumerator FadeCanvasGroup(float time, CanvasGroup canvasGroup)
     {
-        yield return new WaitForSeconds(1);
+        canvasGroup.alpha = 0;
 
-        TMP_Text text = PlayerDiedMenu.GetComponentInChildren<TMP_Text>();
-        Color color = text.color;
-
-        while (color.a > 0)
+        while (canvasGroup.alpha < 1)
         {
-            color.a -= Time.deltaTime / 2f;
-            text.color = color;
-            Debug.Log(color.a);
+            canvasGroup.alpha += Time.unscaledDeltaTime / time;
             yield return null;
         }
 
-        color.a = 1;
-        text.color = color;
+        StartCoroutine(FadeBackToNormalAfter(3f, 0.5f, canvasGroup));
+    }
 
+    private IEnumerator FadeBackToNormalAfter(float waitTime, float fadeTime, CanvasGroup canvasGroup)
+    {
+        yield return new WaitForSecondsRealtime(waitTime);
+        StartCoroutine(FadeBackToNormal(fadeTime, canvasGroup));
+    }
+
+    private IEnumerator FadeBackToNormal(float time, CanvasGroup canvasGroup)
+    {
+        CheckpointManager.Instance.RespawnPlayer();
         OverlayMenu.SetActive(true);
+        while (canvasGroup.alpha > 0)
+        {
+            canvasGroup.alpha -= Time.unscaledDeltaTime / time;
+            yield return null;
+        }
         PlayerDiedMenu.SetActive(false);
     }
 }

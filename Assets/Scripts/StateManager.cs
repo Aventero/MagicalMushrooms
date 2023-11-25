@@ -13,14 +13,13 @@ public class StateManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton
-        if (Instance == null)
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
+            Destroy(this);
         }
         else
         {
-            Destroy(gameObject);
+            Instance = this;
         }
     }
 
@@ -91,7 +90,7 @@ public class StateManager : MonoBehaviour
     [HideInInspector]
     public UnityAction AllItemsCollectedEvent;
     [HideInInspector]
-    public UnityAction PlayerDiedEvent;
+    public UnityAction PlayerHasFallenEvent;
     [HideInInspector]
     public UnityEvent ResumePlayerMovementEvent;
     [HideInInspector]

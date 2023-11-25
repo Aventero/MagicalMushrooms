@@ -30,7 +30,7 @@ public class SaveManager : MonoBehaviour
         
         return new()
         {
-            coins = player.GetComponent<Stats>().CoinsCollected,
+            coins = Stats.Instance.CoinsCollected,
             lastCheckpointPos = currentCheckpoint.GetRespawnPoint(),
             playerCheckpointRotation = currentCheckpoint.GetRotation(),
             visitedCheckpointPositions = GetVisitedCheckpoints(),

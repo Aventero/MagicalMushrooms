@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1286993946960551981}
   - component: {fileID: 1082318646769769015}
-  - component: {fileID: 2273027709564530766}
+  - component: {fileID: 4666416326234879477}
+  - component: {fileID: 6392243001310469857}
   m_Layer: 5
   m_Name: GameOver
   m_TagString: Untagged
@@ -47,7 +48,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 610609994920286084}
   m_CullTransparentMesh: 1
---- !u!114 &2273027709564530766
+--- !u!114 &4666416326234879477
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,9 +57,39 @@ MonoBehaviour:
   m_GameObject: {fileID: 610609994920286084}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d3fbfbcce2364753ac3df397b90df6d, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!225 &6392243001310469857
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610609994920286084}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7825404526489207898
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +156,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: YOU DIED
+  m_text: '<i>You came into contact with the ground.</i>
+
+    <b><color=#FFFFFF>You
+    dopped <color=#DD2B2B>123</color> magic</color></b>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5722533b437e32a4989494062a680010, type: 2}
   m_sharedMaterial: {fileID: -5037814744165319971, guid: 5722533b437e32a4989494062a680010, type: 2}
@@ -134,8 +168,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190301
-  m_fontColor: {r: 0.8679245, g: 0, b: 0, a: 1}
+    rgba: 4281019357
+  m_fontColor: {r: 0.8679245, g: 0.16785331, b: 0.16785331, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -152,8 +186,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 200
-  m_fontSizeBase: 200
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

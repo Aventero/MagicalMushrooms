@@ -23,8 +23,7 @@ public class Deathzone : MonoBehaviour
         if (!other.gameObject.CompareTag("Player"))
             return;
 
-        StateManager.Instance.PlayerDiedEvent.Invoke();
-        CheckpointManager.Instance.RespawnPlayer();
+        StateManager.Instance.PlayerHasFallenEvent.Invoke();
     }
 
     private void OnDrawGizmosSelected()

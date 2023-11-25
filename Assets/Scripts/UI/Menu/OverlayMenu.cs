@@ -86,7 +86,8 @@ public class OverlayMenu : MonoBehaviour
     public void ShowCheckpointText()
     {
         CheckpointText.SetActive(true);
-        StartCoroutine(FadeTextToFullAlpha(CheckpointNotificationDuration, CheckpointText.GetComponentInParent<CanvasGroup>()));
+        if (gameObject.activeSelf)
+            StartCoroutine(FadeTextToFullAlpha(CheckpointNotificationDuration, CheckpointText.GetComponentInParent<CanvasGroup>()));
     }
 
     private IEnumerator FadeTextToFullAlpha(float time, CanvasGroup canvasGroup)

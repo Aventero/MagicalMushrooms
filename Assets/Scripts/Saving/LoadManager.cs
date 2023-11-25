@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -16,10 +17,15 @@ public class LoadManager : MonoBehaviour
 
     public void LoadSave()
     {
+        StartCoroutine(LoadDelayed());
+    }
+
+    IEnumerator LoadDelayed()
+    {
+        yield return new WaitForEndOfFrame();
         Debug.Log("Loading Save");
         SaveData saveData = JsonUtility.FromJson<SaveData>(ReadFile());
-
-        FindObjectOfType<Stats>().IncreaseCoinsCollected(saveData.coins);
+        Stats.Instance.IncreaseCoinsCollected(saveData.coins);
         LoadVisitedCheckpoints(saveData.visitedCheckpointPositions, saveData.lastCheckpointPos, saveData.playerCheckpointRotation);
         LoadActivatedCoinCharger(saveData.activatedCoinChargers);
     }
@@ -35,6 +41,7 @@ public class LoadManager : MonoBehaviour
                 if (savedChargedPoint.ChargePointID.Equals(chargePoint.GetID()))
                 {
                     chargePoint.ActualCharge(savedChargedPoint.CoinValue);
+                    chargePoint.UICharge(savedChargedPoint.CoinValue);
                 }
             }
         }

@@ -14705,11 +14705,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OverlayMenu: {fileID: 157344034}
-  GameOverMenu: {fileID: 1074240994}
+  PlayerDiedMenu: {fileID: 1074240994}
   PauseMenu: {fileID: 549402433}
   DialogMenu: {fileID: 162474015}
   IsCutscene: 1
   SkippingCutsceneName: CutsceneInside
+  fallenTexts: []
+  catchedTexts: []
 --- !u!114 &2055240977
 MonoBehaviour:
   m_ObjectHideFlags: 0

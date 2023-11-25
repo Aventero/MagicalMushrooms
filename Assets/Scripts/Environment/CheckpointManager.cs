@@ -42,6 +42,7 @@ public class CheckpointManager : MonoBehaviour
             return;
         }
 
+
         controller.enabled = false;
 
         // The player can only be teleported if the CharacterController is disabled 

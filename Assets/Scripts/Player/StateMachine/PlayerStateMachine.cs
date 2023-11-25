@@ -232,7 +232,8 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void OnMouse(InputAction.CallbackContext context)
     {
-        if (StateManager.Instance.IsInCutscene)
+
+        if (StateManager.Instance == null || StateManager.Instance.IsInCutscene)
             return;
 
         currentMouseInput = context.ReadValue<Vector2>();
