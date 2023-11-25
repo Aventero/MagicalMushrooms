@@ -91,7 +91,7 @@ public class StateManager : MonoBehaviour
     [HideInInspector]
     public UnityAction AllItemsCollectedEvent;
     [HideInInspector]
-    public UnityAction GameOverEvent;
+    public UnityAction PlayerDiedEvent;
     [HideInInspector]
     public UnityEvent ResumePlayerMovementEvent;
     [HideInInspector]

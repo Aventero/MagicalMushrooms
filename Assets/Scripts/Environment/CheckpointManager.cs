@@ -35,6 +35,13 @@ public class CheckpointManager : MonoBehaviour
     // This respawns the player at the last checkpoint
     public void RespawnPlayer()
     {
+        if(Checkpoint == null)
+        {
+            // TODO: Do something if the checkpoint has not being set
+            Debug.LogError("No checkpoint!");
+            return;
+        }
+
         controller.enabled = false;
 
         // The player can only be teleported if the CharacterController is disabled 

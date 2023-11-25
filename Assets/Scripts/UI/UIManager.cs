@@ -1,3 +1,5 @@
+using System.Collections;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -7,7 +9,7 @@ public class UIManager : MonoBehaviour
 {
     [Header("Menues")]
     [SerializeField] private GameObject OverlayMenu;
-    [SerializeField] private GameObject GameOverMenu;
+    [SerializeField] private GameObject PlayerDiedMenu;
     [SerializeField] private GameObject PauseMenu;
     [SerializeField] private GameObject DialogMenu;
 
@@ -35,18 +37,18 @@ public class UIManager : MonoBehaviour
         overlayMenu.Init();
 
         OverlayMenu.SetActive(true);
-        GameOverMenu.SetActive(false);
+        PlayerDiedMenu.SetActive(false);
         PauseMenu.SetActive(false);
         DialogMenu.SetActive(false);
 
-        StateManager.Instance.GameOverEvent += this.GameOver;
+        StateManager.Instance.PlayerDiedEvent += this.PlayerDied;
 
         dialogMenu = DialogMenu.GetComponent<DialogMenu>();
 
         if (IsCutscene)
         {
             OverlayMenu.SetActive(false);
-            GameOverMenu.SetActive(false);
+            PlayerDiedMenu.SetActive(false);
             PauseMenu.SetActive(false);
             DialogMenu.SetActive(false);
         }
@@ -175,9 +177,33 @@ public class UIManager : MonoBehaviour
         overlayMenu.ShowSmokeFrame(visible);
     }
 
-    private void GameOver()
+    private void PlayerDied()
     {
-        PauseGame();
-        GameOverMenu.SetActive(true);
+        OverlayMenu.SetActive(false);
+        PlayerDiedMenu.SetActive(true);
+
+        StartCoroutine(FadePlayerDied());
+    }
+
+    IEnumerator FadePlayerDied()
+    {
+        yield return new WaitForSeconds(1);
+
+        TMP_Text text = PlayerDiedMenu.GetComponentInChildren<TMP_Text>();
+        Color color = text.color;
+
+        while (color.a > 0)
+        {
+            color.a -= Time.deltaTime / 2f;
+            text.color = color;
+            Debug.Log(color.a);
+            yield return null;
+        }
+
+        color.a = 1;
+        text.color = color;
+
+        OverlayMenu.SetActive(true);
+        PlayerDiedMenu.SetActive(false);
     }
 }
