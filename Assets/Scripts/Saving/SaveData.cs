@@ -6,6 +6,7 @@ public class SaveData {
     public Quaternion playerCheckpointRotation;
 
     public int coins;
+    public List<Vector3> collectedMushrooms;
 
     public List<ChargePointData> activatedCoinChargers;
 }

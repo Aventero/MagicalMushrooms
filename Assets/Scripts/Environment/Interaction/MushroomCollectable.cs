@@ -10,7 +10,14 @@ public class MushroomCollectable : Interactable
         if (!CanInteract)
             return;
 
-        Stats.Instance.IncreaseMushroomsCollected();
+        Stats.Instance.IncreaseMushroomsCollected(this.transform.position);
+        Destroy(transform.parent.gameObject);
+        QuestManager.Instance.RemoveQuest(GetComponent<Quest>());
+    }
+
+    public void Collect()
+    {
+        Stats.Instance.IncreaseMushroomsCollected(this.transform.position);
         Destroy(transform.parent.gameObject);
         QuestManager.Instance.RemoveQuest(GetComponent<Quest>());
     }

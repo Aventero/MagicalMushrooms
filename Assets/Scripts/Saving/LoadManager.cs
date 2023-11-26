@@ -28,6 +28,7 @@ public class LoadManager : MonoBehaviour
         Stats.Instance.IncreaseCoinsCollected(saveData.coins);
         LoadActivatedCoinCharger(saveData.activatedCoinChargers);
         LoadVisitedCheckpoints(saveData.activeCheckpoint, saveData.playerCheckpointRotation);
+        LoadCollectedMushrooms(saveData.collectedMushrooms);
     }
 
     private void LoadActivatedCoinCharger(List<ChargePointData> activatedCoinCharger)
@@ -64,7 +65,25 @@ public class LoadManager : MonoBehaviour
             }
         }
 
-        Debug.Log("No checkpoint");
+        Debug.LogError("No checkpoint found");
+    }
+
+    private void LoadCollectedMushrooms(List<Vector3> collectedMushrooms)
+    {
+        MushroomCollectable[] mushroomCollectables = GameObject.FindObjectsOfType<MushroomCollectable>();
+
+        foreach(MushroomCollectable mushroom in mushroomCollectables)
+        {
+            foreach(Vector3 collectedPosition in collectedMushrooms)
+            {
+                if (mushroom.transform.position.Equals(collectedPosition))
+                {
+                    mushroom.Collect();
+                    break;
+                }
+            }
+            
+        }
     }
 
     private string ReadFile()

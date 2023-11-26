@@ -27,10 +27,11 @@ public class SaveManager : MonoBehaviour
     private SaveData SetupSaveData()
     {
         Checkpoint currentCheckpoint = FindObjectOfType<CheckpointManager>().Checkpoint;
-        
+
         return new()
         {
             coins = Stats.Instance.CoinsCollected,
+            collectedMushrooms = Stats.Instance.CollectedMushrooms,
             activeCheckpoint = currentCheckpoint.GetRespawnPoint(),
             playerCheckpointRotation = currentCheckpoint.GetRotation(),
             activatedCoinChargers = GetActivatedMovablePlatforms()

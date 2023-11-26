@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
@@ -8,6 +9,7 @@ public class Stats : MonoBehaviour
     [Header("Mushrooms")]
     public int MushroomValue = 25;
     public int MushroomsCollected = 0;
+    public List<Vector3> CollectedMushrooms = new();
     public int MaxMushrooms { get; private set;}
     public TMP_Text CollectedText;
 
@@ -34,6 +36,7 @@ public class Stats : MonoBehaviour
     private Vector3 originalScale;
     private Color originialColor;
     private bool missingCoinsRunning = false;
+    
 
     private void Awake()
     {
@@ -59,8 +62,9 @@ public class Stats : MonoBehaviour
 
     }
 
-    public void IncreaseMushroomsCollected()
+    public void IncreaseMushroomsCollected(Vector3 mushroomPosition)
     {
+        CollectedMushrooms.Add(mushroomPosition);
         MushroomsCollected++;
         MaxCoins += MushroomValue;
         counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
