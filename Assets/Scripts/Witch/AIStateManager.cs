@@ -96,7 +96,7 @@ public class AIStateManager : MonoBehaviour
             return;
         currentState.UpdateState();
         Vision.WatchCurrentTarget();
-        Vision.ScaleVision(VisionScaling);
+        //Vision.ScaleVision(VisionScaling);
         Movement.AnimateWitch();
         DangerOverlay.UpdateColors();
         UIAnimation.UpdateAnimationStates();

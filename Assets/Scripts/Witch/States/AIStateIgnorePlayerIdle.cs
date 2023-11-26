@@ -16,40 +16,29 @@ public class AIStateIgnorePlayerIdle : MonoBehaviour, IAIState
 
     public void EnterState()
     {
+        stateManager.Movement.MoveToRandomPoint();
         stateManager.UIAnimation.PlayEyeClose();
         stateManager.DangerOverlay.SetState(DangerState.Nothing);
-        stateManager.Movement.agent.isStopped = true;
+        stateManager.Movement.agent.isStopped = false;
         stateManager.Vision.SetWatchingMode(WatchingMode.Slow);
-        List<Transform> visiblePoints = stateManager.VisiblePointsAroundPlayer(transform.position, transform.forward, 75f);
-        StartCoroutine(LookAround(WaitTimeInBetween, visiblePoints));
     }
 
     public void ExitState()
     {
         StopAllCoroutines();
-        stateManager.Movement.agent.isStopped = false;
+        stateManager.Movement.agent.isStopped = true;
     }
 
     public void UpdateState()
     {
+        stateManager.Vision.Watch(stateManager.StandardWatchpoint.transform.position);
+
+        if (ReachedDestination())
+            stateManager.TransitionToState(AIStates.Idle);
     }
 
-    IEnumerator LookAround(float waitTimeInBetween, List<Transform> visiblePoints)
+    private bool ReachedDestination()
     {
-        int times = 0;
-        foreach (Transform point in visiblePoints)
-        {
-            if (times >= 1)
-                break; // Return the Coroutine
-
-            // Store previous, set the new one
-            stateManager.Watch(point.position);
-            times++;
-
-            yield return new WaitForSeconds(waitTimeInBetween);
-        }
-
-        stateManager.TransitionToState(AIStates.Patrol);
-        yield return null;
+        return !stateManager.Movement.agent.pathPending && stateManager.Movement.agent.remainingDistance < stateManager.Movement.agent.stoppingDistance;
     }
 }

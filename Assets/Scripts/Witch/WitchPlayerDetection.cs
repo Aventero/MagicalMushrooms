@@ -52,6 +52,16 @@ public class WitchPlayerDetection : MonoBehaviour
         return inRangeWatchpoints;
     }
 
+    public Transform GetRandomViewPoint()
+    {
+        if (stateManager.WatchPoints.Count <= 0)
+            return null;
+
+        int index = Random.Range(0, stateManager.WatchPoints.Count);
+        return stateManager.WatchPoints[index];
+    }
+
+
     private void OnDrawGizmos()
     {
         if (stateManager == null)

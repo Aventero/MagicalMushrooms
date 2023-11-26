@@ -92,6 +92,8 @@ public class StateManager : MonoBehaviour
     [HideInInspector]
     public UnityAction PlayerHasFallenEvent;
     [HideInInspector]
+    public UnityAction PlayerWasCaughtEvent;
+    [HideInInspector]
     public UnityEvent ResumePlayerMovementEvent;
     [HideInInspector]
     public UnityEvent ResumePlayerCameraEvent;

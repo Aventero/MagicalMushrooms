@@ -180,17 +180,26 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
             stateManager.Player.transform.position = magicProjectile.transform.position;
             yield return null;
         }
-
         // Hold player.
         deltaTime = 0;
-        while (deltaTime <= maxTime)
+        while (deltaTime <= maxTime / 2f)
         {
             deltaTime += Time.deltaTime;
             RightHandAimConstraint.weight = Mathf.Lerp(1f, initialWeight, deltaTime / maxTime);
             stateManager.Player.transform.position = magicProjectile.transform.position;
             yield return null;
         }
-        StateManager.Instance.RespawnPlayerEvent.Invoke();
+        StateManager.Instance.PlayerWasCaughtEvent.Invoke();
+
+        // Hold player.
+        deltaTime = 0;
+        while (deltaTime <= maxTime / 2f)
+        {
+            deltaTime += Time.deltaTime;
+            RightHandAimConstraint.weight = Mathf.Lerp(1f, initialWeight, deltaTime / maxTime);
+            stateManager.Player.transform.position = magicProjectile.transform.position;
+            yield return null;
+        }
         Destroy(magicProjectile);
         stateManager.TransitionToState(AIStates.IgnorePlayerIdle);
     }

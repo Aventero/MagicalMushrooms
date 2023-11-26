@@ -51,6 +51,16 @@ public class AIMovement : MonoBehaviour
         SetWalkPoint(points[index].position); // Use SetWalkPoint to ensure currentWalkPoint is updated
     }
 
+    public void MoveToRandomPoint()
+    {
+        Transform point = stateManager.PlayerDetection.GetRandomViewPoint();
+
+        if (point == null)
+            return;
+
+        SetWalkPoint(point.position);
+    }
+
 
     public void AnimateWitch()
     {

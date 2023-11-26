@@ -109,36 +109,36 @@ public class AIVision : MonoBehaviour
         currentWatchTarget = point;
     }
 
-    public void ScaleVisionByDistance()
-    {
-        float distanceToWatchpoint = Vector3.Distance(ViewCone.transform.position, currentWatchTarget);
-        // Lerp factor based on distance
-        float maxDistance = 25.0f;
-        float lerpFactor = Mathf.Clamp01(distanceToWatchpoint / maxDistance);
+    //public void ScaleVisionByDistance()
+    //{
+    //    float distanceToWatchpoint = Vector3.Distance(ViewCone.transform.position, currentWatchTarget);
+    //    // Lerp factor based on distance
+    //    float maxDistance = 25.0f;
+    //    float lerpFactor = Mathf.Clamp01(distanceToWatchpoint / maxDistance);
 
-        // Additional scale for the Z-axis.
-        float maxAdditionalScale = 30.0f;
-        float additionalZScale = Mathf.Lerp(maxAdditionalScale, 0, lerpFactor);
-        SpotLight.innerSpotAngle = originalVisionScale.z + additionalZScale;
-        SpotLight.spotAngle = originalVisionScale.z + additionalZScale + 5f;
+    //    // Additional scale for the Z-axis.
+    //    float maxAdditionalScale = 30.0f;
+    //    float additionalZScale = Mathf.Lerp(maxAdditionalScale, 0, lerpFactor);
+    //    SpotLight.innerSpotAngle = originalVisionScale.z + additionalZScale;
+    //    SpotLight.spotAngle = originalVisionScale.z + additionalZScale + 5f;
 
-        targetScale = new Vector3(originalVisionScale.x, originalVisionScale.y, originalVisionScale.z - additionalZScale);
+    //    targetScale = new Vector3(originalVisionScale.x, originalVisionScale.y, originalVisionScale.z - additionalZScale);
 
-        // Interpolate towards the target scale.
-        float lerpSpeed = 0.1f;
-        ViewCone.transform.localScale = Vector3.Lerp(ViewCone.transform.localScale, targetScale, lerpSpeed);
-    }
+    //    // Interpolate towards the target scale.
+    //    float lerpSpeed = 0.1f;
+    //    ViewCone.transform.localScale = Vector3.Lerp(ViewCone.transform.localScale, targetScale, lerpSpeed);
+    //}
 
-    public void ScaleVision(float scale)
-    {
-        targetScale = new Vector3(originalVisionScale.x, originalVisionScale.y, originalVisionScale.z - scale);
+    //public void ScaleVision(float scale)
+    //{
+    //    targetScale = new Vector3(originalVisionScale.x, originalVisionScale.y, originalVisionScale.z - scale);
 
-        SpotLight.innerSpotAngle = originalVisionScale.z + scale;
-        SpotLight.spotAngle = originalVisionScale.z + scale + 5f;
-        // Interpolate towards the target scale.
-        float lerpSpeed = 0.1f;
-        ViewCone.transform.localScale = Vector3.Lerp(ViewCone.transform.localScale, targetScale, lerpSpeed);
-    }
+    //    SpotLight.innerSpotAngle = originalVisionScale.z + scale;
+    //    SpotLight.spotAngle = originalVisionScale.z + scale + 5f;
+    //    // Interpolate towards the target scale.
+    //    float lerpSpeed = 0.1f;
+    //    ViewCone.transform.localScale = Vector3.Lerp(ViewCone.transform.localScale, targetScale, lerpSpeed);
+    //}
 
 
     public bool RotateAgent(Vector3 targetPosition, float rotationSpeed)

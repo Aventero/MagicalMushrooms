@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.UIElements;
 using static UnityEngine.InputSystem.InputAction;
 
@@ -44,6 +45,7 @@ public class UIManager : MonoBehaviour
         DialogMenu.SetActive(false);
 
         StateManager.Instance.PlayerHasFallenEvent += this.PlayerHasFallen;
+        StateManager.Instance.PlayerWasCaughtEvent += this.PlayerWasCaught;
 
         dialogMenu = DialogMenu.GetComponent<DialogMenu>();
 
@@ -181,13 +183,27 @@ public class UIManager : MonoBehaviour
 
     private void PlayerHasFallen()
     {
-        OverlayMenu.SetActive(false);
         PlayerDiedMenu.SetActive(true);
-
-        OverlayMenu.SetActive(false);
+        StateManager.Instance.IsAllowedToSeePlayer = false;
         CanvasGroup canvasGroup = PlayerDiedMenu.GetComponent<CanvasGroup>();
         string text = "<i>" + fallenTexts[Random.Range(0, fallenTexts.Length)] + "</i>\n"
             + "<b><color=#FFFFFF>You dropped <color=#DD2B2B>" + Stats.Instance.CoinsCollected / 2 + "</color> magic.</color></b>";
+        Stats.Instance.DecreaseCoinsCollected(Stats.Instance.CoinsCollected / 2);
+        PlayerDiedMenu.GetComponentInChildren<TMP_Text>().text = text;
+        StartCoroutine(FadeCanvasGroup(1f, canvasGroup));
+
+    }
+
+    private void PlayerWasCaught()
+    {
+        PlayerDiedMenu.SetActive(true);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        CharacterController controller = player.GetComponent<CharacterController>();
+        controller.enabled = false;
+        StateManager.Instance.PausePlayerMovementEvent.Invoke();
+        CanvasGroup canvasGroup = PlayerDiedMenu.GetComponent<CanvasGroup>();
+        string text = "<i>" + catchedTexts[Random.Range(0, catchedTexts.Length)] + "</i>\n"
+            + "<b><color=#FFFFFF>She took <color=#DD2B2B>" + Stats.Instance.CoinsCollected / 2 + "</color> magic.</color></b>";
         Stats.Instance.DecreaseCoinsCollected(Stats.Instance.CoinsCollected / 2);
         PlayerDiedMenu.GetComponentInChildren<TMP_Text>().text = text;
         StartCoroutine(FadeCanvasGroup(1f, canvasGroup));
@@ -208,13 +224,14 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator FadeBackToNormalAfter(float waitTime, float fadeTime, CanvasGroup canvasGroup)
     {
-        yield return new WaitForSecondsRealtime(waitTime);
+        yield return new WaitForSeconds(waitTime);
         StartCoroutine(FadeBackToNormal(fadeTime, canvasGroup));
     }
 
     private IEnumerator FadeBackToNormal(float time, CanvasGroup canvasGroup)
     {
         CheckpointManager.Instance.RespawnPlayer();
+        StateManager.Instance.ResumePlayerMovementEvent.Invoke();
         OverlayMenu.SetActive(true);
         while (canvasGroup.alpha > 0)
         {
@@ -222,5 +239,6 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
         PlayerDiedMenu.SetActive(false);
+        StateManager.Instance.IsAllowedToSeePlayer = true;
     }
 }
