@@ -24,7 +24,9 @@ public class LoadManager : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         Debug.Log("Loading Save");
+        Stats.Instance.CoinsCollected = 0;
         SaveData saveData = JsonUtility.FromJson<SaveData>(ReadFile());
+        
         Stats.Instance.IncreaseCoinsCollected(saveData.coins);
         LoadActivatedCoinCharger(saveData.activatedCoinChargers);
         LoadVisitedCheckpoints(saveData.activeCheckpoint, saveData.playerCheckpointRotation);
