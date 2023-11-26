@@ -6,13 +6,7 @@ using UnityEngine.SceneManagement;
 public class SaveManager : MonoBehaviour
 {
     private readonly string filename = "Savedata.json";
-
-    private GameObject player;
-
-    void Start()
-    {
-        player = GameObject.FindWithTag("Player");
-    }
+    public List<CoinChargePoint> activeCoinChargePoints = new();
 
     public void SaveGame()
     {
@@ -34,16 +28,20 @@ public class SaveManager : MonoBehaviour
             collectedMushrooms = Stats.Instance.CollectedMushrooms,
             activeCheckpoint = currentCheckpoint.GetRespawnPoint(),
             playerCheckpointRotation = currentCheckpoint.GetRotation(),
-            activatedCoinChargers = GetActivatedMovablePlatforms()
+            activatedCoinChargers = GetActivatedChargePoints()
         };
     }
 
-    private List<ChargePointData> GetActivatedMovablePlatforms()
+    public void AddCompletedChargePoint(CoinChargePoint coinChargePoint)
     {
-        CoinChargePoint[] coinChargers = FindObjectsOfType<CoinChargePoint>();
+        activeCoinChargePoints.Add(coinChargePoint);
+    }
+
+    private List<ChargePointData> GetActivatedChargePoints()
+    {
         List<ChargePointData> activatedCoinCharger = new();
 
-        foreach (CoinChargePoint coinChargePoint in coinChargers)
+        foreach (CoinChargePoint coinChargePoint in activeCoinChargePoints)
         {
             if( coinChargePoint.GetCurrentChargeValue() > 0)
             {

@@ -24,8 +24,9 @@ public class CoinCharger : MonoBehaviour
     public float spawnForce = 5f;         // Initial force applied when spawning the object
     public float OutlineWidth = 2f;
 
-    List<CoinChargePoint> chargePoints;
+    private List<CoinChargePoint> chargePoints;
     public float OutlineDistance = 15f;
+    public static CoinCharger Instance { get; private set; }
 
     private void Start()
     {

@@ -14,10 +14,8 @@ public class CoinChargePoint : MonoBehaviour
     public UnityEvent OnFullyCharged;
     public bool IsGonnaBeFull = false;
     public string CoinChargerID;
+    public bool HasToBeSaved = true;
 
-    private Renderer rend;
-    private MaterialPropertyBlock propBlock;
-    private Color initialColor;
     private Outline outline;
     public bool ShouldEnableOutline = true;
     public bool IsFullyCharged { get; private set; }
@@ -41,23 +39,10 @@ public class CoinChargePoint : MonoBehaviour
         outline.OutlineMode = Outline.Mode.OutlineVisible;
         outline.OutlineWidth = 1;
 
-        if (ShouldEnableOutline) { 
+        if (ShouldEnableOutline) 
             outline.enabled = true;
-        }
         else
-        {
             outline.enabled = false;
-        }
-
-        // Color & Material block
-        rend = GetComponent<Renderer>();
-        propBlock = new MaterialPropertyBlock();
-        rend.GetPropertyBlock(propBlock);
-        initialColor = rend.material.GetColor("_BaseColor");
-
-        // Color Set to "Off"
-        //propBlock.SetColor("_BaseColor", new Color(0.3f, 0.3f, 0.3f, 1f)); ;
-        rend.SetPropertyBlock(propBlock);
 
         if (string.IsNullOrEmpty(CoinChargerID))
             Debug.LogError("The CoinChargerID is null for this object: " + gameObject.name);
@@ -67,11 +52,6 @@ public class CoinChargePoint : MonoBehaviour
     {
         actualCharge += chargeAmount;
 
-        // Restore the initial color
-        //Color lerpColor = Color.Lerp(Color.grey, initialColor, (float)actualCharge / maxChargeValue);
-        //propBlock.SetColor("_BaseColor", lerpColor);
-        //rend.SetPropertyBlock(propBlock);
-
         // Only called once when full!
         if (actualCharge >= maxChargeValue)
         {
@@ -79,6 +59,9 @@ public class CoinChargePoint : MonoBehaviour
             outline.enabled = false;
             OnFullyCharged?.Invoke();
             IsFullyCharged = true;
+
+            if (HasToBeSaved)
+                FindObjectOfType<SaveManager>().AddCompletedChargePoint(this);
         }
     }
 
