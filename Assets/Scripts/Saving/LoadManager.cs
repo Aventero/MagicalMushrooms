@@ -26,8 +26,8 @@ public class LoadManager : MonoBehaviour
         Debug.Log("Loading Save");
         SaveData saveData = JsonUtility.FromJson<SaveData>(ReadFile());
         Stats.Instance.IncreaseCoinsCollected(saveData.coins);
-        LoadVisitedCheckpoints(saveData.visitedCheckpointPositions, saveData.lastCheckpointPos, saveData.playerCheckpointRotation);
         LoadActivatedCoinCharger(saveData.activatedCoinChargers);
+        LoadVisitedCheckpoints(saveData.activeCheckpoint, saveData.playerCheckpointRotation);
     }
 
     private void LoadActivatedCoinCharger(List<ChargePointData> activatedCoinCharger)
@@ -47,28 +47,24 @@ public class LoadManager : MonoBehaviour
         }
     }
 
-    private void LoadVisitedCheckpoints(List<Vector3> visitedCheckpoints, Vector3 activeCheckpoint, Quaternion playerRotation)
+    private void LoadVisitedCheckpoints(Vector3 activeCheckpoint, Quaternion playerRotation)
     {
-        CheckpointManager checkpointManager = FindObjectOfType<CheckpointManager>();
         Checkpoint[] checkpoints = GameObject.FindObjectsOfType<Checkpoint>();
         foreach(Checkpoint checkpoint in checkpoints)
         {
-            foreach(Vector3 checkpointPos in visitedCheckpoints)
+            if(checkpoint.GetRespawnPoint().Equals(activeCheckpoint))
             {
-                if (checkpoint.GetRespawnPoint().Equals(checkpointPos))
-                {
-                    if(checkpoint.GetRespawnPoint().Equals(activeCheckpoint))
-                    {
-                        checkpoint.SetRotation(playerRotation);
-                        checkpointManager.Checkpoint = checkpoint;
-                        checkpointManager.RespawnPlayer();
-                    }
+                Debug.Log("Found checkpoint");
+                checkpoint.SetRotation(playerRotation);
+                CheckpointManager.Instance.Checkpoint = checkpoint;
+                CheckpointManager.Instance.RespawnPlayer();
 
-                    checkpoint.SetActivated(true);
-                }
+                checkpoint.SetActivated(true);
+                return;
             }
-            
         }
+
+        Debug.Log("No checkpoint");
     }
 
     private string ReadFile()

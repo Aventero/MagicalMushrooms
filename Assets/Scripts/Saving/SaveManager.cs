@@ -31,25 +31,10 @@ public class SaveManager : MonoBehaviour
         return new()
         {
             coins = Stats.Instance.CoinsCollected,
-            lastCheckpointPos = currentCheckpoint.GetRespawnPoint(),
+            activeCheckpoint = currentCheckpoint.GetRespawnPoint(),
             playerCheckpointRotation = currentCheckpoint.GetRotation(),
-            visitedCheckpointPositions = GetVisitedCheckpoints(),
             activatedCoinChargers = GetActivatedMovablePlatforms()
         };
-    }
-
-    private List<Vector3> GetVisitedCheckpoints()
-    {
-        Checkpoint[] checkpoints = FindObjectsOfType<Checkpoint>();
-        List<Vector3> checkpointPositions = new();
-
-        foreach (Checkpoint checkpoint in checkpoints)
-        {
-            if (checkpoint.activated)
-                checkpointPositions.Add(checkpoint.GetRespawnPoint());
-        }
-
-        return checkpointPositions;
     }
 
     private List<ChargePointData> GetActivatedMovablePlatforms()

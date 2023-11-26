@@ -22,7 +22,13 @@ public class CheckpointManager : MonoBehaviour
         }
     }
 
-    public Checkpoint Checkpoint { get; set; }
+    private Checkpoint checkpoint;
+    public Checkpoint Checkpoint { get { return checkpoint; } 
+        set {
+            checkpoint = value;
+            Debug.Log("Changed checkpoint");
+            Debug.Log(checkpoint.GetRespawnPoint());
+        } }
 
     private void Start()
     {
