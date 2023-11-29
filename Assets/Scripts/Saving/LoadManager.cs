@@ -43,8 +43,7 @@ public class LoadManager : MonoBehaviour
             {
                 if (savedChargedPoint.ChargePointID.Equals(chargePoint.GetID()))
                 {
-                    chargePoint.ActualCharge(savedChargedPoint.CoinValue);
-                    chargePoint.UICharge(savedChargedPoint.CoinValue);
+                    chargePoint.LoadChargePoint(savedChargedPoint.CoinValue);
                 }
             }
         }

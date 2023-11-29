@@ -48,6 +48,24 @@ public class CoinChargePoint : MonoBehaviour
             Debug.LogError("The CoinChargerID is null for this object: " + gameObject.name);
     }
 
+    public void LoadChargePoint(int chargeAmount)
+    {
+        uiCharge += chargeAmount;
+        IsGonnaBeFull = true;
+
+        actualCharge += chargeAmount;
+        if (actualCharge >= maxChargeValue)
+        {
+            actualCharge = maxChargeValue;
+            outline.enabled = false;
+            OnFullyCharged?.Invoke();
+            IsFullyCharged = true;
+
+            if (HasToBeSaved)
+                FindObjectOfType<SaveManager>().AddCompletedChargePoint(this);
+        }
+    }
+
     public void ActualCharge(int chargeAmount)
     {
         actualCharge += chargeAmount;

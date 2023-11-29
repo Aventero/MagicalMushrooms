@@ -47,4 +47,136 @@ MonoBehaviour:
   MasterMixer: {fileID: 24300002, guid: a723fcb3f18754ad599de42e019b9ead, type: 2}
   MusicMixer: {fileID: -2445589314820846484, guid: a723fcb3f18754ad599de42e019b9ead, type: 2}
   EffectsMixer: {fileID: 1251559406024369709, guid: a723fcb3f18754ad599de42e019b9ead, type: 2}
-  sounds: []
+  sounds:
+  - name: collectCoin
+    clip: {fileID: 8300000, guid: 35588562121af7645a607299d7bca52d, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: charge
+    clip: {fileID: 8300000, guid: b94faa792f29d7c42b6563cd32f3312b, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: chargepointCharged
+    clip: {fileID: 8300000, guid: edf869127ec47e04fbdbab9bfa81a48a, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: playerRise
+    clip: {fileID: 8300000, guid: 17ba4afaf2f8de340952cbacc6e7411d, type: 3}
+    volume: 0.3
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: playerLand
+    clip: {fileID: 8300000, guid: 6b5e2efb9733c614b993d1bbc59dff86, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: playerLeftStep
+    clip: {fileID: 8300000, guid: 6b5e2efb9733c614b993d1bbc59dff86, type: 3}
+    volume: 0.2
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: playerRightStep
+    clip: {fileID: 8300000, guid: 9a684af1f225edd4bad61ee9737d9ccc, type: 3}
+    volume: 0.2
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: elevator
+    clip: {fileID: 8300000, guid: fdf441173602a094da33e938942c7d92, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: mushroomGet
+    clip: {fileID: 8300000, guid: 1e4ac022ad5ccce459399b1af962ac91, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: slurp
+    clip: {fileID: 8300000, guid: e92926799b10d1f4e8a4e7590d694132, type: 3}
+    volume: 0.3
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: noMagic
+    clip: {fileID: 8300000, guid: 12e8b54379bbd0a43a4103e12c231aea, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: witchAlert
+    clip: {fileID: 8300000, guid: e579269dc1bf29545bfdd6a58d551d38, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: heartBeat
+    clip: {fileID: 8300000, guid: 3af463ab37a45fd469ef28838023bd24, type: 3}
+    volume: 0.1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: heartBeatFaster
+    clip: {fileID: 8300000, guid: d2bedbd52798ef3408019e859d0949f8, type: 3}
+    volume: 0.1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: heartBeatFastest
+    clip: {fileID: 8300000, guid: dc3d0d0898943dc438199810ed546332, type: 3}
+    volume: 0.1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: aSound
+    clip: {fileID: 8300000, guid: eb19e0707821320488973df7d0cb400e, type: 3}
+    volume: 0.3
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: iSound
+    clip: {fileID: 8300000, guid: 7c13a6876ed34ba4f8102087bc51d569, type: 3}
+    volume: 0.3
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: oSound
+    clip: {fileID: 8300000, guid: 5997ccfdec390724c8b31dcaf582dc44, type: 3}
+    volume: 0.3
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: uSound
+    clip: {fileID: 8300000, guid: 819a0853d5a182d44b0a319ce8d926fb, type: 3}
+    volume: 0.3
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: playerFell
+    clip: {fileID: 8300000, guid: 8733dee12e4141a4aa641fe3ea0e05eb, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: hitWitch
+    clip: {fileID: 8300000, guid: b59d5baf07303e249986620356a57ba9, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: buttonClick
+    clip: {fileID: 8300000, guid: b94faa792f29d7c42b6563cd32f3312b, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
