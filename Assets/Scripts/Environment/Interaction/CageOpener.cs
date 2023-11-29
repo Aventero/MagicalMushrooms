@@ -12,7 +12,6 @@ public class CageOpener : Interactable
     public override void Interact()
     {
         base.Interact();
-        Debug.Log("Starting to turn?");
         CanInteract = false;
         GetComponent<Outline>().enabled = false;
         StartCoroutine(OpenDoorOverTime());

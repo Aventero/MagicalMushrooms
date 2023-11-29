@@ -74,6 +74,7 @@ public class PauseMenu : MonoBehaviour, IUIMenu
 
     public void ReturnToMainMenu()
     {
+        Save();
         SceneLoader.Instance.LoadScene("MainMenu");
     }
 

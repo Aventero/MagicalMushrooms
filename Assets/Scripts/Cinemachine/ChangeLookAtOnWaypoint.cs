@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.Events;
-using UnityEditor.TerrainTools;
 
 public class ChangeLookAtOnWaypoint : MonoBehaviour
 {

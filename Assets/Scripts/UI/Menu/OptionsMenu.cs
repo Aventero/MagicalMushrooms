@@ -15,6 +15,7 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private Slider MasterSlider;
     [SerializeField] private Slider MusicSlider;
     [SerializeField] private Slider EffectsSlider;
+    [SerializeField] private Slider MouseSensitivity;
 
     [Header("Settings")]
     public TMP_Text ResolutionText;
@@ -79,25 +80,26 @@ public class OptionsMenu : MonoBehaviour
 
     public void ChangeMasterVolume(float value)
     {
-        Debug.Log("Changed Master Volume Slider!");
-
         settingsChanged = true;
         AudioManager.Instance.SetMasterVolume(value);
     }
 
     public void ChangeMusicVolume(float value)
     {
-        Debug.Log("Changed Music Volume Slider!");
-
         settingsChanged = true;
         AudioManager.Instance.SetMusicVolume(value);
     }
 
     public void ChangeEffectsVolume(float value)
     {
-        Debug.Log("Changed Effects Volume Slider!");
         settingsChanged = true;
         AudioManager.Instance.SetEffectsVolume(value);
+    }
+
+    public void ChangeMouseSensitivity(float value)
+    {
+        settingsChanged = true;
+        StateManager.MouseSensitivity = value;
     }
 
     public void SaveButton()
@@ -126,6 +128,7 @@ public class OptionsMenu : MonoBehaviour
         settingsChanged = false;
         Resolution resolution = resolutions[currentResolutionPos];
         Screen.SetResolution(resolution.width, resolution.height, fullscreen);
+
     }
 
     private void SetupResolution()
@@ -155,6 +158,7 @@ public class OptionsMenu : MonoBehaviour
         PlayerPrefs.SetFloat("MasterVolume", MasterSlider.value);
         PlayerPrefs.SetFloat("MusicVolume", MusicSlider.value);
         PlayerPrefs.SetFloat("EffectsVolume", EffectsSlider.value);
+        PlayerPrefs.SetFloat("MouseSensitivity", MouseSensitivity.value);
 
         PlayerPrefs.Save();
     }
@@ -174,6 +178,10 @@ public class OptionsMenu : MonoBehaviour
 
         volume = PlayerPrefs.GetFloat("EffectsVolume");
         EffectsSlider.value = volume;
+
+        float sens = PlayerPrefs.GetFloat("MouseSensitivity", 30);
+        MouseSensitivity.value = sens;
+        StateManager.MouseSensitivity = sens;
 
         resolutions = Screen.resolutions;
         SetupResolution();
@@ -197,15 +205,12 @@ public class OptionsMenu : MonoBehaviour
 
     public void DialogSave()
     {
-        Debug.Log("Dialog Save Click");
         SaveButton();
         BackButton();
     }
 
     private void OnEnable()
     {
-        Debug.Log("Starting Settings Menu");
-
         SetupSettings();
     }
 

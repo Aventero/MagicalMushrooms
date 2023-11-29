@@ -79,6 +79,7 @@ public class StateManager : MonoBehaviour
         }
     }
 
+    public static float MouseSensitivity = 15f;
     public bool OnElevator = false;
     public bool IsVisionConeOnPlayer = false;
     public bool IsAllowedToSeePlayer = true;

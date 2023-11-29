@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class DialogManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class DialogManager : MonoBehaviour
     private readonly Dictionary<string, Dialog> nameToDialog = new();
 
     public static DialogManager Instance { get; private set; }
+    public PlayableDirector PlayableDirector;
 
     private void Awake()
     {
@@ -23,6 +25,15 @@ public class DialogManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        if (PlayableDirector == null)
+            return;
+
+        StateManager.Instance.StartedDialogEvent.AddListener(() => PlayableDirector.Pause());
+        StateManager.Instance.EndedDialogEvent.AddListener(() => PlayableDirector.Resume());
     }
 
     private void PopulateNameToDialogDictionary()
@@ -50,4 +61,6 @@ public class DialogManager : MonoBehaviour
             Debug.LogWarning($"Dialog with name {name} not found!");
         }
     }
+
+
 }

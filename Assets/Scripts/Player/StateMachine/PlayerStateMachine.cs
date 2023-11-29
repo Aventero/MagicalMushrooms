@@ -51,7 +51,7 @@ public class PlayerStateMachine : MonoBehaviour
     // Mouse looking
     private Vector2 currentMouseInput;
     private Vector2 currentMouseVector;
-    private Vector2 mouseSensitivity = new Vector2(15f, 15f);
+    private Vector2 mouseSensitivity;
     private float xAxisClamp = 85f;
     private float xAxisRotation = 0;
     public float smoothTime = 0.1f;
@@ -137,6 +137,7 @@ public class PlayerStateMachine : MonoBehaviour
         StateManager.Instance.StartSlurpingEvent.AddListener(() => IsSlurping = true);
         StateManager.Instance.EndSlurpingEvent.AddListener(() => IsSlurping = false);
         StateManager.Instance.EndCutsceneEvent.AddListener(() => LockMouseInput());
+        mouseSensitivity = new Vector2(StateManager.MouseSensitivity, StateManager.MouseSensitivity);
     }
 
     private void Update()
@@ -237,6 +238,6 @@ public class PlayerStateMachine : MonoBehaviour
             return;
 
         currentMouseInput = context.ReadValue<Vector2>();
-        currentMouseVector = currentMouseInput * mouseSensitivity * Time.deltaTime;
+        currentMouseVector = currentMouseInput * new Vector2(StateManager.MouseSensitivity, StateManager.MouseSensitivity) * Time.deltaTime;
     }
 }

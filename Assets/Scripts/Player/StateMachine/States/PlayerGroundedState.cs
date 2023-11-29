@@ -34,7 +34,6 @@ public class PlayerGroundedState : PlayerState, IRootState
 
     public override void ExitState()
     {
-        Debug.Log("Exit Grounded");
         fakeGroundedTimer = 0;
     }
 

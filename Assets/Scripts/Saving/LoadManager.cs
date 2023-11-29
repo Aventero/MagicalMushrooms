@@ -66,7 +66,7 @@ public class LoadManager : MonoBehaviour
             }
         }
 
-        Debug.LogError("No checkpoint found");
+        Debug.Log("No checkpoint found");
     }
 
     private void LoadCollectedMushrooms(List<Vector3> collectedMushrooms)
