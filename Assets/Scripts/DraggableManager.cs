@@ -124,6 +124,9 @@ public class DraggableManager : MonoBehaviour
     {
         foreach (GameObject draggableGo in GameObject.FindGameObjectsWithTag("Draggable"))
         {
+            if (draggableGo.GetComponent<MeshRenderer>() == null && draggableGo.GetComponent<Collider>() == null)
+                continue;
+
             // Add Draggable 
             DraggableObject draggableObject = draggableGo.GetComponent<DraggableObject>();
             if (draggableObject == null)
