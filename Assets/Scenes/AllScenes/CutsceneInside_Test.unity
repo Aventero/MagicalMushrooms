@@ -2808,7 +2808,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   QuestImage: {fileID: 0}
-  ArrowIcon: {fileID: 0}
+  CollectibleImage: {fileID: 0}
+  QuestArrowIcon: {fileID: 0}
+  CollectibleArrowIcon: {fileID: 0}
   TrackingArea: {fileID: 0}
   maxQuestTrackingDistance: 100
 --- !u!1001 &159220589
@@ -9574,11 +9576,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OverlayMenu: {fileID: 2093898069}
-  GameOverMenu: {fileID: 1789750114}
+  PlayerDiedMenu: {fileID: 0}
   PauseMenu: {fileID: 822607479}
   DialogMenu: {fileID: 4244404286879975911}
   IsCutscene: 0
   SkippingCutsceneName: 
+  fallenTexts: []
+  catchedTexts: []
 --- !u!114 &449856352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29772,6 +29776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c6123065bf65649a5889b0196bfbfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeCoinChargePoints: []
 --- !u!1001 &1306455035
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42036,11 +42041,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9bf64ddf701a10b47a0ae0609249c357, type: 3}
---- !u!1 &1789750114 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 610609994920286084, guid: 9bf64ddf701a10b47a0ae0609249c357, type: 3}
-  m_PrefabInstance: {fileID: 1789750113}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1789750115 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1286993946960551981, guid: 9bf64ddf701a10b47a0ae0609249c357, type: 3}
@@ -47250,6 +47250,18 @@ PrefabInstance:
     - target: {fileID: 2857605709861750716, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857605710249577896, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.9999275
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857605710249577896, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5288921100131832328, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.9999275
       objectReference: {fileID: 0}
     - target: {fileID: 6450388997087105155, guid: a23fa7abc541c4eb6bfb454e46d4efc2, type: 3}
       propertyPath: CoinCounterGameObject
