@@ -43,6 +43,7 @@ public class DraggableObject : MonoBehaviour
 
         if (other.gameObject.CompareTag("Hitbox"))
         {
+            AudioManager.Instance.Play("hitWitch");
             AIStateManager aIStateManager = other.GetComponentInParent<AIStateManager>();
             aIStateManager.TransitionToState(AIStates.Stun);
             IsFlying = false;
