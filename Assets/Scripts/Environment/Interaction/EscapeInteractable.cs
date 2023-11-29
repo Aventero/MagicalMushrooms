@@ -5,11 +5,14 @@ using UnityEngine;
 
 public class EscapeInteractable : Interactable
 {
+    public string SceneName;
+
     public override void Interact()
     {
         if (!CanInteract)
             return;
-        SceneLoader.Instance.LoadScene("Actual_Level_1");
+
+        SceneLoader.Instance.LoadScene(SceneName);
     }
 
     public override void InPlayerSight()

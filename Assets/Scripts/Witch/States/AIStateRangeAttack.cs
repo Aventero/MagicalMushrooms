@@ -36,6 +36,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
     [SerializeField] private LineRenderer attackLineRenderer;
     [SerializeField] private Transform witchShootOrigin; // The transform component of the witch
     private Vector3 initialPlayerPosition;
+    GameObject magicProjectile;
 
     public void InitState(AIStateManager stateManager)
     {
@@ -62,6 +63,9 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
     public void ExitState()
     {
         StopAllCoroutines();
+        if (magicProjectile != null)
+            Destroy(magicProjectile);
+
         stateManager.ToggleWitchLocator(false);
         AttackZone.SetActive(false);
         stateManager.WarnPulse.StopPulse();
@@ -83,7 +87,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
     private IEnumerator ScaleZone()
     {
 
-        GameObject magicProjectile = Instantiate(AttackObject, AttackZone.transform.position, AttackZone.transform.localRotation);
+        magicProjectile = Instantiate(AttackObject, AttackZone.transform.position, AttackZone.transform.localRotation);
         TrailRenderer trailRenderer = magicProjectile.GetComponent<TrailRenderer>();
 
         float attackTimeDelta = 0f;
@@ -111,10 +115,10 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
         }
 
         // Shoot Projectile towards the player direction
-        StartCoroutine(ShootMagicProjectile(magicProjectile));
+        StartCoroutine(ShootMagicProjectile());
     }
 
-    private IEnumerator ShootMagicProjectile(GameObject magicProjectile)
+    private IEnumerator ShootMagicProjectile()
     {
         // Assuming the projectile won't live forever, we'll add a limit to its lifetime.
         MagicProjectile projectile = magicProjectile.GetComponent<MagicProjectile>();
@@ -130,7 +134,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
                 TrailRenderer trailRenderer = magicProjectile.GetComponent<TrailRenderer>();
                 trailRenderer.enabled = false;
                 attackLineRenderer.enabled = false;
-                StartCoroutine(ScaleUpProjectile(magicProjectile));
+                StartCoroutine(ScaleUpProjectile());
                 yield break;
             }
 
@@ -167,9 +171,10 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
 
         stateManager.TransitionToState(AIStates.Idle);
         Destroy(magicProjectile);
+        magicProjectile = null;
     }
 
-    IEnumerator ScaleUpProjectile(GameObject magicProjectile)
+    IEnumerator ScaleUpProjectile()
     {
         float deltaTime = 0;
         float maxTime = 0.2f;
@@ -183,11 +188,11 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
             yield return null;
         }
 
-        StartCoroutine(KeepPlayerAndMove(magicProjectile));
+        StartCoroutine(KeepPlayerAndMove());
         StartCoroutine(ScaleDownZone());
     }
 
-    IEnumerator KeepPlayerAndMove(GameObject magicProjectile)
+    IEnumerator KeepPlayerAndMove()
     {
         float deltaTime = 0;
         float maxTime = 3f;
@@ -221,6 +226,7 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
             yield return null;
         }
         Destroy(magicProjectile);
+        magicProjectile = null;
         stateManager.TransitionToState(AIStates.IgnorePlayerIdle);
     }
 
