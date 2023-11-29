@@ -27,7 +27,7 @@ public class LoadManager : MonoBehaviour
         Stats.Instance.CoinsCollected = 0;
         SaveData saveData = JsonUtility.FromJson<SaveData>(ReadFile());
         
-        Stats.Instance.IncreaseCoinsCollected(saveData.coins);
+        Stats.Instance.InitializeCoins(saveData.coins);
         LoadActivatedCoinCharger(saveData.activatedCoinChargers);
         LoadVisitedCheckpoints(saveData.activeCheckpoint, saveData.playerCheckpointRotation);
         LoadCollectedMushrooms(saveData.collectedMushrooms);

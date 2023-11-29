@@ -26,9 +26,6 @@ public class CoinVacuum : MonoBehaviour
         // currently not holding rmb
         if (!MouseHeld)
         {
-            //if (skillManager.AreSkillsLocked())
-            //    skillManager.UnlockSkills();
-
             List<Coin> coinsToRemove = new List<Coin>();
 
             // Unjiggle coins
@@ -43,11 +40,16 @@ public class CoinVacuum : MonoBehaviour
             {
                 activeCoins.Remove(coin);
             }
+
+            if (AudioManager.Instance.IsPlaying("slurp"))
+                AudioManager.Instance.StopPlaying("slurp");
+
         }
         else
         {
             Execute();
-
+            if (!AudioManager.Instance.IsPlaying("slurp"))
+                AudioManager.Instance.Play("slurp");
             if(!skillManager.AreSkillsLocked())
                 skillManager.LockSkills();
         }

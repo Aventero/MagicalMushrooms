@@ -15,18 +15,19 @@ public class PlayerFallState : PlayerState, IRootState
     public override void CheckSwitchStates()
     {
         if (context.CharacterController.isGrounded)
+        {
+            AudioManager.Instance.Play("playerLand");
             SwitchState(factory.Grounded());
+        }
     }
 
     public override void EnterState()
     {
-        Debug.Log("Enter Fall");
         InitializeSubState();
     }
 
     public override void ExitState()
     {
-        Debug.Log("Exit Fall");
     }
 
     public override void InitializeSubState()

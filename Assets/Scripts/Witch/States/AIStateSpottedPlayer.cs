@@ -17,6 +17,7 @@ public class AIStateSpottedPlayer : MonoBehaviour, IAIState
 
     public void EnterState()
     {
+        AudioManager.Instance.Play("witchAlert");
         spottingTimer = 0;
         stateManager.WitchExclamationSign.SetActive(true);
         stateManager.Watch(stateManager.Player.position);

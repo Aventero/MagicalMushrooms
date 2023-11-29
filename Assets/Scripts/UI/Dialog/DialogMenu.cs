@@ -132,6 +132,28 @@ public class DialogMenu: MonoBehaviour
             }
 
             textField.text = currentText + fullText[i]; // Set the letter to full size without tags
+
+            int letter = (int)(Random.value * 4f); // Randomly choose a letter sound
+            switch (letter)
+            {
+                case 0:
+                    if (!AudioManager.Instance.IsPlaying("aSound"))
+                        AudioManager.Instance.Play("aSound");
+                    break;
+                case 1:
+                    if (!AudioManager.Instance.IsPlaying("iSound"))
+                        AudioManager.Instance.Play("iSound");
+                    break;
+                case 2:
+                    if (!AudioManager.Instance.IsPlaying("oSound"))
+                        AudioManager.Instance.Play("oSound");
+                    break;
+                case 3:
+                    if (!AudioManager.Instance.IsPlaying("uSound"))
+                        AudioManager.Instance.Play("uSound");
+                    break;
+            }
+
             yield return new WaitForEndOfFrame(); // Ensure the frame is rendered after growth
 
             // Delay after the letter has fully appeared

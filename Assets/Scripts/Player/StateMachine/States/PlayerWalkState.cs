@@ -30,7 +30,6 @@ public class PlayerWalkState : PlayerState
 
     public override void UpdateState()
     {
-
         // Set the movement based on the look direction
         Vector3 movement = (context.transform.right * context.CurrentMovementInput.x + context.transform.forward * context.CurrentMovementInput.y) * context.WalkingSpeed;
         context.AppliedMovementX = movement.x;

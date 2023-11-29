@@ -64,6 +64,7 @@ public class Stats : MonoBehaviour
 
     public void IncreaseMushroomsCollected(Vector3 mushroomPosition)
     {
+        AudioManager.Instance.Play("mushroomGet");
         CollectedMushrooms.Add(mushroomPosition);
         MushroomsCollected++;
         MaxCoins += MushroomValue;
@@ -72,13 +73,28 @@ public class Stats : MonoBehaviour
         CreateFloatingText("+" + MushroomValue + " Max", floatingTextOrigin.transform.position, Color.yellow, 2f, 1.5f);
     }
 
+    public void InitializeCoins(int value)
+    {
+        counterText.color = Color.white;
+        CoinsCollected = value;
+
+        if (CoinsCollected > MaxCoins)
+            CoinsCollected = MaxCoins;
+        counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
+        StaffColoration.MagicReachedOrigin();
+    }
+
     public void IncreaseCoinsCollected(int value)
     {
+        AudioManager.Instance.Play("collectCoin");
         counterText.color = Color.white;
         CoinsCollected += value;
 
         if (CoinsCollected > MaxCoins)
+        {
             CoinsCollected = MaxCoins;
+            return;
+        }
 
         counterText.SetText("Magic " + CoinsCollected.ToString() + "/" + MaxCoins);
         CreateFloatingText("+" + value, floatingTextOrigin.transform.position, Color.cyan, 0.1f, 1.1f);
@@ -87,10 +103,12 @@ public class Stats : MonoBehaviour
 
     public void DecreaseCoinsCollected(int value)
     {
+        AudioManager.Instance.Play("charge");
         CoinsCollected -= value;
 
         if (CoinsCollected <= 0)
         {
+           
             StartCoroutine(PopEffect(0.5f, 1.2f, Color.red));
             CoinsCollected = 0;
         }
@@ -109,6 +127,8 @@ public class Stats : MonoBehaviour
     {
         if (!missingCoinsRunning)
         {
+            if (!AudioManager.Instance.IsPlaying("noMagic"))
+                AudioManager.Instance.Play("noMagic");
             missingCoinsRunning = true;
             StartCoroutine(PopEffect(0.5f, 1.2f, Color.red));
         }

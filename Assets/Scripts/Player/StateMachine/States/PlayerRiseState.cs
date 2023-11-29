@@ -24,14 +24,13 @@ public class PlayerRiseState : PlayerState, IRootState
 
     public override void EnterState()
     {
-        Debug.Log("Enter Rise");
+        AudioManager.Instance.Play("playerRise");
         InitializeSubState();
         HandleJump();
     }
 
     public override void ExitState()
     {
-        Debug.Log("Exit Rise");
     }
 
     public override void InitializeSubState()

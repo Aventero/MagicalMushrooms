@@ -19,7 +19,8 @@ public class PlayerElevateState : PlayerState
 
     public override void EnterState()
     {
-        Debug.Log("Enter Elevate");
+        if (!AudioManager.Instance.IsPlaying("elevator"))
+            AudioManager.Instance.Play("elevator");
         InitializeSubState();
         context.CurrentMovementY = Mathf.Max(context.CurrentMovementY * 0.5f, -3);
         context.AppliedMovementY = Mathf.Max(context.AppliedMovementY * 0.5f, -3);
@@ -27,7 +28,6 @@ public class PlayerElevateState : PlayerState
 
     public override void ExitState()
     {
-        Debug.Log("Exit Elevate");
         context.CurrentMovementY = context.CurrentMovementY * 0.5f;
         context.AppliedMovementY = context.AppliedMovementY * 0.5f;
     }

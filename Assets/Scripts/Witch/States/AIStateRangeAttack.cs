@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -26,7 +27,9 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
     [Header("Actual Attack")]
     public GameObject AttackObject;
     public GameObject RunSign;
-    public float Speed;
+    private TMP_Text runText;
+    public GameObject AttackSign;
+    public float ProjectileTravelTime;
 
 
     [Header("Line Renderer")]
@@ -52,6 +55,8 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
         initialPlayerPosition = stateManager.Player.position;
         attackLineRenderer.enabled = true;
         RunSign.SetActive(true);
+        runText = RunSign.GetComponentInChildren<TMP_Text>();
+        runText.SetText("Run!");
     }
 
     public void ExitState()
@@ -66,6 +71,10 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
 
     public void UpdateState()
     {
+        if (!AudioManager.Instance.IsPlaying("heartBeatFastest"))
+            AudioManager.Instance.Play("heartBeatFastest");
+
+
         stateManager.Watch(stateManager.Player.position);
         attackLineRenderer.SetPosition(0, witchShootOrigin.position);
         attackLineRenderer.SetPosition(1, initialPlayerPosition);
@@ -102,24 +111,22 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
         }
 
         // Shoot Projectile towards the player direction
-        StartCoroutine(ShootMagicProjectile(magicProjectile, (initialPlayerPosition - witchShootOrigin.position).normalized));
+        StartCoroutine(ShootMagicProjectile(magicProjectile));
     }
 
-    private IEnumerator ShootMagicProjectile(GameObject magicProjectile, Vector3 direction)
+    private IEnumerator ShootMagicProjectile(GameObject magicProjectile)
     {
         // Assuming the projectile won't live forever, we'll add a limit to its lifetime.
-        float maxProjectileLifetime = 5f;
-        float projectileElapsedTime = 0f;
         MagicProjectile projectile = magicProjectile.GetComponent<MagicProjectile>();
 
-        Debug.Log("Starting Attack");
-        while (projectileElapsedTime < maxProjectileLifetime)
+        float delta = 0;
+        while (delta < ProjectileTravelTime)
         {
-            float moveDistance = Speed * Time.deltaTime;
-
             // Check for collisions with player
             if (projectile.CollidedWithPlayer)
             {
+                runText.SetText("Caught!");
+                AudioManager.Instance.UpdateVolume("heartBeatFastest", 0.2f);
                 TrailRenderer trailRenderer = magicProjectile.GetComponent<TrailRenderer>();
                 trailRenderer.enabled = false;
                 attackLineRenderer.enabled = false;
@@ -128,14 +135,27 @@ public class AIStateRangeAttack : MonoBehaviour, IAIState
             }
 
             // Move the projectile.
-            magicProjectile.transform.position += direction * moveDistance;
-            projectileElapsedTime += Time.deltaTime;
+            magicProjectile.transform.position = Vector3.Lerp(witchShootOrigin.position, initialPlayerPosition, delta / ProjectileTravelTime);
+            delta += Time.deltaTime;
             yield return null;
         }
+
+        runText.SetText("Escaped!");
+        delta = 0;
+        float scaleDownTime = 1f;
+        Vector3 initialScale = magicProjectile.transform.localScale;
+        while (delta < scaleDownTime)
+        {
+            magicProjectile.transform.localScale = Vector3.Lerp(initialScale, Vector3.zero, delta / scaleDownTime);
+            delta += Time.deltaTime;
+            yield return null;
+        }
+
         StartCoroutine(ScaleDownZone());
         attackLineRenderer.enabled = false;
 
         // Nothing hit!
+        AudioManager.Instance.UpdateVolume("heartBeatFastest", 0.02f);
         float deltaTime = 0;
         while (deltaTime <= EndTime)
         {

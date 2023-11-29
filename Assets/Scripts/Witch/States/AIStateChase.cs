@@ -70,6 +70,23 @@ internal class AIStateChase : MonoBehaviour, IAIState
 
     public void UpdateState()
     {
+        if (vision.ChaseTime >= vision.AttackAfterSeconds / 2.5f)
+        {
+            if (AudioManager.Instance.IsPlaying("heartBeat"))
+                AudioManager.Instance.StopPlaying("heartBeat");
+
+            if (!AudioManager.Instance.IsPlaying("heartBeatFaster"))
+                AudioManager.Instance.Play("heartBeatFaster");
+        }
+        else
+        {
+            if (AudioManager.Instance.IsPlaying("heartBeatFaster"))
+                AudioManager.Instance.StopPlaying("heartBeatFaster");
+
+            if (!AudioManager.Instance.IsPlaying("heartBeat"))
+                AudioManager.Instance.Play("heartBeat");
+        }
+
         stateManager.Watch(stateManager.Player.position);
         stateManager.Vision.RotateAgent(stateManager.Player.position, AgentChasingRotationSpeed);
         

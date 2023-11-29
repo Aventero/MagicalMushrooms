@@ -8,6 +8,7 @@ public class PlayerGroundedState : PlayerState, IRootState
     private const float maxHelpSeconds = 0.25f;
     private bool isGrounded = true;
     private float distanceToNextStep = 0;
+    private bool hasSteppedLeft = false;
 
     public PlayerGroundedState(PlayerStateMachine context, PlayerStateFactory playerStateFactory, string name)
         : base (context, playerStateFactory, name) 
@@ -25,7 +26,6 @@ public class PlayerGroundedState : PlayerState, IRootState
 
     public override void EnterState()
     {
-        Debug.Log("Enter Grounded");
         // Player has fallen and hit the ground
         fakeGroundedTimer = 0;
         InitializeSubState(); 
@@ -63,6 +63,17 @@ public class PlayerGroundedState : PlayerState, IRootState
 
         if (distanceToNextStep >= context.StepDistance)
         {
+            if (!hasSteppedLeft)
+            {
+                AudioManager.Instance.Play("playerLeftStep");
+                hasSteppedLeft = true;
+            } 
+            else
+            {
+                AudioManager.Instance.Play("playerRightStep");
+                hasSteppedLeft = false;
+            }
+
             distanceToNextStep = 0;
         }
     }

@@ -55,6 +55,7 @@ public class CoinChargePoint : MonoBehaviour
         // Only called once when full!
         if (actualCharge >= maxChargeValue)
         {
+            AudioManager.Instance.Play("chargepointCharged");
             actualCharge = maxChargeValue;
             outline.enabled = false;
             OnFullyCharged?.Invoke();
