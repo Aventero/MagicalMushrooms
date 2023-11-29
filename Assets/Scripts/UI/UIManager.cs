@@ -183,6 +183,7 @@ public class UIManager : MonoBehaviour
 
     private void PlayerHasFallen()
     {
+        AudioManager.Instance.Play("playerFell");
         PlayerDiedMenu.SetActive(true);
         StateManager.Instance.IsAllowedToSeePlayer = false;
         CanvasGroup canvasGroup = PlayerDiedMenu.GetComponent<CanvasGroup>();

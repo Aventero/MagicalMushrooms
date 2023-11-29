@@ -64,7 +64,10 @@ public class AIStateLostPlayer : MonoBehaviour, IAIState
 
         // Found the player again
         if (stateManager.HasFoundPlayer())
+        {
+            AudioManager.Instance.Play("witchAlert");
             stateManager.TransitionToState(AIStates.Chase);
+        }
     }
 
     IEnumerator LookInCircles()
