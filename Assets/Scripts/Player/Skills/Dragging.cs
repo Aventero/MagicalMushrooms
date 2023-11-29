@@ -112,6 +112,7 @@ public class Dragging : PlayerSkill
             return;
 
         // Performed
+        Stats.Instance.DecreaseCoinsCollected(SkillCost);
         IsDragging = false;
         isReadyToShoot = false;
         HidePreview();
