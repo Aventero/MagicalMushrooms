@@ -31,7 +31,7 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         LoadSoundSettings();
-        //Play("Music");
+        PlayMusic("Music");
     }
 
     // Start is called before the first frame update
@@ -49,6 +49,15 @@ public class AudioManager : MonoBehaviour
 
             s.source.volume = s.volume;
             s.source.loop = s.loop;
+        }
+    }
+
+    public void PlayMusic(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s != null)
+        {
+            s.source.Play();
         }
     }
 
