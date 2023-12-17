@@ -21,11 +21,11 @@ public class Checkpoint : MonoBehaviour
         if (!collider.CompareTag("Player"))
             return;
 
-        StateManager.Instance.NewCheckpointEvent.Invoke();
 
         activated = true;
         playerRotation = player.transform.rotation;
         CheckpointManager.Instance.Checkpoint = this;
+        StateManager.Instance.NewCheckpointEvent.Invoke();
     }
 
     public void SetActivated(bool activated)

@@ -8,6 +8,11 @@ public class SaveManager : MonoBehaviour
     private readonly string filename = "Savedata.json";
     public List<CoinChargePoint> activeCoinChargePoints = new();
 
+    public void Start()
+    {
+        StateManager.Instance.NewCheckpointEvent.AddListener(SaveGame);
+    }
+
     public void SaveGame()
     {
         Debug.Log("Saving Game!");
@@ -21,6 +26,20 @@ public class SaveManager : MonoBehaviour
     private SaveData SetupSaveData()
     {
         Checkpoint currentCheckpoint = FindObjectOfType<CheckpointManager>().Checkpoint;
+
+        if (currentCheckpoint != null)
+        {
+            Debug.Log("Checkpoint: " + currentCheckpoint.GetRespawnPoint());
+            Debug.Log("Checkpoint Rotation: " + currentCheckpoint.GetRotation());
+            Debug.Log("Coins Collected: " + Stats.Instance.CoinsCollected);
+            Debug.Log("Mushrooms Collected: " + Stats.Instance.CollectedMushrooms);
+            Debug.Log("Active Checkpoint: " + currentCheckpoint.GetRespawnPoint());
+            Debug.Log("Active Coin Chargers: " + GetActivatedChargePoints());
+        } 
+        else
+        {
+            Debug.Log("Checkpoint is null");
+        }
 
         return new()
         {
