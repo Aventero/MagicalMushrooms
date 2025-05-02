@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour, IUIMenu
     public GameObject ContinueButton;
     public GameObject OptionsMenu;
     public GameObject MainMenuObject;
+    public GameObject firstSelected;
 
     public void Start()
     {
@@ -21,6 +22,8 @@ public class MainMenu : MonoBehaviour, IUIMenu
 
         MainMenuObject.SetActive(true);
         OptionsMenu.SetActive(false);
+
+        UIControllerManager.Instance.OpenSubmenu(firstSelected);
 
         ContinueButton.GetComponent<Button>().interactable = CheckIfSavesExist();
     }

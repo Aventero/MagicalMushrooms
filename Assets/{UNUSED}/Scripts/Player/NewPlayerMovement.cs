@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class NewPlayerMovement : MonoBehaviour
 {
-    private PlayerInput playerInput;
+    private PlayerControls playerControls;
     private CharacterController characterController;
 
     // Movement
@@ -41,16 +41,16 @@ public class NewPlayerMovement : MonoBehaviour
     {
         // Initialize
         currentSpeed = walkingSpeed;
-        playerInput = new PlayerInput();
+        playerControls = new PlayerControls();
         characterController = GetComponent<CharacterController>();
 
         // Run input
-        playerInput.CharacterControls.Sneak.started += onRun;
-        playerInput.CharacterControls.Sneak.canceled += onRun;
+        playerControls.CharacterControls.Sneak.started += onRun;
+        playerControls.CharacterControls.Sneak.canceled += onRun;
 
         // Jump input
-        playerInput.CharacterControls.Jump.started += onJump;
-        playerInput.CharacterControls.Jump.canceled += onJump;
+        playerControls.CharacterControls.Jump.started += onJump;
+        playerControls.CharacterControls.Jump.canceled += onJump;
 
         // JumpSetup
         SetupJumpVariables();
@@ -105,7 +105,7 @@ public class NewPlayerMovement : MonoBehaviour
 
     void readMovementInput()
     {
-        currentMovementInput = playerInput.CharacterControls.Move.ReadValue<Vector2>();
+        currentMovementInput = playerControls.CharacterControls.Move.ReadValue<Vector2>();
 
         // The Vector multiplied by whats being pressed
         Vector3 movement = (transform.right * currentMovementInput.x + transform.forward * currentMovementInput.y) * currentSpeed;
@@ -115,7 +115,7 @@ public class NewPlayerMovement : MonoBehaviour
 
     void readMouseInput()
     {
-        currentMouseInput = playerInput.CharacterControls.Look.ReadValue<Vector2>();
+        currentMouseInput = playerControls.CharacterControls.Look.ReadValue<Vector2>();
         currentMouseVector = currentMouseInput * mouseSensitivity * Time.deltaTime;
     }
 
@@ -188,7 +188,7 @@ public class NewPlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        playerInput.CharacterControls.Enable();
+        playerControls.CharacterControls.Enable();
 
         // Register Events
         StateManager.Instance.PauseGameEvent.AddListener(PauseMovement);
@@ -197,6 +197,6 @@ public class NewPlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        playerInput.CharacterControls.Disable();
+        playerControls.CharacterControls.Disable();
     }
 }

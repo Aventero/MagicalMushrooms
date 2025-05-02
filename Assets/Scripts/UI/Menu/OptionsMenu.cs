@@ -20,6 +20,10 @@ public class OptionsMenu : MonoBehaviour
     [Header("Settings")]
     public TMP_Text ResolutionText;
     public Toggle FullscreenToggle;
+    
+    [Header("Controller Support")]
+    public GameObject firstSelection;
+    public GameObject dialogSelection;
 
     private Resolution[] resolutions;
     private int currentResolutionPos;
@@ -32,7 +36,6 @@ public class OptionsMenu : MonoBehaviour
     {
         Menu.SetActive(true);
         DialogMenu.SetActive(false);
-
         settingsChanged = false;
         uiMenu = this.GetComponentInParent<IUIMenu>();
 
@@ -113,6 +116,7 @@ public class OptionsMenu : MonoBehaviour
         if (settingsChanged)
         {
             DialogMenu.SetActive(true);
+            UIControllerManager.Instance.OpenSubmenu(dialogSelection);
             Menu.SetActive(false);
         }
         else
@@ -148,7 +152,6 @@ public class OptionsMenu : MonoBehaviour
             currentResolutionPos = 0; 
         }
     }
-
 
     private void SaveSettings()
     {
@@ -198,6 +201,7 @@ public class OptionsMenu : MonoBehaviour
     public void DialogBack()
     {
         settingsChanged = false;
+        UIControllerManager.Instance.CloseSubmenu();
 
         DialogMenu.SetActive(false);
         BackButton();
@@ -211,11 +215,13 @@ public class OptionsMenu : MonoBehaviour
 
     private void OnEnable()
     {
+        UIControllerManager.Instance.OpenSubmenu(firstSelection);
         SetupSettings();
     }
 
     private void OnDisable()
     {
         Debug.Log("Deactivating Settings Menu");
+        UIControllerManager.Instance.CloseSubmenu();
     }
 }

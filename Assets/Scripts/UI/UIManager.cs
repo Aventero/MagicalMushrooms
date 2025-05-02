@@ -1,9 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.UIElements;
 using static UnityEngine.InputSystem.InputAction;
 
 public class UIManager : MonoBehaviour
@@ -22,7 +20,7 @@ public class UIManager : MonoBehaviour
     public string SkippingCutsceneName;
     public string[] fallenTexts;
     public string[] catchedTexts;
-
+    
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -60,7 +58,6 @@ public class UIManager : MonoBehaviour
         Canvas.ForceUpdateCanvases();
     }
 
-    // User hit the escape key 
     public void Escape(CallbackContext context)
     {
         if (!context.performed)
