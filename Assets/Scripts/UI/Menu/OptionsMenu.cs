@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class OptionsMenu : MonoBehaviour
@@ -29,6 +30,8 @@ public class OptionsMenu : MonoBehaviour
     private int currentResolutionPos;
     private bool settingsChanged;
     private IUIMenu uiMenu;
+    private PlayerInput playerInput;
+    private InputAction cancelAction;
 
     private bool fullscreen;
 
@@ -38,13 +41,16 @@ public class OptionsMenu : MonoBehaviour
         DialogMenu.SetActive(false);
         settingsChanged = false;
         uiMenu = this.GetComponentInParent<IUIMenu>();
+        
+        playerInput = FindObjectOfType<PlayerInput>();
+        cancelAction = playerInput.actions["Cancel"];
 
         SetupSettings();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if(cancelAction.triggered)
             BackButton();
     }
 

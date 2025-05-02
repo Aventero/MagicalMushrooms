@@ -62,11 +62,10 @@ public class UIControllerManager : MonoBehaviour
         
         Debug.LogWarning("Closing Submenu ( " + activeButtons.Count + " )");
 
-        if (activeButtons.Count > 0){
+        if (activeButtons.Count > 0 && ControllerManager.Instance.IsControllerActive()){
             activeButtons.Peek().GetComponent<Selectable>().Select();
             Debug.LogWarning("Closing Submenu now selecting: " + activeButtons.Peek().name);                        
         }
-        
     }
     
     public void OnPointerEnter(GameObject button)

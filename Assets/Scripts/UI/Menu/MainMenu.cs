@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -14,6 +16,8 @@ public class MainMenu : MonoBehaviour, IUIMenu
     public GameObject OptionsMenu;
     public GameObject MainMenuObject;
     public GameObject firstSelected;
+    
+    public PlayerInput playerInput;
 
     public void Start()
     {
@@ -26,6 +30,11 @@ public class MainMenu : MonoBehaviour, IUIMenu
         UIControllerManager.Instance.OpenSubmenu(firstSelected);
 
         ContinueButton.GetComponent<Button>().interactable = CheckIfSavesExist();
+        
+    }
+
+    public void Update()
+    {
     }
 
     private bool CheckIfSavesExist()
